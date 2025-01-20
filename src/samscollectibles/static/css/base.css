@@ -1,0 +1,52 @@
+/* src/samscollectibles/static/css/base.css */
+
+
+/* Hide by default */
+
+#loading-indicator {
+    display: none;
+}
+
+
+/* Show when HTMX adds the class */
+
+#loading-indicator.htmx-request {
+    display: block;
+    text-align: center;
+    color: blue;
+    font-weight: bold;
+}
+
+
+/* General body styles including background and typography */
+
+body {
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+
+/* Typography adjustments */
+
+h1 {
+    font-size: 2.5em;
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    font-size: 2em;
+    color: #333;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #666;
+}

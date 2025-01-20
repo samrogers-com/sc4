@@ -1,0 +1,11 @@
+<!-- file: src/samscollectibles/templates/ebay_templates/partials/item_images.html -->
+
+{% if item.images.all %}
+    <div class="mt-2">
+        {% for image in item.images.all %}
+            <img src="{{ image.full_image_url }}" alt="{{ item.title }}" class="inline-block w-20 h-auto mr-2">
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-gray-500">No images available.</p>
+{% endif %}

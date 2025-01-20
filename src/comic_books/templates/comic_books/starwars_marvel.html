@@ -1,0 +1,37 @@
+<!-- file: src/comic_books/templates/comic_books/starwars_marvel.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Star Wars Marvel Comics{% endblock %}
+
+{% block content %}
+    <h2 class="text-center text-3xl font-bold my-6">Star Wars Marvel Comics (1977)</h2>
+
+    <!-- Full-height container with scrollable card list but keeping the footer visible -->
+    <div class="flex flex-col items-center justify-start min-h-screen mx-auto max-w-7xl">
+        <!-- Container that doesn't override the footer, scrollable within available window height -->
+        <div class="overflow-auto w-full flex-grow bg-gray-100 p-4 rounded-lg shadow-lg" style="max-height: calc(100vh - 200px);">
+            {% for starwars in starwars_marvel %}
+                <div class="comic-card border border-gray-300 p-4 mb-6 rounded-lg shadow-md bg-white max-w-3xl mx-auto flex">
+                    <!-- Image on the left -->
+                    <div class="w-1/3">
+                        <img src="{{ starwars.sw_s3image_link }}" alt="{{ starwars.title }} - Issue #{{ starwars.issue_number }}" class="max-w-full h-auto rounded">
+                    </div>
+
+                    <!-- Comic details on the right -->
+                    <div class="w-2/3 pl-6 flex flex-col justify-between">
+                        <!-- Title and Release Date on the same line -->
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold">{{ starwars.title }} - Issue #{{ starwars.issue_number }}</h3>
+                            <p class="text-gray-600 text-right">{{ starwars.release_date }}</p>
+                        </div>
+                        <!-- Description below the title and date -->
+                        <p class="mt-2 text-gray-700">{{ starwars.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+

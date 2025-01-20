@@ -1,0 +1,20 @@
+<!-- src/non_sports_cards/templates/partials/non_sports_cards_list_partial.html -->
+
+<div class="non-sports-cards-list space-y-1">
+    {% if cards %}
+        {% for card in cards %}
+            <div class="border border-gray-300 p-4 rounded-lg shadow-md bg-white">
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold flex-1">{{ card.title }}</h3>
+                    <div class="text-md font-bold text-gray-500 flex-1 text-center">
+                        Manufacturer: {{ card.manufacturer }} | Date Manufactured: {{ card.date_manufactured }}
+                    </div>
+                </div>
+                <p class="mt-2 text-gray-700">{{ card.description }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-gray-500">No Non-Sports Cards available now, but coming soon.</p>
+    {% endif %}
+</div>
+

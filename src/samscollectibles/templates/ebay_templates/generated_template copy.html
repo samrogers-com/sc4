@@ -1,0 +1,16 @@
+<!-- file: src/ebay_templates/templates/generated_template.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Template for {{ item.name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto my-8">
+    <h1 class="text-3xl font-bold mb-4">{{ item.name }}</h1>
+    <p class="text-lg">{{ item.description }}</p>
+    {% if item.image %}
+        <img src="{{ item.image.url }}" alt="{{ item.name }}" class="mt-4 w-1/2 h-auto">
+    {% endif %}
+</div>
+{% endblock %}
+

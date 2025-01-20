@@ -1,0 +1,15 @@
+<!-- file: src/ebay_templates/list_templates.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Created eBay Templates</h2>
+<ul>
+    {% for template in templates %}
+        <li>
+            {{ template.title }} - 
+            <a href="{% url 'ebay_templates:download_template' template.id %}">Download</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

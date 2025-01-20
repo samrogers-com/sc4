@@ -1,0 +1,36 @@
+[
+       {
+          "title": "Aladdin (Disney's)",
+          "manufacturer": "SkyBox",
+          "date_manufactured": "1993",
+          "number_of_packs_per_box": 36,
+          "number_of_cards_per_pack": 8,
+          "number_of_sets_per_box": 1,
+          "number_of_cards_in_a_set": 90,
+          "description": "The Aladdin trading card set, released by SkyBox in 1993, features scenes and characters from the beloved Disney animated film 'Aladdin.' The set includes vibrant artwork and memorable moments from the movie.",
+          "key_features": [
+             "Complete base set of 90 cards featuring iconic scenes and characters from the Disney movie 'Aladdin.'",
+             "Produced by SkyBox, known for their high-quality trading cards, ensuring vivid colors and durability.",
+             "Includes cards that capture key moments such as Aladdin's adventures, his encounters with the Genie, and his romance with Princess Jasmine.",
+             "Each card is adorned with artwork that reflects the rich, vibrant aesthetic of the animated film.",
+             "An essential collectible for Disney fans, especially those who appreciate the magic of 1990s animation."
+          ]
+       },
+       {
+          "title": "Alf 1",
+          "manufacturer": "Topps",
+          "date_manufactured": "1987",
+          "number_of_packs_per_box": 48,
+          "number_of_cards_per_pack": 7,
+          "number_of_sets_per_box": 1,
+          "number_of_cards_in_a_set": 50,
+          "description": "The Alf 1 trading card set, released by Topps in 1987, features the wise-cracking alien from the popular 1980s TV show 'Alf.' The cards highlight humorous moments and characters from the series.",
+          "key_features": [
+             "Complete base set of 50 cards featuring scenes and characters from the hit TV show 'Alf.'",
+             "Produced by Topps, a leader in the trading card industry, ensuring high-quality production and durability.",
+             "The cards feature Alf's signature humor, capturing his antics and interactions with the Tanner family.",
+             "Each card includes a combination of stills from the show and funny captions that reflect Alf's comedic style.",
+             "A must-have for fans of 1980s television and collectors of classic TV memorabilia."
+          ]
+       }
+]

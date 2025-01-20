@@ -1,0 +1,84 @@
+<!-- file: src/ebay_templates/templates/non_sports_cards/non_sports_cards_home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Sports Cards - Saved Templates</title>
+    <script src="https://unpkg.com/htmx.org"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .button {
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #FF4D4D;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Non-Sports Cards - Saved Templates</h1>
+
+    {% if has_templates %}
+        <div id="template-list">
+            <h2>Your Saved Templates:</h2>
+            <ul>
+                {% for template in templates %}
+                    <li>
+                        <a href="{% url 'ebay_templates:template_detail' template.id %}">
+                            {{ template.name }}
+                        </a>
+                        <!-- HTMX delete functionality -->
+                        <button 
+                            hx-delete="{% url 'ebay_templates:delete_template' template.id %}" 
+                            hx-target="#template-list"
+                            hx-swap="outerHTML"
+                        >
+                            Delete
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <div id="no-templates">
+            <h2>No Templates Found</h2>
+            <p>Create your first template to get started:</p>
+            <a href="{% url 'ebay_templates:create_template' 'non_sports_cards' %}" class="button">
+                Create Template
+            </a>
+        </div>
+    {% endif %}
+</body>
+</html>
+

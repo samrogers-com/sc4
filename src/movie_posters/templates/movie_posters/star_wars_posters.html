@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Star Wars Movie Posters</h1>
+<div>
+    <ul>
+        {% for poster in posters %}
+        <li>{{ poster.title }} ({{ poster.movie_title }})</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

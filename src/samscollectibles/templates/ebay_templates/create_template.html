@@ -1,0 +1,122 @@
+<!-- file: src/samscollectibles/templates/ebay_templates/create_template.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Create Template for {{ template_type|title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto my-8">
+    <h1 class="text-3xl font-bold mb-4">Create Template for {{ template_type|title }}</h1>
+
+    <!-- Quick Select Sidebar -->
+    <div class="flex gap-4">
+        <!-- Sidebar for Quick Select -->
+        <div class="w-16">
+            <ul class="sticky top-0">
+                {% for letter in '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' %}
+                    <li>
+                        <a href="#{{ letter }}" class="text-blue-500 hover:underline">{{ letter }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow">
+            <form method="post">
+                {% csrf_token %}
+
+                <h2 class="text-xl font-semibold mb-2">Select an Item</h2>
+                {% if error %}
+                    <p class="text-red-500">{{ error }}</p>
+                {% endif %}
+
+                <ul class="list-disc pl-6">
+                    {% for letter, items in grouped_items.items %}
+                        <!-- Group Heading -->
+                        <li id="{{ letter|upper }}" class="mb-2 text-2xl font-bold">
+                            {{ letter|upper }}
+                        </li>
+
+                        {% for item in items %}
+                            <!-- Individual Item -->
+                            <li class="mb-2">
+                                <div class="flex items-center gap-2">
+                                    <!-- Button to Add S3 Paths -->
+                                    <button type="button" 
+                                            class="bg-yellow-500 text-white px-2 py-1 rounded"
+                                            onclick="toggleS3Form('{{ item.id }}')">
+                                        Add S3 Paths
+                                    </button>
+
+                                    <!-- Radio Button -->
+                                    <label class="flex-grow">
+                                        <input type="radio" name="selected_item" value="{{ item.id }}" class="mr-2">
+                                        {{ item.title }} - {{ item.description }}
+                                    </label>
+                                </div>
+
+                                <!-- Show Existing Images -->
+                                {% if item.images.all %}
+                                    <div class="mt-2">
+                                        {% for image in item.images.all %}
+                                            <img src="{{ image.full_image_url }}" alt="{{ item.title }}" class="inline-block w-20 h-auto mr-2">
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <!-- Hidden S3 Form (toggle visibility when the button is clicked) -->
+                                <div id="s3-form-{{ item.id }}" class="hidden mt-4">
+                                    <h3 class="text-lg font-medium mb-2">Add Image Details</h3>
+                                    <form method="post" 
+                                          hx-post="{% url 'ebay_templates:update_s3_path' item.id %}" 
+                                          hx-target="#images-{{ item.id }}" 
+                                          hx-swap="outerHTML">
+                                        {% csrf_token %}
+                                        <div class="p-4 border rounded-md bg-gray-100">
+                                            <div class="mb-2">
+                                                <label for="image-name-{{ item.id }}">Image Name:</label>
+                                                <input type="text" id="image-name-{{ item.id }}" name="image_name" class="w-full">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="image-type-{{ item.id }}">Image Type:</label>
+                                                <select id="image-type-{{ item.id }}" name="image_type" class="w-full">
+                                                    <option value="front">Front</option>
+                                                    <option value="back">Back</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="s3-path-{{ item.id }}">S3 Path:</label>
+                                                <input type="text" id="s3-path-{{ item.id }}" name="s3_path" class="w-full">
+                                            </div>
+                                            <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">
+                    Create Template
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    /**
+     * Toggle the visibility of the S3 input form for a specific item.
+     * @param {string} itemId - The ID of the item to toggle the form for.
+     */
+    function toggleS3Form(itemId) {
+        const form = document.getElementById(`s3-form-${itemId}`);
+        if (form) {
+            form.classList.toggle('hidden');
+        }
+    }
+</script>
+{% endblock %}

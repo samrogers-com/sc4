@@ -1,0 +1,8 @@
+<!-- src/comic_books/templates/comic_books/partials/comic_books_list_partial.html -->
+<div class="list">
+   {% for comic_book in comic_books %}
+      {% include 'comic_books/partials/comic_book_item_partial.html' with comic_book=comic_book %}
+   {% empty %}
+        <p>No comic books available.</p>
+   {% endfor %}
+</div>

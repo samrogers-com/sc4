@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Non-Sports Chase Cards</h1>
+<div>
+    <ul>
+        {% for card in cards %}
+        <li>{{ card.title }} (Released: {{ card.date_manufactured }})</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

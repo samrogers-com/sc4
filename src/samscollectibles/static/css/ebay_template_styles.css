@@ -1,0 +1,141 @@
+/* file: src/samscollectibles/static/css/ebay_template_styles.css */
+
+body {
+    font-family: Verdana, Arial, Helvetica;
+    color: linen;
+}
+
+.container {
+    width: 100%;
+    border-spacing: 0;
+}
+
+#ds_div {
+    background: url("https://adventuresoflucylu.com/static/img/demim-sc.jpg");
+    background-color: #1c1c1c;
+    border: 2px solid;
+    padding: 14px;
+    width: 1150px;
+    margin: 0 auto;
+}
+
+.header-text {
+    color: rgb(135, 206, 235);
+    font-size: large;
+    text-align: center;
+}
+
+.header-text font {
+    color: skyblue;
+}
+
+.highlight {
+    color: rgb(255, 254, 56);
+    margin: 0;
+}
+
+.description,
+.shipping-info {
+    text-align: justify;
+}
+
+.shipping-options {
+    margin-top: 15px;
+}
+
+.shipping-options div {
+    margin-bottom: 10px;
+}
+
+.center {
+    text-align: center;
+}
+
+.image-container img {
+    width: 550px;
+}
+
+.color-red-text {
+    color: red;
+}
+
+.size-xl-text {
+    font-size: x-large;
+}
+
+.small-text {
+    font-size: small;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.note {
+    font-size: 1em;
+    text-align: justify;
+    margin-top: 10px;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.gallery-row {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.gallery img {
+    width: 175px;
+    height: auto;
+    padding-right: 5px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-row.last-row {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gallery-row.few-images-2 {
+    justify-content: start;
+    padding-left: calc(16%);
+}
+
+.gallery-row.few-images-1 {
+    justify-content: start;
+    padding-left: calc(29%);
+}
+
+.note {
+    font-size: 1em;
+    text-align: justify;
+    margin-top: 10px;
+}
+
+.feedback-section {
+    margin-top: 20px;
+    color: linen;
+}
+
+.feedback-section .note {
+    font-size: 1em;
+    text-align: center;
+    color: rgb(255, 254, 56);
+    /* Yellow for emphasis */
+}
+
+.color-red-text {
+    color: red;
+}
+
+.size-xl-text {
+    font-size: x-large;
+}
