@@ -4,6 +4,7 @@
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from utils.s3_url_builder import construct_image_url
 
 def validate_key_features(value):
@@ -98,27 +99,25 @@ class NonSportsCardImage(models.Model):
     Each image is stored with a reference to its S3 path.
     """
     non_sports_card = models.ForeignKey(
-        NonSportsCards,
+        'NonSportsCards',  # Reference the NonSportsCards model
         on_delete=models.CASCADE,
-        related_name="images"
+        related_name='images'
     )
-    image_name = models.CharField(max_length=255)  # Example: marvel_universe_92_box_frt-1.jpg
-    image_type = models.CharField(
-        max_length=50,
-        choices=[
-            ('front', 'Front'),
-            ('back', 'Back'),
-            ('other', 'Other'),
-        ],
-        default='Front'
-    )
-    s3_path = models.URLField(help_text="Full S3 path to the image")
+    image_name = models.CharField(max_length=255)
+    image_type = models.CharField(max_length=50, choices=[
+        ('front', 'Front'),
+        ('back', 'Back'),
+        ('other', 'Other'),
+    ])
+    s3_path = models.URLField()
     uploaded_by = models.ForeignKey(
-        'auth.User',
+        User,  # Correctly reference the User model
         on_delete=models.CASCADE,
-        related_name="uploaded_images"
-    )  # NEW: Add user association
+        related_name='uploaded_images'
+    )  # Link to the user who uploaded the image
 
+    # def __str__(self):
+    #     return self.image_name
     class Meta:
         db_table = 'nonsportscardimage'
 
