@@ -1,0 +1,25 @@
+{
+   "family": "ecs-connectivity-test",
+   "networkMode": "awsvpc",
+   "requiresCompatibilities": ["FARGATE"],
+   "cpu": "256",
+   "memory": "512",
+   "executionRoleArn": "arn:aws:iam::315414901942:role/ecsTaskExecutionRole",
+   "containerDefinitions": [
+     {
+       "name": "connectivity-test",
+       "image": "amazonlinux:2",
+       "essential": true,
+       "entryPoint": ["sh", "-c"],
+       "command": ["curl -v https://registry-1.docker.io"],
+       "logConfiguration": {
+         "logDriver": "awslogs",
+         "options": {
+           "awslogs-group": "/ecs/connectivity-test",
+           "awslogs-region": "us-west-2",
+           "awslogs-stream-prefix": "ecs"
+         }
+       }
+     }
+   ]
+ }

@@ -1,0 +1,28 @@
+# src/Dockerfile
+
+# Dockerfile.dev (development)
+# FROM python:3.12-slim-bookworm
+FROM python:3.12-slim-bookworm
+
+# Set environment variables for optimal Docker performance
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Install dependencies
+COPY requirements.txt /usr/src/app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the entire project into the container
+COPY . /usr/src/app/
+
+# Install the PostgreSQL client for dbshell access
+RUN apt-get update && apt-get install -y postgresql-client
+
+# Expose port 8000
+EXPOSE 8000
+
+# Start the Django development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

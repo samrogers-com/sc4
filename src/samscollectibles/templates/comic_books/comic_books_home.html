@@ -1,0 +1,35 @@
+<!-- file: src/ebay_templates/templates/comic_books/comic_books_home.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Comic Books - Saved Templates{% endblock %}
+
+{% block content %}
+<div class="container mx-auto my-8">
+    <h1 class="text-3xl font-bold mb-4">Comic Books - Saved Templates</h1>
+    
+    {% if has_templates %}
+        <div id="template-list">
+            <h2 class="text-xl font-bold mb-2">Your Saved Templates:</h2>
+            <ul class="list-disc list-inside">
+                {% for template in templates %}
+                    <li class="mb-2">
+                        <a href="{% url 'ebay_templates:template_detail' template.id %}" class="text-blue-500 underline">
+                            {{ template.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <div id="no-templates" class="text-center">
+            <h2 class="text-xl font-bold">No templates saved yet!</h2>
+            <p>You can create your first template now:</p>
+            <a href="{% url 'ebay_templates:create_template' 'comic_books' %}" class="bg-blue-500 text-white px-4 py-2 rounded">
+                Create Template
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

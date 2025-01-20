@@ -1,0 +1,106 @@
+<!-- file: src/ebay_templates/templates/generated_template.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/ebay_template_styles.css' %}">
+
+<div id="ds_div" class="container">
+    <p class="header-text">
+        🔥 <font size="6">{{ item.title }}</font> 🔥
+    </p>
+    <p class="center bold-text" style="color: #87ceeb; font-size: 23px;">
+        {{ item.number_of_cards_in_a_set|default:"N/A" }} cards in {{ item.manufacturer }}
+    </p>
+    <p class="center">
+        <font color="#ff9363" size="5">
+            <b><i>I love this collection!!!</i></b>
+        </font>
+    </p>
+    <hr />
+
+    <table align="center" cellpadding="8">
+        <tr valign="top">
+            <!-- Image Gallery -->
+            <td class="image-container" style="width: 550px;">
+                <div class="gallery">
+                    {% for image in card_images %}
+                        {% if forloop.counter0|divisibleby:3 %}
+                            <div class="gallery-row {% if forloop.revcounter < 3 %}last-row few-images-{{ forloop.revcounter }}{% endif %}">
+                        {% endif %}
+                        <img src="{{ base_url }}{{ image.image_name }}" alt="Image {{ image.image_name }}">
+                        {% if forloop.counter|divisibleby:3 or forloop.last %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <p class="note">
+                    <b>Right-click on an image for a close-up view.</b>
+                </p>
+                <hr />
+                <div class="note">
+                    Photos shown may not be the actual item. If it has any minor defects, they should be visible in the high-resolution photo. Examine it closely or contact us for details.
+                </div>
+            </td>
+
+            <!-- Card Description and Details -->
+            <td>
+                <p class="highlight center size-xl-text">
+                    <b>Description:</b>
+                </p>
+                <p class="description">
+                    <b class="small-text">
+                        {{ item.description|default:"No description available." }}
+                        <br>
+                        Key Features:
+                        <ul>
+                            {% for feature in item.key_features %}
+                                <li>{{ feature }}</li>
+                            {% empty %}
+                                <li>No key features listed.</li>
+                            {% endfor %}
+                        </ul>
+                    </b>
+                </p>
+                <p class="highlight center size-xl-text"><b>Condition/Grade:</b></p>
+                <p class="center" style="color: white;"><b>Mint</b></p>
+                <p class="center small-text" style="color: linen;"><b>Hi-res scans included.</b></p>
+                <p class="highlight center size-xl-text"><b>Shipping:</b></p>
+                <p class="shipping-info">
+                    <font color="#fff478">We offer combined shipping. See below:</font>
+                    <br>
+                    <span style="color: #fff478; font-size: large;">All international shipping is done through eBay's Global Shipping Program, no exceptions.</span>
+                    <br><br>
+                    <font color="#fff478" size="4">Contact us for lower-cost shipping options.</font>
+                </p>
+                <div class="shipping-options">
+                    <div>
+                        <b style="color: #ff9363;"><i>USPS Legal Flat Rate Envelope</i></b>
+                        <br><font color="#00ffff">Medium protection for 1-2 Boxes</font>
+                    </div>
+                    <div><b class="center">or</b></div>
+                    <div>
+                        <b style="color: #ff9363;"><i>USPS Medium Flat Rate Box</i></b>
+                        <br><font color="#00ffff">Better protection for 1-4 Boxes</font>
+                    </div>
+                    <div><b class="center">or</b></div>
+                    <div>
+                        <b style="color: #ff9363;"><i>USPS Large Flat Rate Box</i></b>
+                        <br><font color="#00ffff">Better protection for 5-6 Boxes</font>
+                    </div>
+                </div>
+                <div class="note">
+                    <p><b>We ship 2 business days after payment is received.</b></p>
+                    <p><b>Changes to shipping requests reset the shipping clock.</b></p>
+                </div>
+                <p class="highlight center size-xl-text"><b>Feedback:</b></p>
+                <div class="feedback-section">
+                    <p class="note">
+                        <b>Positive feedback is very important to us, so we will do our best to ensure you want to leave positive feedback. If you feel you can’t, email us and let us know (constructively) how we can improve.</b>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!-- file: src/non_sports_cards/templates/non_sports_cards/home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Title stays fixed and does not scroll -->
+    <h2 class="text-center text-3xl font-bold my-6">{{ title }}</h2>
+
+    <div class="grid grid-cols-4 gap-4 mx-auto max-w-7xl h-full">
+        <!-- Left side - Card List -->
+        <div class="col-span-3 flex flex-col">
+            <!-- Scrollable card list container -->
+            <div id="cards-list-container" class="overflow-auto flex-grow">
+                <!-- HTMX GET request for loading cards asynchronously -->
+                <div hx-get="{% url 'non_sports_cards:list_cards' %}" 
+                     hx-trigger="load" 
+                     hx-target="#cards-list-container" 
+                     hx-swap="innerHTML"
+                     hx-indicator="#loading-indicator"
+                     class="bg-gray-100 p-4 rounded shadow-md">
+                    Loading cards...
+                </div>
+
+                <!-- Loading indicator -->
+                <div id="loading-indicator" class="text-center hidden mt-4 text-blue-600">Loading...</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

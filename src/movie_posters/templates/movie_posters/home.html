@@ -1,0 +1,10 @@
+<!-- src/movie_posters/templates/movie_posters/home.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Movie Posters{% endblock %}
+{% block content %}
+    <h2>Movie Posters Collection</h2>
+    <div id="movie-posters-list" hx-get="{% url 'movie_posters:list_posters' %}" hx-trigger="load">
+        Loading movie posters...
+    </div>
+{% endblock %}

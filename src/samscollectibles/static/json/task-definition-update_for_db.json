@@ -1,0 +1,67 @@
+{
+   "family": "sams-collectibles-task",
+   "taskRoleArn": "arn:aws:iam::315414901942:role/sams-collectibles-task-role",
+   "executionRoleArn": "arn:aws:iam::315414901942:role/ecsTaskExecutionRole",
+   "networkMode": "awsvpc",
+   "containerDefinitions": [
+       {
+           "name": "sams-collectibles-web",
+           "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+           "cpu": 256,
+           "memory": 512,
+           "essential": true,
+           "secrets": [
+               {
+                  "name": "POSTGRES_CREDENTIALS",
+                  "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret"
+               }
+               {
+                   "name": "DJANGO_SECRET_KEY",
+                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-django-secret"
+               }
+           ],
+           "logConfiguration": {
+               "logDriver": "awslogs",
+               "options": {
+                   "awslogs-group": "/ecs/sams-collectibles",
+                   "awslogs-region": "us-west-2",
+                   "awslogs-stream-prefix": "ecs"
+               }
+           }
+       },
+       {
+           "name": "sams-collectibles-db",
+           "image": "postgres:13",
+           "cpu": 256,
+           "memory": 512,
+           "essential": true,
+           "secrets": [
+               {
+                   "name": "POSTGRES_USER",
+                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret:AWSCURRENT#POSTGRES_USER"
+               },
+               {
+                   "name": "POSTGRES_PASSWORD",
+                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret:AWSCURRENT#POSTGRES_PASSWORD"
+               },
+               {
+                   "name": "POSTGRES_DB",
+                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret:AWSCURRENT#POSTGRES_DB"
+               }
+           ],
+           "logConfiguration": {
+               "logDriver": "awslogs",
+               "options": {
+                   "awslogs-group": "/ecs/sams-collectibles",
+                   "awslogs-region": "us-west-2",
+                   "awslogs-stream-prefix": "ecs"
+               }
+           }
+       }
+   ],
+   "requiresCompatibilities": [
+       "FARGATE"
+   ],
+   "cpu": "512",
+   "memory": "1024"
+}

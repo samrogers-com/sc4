@@ -1,0 +1,93 @@
+<!-- file: src/ebay_templates/templates/non_sports_cards/ebay_template_nsc_sets.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/ebay_template_styles.css' %}">
+
+<div id="ds_div" class="container">
+    <p class="header-text">
+        🔥 <font size="6">{{ nsc_cards.title }}</font> 🔥
+    </p>
+    <p class="center bold-text" style="color: #87ceeb; font-size: 23px;">
+        {{ nsc_cards.number_of_cards_in_a_set }} cards in {{ nsc_cards.description }}
+    </p>
+    <p class="center">
+        <font color="#ff9363" size="5"><b><i>I love this collection!!!</i></b></font>
+    </p>
+    <hr />
+
+    <table align="center" cellpadding="8">
+        <tr valign="top">
+            <!-- Image Gallery -->
+            <td class="image-container">
+                <div class="gallery">
+                    {% for image in card_images %}
+                        {% if forloop.counter0|divisibleby:3 %}
+                            <div class="gallery-row {% if forloop.revcounter < 3 %}last-row few-images-{{ forloop.revcounter }}{% endif %}">
+                        {% endif %}
+                        <img src="{{ base_url }}{{ image.image_name }}" alt="Image {{ image.image_name }}">
+                        {% if forloop.counter|divisibleby:3 or forloop.last %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <p class="note">
+                    <b>Right-click on an image for a close-up view.</b>
+                </p>
+                <hr />
+                <div class="note">
+                    Photos shown may not be the actual item. If it has any minor defects, they should be visible in the high-resolution photo.
+                </div>
+            </td>
+
+            <!-- Card Description and Details -->
+            <td>
+                <p class="highlight center size-xl-text"><b>Description:</b></p>
+                <p class="description">
+                    <b class="small-text">
+                        {{ nsc_cards.description }}
+                        <br>Key Features:
+                        <ul>
+                            {% for feature in nsc_cards.key_features %}
+                                <li>{{ feature }}</li>
+                            {% endfor %}
+                        </ul>
+                    </b>
+                </p>
+
+                <!-- Additional Sections for Condition, Shipping, Feedback, etc. -->
+                <p class="highlight center size-xl-text"><b>Condition/Grade:</b></p>
+                <p class="center" style="color: white;"><b>Mint</b></p>
+                <p class="center small-text" style="color: linen;"><b>Hi-res scans included</b></p>
+                <p class="highlight center size-xl-text"><b>Shipping:</b></p>
+                <p class="shipping-info">
+                    <font color="#fff478">We offer combined shipping, see below.</font><br>
+                    <span style="color: #fff478; font-size: large;">
+                        All International shipping is done through eBay's Global Shipping Program, no exceptions.
+                    </span><br><br>
+                    <font color="#fff478" size="4">For lower-cost shipping options, let us know.</font>
+                </p>
+                <div class="note">
+                    <p><b>We ship 2 business days after payment is received.</b></p>
+                    <p><b>Any changes to shipping requests reset the shipping clock.</b></p>
+                </div>
+
+                <!-- Feedback Section -->
+                <p class="highlight center size-xl-text"><b>Feedback:</b></p>
+                <div class="feedback-section">
+                    <p class="note">
+                        <b>
+                            Positive feedback is very important to us, so we will do our best to ensure you will want to leave positive feedback.
+                            <font class="color-red-text size-xl-text">Please</font>, <font class="color-red-text size-xl-text">Please</font> try and leave Positive Feedback...
+                            But if you don't feel you can leave positive feedback, please email us and let us know (constructively) how we can improve.
+                        </b>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}

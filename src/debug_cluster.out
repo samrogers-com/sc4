@@ -1,0 +1,2179 @@
+Fetching service details...
+{
+    "services": [
+        {
+            "serviceArn": "arn:aws:ecs:us-west-2:315414901942:service/sams-collectibles-ecs-cluster/sams-collectibles-service",
+            "serviceName": "sams-collectibles-service",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "loadBalancers": [],
+            "serviceRegistries": [],
+            "status": "ACTIVE",
+            "desiredCount": 1,
+            "runningCount": 0,
+            "pendingCount": 0,
+            "launchType": "FARGATE",
+            "platformVersion": "LATEST",
+            "platformFamily": "Linux",
+            "taskDefinition": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "deploymentConfiguration": {
+                "deploymentCircuitBreaker": {
+                    "enable": false,
+                    "rollback": false
+                },
+                "maximumPercent": 200,
+                "minimumHealthyPercent": 100
+            },
+            "deployments": [
+                {
+                    "id": "ecs-svc/1359542315349323587",
+                    "status": "PRIMARY",
+                    "taskDefinition": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+                    "desiredCount": 1,
+                    "pendingCount": 0,
+                    "runningCount": 0,
+                    "failedTasks": 14,
+                    "createdAt": "2024-11-18T06:17:37.379000-08:00",
+                    "updatedAt": "2024-11-18T06:28:49.162000-08:00",
+                    "launchType": "FARGATE",
+                    "platformVersion": "1.4.0",
+                    "platformFamily": "Linux",
+                    "networkConfiguration": {
+                        "awsvpcConfiguration": {
+                            "subnets": [
+                                "subnet-005c50966587f9b98",
+                                "subnet-0dfe8dcf83c0842d4"
+                            ],
+                            "securityGroups": [
+                                "sg-029eb602389458954",
+                                "sg-00242036d9be9884a"
+                            ],
+                            "assignPublicIp": "DISABLED"
+                        }
+                    },
+                    "rolloutState": "IN_PROGRESS",
+                    "rolloutStateReason": "ECS deployment ecs-svc/1359542315349323587 in progress."
+                }
+            ],
+            "roleArn": "arn:aws:iam::315414901942:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+            "events": [
+                {
+                    "id": "838fbc12-690e-4b70-825d-fd9e7498fe8d",
+                    "createdAt": "2024-11-18T07:14:11.731000-08:00",
+                    "message": "(service sams-collectibles-service) has started 1 tasks: (task 79eb22dac9f44515ac99ea3639b0f6a9)."
+                },
+                {
+                    "id": "1474f68a-7644-47ab-ae92-a46c4aeb5662",
+                    "createdAt": "2024-11-18T07:08:44.420000-08:00",
+                    "message": "(service sams-collectibles-service) has started 1 tasks: (task 11b9035a62184b42a22fa0135a1a6b97)."
+                },
+                {
+                    "id": "0ae7ef11-c8b9-476d-981f-61de1a0387d1",
+                    "createdAt": "2024-11-18T07:03:28.682000-08:00",
+                    "message": "(service sams-collectibles-service) has started 1 tasks: (task 254f72c7ee12479689a4ec2930728279)."
+                }
+            ],
+            "createdAt": "2024-11-17T06:36:42.349000-08:00",
+            "placementConstraints": [],
+            "placementStrategy": [],
+            "networkConfiguration": {
+                "awsvpcConfiguration": {
+                    "subnets": [
+                        "subnet-005c50966587f9b98",
+                        "subnet-0dfe8dcf83c0842d4"
+                    ],
+                    "securityGroups": [
+                        "sg-029eb602389458954",
+                        "sg-00242036d9be9884a"
+                    ],
+                    "assignPublicIp": "DISABLED"
+                }
+            },
+            "healthCheckGracePeriodSeconds": 0,
+            "schedulingStrategy": "REPLICA",
+            "deploymentController": {
+                "type": "ECS"
+            },
+            "createdBy": "arn:aws:iam::315414901942:root",
+            "enableECSManagedTags": false,
+            "propagateTags": "NONE",
+            "enableExecuteCommand": false
+        }
+    ],
+    "failures": []
+}
+Fetching task definition details...
+{
+    "taskDefinition": {
+        "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+        "containerDefinitions": [
+            {
+                "name": "sams-collectibles-web",
+                "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                "cpu": 256,
+                "memory": 512,
+                "portMappings": [],
+                "essential": true,
+                "environment": [],
+                "mountPoints": [],
+                "volumesFrom": [],
+                "secrets": [
+                    {
+                        "name": "DB_USER",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER"
+                    },
+                    {
+                        "name": "DB_PASSWORD",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PASSWORD"
+                    },
+                    {
+                        "name": "DB_NAME",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_NAME"
+                    },
+                    {
+                        "name": "DB_HOST",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_HOST"
+                    },
+                    {
+                        "name": "DB_PORT",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PORT"
+                    },
+                    {
+                        "name": "DJANGO_SECRET_KEY",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-django-secret-97Attw:AWSCURRENT#DJANGO_SECRET_KEY"
+                    },
+                    {
+                        "name": "POSTGRES_URL",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#database_url"
+                    }
+                ],
+                "logConfiguration": {
+                    "logDriver": "awslogs",
+                    "options": {
+                        "awslogs-group": "/ecs/sams-collectibles",
+                        "awslogs-region": "us-west-2",
+                        "awslogs-stream-prefix": "ecs"
+                    }
+                },
+                "systemControls": []
+            },
+            {
+                "name": "sams-collectibles-db",
+                "image": "postgres:13",
+                "cpu": 256,
+                "memory": 512,
+                "portMappings": [],
+                "essential": true,
+                "environment": [],
+                "mountPoints": [],
+                "volumesFrom": [],
+                "secrets": [
+                    {
+                        "name": "DB_USER",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER"
+                    },
+                    {
+                        "name": "DB_PASSWORD",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PASSWORD"
+                    },
+                    {
+                        "name": "DB_NAME",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_NAME"
+                    },
+                    {
+                        "name": "DB_HOST",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_HOST"
+                    },
+                    {
+                        "name": "DB_PORT",
+                        "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PORT"
+                    }
+                ],
+                "logConfiguration": {
+                    "logDriver": "awslogs",
+                    "options": {
+                        "awslogs-group": "/ecs/sams-collectibles",
+                        "awslogs-region": "us-west-2",
+                        "awslogs-stream-prefix": "ecs"
+                    }
+                },
+                "systemControls": []
+            }
+        ],
+        "family": "sams-collectibles-task",
+        "taskRoleArn": "arn:aws:iam::315414901942:role/sams-collectibles-task-role",
+        "executionRoleArn": "arn:aws:iam::315414901942:role/ecsTaskExecutionRole",
+        "networkMode": "awsvpc",
+        "revision": 24,
+        "volumes": [],
+        "status": "ACTIVE",
+        "requiresAttributes": [
+            {
+                "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+            },
+            {
+                "name": "ecs.capability.execution-role-awslogs"
+            },
+            {
+                "name": "com.amazonaws.ecs.capability.ecr-auth"
+            },
+            {
+                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+            },
+            {
+                "name": "ecs.capability.secrets.asm.environment-variables"
+            },
+            {
+                "name": "com.amazonaws.ecs.capability.task-iam-role"
+            },
+            {
+                "name": "ecs.capability.execution-role-ecr-pull"
+            },
+            {
+                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+            },
+            {
+                "name": "ecs.capability.task-eni"
+            }
+        ],
+        "placementConstraints": [],
+        "compatibilities": [
+            "EC2",
+            "FARGATE"
+        ],
+        "requiresCompatibilities": [
+            "FARGATE"
+        ],
+        "cpu": "512",
+        "memory": "1024",
+        "registeredAt": "2024-11-18T06:00:35.327000-08:00",
+        "registeredBy": "arn:aws:iam::315414901942:root"
+    },
+    "tags": []
+}
+Fetching stopped tasks...
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/11b9035a62184b42a22fa0135a1a6b97
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "c99fafe4-100f-45af-af7d-2e13489ec0f9",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-005c50966587f9b98"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0d2d902358c95cda3"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "02:2b:17:91:1d:6b"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.1.247"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2a",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T07:08:48.207000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/11b9035a62184b42a22fa0135a1a6b97/11739a72-0715-4e23-b8f4-0e8c63b89779",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/11b9035a62184b42a22fa0135a1a6b97",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "11b9035a62184b42a22fa0135a1a6b97-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "c99fafe4-100f-45af-af7d-2e13489ec0f9",
+                            "privateIpv4Address": "10.0.1.247"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/11b9035a62184b42a22fa0135a1a6b97/80272a87-32fa-4582-b915-9f0d27efb8ed",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/11b9035a62184b42a22fa0135a1a6b97",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "11b9035a62184b42a22fa0135a1a6b97-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "c99fafe4-100f-45af-af7d-2e13489ec0f9",
+                            "privateIpv4Address": "10.0.1.247"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T07:08:44.363000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T07:08:55.489000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T07:08:55.915000-08:00",
+            "pullStoppedAt": "2024-11-18T07:08:55.919000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T07:09:19.142000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T07:09:05.523000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/11b9035a62184b42a22fa0135a1a6b97",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/21bd747efba7400ab098ca42cd5b106f
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "41a7afbf-9ed9-437b-ba72-16151a1832d5",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0717742b819c342bd"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:ec:6c:e4:cb:4f"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.172"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:36:15.823000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/21bd747efba7400ab098ca42cd5b106f/5050b635-ab10-4c02-9880-64e678e22848",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/21bd747efba7400ab098ca42cd5b106f",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "21bd747efba7400ab098ca42cd5b106f-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "41a7afbf-9ed9-437b-ba72-16151a1832d5",
+                            "privateIpv4Address": "10.0.2.172"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/21bd747efba7400ab098ca42cd5b106f/c7e927f0-767a-41e4-b52d-ff215ef1ab4c",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/21bd747efba7400ab098ca42cd5b106f",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "21bd747efba7400ab098ca42cd5b106f-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "41a7afbf-9ed9-437b-ba72-16151a1832d5",
+                            "privateIpv4Address": "10.0.2.172"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:36:12.089000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:36:22.896000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:36:23.717000-08:00",
+            "pullStoppedAt": "2024-11-18T06:36:23.723000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:36:46.681000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:36:32.924000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/21bd747efba7400ab098ca42cd5b106f",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/2242a15bbe864c078e79d72331e38f24
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "32acd308-a967-4d68-831b-262e82522e82",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0b3f9a6384502f948"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:37:ae:45:8a:1f"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.100"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:29:56.378000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/2242a15bbe864c078e79d72331e38f24/89494a94-ff9e-4993-86f0-307185fc3ba3",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/2242a15bbe864c078e79d72331e38f24",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "2242a15bbe864c078e79d72331e38f24-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "32acd308-a967-4d68-831b-262e82522e82",
+                            "privateIpv4Address": "10.0.2.100"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/2242a15bbe864c078e79d72331e38f24/9ce9fdf8-1259-4cc2-8f62-8d78f22036be",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/2242a15bbe864c078e79d72331e38f24",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "2242a15bbe864c078e79d72331e38f24-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "32acd308-a967-4d68-831b-262e82522e82",
+                            "privateIpv4Address": "10.0.2.100"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:29:51.726000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:30:03.638000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:30:04.287000-08:00",
+            "pullStoppedAt": "2024-11-18T06:30:04.292000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:30:28.352000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:30:13.697000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/2242a15bbe864c078e79d72331e38f24",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/254f72c7ee12479689a4ec2930728279
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "2639613a-5936-4bc4-a261-2d722dbe0c7a",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0bebde50751941e0d"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:08:0b:3c:c0:05"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.85"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T07:03:32.355000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/254f72c7ee12479689a4ec2930728279/9790621a-dc04-49f4-bd1e-b2938b67ed88",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/254f72c7ee12479689a4ec2930728279",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "254f72c7ee12479689a4ec2930728279-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "2639613a-5936-4bc4-a261-2d722dbe0c7a",
+                            "privateIpv4Address": "10.0.2.85"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/254f72c7ee12479689a4ec2930728279/f27851be-c2c9-43e0-92e7-8a6f01ad946d",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/254f72c7ee12479689a4ec2930728279",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "254f72c7ee12479689a4ec2930728279-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "2639613a-5936-4bc4-a261-2d722dbe0c7a",
+                            "privateIpv4Address": "10.0.2.85"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T07:03:28.629000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T07:03:43.939000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T07:03:44.855000-08:00",
+            "pullStoppedAt": "2024-11-18T07:03:44.861000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T07:04:07.185000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T07:03:53.973000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/254f72c7ee12479689a4ec2930728279",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/2cc9eceef88d4fdc8582e49068cfe5cb
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "9d4ea816-bfc2-451c-ac01-3c1b6a70cab1",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-06a79e410d3c8dfbb"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:a6:f8:aa:07:a5"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.208"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:19:53.728000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/2cc9eceef88d4fdc8582e49068cfe5cb/5f39ffcd-78df-4f98-945f-cb9fc00f1522",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/2cc9eceef88d4fdc8582e49068cfe5cb",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "2cc9eceef88d4fdc8582e49068cfe5cb-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "9d4ea816-bfc2-451c-ac01-3c1b6a70cab1",
+                            "privateIpv4Address": "10.0.2.208"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/2cc9eceef88d4fdc8582e49068cfe5cb/95b8d9cf-823f-4b63-984b-27a5120eddcc",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/2cc9eceef88d4fdc8582e49068cfe5cb",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "2cc9eceef88d4fdc8582e49068cfe5cb-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "9d4ea816-bfc2-451c-ac01-3c1b6a70cab1",
+                            "privateIpv4Address": "10.0.2.208"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:19:49.889000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:20:00.392000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:20:00.751000-08:00",
+            "pullStoppedAt": "2024-11-18T06:20:00.763000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:20:25.925000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:20:10.434000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/2cc9eceef88d4fdc8582e49068cfe5cb",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/4bb2c1a0e5464eb583ffa66c1cc8f658
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "721e339b-2d75-44a8-a31d-2cdeab02f345",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-005239559f7f828ad"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:75:9c:b4:b8:e7"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.165"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:47:04.740000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/4bb2c1a0e5464eb583ffa66c1cc8f658/41a99bb4-8da9-441d-9505-8f0a4b414190",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/4bb2c1a0e5464eb583ffa66c1cc8f658",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "4bb2c1a0e5464eb583ffa66c1cc8f658-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "721e339b-2d75-44a8-a31d-2cdeab02f345",
+                            "privateIpv4Address": "10.0.2.165"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/4bb2c1a0e5464eb583ffa66c1cc8f658/4d4249be-823e-44cd-a1ed-51f1f30aa418",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/4bb2c1a0e5464eb583ffa66c1cc8f658",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "4bb2c1a0e5464eb583ffa66c1cc8f658-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "721e339b-2d75-44a8-a31d-2cdeab02f345",
+                            "privateIpv4Address": "10.0.2.165"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:47:00.028000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:47:12.320000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:47:12.588000-08:00",
+            "pullStoppedAt": "2024-11-18T06:47:12.593000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:47:37.535000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:47:22.361000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/4bb2c1a0e5464eb583ffa66c1cc8f658",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/5e89cc3d1d8e45f1956e08b1e51ff597
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "fdee695c-7068-42c7-a413-1b60c4118b47",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0c192bcf3af280b07"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:f0:e5:1d:5f:89"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.247"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:41:38.246000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/5e89cc3d1d8e45f1956e08b1e51ff597/304c0e6f-1061-40e2-973d-27696363e9dd",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/5e89cc3d1d8e45f1956e08b1e51ff597",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "5e89cc3d1d8e45f1956e08b1e51ff597-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "fdee695c-7068-42c7-a413-1b60c4118b47",
+                            "privateIpv4Address": "10.0.2.247"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/5e89cc3d1d8e45f1956e08b1e51ff597/68582f13-e3d6-4e49-8442-911dbbbf8d16",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/5e89cc3d1d8e45f1956e08b1e51ff597",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "5e89cc3d1d8e45f1956e08b1e51ff597-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "fdee695c-7068-42c7-a413-1b60c4118b47",
+                            "privateIpv4Address": "10.0.2.247"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:41:33.760000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:41:47.766000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:41:48.499000-08:00",
+            "pullStoppedAt": "2024-11-18T06:41:48.504000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:42:11.730000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:41:57.798000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/5e89cc3d1d8e45f1956e08b1e51ff597",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/6a8c8f75aa334bb5b38cb46fe4c24459
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "550fb503-f7e6-487c-96a9-2f7ab54ee22d",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-005c50966587f9b98"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-004c4c13c168978be"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "02:bc:ec:ec:fe:93"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.1.249"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2a",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:58:06.822000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/6a8c8f75aa334bb5b38cb46fe4c24459/4cb9e58a-8b35-4ba0-af4a-0ee49c9cd1e9",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/6a8c8f75aa334bb5b38cb46fe4c24459",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "6a8c8f75aa334bb5b38cb46fe4c24459-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "550fb503-f7e6-487c-96a9-2f7ab54ee22d",
+                            "privateIpv4Address": "10.0.1.249"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/6a8c8f75aa334bb5b38cb46fe4c24459/85096c2d-4226-4b6c-95ef-b9b0882332f6",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/6a8c8f75aa334bb5b38cb46fe4c24459",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "6a8c8f75aa334bb5b38cb46fe4c24459-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "550fb503-f7e6-487c-96a9-2f7ab54ee22d",
+                            "privateIpv4Address": "10.0.1.249"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:58:02.922000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:58:14.685000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:58:15.347000-08:00",
+            "pullStoppedAt": "2024-11-18T06:58:15.353000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:58:38.823000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:58:24.727000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/6a8c8f75aa334bb5b38cb46fe4c24459",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/79eb22dac9f44515ac99ea3639b0f6a9
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "b38c993b-f22e-4e42-a3f0-7ff808b2ca96",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0309814be6f6d79f2"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:6d:d3:0e:9d:37"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.105"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T07:14:15.998000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/79eb22dac9f44515ac99ea3639b0f6a9/9e8bc733-35f7-47dc-a065-bc72a746407c",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/79eb22dac9f44515ac99ea3639b0f6a9",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "79eb22dac9f44515ac99ea3639b0f6a9-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "b38c993b-f22e-4e42-a3f0-7ff808b2ca96",
+                            "privateIpv4Address": "10.0.2.105"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/79eb22dac9f44515ac99ea3639b0f6a9/f03b10ea-0aeb-4289-9d25-804f0e983305",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/79eb22dac9f44515ac99ea3639b0f6a9",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "79eb22dac9f44515ac99ea3639b0f6a9-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "b38c993b-f22e-4e42-a3f0-7ff808b2ca96",
+                            "privateIpv4Address": "10.0.2.105"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T07:14:11.654000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T07:14:22.149000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T07:14:22.209000-08:00",
+            "pullStoppedAt": "2024-11-18T07:14:22.216000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T07:14:45.341000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T07:14:32.184000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/79eb22dac9f44515ac99ea3639b0f6a9",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/9507583ef3f540f5878e96141b9b6b3e
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "d9c4b5d3-f740-4460-ba59-0d3c5cd74905",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-042126eac537e3a9f"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:64:8e:6b:0c:6d"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.6"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:28:51.373000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/9507583ef3f540f5878e96141b9b6b3e/7a6fb334-e078-4de9-96d0-886f1dd8f6d1",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/9507583ef3f540f5878e96141b9b6b3e",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "9507583ef3f540f5878e96141b9b6b3e-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "d9c4b5d3-f740-4460-ba59-0d3c5cd74905",
+                            "privateIpv4Address": "10.0.2.6"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/9507583ef3f540f5878e96141b9b6b3e/8ba5d001-4a4a-4ddb-bbf0-574cc92d1c04",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/9507583ef3f540f5878e96141b9b6b3e",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "9507583ef3f540f5878e96141b9b6b3e-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "d9c4b5d3-f740-4460-ba59-0d3c5cd74905",
+                            "privateIpv4Address": "10.0.2.6"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:28:42.584000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:29:04.705000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:29:04.931000-08:00",
+            "pullStoppedAt": "2024-11-18T06:29:04.947000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:29:28.841000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:29:14.750000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/9507583ef3f540f5878e96141b9b6b3e",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bb28267fa82949349de99e8e92c4f12a
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "45f41986-2b6b-4b96-b356-4705f37af52e",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-005c50966587f9b98"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-099ffb2694cadb078"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "02:ee:e8:ef:c1:63"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.1.191"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2a",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:30:55.971000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/bb28267fa82949349de99e8e92c4f12a/251dae60-5009-4fab-8d95-711bc8bb1a89",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bb28267fa82949349de99e8e92c4f12a",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "bb28267fa82949349de99e8e92c4f12a-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "45f41986-2b6b-4b96-b356-4705f37af52e",
+                            "privateIpv4Address": "10.0.1.191"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/bb28267fa82949349de99e8e92c4f12a/b4da2cf8-bddf-4b71-8b63-9d40b02a8bbc",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bb28267fa82949349de99e8e92c4f12a",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "bb28267fa82949349de99e8e92c4f12a-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "45f41986-2b6b-4b96-b356-4705f37af52e",
+                            "privateIpv4Address": "10.0.1.191"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:30:52.288000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:31:03.661000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:31:04.247000-08:00",
+            "pullStoppedAt": "2024-11-18T06:31:04.268000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:31:27.788000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:31:13.700000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bb28267fa82949349de99e8e92c4f12a",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bbdb1c32c4464f23999cf423c48e6d37
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "59d047cd-19bb-4ab0-baa5-65828332dda2",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0d34249b2735e3b40"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:a0:c3:d0:25:27"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.98"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:52:30.641000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/bbdb1c32c4464f23999cf423c48e6d37/682e4519-16d0-4d7a-af17-02b7f62d5e4b",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bbdb1c32c4464f23999cf423c48e6d37",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "bbdb1c32c4464f23999cf423c48e6d37-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "59d047cd-19bb-4ab0-baa5-65828332dda2",
+                            "privateIpv4Address": "10.0.2.98"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/bbdb1c32c4464f23999cf423c48e6d37/f7b0b14e-20d9-4c6e-94d2-b844707496df",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bbdb1c32c4464f23999cf423c48e6d37",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "bbdb1c32c4464f23999cf423c48e6d37-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "59d047cd-19bb-4ab0-baa5-65828332dda2",
+                            "privateIpv4Address": "10.0.2.98"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:52:25.503000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:52:38.198000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:52:38.341000-08:00",
+            "pullStoppedAt": "2024-11-18T06:52:38.345000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:53:02.540000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:52:48.251000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bbdb1c32c4464f23999cf423c48e6d37",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bd619481da0548eca21a7aab803cb09c
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "cde6028a-4389-449a-8db9-13002f686fef",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0dfe8dcf83c0842d4"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-095f992db3f028a3a"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "06:42:63:b3:1f:77"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.2.11"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2b",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:17:54.546000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/bd619481da0548eca21a7aab803cb09c/0b0b95e1-8cb3-4dae-a60c-f3c06ec21676",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bd619481da0548eca21a7aab803cb09c",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "bd619481da0548eca21a7aab803cb09c-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "cde6028a-4389-449a-8db9-13002f686fef",
+                            "privateIpv4Address": "10.0.2.11"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/bd619481da0548eca21a7aab803cb09c/8e71e369-368a-4b9f-9247-43882c02a7ad",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bd619481da0548eca21a7aab803cb09c",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "bd619481da0548eca21a7aab803cb09c-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "cde6028a-4389-449a-8db9-13002f686fef",
+                            "privateIpv4Address": "10.0.2.11"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:17:50.931000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:18:01.565000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:18:02.054000-08:00",
+            "pullStoppedAt": "2024-11-18T06:18:02.088000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:18:24.625000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:18:11.617000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/bd619481da0548eca21a7aab803cb09c",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/df15519fb8684b95bfbabc5354303a0d
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "e73d833e-227e-46dd-9ea8-12943eddaf5c",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-005c50966587f9b98"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0ee281f7586516164"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "02:15:26:8c:30:79"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.1.213"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2a",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:25:33.275000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/df15519fb8684b95bfbabc5354303a0d/4656d928-9d51-4b63-b656-a33f30d77a3b",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/df15519fb8684b95bfbabc5354303a0d",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "df15519fb8684b95bfbabc5354303a0d-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "e73d833e-227e-46dd-9ea8-12943eddaf5c",
+                            "privateIpv4Address": "10.0.1.213"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/df15519fb8684b95bfbabc5354303a0d/938796e4-5118-4f55-8d31-7a273aea58d5",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/df15519fb8684b95bfbabc5354303a0d",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "df15519fb8684b95bfbabc5354303a0d-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "e73d833e-227e-46dd-9ea8-12943eddaf5c",
+                            "privateIpv4Address": "10.0.1.213"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:25:27.503000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:25:40.217000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:25:40.264000-08:00",
+            "pullStoppedAt": "2024-11-18T06:25:40.285000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:26:04.730000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:25:50.251000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/df15519fb8684b95bfbabc5354303a0d",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 5,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Inspecting stopped task: arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/fa1a586dca824de79ddf3457d4698595
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "dcc249b7-2779-4eaf-99c0-5a97d1b591f2",
+                    "type": "ElasticNetworkInterface",
+                    "status": "DELETED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-005c50966587f9b98"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-0754f5a6ab7ae33cf"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "02:fc:db:1a:86:9b"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.1.211"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-west-2a",
+            "clusterArn": "arn:aws:ecs:us-west-2:315414901942:cluster/sams-collectibles-ecs-cluster",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-11-18T06:18:53.843000-08:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/fa1a586dca824de79ddf3457d4698595/0b9314ba-fbea-4310-8394-a7a8fa30b6ff",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/fa1a586dca824de79ddf3457d4698595",
+                    "name": "sams-collectibles-web",
+                    "image": "315414901942.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest",
+                    "runtimeId": "fa1a586dca824de79ddf3457d4698595-2813073672",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "dcc249b7-2779-4eaf-99c0-5a97d1b591f2",
+                            "privateIpv4Address": "10.0.1.211"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                },
+                {
+                    "containerArn": "arn:aws:ecs:us-west-2:315414901942:container/sams-collectibles-ecs-cluster/fa1a586dca824de79ddf3457d4698595/4078b089-5078-4c9d-99ec-e91387336a4b",
+                    "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/fa1a586dca824de79ddf3457d4698595",
+                    "name": "sams-collectibles-db",
+                    "image": "postgres:13",
+                    "runtimeId": "fa1a586dca824de79ddf3457d4698595-0630487156",
+                    "lastStatus": "STOPPED",
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "dcc249b7-2779-4eaf-99c0-5a97d1b591f2",
+                            "privateIpv4Address": "10.0.1.211"
+                        }
+                    ],
+                    "healthStatus": "UNKNOWN",
+                    "cpu": "256",
+                    "memory": "512"
+                }
+            ],
+            "cpu": "512",
+            "createdAt": "2024-11-18T06:18:49.479000-08:00",
+            "desiredStatus": "STOPPED",
+            "enableExecuteCommand": false,
+            "executionStoppedAt": "2024-11-18T06:19:01.286000-08:00",
+            "group": "service:sams-collectibles-service",
+            "healthStatus": "UNKNOWN",
+            "lastStatus": "STOPPED",
+            "launchType": "FARGATE",
+            "memory": "1024",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "sams-collectibles-web"
+                    },
+                    {
+                        "name": "sams-collectibles-db"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-11-18T06:19:01.507000-08:00",
+            "pullStoppedAt": "2024-11-18T06:19:01.523000-08:00",
+            "startedBy": "ecs-svc/1359542315349323587",
+            "stopCode": "TaskFailedToStart",
+            "stoppedAt": "2024-11-18T06:19:25.764000-08:00",
+            "stoppedReason": "ResourceInitializationError: unable to pull secrets or registry auth: execution resource retrieval failed: unable to retrieve secret from asm: service call has been retried 1 time(s): secrets manager: failed to retrieve secret from arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER: unexpected ARN format with parameters when trying to retrieve ASM secret",
+            "stoppingAt": "2024-11-18T06:19:11.326000-08:00",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-west-2:315414901942:task/sams-collectibles-ecs-cluster/fa1a586dca824de79ddf3457d4698595",
+            "taskDefinitionArn": "arn:aws:ecs:us-west-2:315414901942:task-definition/sams-collectibles-task:24",
+            "version": 4,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
+Checking subnets and routes...
+{
+  "DestinationCidrBlock": "0.0.0.0/0",
+  "NatGatewayId": "nat-0dfc6ef31daf8cf33",
+  "Origin": "CreateRoute",
+  "State": "active"
+}
+Checking security groups...
+{
+    "SecurityGroups": [
+        {
+            "GroupId": "sg-029eb602389458954",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "sams-collectibles-web-sg"
+                }
+            ],
+            "VpcId": "vpc-078dc2a6c620f0c70",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:315414901942:security-group/sg-029eb602389458954",
+            "OwnerId": "315414901942",
+            "GroupName": "sams-collectibles-web-sg",
+            "Description": "Web security group for Django Fargate app",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 8001,
+                    "ToPort": 8001,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [
+                        {
+                            "CidrIpv6": "::/0"
+                        }
+                    ],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 5432,
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "315414901942",
+                            "GroupId": "sg-00242036d9be9884a"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 443,
+                    "ToPort": 443,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-00242036d9be9884a",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "sams-collectibles-db-sg"
+                }
+            ],
+            "VpcId": "vpc-078dc2a6c620f0c70",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:315414901942:security-group/sg-00242036d9be9884a",
+            "OwnerId": "315414901942",
+            "GroupName": "sams-collectibles-db-sg",
+            "Description": "PostgreSQL Database security group for Django Fargate app",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 5432,
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "315414901942",
+                            "GroupId": "sg-029eb602389458954"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        }
+    ]
+}

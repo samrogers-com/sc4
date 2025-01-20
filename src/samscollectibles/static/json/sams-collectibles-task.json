@@ -1,0 +1,29 @@
+{
+  "family": "sams-collectibles-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::315414901942:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "sams-collectibles-web-container-defs",
+      "image": "sams-collectibles:latest",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/sams-collectibles",
+          "awslogs-region": "us-west-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}

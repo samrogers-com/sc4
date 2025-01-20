@@ -1,0 +1,9 @@
+<!-- src/movie_posters/templates/movie_posters/partials/posters_list_partial.html -->
+<div class="list">
+   {% for poster in posters %}
+      {% include 'movie_posters/partials/poster_item_partial.html' with poster=poster %}
+   {% empty %}
+       <p>No Movie Posters available now, but coming soon.</p>
+   {% endfor %}
+</div>
+

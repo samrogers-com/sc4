@@ -1,0 +1,83 @@
+<!-- file: src/samscollectibles/templates/partials/navbar.html -->
+
+<!-- Hamburger Menu for Mobile -->
+<div class="lg:hidden">
+    <button id="navbar-toggle" class="text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+    </button>
+</div>
+
+<!-- Navbar for Desktop -->
+<nav id="navbar-menu" class="hidden lg:flex justify-between items-center w-full space-x-4 text-white">
+    <div class="flex space-x-4">
+        <a href="{% url 'home' %}" class="hover:text-gray-400">Home</a>
+
+        <!-- Dropdown for Comic Books -->
+        <div class="relative group">
+            <a href="{% url 'comic_books:comicbooks_home' %}" class="hover:text-gray-400">Comic Books</a>
+            <div class="absolute hidden group-hover:block bg-black bg-opacity-90 text-white rounded-md shadow-lg py-2">
+                <div class="min-w-max">
+                    <a href="{% url 'comic_books:starwars_marvel' %}" class="block px-4 py-2 hover:bg-gray-700">Star Wars Marvel</a>
+                    <a href="{% url 'comic_books:starwars_dark_horse' %}" class="block px-4 py-2 hover:bg-gray-700">Star Wars Dark Horse</a>
+                    <a href="{% url 'comic_books:startrek_dc' %}" class="block px-4 py-2 hover:bg-gray-700">Star Trek DC</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- eBay Templates Dropdown -->
+        <div class="relative group">
+            <a href="#" class="hover:text-gray-400">eBay Templates</a>
+            <div class="absolute hidden group-hover:block bg-black bg-opacity-90 text-white rounded-md shadow-lg py-2">
+                <div class="min-w-max">
+                    <a href="{% url 'ebay_templates:non_sports_cards_home' %}" class="block px-4 py-2 hover:bg-gray-700">Non-Sports Cards</a>
+                    <a href="{% url 'ebay_templates:comic_home' %}" class="block px-4 py-2 hover:bg-gray-700">Comic Books</a>
+                    <a href="{% url 'ebay_templates:movie_posters_home' %}" class="block px-4 py-2 hover:bg-gray-700">Movie Posters</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Links for Non-Sports Cards and Movie Posters -->
+        <a href="{% url 'non_sports_cards:list_cards' %}" class="hover:text-gray-400">Non-Sports Cards</a>
+        <a href="{% url 'movie_posters:home' %}" class="hover:text-gray-400">Movie Posters</a>
+        <a href="{% url 'contact' %}" class="hover:text-gray-400">Contact</a>
+        <a href="{% url 'about' %}" class="hover:text-gray-400">About</a>
+    </div>
+
+    <!-- Authentication Links (Right-Aligned) -->
+    <div class="flex space-x-4">
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="hover:text-gray-400">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="hover:text-gray-400">Login</a>
+            <a href="{% url 'register' %}" class="hover:text-gray-400">Register</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="lg:hidden hidden flex flex-col space-y-2 mt-4">
+    <a href="{% url 'home' %}" class="hover:text-gray-400">Home</a>
+    <a href="{% url 'comic_books:comicbooks_home' %}" class="hover:text-gray-400">Comic Books</a>
+    <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="hover:text-gray-400">Non-Sports Cards</a>
+    <a href="{% url 'movie_posters:home' %}" class="hover:text-gray-400">Movie Posters</a>
+    <a href="{% url 'contact' %}" class="hover:text-gray-400">Contact</a>
+    <a href="{% url 'about' %}" class="hover:text-gray-400">About</a>
+    
+    <!-- Authentication Links for Mobile -->
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="hover:text-gray-400">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="hover:text-gray-400">Login</a>
+        <a href="{% url 'register' %}" class="hover:text-gray-400">Register</a>
+    {% endif %}
+</div>
+
+<script>
+    // Toggle the mobile menu visibility
+    document.getElementById('navbar-toggle').addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>

@@ -1,0 +1,19 @@
+<!-- file: src/ebay_templates/templates/template_detail.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Template Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-2xl font-bold">{{ template.name }}</h1>
+    <p><strong>Category:</strong> {{ template.get_category_display }}</p>
+    <p><strong>Created At:</strong> {{ template.created_at }}</p>
+    <p><strong>Content:</strong></p>
+    <div class="border p-4 mt-4">
+        {{ template.content|safe }}
+    </div>
+    <a href="{% url 'ebay_templates:list_templates' %}" class="button mt-4">Back to Templates</a>
+</div>
+{% endblock %}
+

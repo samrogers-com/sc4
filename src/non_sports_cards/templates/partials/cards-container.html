@@ -1,0 +1,55 @@
+<!-- src/non_sports_cards/templates/partials/cards-container.html -->
+
+{% load widget_tweaks %}
+
+<!-- Define Grid container div -->
+<div class="flex flex-col-reverse md:grid md:grid-cols-4 md:gap-4"
+     id="cards-container">
+
+    <!-- 3/4 cols for the table of non-sports cards -->
+    <div class="col-span-3">
+        {% if filter.qs %}
+        <table class="table">
+            <thead class="text-xs text-white uppercase">
+                <tr>
+                    <th class="px-6 py-3">Title</th>
+                    <th class="px-6 py-3">Manufacturer</th>
+                    <th class="px-6 py-3">Date Manufactured</th>
+                    <th class="px-6 py-3">Number of Cards per Pack</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for card in filter.qs %}
+                    <tr>
+                        <td>{{ card.title }}</td>
+                        <td>{{ card.manufacturer }}</td>
+                        <td>{{ card.date_manufactured }}</td>
+                        <td>{{ card.number_of_cards_per_pack }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-2xl text-white">
+            No non-sports cards found
+        </p>
+        {% endif %}
+    </div>
+
+    <!-- 1/4 cols for the filter form -->
+    <div class="col-span-1">
+        <form hx-get="{% url 'non_sports_cards:list_cards' %}"
+              hx-target="#cards-container"
+              hx-swap="outerHTML">
+            <div class="mb-2 form-control">
+                {{ filter.form.title|add_label_class:"label text-white" }}
+                {% render_field filter.form.title class="select bg-gray-50 text-gray-900" %}
+            </div>
+
+            <button class="btn btn-success">
+                Filter
+            </button>        
+        </form>
+    </div>
+</div>

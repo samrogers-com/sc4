@@ -1,0 +1,18 @@
+<!-- file: src/ebay_templates/templates/template_delete.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Delete Template{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-2xl font-bold">Delete Template</h1>
+    <p>Are you sure you want to delete the template <strong>{{ template.name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
+        <a href="{% url 'ebay_templates:list_templates' %}" class="ml-4 text-blue-500">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+

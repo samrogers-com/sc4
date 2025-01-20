@@ -1,0 +1,17 @@
+<!-- file: src/ebay_templates/templates/ebay_comic_books/starwars_marvel_comic_list.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Star Wars Marvel Comics</h2>
+<a href="{% url 'ebay_templates:add_starwars_marvel_comic' %}">Add New Comic</a>
+<ul>
+    {% for comic in comics %}
+        <li>
+            <a href="{% url 'ebay_templates:starwars_marvel_comic_detail' comic.id %}">
+                {{ comic.title }} - Issue #{{ comic.issue_number }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
