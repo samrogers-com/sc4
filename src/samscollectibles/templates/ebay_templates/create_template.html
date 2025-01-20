@@ -8,9 +8,8 @@
 <div class="container mx-auto my-8">
     <h1 class="text-3xl font-bold mb-4">Create Template for {{ template_type|title }}</h1>
 
-    <!-- Quick Select Sidebar -->
     <div class="flex gap-4">
-        <!-- Sidebar for Quick Select -->
+        <!-- Quick Select Sidebar -->
         <div class="w-16">
             <ul class="sticky top-0">
                 {% for letter in '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ' %}
@@ -43,7 +42,7 @@
                             <li class="mb-2">
                                 <div class="flex items-center gap-2">
                                     <!-- Button to Add S3 Paths -->
-                                    <button type="button" 
+                                    <button type="button"
                                             class="bg-yellow-500 text-white px-2 py-1 rounded"
                                             onclick="toggleS3Form('{{ item.id }}')">
                                         Add S3 Paths
@@ -56,21 +55,18 @@
                                     </label>
                                 </div>
 
-                                <!-- Show Existing Images -->
-                                {% if item.images.all %}
-                                    <div class="mt-2">
-                                        {% for image in item.images.all %}
-                                            <img src="{{ image.full_image_url }}" alt="{{ item.title }}" class="inline-block w-20 h-auto mr-2">
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
+                                <!-- Render Existing Images -->
+                                <div id="images-{{ item.id }}" hx-get="{% url 'ebay_templates:update_s3_path' item.id %}"
+                                     hx-trigger="load" hx-swap="outerHTML">
+                                    {% include 'ebay_templates/partials/item_images.html' %}
+                                </div>
 
-                                <!-- Hidden S3 Form (toggle visibility when the button is clicked) -->
+                                <!-- Hidden S3 Form -->
                                 <div id="s3-form-{{ item.id }}" class="hidden mt-4">
                                     <h3 class="text-lg font-medium mb-2">Add Image Details</h3>
-                                    <form method="post" 
-                                          hx-post="{% url 'ebay_templates:update_s3_path' item.id %}" 
-                                          hx-target="#images-{{ item.id }}" 
+                                    <form method="post"
+                                          hx-post="{% url 'ebay_templates:update_s3_path' item.id %}"
+                                          hx-target="#images-{{ item.id }}"
                                           hx-swap="outerHTML">
                                         {% csrf_token %}
                                         <div class="p-4 border rounded-md bg-gray-100">

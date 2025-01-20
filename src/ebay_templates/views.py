@@ -64,11 +64,8 @@ def non_sports_cards_home(request):
         'has_templates': templates.exists(),
     })
 
-
 @login_required
 def create_template(request, template_type):
-    """Create a new eBay template with image upload functionality."""
-    # Get template configuration
     config = TEMPLATE_CONFIG.get(template_type)
     if not config:
         return HttpResponse("Invalid template type.", status=400)
@@ -76,55 +73,49 @@ def create_template(request, template_type):
     model_class = config['model']
     template_name = config['template']
 
-    # Fetch all items of the selected model class and group them by the first letter of their title
+    # Fetch all items for the selected model
     items = model_class.objects.prefetch_related('images').order_by('title')
-    grouped_items = {
-        letter: list(group)
-        for letter, group in groupby(items, key=lambda x: x.title[0].upper())
-    }
 
     # Define the formset
     ImageFormSet = modelformset_factory(
         NonSportsCardImage,
         fields=['image_name', 'image_type', 's3_path'],
-        extra=1,  # Allow one additional blank form
+        extra=1,
         can_delete=True
     )
 
     if request.method == 'POST':
-        # Get selected item ID from the form
         selected_item_id = request.POST.get('selected_item')
         formset = ImageFormSet(request.POST)
 
         if not selected_item_id:
             return render(request, 'ebay_templates/create_template.html', {
-                'grouped_items': grouped_items,
+                'items': items,
                 'template_type': template_type,
                 'formset': formset,
                 'error': 'Please select an item.',
             })
 
         try:
-            # Get the selected item
             item = model_class.objects.get(id=selected_item_id)
         except model_class.DoesNotExist:
             return HttpResponse("Item not found.", status=404)
 
         if formset.is_valid():
-            # Save all valid forms in the formset
             images = formset.save(commit=False)
             for image in images:
-                image.non_sports_card = item  # Link the image to the selected item
+                image.non_sports_card = item
+                image.uploaded_by = request.user  # Associate the image with the logged-in user
                 image.save()
 
-            # Generate HTML content for the template
+            # Generate HTML content
             html_content = render_to_string(template_name, {
                 'item': item,
                 'card_images': item.images.all(),
                 'base_url': request.build_absolute_uri('/')
             })
 
-            # Save the generated eBay template
+            # Save the generated template
             ebay_template = GeneratedEbayTemplate.objects.create(
                 user=request.user,
                 template_type=template_type,
@@ -136,11 +127,10 @@ def create_template(request, template_type):
             return redirect('ebay_templates:download_template', template_id=ebay_template.id)
 
     else:
-        # Initialize an empty formset for a GET request
         formset = ImageFormSet(queryset=NonSportsCardImage.objects.none())
 
     return render(request, 'ebay_templates/create_template.html', {
-        'grouped_items': grouped_items,
+        'items': items,
         'template_type': template_type,
         'formset': formset,
     })
