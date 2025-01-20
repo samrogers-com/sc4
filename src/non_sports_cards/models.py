@@ -110,9 +110,14 @@ class NonSportsCardImage(models.Model):
             ('back', 'Back'),
             ('other', 'Other'),
         ],
-        default='other'
+        default='Front'
     )
     s3_path = models.URLField(help_text="Full S3 path to the image")
+    uploaded_by = models.ForeignKey(
+        'auth.User',
+        on_delete=models.CASCADE,
+        related_name="uploaded_images"
+    )  # NEW: Add user association
 
     class Meta:
         db_table = 'nonsportscardimage'
