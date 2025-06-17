@@ -22,23 +22,23 @@
       "secrets": [
         {
           "name": "DJANGO_ENV",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret:DJANGO_ENV"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret-97Attw:DJANGO_ENV"
         },
         {
           "name": "DEBUG",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret:DEBUG"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret-97Attw:DEBUG"
         },
         {
           "name": "USE_POSTGRES",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret:USE_POSTGRES"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret-97Attw:USE_POSTGRES"
         },
         {
           "name": "DJANGO_SECRET_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret:DJANGO_SECRET_KEY"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret-97Attw:DJANGO_SECRET_KEY"
         },
         {
           "name": "ALLOWED_HOSTS",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret:ALLOWED_HOSTS"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret-97Attw:ALLOWED_HOSTS"
         }
       ],
       "logConfiguration": {
@@ -67,23 +67,23 @@
       "secrets": [
         {
           "name": "username",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret:username"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:username"
         },
         {
           "name": "password",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret:password"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:password"
         },
         {
           "name": "dbname",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret:dbname"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:dbname"
         },
         {
           "name": "host",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret:host"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:host"
         },
         {
           "name": "port",
-          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret:port"
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:port"
         }
       ],
       "systemControls": []
