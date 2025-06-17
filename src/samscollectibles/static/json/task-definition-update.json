@@ -18,7 +18,7 @@
        "secrets": [
          {
            "name": "DATABASE_URL",
-           "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret:AWSCURRENT#database_url"
+           "valueFrom": "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj#database_url"
          }
        ]
      }

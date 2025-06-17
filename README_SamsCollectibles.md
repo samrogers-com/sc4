@@ -140,66 +140,37 @@ DB_PORT=5432
 aws ecs create-cluster --cluster-name sams-collectibles-cluster
 ```
 
-### 4.2 Define a task definition `sams-collectibles-task.json`
+### 4.2 Define a task definition `sams-collectibles-task.yaml`
 Update the `taskDefinition` to include both Django and PostgreSQL containers:
-```json
-{
-  "family": "sams-collectibles",
-  "networkMode": "awsvpc",
-  "containerDefinitions": [
-    {
-      "name": "sams-collectibles",
-      "image": "<your_account_id>.dkr.ecr.<region>.amazonaws.com/sams-collectibles:latest",
-      "memoryReservation": 512,
-      "cpu": 256,
-      "essential": true,
-      "portMappings": [
-        {
-          "containerPort": 8000,
-          "hostPort": 8000,
-          "protocol": "tcp"
-        }
-      ],
-      "environment": [
-        {"name": "DB_NAME", "value": "samscollectibles"},
-        {"name": "DB_USER", "value": "postgres"},
-        {"name": "DB_PASSWORD", "value": "your_password"},
-        {"name": "DB_HOST", "value": "db"},
-        {"name": "DB_PORT", "value": "5432"}
-      ]
-    },
-    {
-      "name": "db",
-      "image": "postgres:13",
-      "memoryReservation": 256,
-      "cpu": 256,
-      "essential": true,
-      "environment": [
-        {"name": "POSTGRES_DB", "value": "samscollectibles"},
-        {"name": "POSTGRES_USER", "value": "postgres"},
-        {"name": "POSTGRES_PASSWORD", "value": "your_password"}
-      ],
-      "portMappings": [
-        {
-          "containerPort": 5432,
-          "hostPort": 5432,
-          "protocol": "tcp"
-        }
-      ]
-    }
-  ],
-  "requiresCompatibilities": ["FARGATE"],
-  "cpu": "512",
-  "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::your_account_id:role/ecsTaskExecutionRole"
-}
+```yaml
+family: 'sams-collectibles-task'
+networkMode: awsvpc
+requiresCompatibilities:
+  - FARGATE
+cpu: 256
+memory: 512
+executionRoleArn: 'arn:aws:iam::REDACTED-AWS-ACCOUNT-ID:role/ecsTaskExecutionRole'
+containerDefinitions:
+  -
+    name: 'sams-collectibles-web-container-defs'
+    image: 'sams-collectibles:latest'
+    portMappings:
+      -
+        containerPort: 80
+        protocol: tcp
+    essential: true
+    logConfiguration:
+      logDriver: awslogs
+      options:
+        awslogs-group: '/ecs/sams-collectibles'
+        awslogs-region: 'us-west-2'
+        awslogs-stream-prefix: ecs
 ```
-
 ### 4.3 Register and Deploy the Task
 * Register
 ```bash
 aws ecs register-task-definition \
-  --cli-input-json file://sams-collectibles-task.json
+  --cli-input-yaml file://sams-collectibles-task.yaml
 ```
 
 * Deploy the Task
