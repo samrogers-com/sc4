@@ -13,11 +13,11 @@
            "secrets": [
                {
                   "name": "POSTGRES_CREDENTIALS",
-                  "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret"
+                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj"
                }
                {
                    "name": "DJANGO_SECRET_KEY",
-                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-django-secret"
+                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-django-secret-97Attw"
                }
            ],
            "logConfiguration": {
@@ -38,15 +38,15 @@
            "secrets": [
                {
                    "name": "POSTGRES_USER",
-                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret:AWSCURRENT#POSTGRES_USER"
+                    "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#POSTGRES_USER"
                },
                {
                    "name": "POSTGRES_PASSWORD",
-                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret:AWSCURRENT#POSTGRES_PASSWORD"
+                    "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#POSTGRES_PASSWORD"
                },
                {
                    "name": "POSTGRES_DB",
-                   "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret:AWSCURRENT#POSTGRES_DB"
+                    "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#POSTGRES_DB"
                }
            ],
            "logConfiguration": {

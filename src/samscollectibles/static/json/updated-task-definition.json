@@ -13,31 +13,31 @@
         "secrets": [
           {
             "name": "DB_USER",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_USER"
           },
           {
             "name": "DB_PASSWORD",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PASSWORD"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_PASSWORD"
           },
           {
             "name": "DB_NAME",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_NAME"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_NAME"
           },
           {
             "name": "DB_HOST",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_HOST"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_HOST"
           },
           {
             "name": "DB_PORT",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PORT"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_PORT"
           },
           {
             "name": "DJANGO_SECRET_KEY",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-django-secret-97Attw:AWSCURRENT#DJANGO_SECRET_KEY"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-django-secret-97Attw#DJANGO_SECRET_KEY"
           },
           {
             "name": "POSTGRES_URL",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#database_url"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#database_url"
           }
         ],
         "logConfiguration": {
@@ -58,23 +58,23 @@
         "secrets": [
           {
             "name": "DB_USER",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_USER"
           },
           {
             "name": "DB_PASSWORD",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PASSWORD"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_PASSWORD"
           },
           {
             "name": "DB_NAME",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_NAME"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_NAME"
           },
           {
             "name": "DB_HOST",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_HOST"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_HOST"
           },
           {
             "name": "DB_PORT",
-            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PORT"
+            "valueFrom": "arn:aws:secretsmanager:us-west-2:315414901942:secret:sams-collectibles-db-secret-m7JTbj#DB_PORT"
           }
         ],
         "logConfiguration": {
