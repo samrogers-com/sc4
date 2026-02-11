@@ -39,3 +39,6 @@ uv.lock.bak
 
 # Docker local overrides
 docker-compose.override.yml
+
+# Local output artifacts
+*.out
