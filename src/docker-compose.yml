@@ -13,30 +13,30 @@ services:
       - "8001:8001"
     env_file:
       - ./samscollectibles/.env.local
-    depends_on:
-      - db
-    networks:
-      - app-network
+    # depends_on:
+      # - db
+    # networks:
+    #   - app-network
 
-  db:
-    image: postgres:13
-    env_file:
-      - ./samscollectibles/.env.local
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_HOST_AUTH_METHOD: trust
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    ports:
-      - "5432:5432"
-    networks:
-      - app-network
+#   db:
+#     image: postgres:13
+#     env_file:
+#       - ./samscollectibles/.env.local
+#     environment:
+#       POSTGRES_DB: ${DB_NAME}
+#       POSTGRES_USER: ${DB_USER}
+#       POSTGRES_PASSWORD: ${DB_PASSWORD}
+#       POSTGRES_HOST_AUTH_METHOD: trust
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data/
+#     ports:
+#       - "5432:5432"
+#     networks:
+#       - app-network
 
-networks:
-  app-network:
-    driver: bridge
+# networks:
+#   app-network:
+#     driver: bridge
 
-volumes:
-  postgres_data:
+# volumes:
+#   postgres_data:

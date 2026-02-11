@@ -1,0 +1,13 @@
+[project]
+name = "sc4"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "certifi==2025.4.26",
+    "cffi==1.17.1",
+    "cryptography==44.0.3",
+    "pycparser==2.22",
+    "wheel==0.45.1",
+]
