@@ -1,0 +1,654 @@
+---
+Metadata:
+  AWSToolsMetrics:
+    IaC_Generator: "arn:aws:cloudformation:us-west-2:REDACTED-AWS-ACCOUNT-ID:generatedTemplate/51d086fc-b820-48e8-a277-541e9410bde9"
+Resources:
+  EC2RouteTable00rtb0446333fcd27b5c1800KZqPH:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::RouteTable"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      Tags:
+      - Value: "sams-collectibles-db-rtb-usw2b"
+        Key: "Name"
+  EC2DHCPOptions00doptb8e4f3da00z31WO:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::DHCPOptions"
+    DeletionPolicy: "Retain"
+    Properties:
+      DomainName: "us-west-2.compute.internal"
+      DomainNameServers:
+      - "AmazonProvidedDNS"
+      Tags: []
+  Route53ResolverResolverRuleAssociation00rslvrautodefinedassocvpc078dc2a6c620f0c70internetresolver00FZNvk:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Route53Resolver::ResolverRuleAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      VPCId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      ResolverRuleId: "rslvr-autodefined-rr-internet-resolver"
+      Name: "System Rule Association"
+  EC2Route00rtb03916b32a05dedb0e005hvlm:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Route"
+    DeletionPolicy: "Retain"
+    Properties:
+      NatGatewayId:
+        Ref: "EC2NatGateway00nat0dfc6ef31daf8cf3300os7Mk"
+      RouteTableId:
+        Ref: "EC2RouteTable00rtb03916b32a05dedb0e00zhpjf"
+      DestinationCidrBlock: "0.0.0.0/0"
+  ECSService00samscollectiblesecscluster00qG5j5:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::ECS::Service"
+    DeletionPolicy: "Retain"
+    Properties:
+      PlatformVersion: "LATEST"
+      HealthCheckGracePeriodSeconds: 0
+      EnableECSManagedTags: false
+      EnableExecuteCommand: false
+      PlacementConstraints: []
+      Cluster:
+        Ref: "ECSCluster00samscollectiblesecscluster00gPqNo"
+      DesiredCount: 1
+      DeploymentController:
+        Type: "ECS"
+      LaunchType: "FARGATE"
+      AvailabilityZoneRebalancing: "DISABLED"
+      Role:
+        Fn::GetAtt:
+        - "IAMRole00AWSServiceRoleForECS00UslBq"
+        - "Arn"
+      SchedulingStrategy: "REPLICA"
+      TaskDefinition:
+        Ref: "ECSTaskDefinition00taskdefinitionsamscollectiblestask2400rmcVN"
+      ServiceName: "sams-collectibles-service"
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          SecurityGroups:
+          - "sg-029eb602389458954"
+          - "sg-00242036d9be9884a"
+          Subnets:
+          - Ref: "EC2Subnet00subnet005c50966587f9b9800twSTF"
+          - "subnet-0dfe8dcf83c0842d4"
+          AssignPublicIp: "DISABLED"
+      DeploymentConfiguration:
+        DeploymentCircuitBreaker:
+          Enable: false
+          Rollback: false
+        MaximumPercent: 200
+        MinimumHealthyPercent: 100
+  EC2InternetGateway00igw00f7d957554334f0e00pHJar:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::InternetGateway"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tags:
+      - Value: "sams-collectibles-igw"
+        Key: "Name"
+  IAMRole00samscollectiblestaskrole00PQvSO:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+      - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+      - "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+      - "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+      MaxSessionDuration: 3600
+      RoleName: "sams-collectibles-task-role"
+      Policies:
+      - PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Resource: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-*"
+            Action: "secretsmanager:GetSecretValue"
+            Effect: "Allow"
+        PolicyName: "AllowSecretsAccess"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "ecs-tasks.amazonaws.com"
+  EC2VPCDHCPOptionsAssociation00vpc078dc2a6c620f0c7000AjloO:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPCDHCPOptionsAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      DhcpOptionsId:
+        Ref: "EC2DHCPOptions00doptb8e4f3da00z31WO"
+  IAMRole00ecsTaskExecutionRole0099oJf:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+      - "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+      - "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+      - "arn:aws:iam::aws:policy/AmazonECS_FullAccess"
+      MaxSessionDuration: 3600
+      RoleName: "ecsTaskExecutionRole"
+      Policies:
+      - PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Resource:
+            - "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret"
+            Action:
+            - "secretsmanager:GetSecretValue"
+            Effect: "Allow"
+        PolicyName: "SecretsManagerAccessPolicy"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "ecs-tasks.amazonaws.com"
+  EC2Route00rtb0446333fcd27b5c1800MbsFG:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Route"
+    DeletionPolicy: "Retain"
+    Properties:
+      RouteTableId:
+        Ref: "EC2RouteTable00rtb0446333fcd27b5c1800KZqPH"
+      DestinationCidrBlock:
+        Fn::GetAtt:
+        - "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+        - "CidrBlock"
+      GatewayId: "local"
+      VpcEndpointId: "local"
+  EC2EIPAssociation00eipassoc0b2b392d8cd48340800GkQcv:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::EIPAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      PrivateIpAddress:
+        Fn::GetAtt:
+        - "EC2NetworkInterface00eni0491b8267e0d8c9eb00gT7Pi"
+        - "PrimaryPrivateIpAddress"
+      NetworkInterfaceId:
+        Ref: "EC2NetworkInterface00eni0491b8267e0d8c9eb00gT7Pi"
+      EIP:
+        Fn::GetAtt:
+        - "EC2EIP00442282333800IdOtD"
+        - "PublicIp"
+      AllocationId:
+        Fn::GetAtt:
+        - "EC2EIP00442282333800IdOtD"
+        - "AllocationId"
+  IAMRole00AWSServiceRoleForECS00UslBq:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/aws-service-role/ecs.amazonaws.com/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/aws-service-role/AmazonECSServiceRolePolicy"
+      MaxSessionDuration: 3600
+      RoleName: "AWSServiceRoleForECS"
+      Description: "Role to enable Amazon ECS to manage your cluster."
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "ecs.amazonaws.com"
+  EC2NatGateway00nat0dfc6ef31daf8cf3300os7Mk:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NatGateway"
+    DeletionPolicy: "Retain"
+    Properties:
+      PrivateIpAddress: "10.0.3.76"
+      ConnectivityType: "public"
+      VpcId: "vpc-078dc2a6c620f0c70"
+      EniId: "eni-0491b8267e0d8c9eb"
+      AllocationId:
+        Fn::GetAtt:
+        - "EC2EIP00442282333800IdOtD"
+        - "AllocationId"
+      SubnetId:
+        Ref: "EC2Subnet00subnet0ceb7e847de1ca0c500mq4LJ"
+      Tags:
+      - Value: "sams-collectibles-nat-gateway"
+        Key: "Name"
+  EC2RouteTable00rtb03916b32a05dedb0e00zhpjf:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::RouteTable"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      Tags:
+      - Value: "sams-collectibles-db-rtb-usw2a"
+        Key: "Name"
+  EC2SubnetNetworkAclAssociation00aclassoc036f423ee35e5f8f600FoQEh:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl00433f3ca558301a300XYTiA"
+      SubnetId:
+        Ref: "EC2Subnet00subnet005c50966587f9b9800twSTF"
+  EC2Subnet00subnet0ceb7e847de1ca0c500mq4LJ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "usw2-az1"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.0.3.0/24"
+      Ipv6Native: false
+      Tags:
+      - Value: "sams-collectibles-subnet-pub-3"
+        Key: "Name"
+  ECSCluster00samscollectiblesecscluster00gPqNo:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::ECS::Cluster"
+    DeletionPolicy: "Retain"
+    Properties:
+      CapacityProviders: []
+      ClusterName: "sams-collectibles-ecs-cluster"
+      ClusterSettings:
+      - Value: "enabled"
+        Name: "containerInsights"
+      DefaultCapacityProviderStrategy: []
+      Tags: []
+  EC2Route00rtb033b7b85dd44f444500J1nHX:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Route"
+    DeletionPolicy: "Retain"
+    Properties:
+      RouteTableId:
+        Ref: "EC2RouteTable00rtb033b7b85dd44f444500eBO2z"
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId:
+        Ref: "EC2InternetGateway00igw00f7d957554334f0e00pHJar"
+      VpcEndpointId: "igw-00f7d957554334f0e"
+  EC2SubnetRouteTableAssociation00rtbassoc0e79ddf15440b56ac004ZGa0:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      RouteTableId:
+        Ref: "EC2RouteTable00rtb03916b32a05dedb0e00zhpjf"
+      SubnetId:
+        Ref: "EC2Subnet00subnet005c50966587f9b9800twSTF"
+  EC2Subnet00subnet005c50966587f9b9800twSTF:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      MapPublicIpOnLaunch: false
+      EnableDns64: false
+      AvailabilityZoneId: "usw2-az1"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.0.1.0/24"
+      Ipv6Native: false
+      Tags:
+      - Value: "sams-collectibles-subnet-prv-1-usw-2a"
+        Key: "Name"
+  EC2SubnetRouteTableAssociation00rtbassoc0d2f6122548155e680058o0z:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      RouteTableId:
+        Ref: "EC2RouteTable00rtb03916b32a05dedb0e00zhpjf"
+      SubnetId:
+        Ref: "EC2Subnet00subnet0076673957c3331dd00UMtXG"
+  EC2Route00rtb0446333fcd27b5c180097UWW:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Route"
+    DeletionPolicy: "Retain"
+    Properties:
+      NatGatewayId:
+        Ref: "EC2NatGateway00nat0dfc6ef31daf8cf3300os7Mk"
+      RouteTableId:
+        Ref: "EC2RouteTable00rtb0446333fcd27b5c1800KZqPH"
+      DestinationCidrBlock: "0.0.0.0/0"
+  EC2Route00rtb03916b32a05dedb0e00ufIkT:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Route"
+    DeletionPolicy: "Retain"
+    Properties:
+      RouteTableId:
+        Ref: "EC2RouteTable00rtb03916b32a05dedb0e00zhpjf"
+      DestinationCidrBlock:
+        Fn::GetAtt:
+        - "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+        - "CidrBlock"
+      GatewayId: "local"
+      VpcEndpointId: "local"
+  EC2Route00rtb033b7b85dd44f444500F0tb1:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Route"
+    DeletionPolicy: "Retain"
+    Properties:
+      RouteTableId:
+        Ref: "EC2RouteTable00rtb033b7b85dd44f444500eBO2z"
+      DestinationCidrBlock:
+        Fn::GetAtt:
+        - "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+        - "CidrBlock"
+      GatewayId: "local"
+      VpcEndpointId: "local"
+  EC2EIP00442282333800IdOtD:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::EIP"
+    DeletionPolicy: "Retain"
+    Properties:
+      PublicIpv4Pool: "amazon"
+      Domain: "vpc"
+      Tags:
+      - Value: "sams-collectibles-nat-gateway-ip"
+        Key: "Name"
+      NetworkBorderGroup: "us-west-2"
+  EC2VPC00vpc078dc2a6c620f0c7000lrZpW:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPC"
+    DeletionPolicy: "Retain"
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      EnableDnsSupport: true
+      InstanceTenancy: "default"
+      EnableDnsHostnames: true
+      Tags:
+      - Value: "sams-collectibles-vpc"
+        Key: "vpc"
+  EC2RouteTable00rtb033b7b85dd44f444500eBO2z:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::RouteTable"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      Tags:
+      - Value: "sams-collectibles-app-rtb-usw2a"
+        Key: "Name"
+  EC2SecurityGroup00sg029eb60238945895400eK6fE:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupDescription: "Web security group for Django Fargate app"
+      GroupName: "sams-collectibles-web-sg"
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      SecurityGroupIngress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 80
+        ToPort: 80
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 8001
+        ToPort: 8001
+      - CidrIpv6: "::/0"
+        IpProtocol: "tcp"
+        FromPort: 8001
+        ToPort: 8001
+      - IpProtocol: "tcp"
+        FromPort: 5432
+        SourceSecurityGroupId: "sg-00242036d9be9884a"
+        ToPort: 5432
+        SourceSecurityGroupOwnerId: "REDACTED-AWS-ACCOUNT-ID"
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 443
+        ToPort: 443
+      SecurityGroupEgress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "-1"
+        FromPort: -1
+        ToPort: -1
+      Tags:
+      - Value: "sams-collectibles-web-sg"
+        Key: "Name"
+  ECSTaskDefinition00taskdefinitionsamscollectiblestask2400rmcVN:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::ECS::TaskDefinition"
+    DeletionPolicy: "Retain"
+    Properties:
+      TaskRoleArn:
+        Fn::GetAtt:
+        - "IAMRole00samscollectiblestaskrole00PQvSO"
+        - "Arn"
+      ExecutionRoleArn:
+        Fn::GetAtt:
+        - "IAMRole00ecsTaskExecutionRole0099oJf"
+        - "Arn"
+      Volumes: []
+      InferenceAccelerators: []
+      Memory: "1024"
+      PlacementConstraints: []
+      ContainerDefinitions:
+      - Secrets:
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER"
+          Name: "DB_USER"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PASSWORD"
+          Name: "DB_PASSWORD"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_NAME"
+          Name: "DB_NAME"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_HOST"
+          Name: "DB_HOST"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PORT"
+          Name: "DB_PORT"
+        Memory: 512
+        VolumesFrom: []
+        Cpu: 256
+        EntryPoint: []
+        DnsServers: []
+        Image: "postgres:13"
+        Essential: true
+        LogConfiguration:
+          SecretOptions: []
+          Options:
+            awslogs-group: "/ecs/sams-collectibles"
+            awslogs-region: "us-west-2"
+            awslogs-stream-prefix: "ecs"
+          LogDriver: "awslogs"
+        ResourceRequirements: []
+        EnvironmentFiles: []
+        Name: "sams-collectibles-db"
+        DockerSecurityOptions: []
+        SystemControls: []
+        DnsSearchDomains: []
+        CredentialSpecs: []
+        Ulimits: []
+        ExtraHosts: []
+        MountPoints: []
+        DependsOn: []
+        DockerLabels: {}
+        PortMappings: []
+        Command: []
+        Environment: []
+        Links: []
+      - Secrets:
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_USER"
+          Name: "DB_USER"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PASSWORD"
+          Name: "DB_PASSWORD"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_NAME"
+          Name: "DB_NAME"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_HOST"
+          Name: "DB_HOST"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#DB_PORT"
+          Name: "DB_PORT"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-django-secret-97Attw:AWSCURRENT#DJANGO_SECRET_KEY"
+          Name: "DJANGO_SECRET_KEY"
+        - ValueFrom: "arn:aws:secretsmanager:us-west-2:REDACTED-AWS-ACCOUNT-ID:secret:sams-collectibles-db-secret-m7JTbj:AWSCURRENT#database_url"
+          Name: "POSTGRES_URL"
+        Memory: 512
+        VolumesFrom: []
+        Cpu: 256
+        EntryPoint: []
+        DnsServers: []
+        Image: "REDACTED-AWS-ACCOUNT-ID.dkr.ecr.us-west-2.amazonaws.com/sams-collectibles:latest"
+        Essential: true
+        LogConfiguration:
+          SecretOptions: []
+          Options:
+            awslogs-group: "/ecs/sams-collectibles"
+            awslogs-region: "us-west-2"
+            awslogs-stream-prefix: "ecs"
+          LogDriver: "awslogs"
+        ResourceRequirements: []
+        EnvironmentFiles: []
+        Name: "sams-collectibles-web"
+        DockerSecurityOptions: []
+        SystemControls: []
+        DnsSearchDomains: []
+        CredentialSpecs: []
+        Ulimits: []
+        ExtraHosts: []
+        MountPoints: []
+        DependsOn: []
+        DockerLabels: {}
+        PortMappings: []
+        Command: []
+        Environment: []
+        Links: []
+      Cpu: "512"
+      RequiresCompatibilities:
+      - "FARGATE"
+      Family: "sams-collectibles-task"
+      NetworkMode: "awsvpc"
+      Tags: []
+  EC2SubnetNetworkAclAssociation00aclassoc0757fb1fd3f41cd9b00d1och:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl00433f3ca558301a300XYTiA"
+      SubnetId:
+        Ref: "EC2Subnet00subnet0076673957c3331dd00UMtXG"
+  EC2SecurityGroup00sg0dd7457ca0038a06f00asR8F:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupDescription: "default VPC security group"
+      GroupName: "default"
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      SecurityGroupIngress:
+      - IpProtocol: "-1"
+        FromPort: -1
+        SourceSecurityGroupId:
+          Fn::GetAtt:
+          - "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+          - "DefaultSecurityGroup"
+        ToPort: -1
+        SourceSecurityGroupOwnerId: "REDACTED-AWS-ACCOUNT-ID"
+      SecurityGroupEgress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "-1"
+        FromPort: -1
+        ToPort: -1
+  EC2SecurityGroup00sg00242036d9be9884a00NYRz6:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupDescription: "PostgreSQL Database security group for Django Fargate app"
+      GroupName: "sams-collectibles-db-sg"
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      SecurityGroupIngress:
+      - IpProtocol: "tcp"
+        FromPort: 5432
+        SourceSecurityGroupId: "sg-029eb602389458954"
+        ToPort: 5432
+        SourceSecurityGroupOwnerId: "REDACTED-AWS-ACCOUNT-ID"
+      SecurityGroupEgress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "-1"
+        FromPort: -1
+        ToPort: -1
+      Tags:
+      - Value: "sams-collectibles-db-sg"
+        Key: "Name"
+  EC2NetworkAcl00acl00433f3ca558301a300XYTiA:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkAcl"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      Tags: []
+  EC2Subnet00subnet0076673957c3331dd00UMtXG:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc078dc2a6c620f0c7000lrZpW"
+      MapPublicIpOnLaunch: false
+      EnableDns64: false
+      AvailabilityZoneId: "usw2-az1"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.0.2.0/24"
+      Ipv6Native: false
+      Tags:
+      - Value: "sams-collectibles-subnet-prv-2-usw-2a"
+        Key: "Name"
+  EC2NetworkInterface00eni0491b8267e0d8c9eb00gT7Pi:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Retain"
+    Properties:
+      Description: "Interface for NAT Gateway nat-0dfc6ef31daf8cf33"
+      PrivateIpAddress: "10.0.3.76"
+      PrivateIpAddresses:
+      - PrivateIpAddress: "10.0.3.76"
+        Primary: true
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet: []
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2Subnet00subnet0ceb7e847de1ca0c500mq4LJ"
+      SourceDestCheck: false
+      InterfaceType: "null"
+      Tags: []
+  EC2SubnetNetworkAclAssociation00aclassoc0e12c8c6054089b3d00mcDoe:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl00433f3ca558301a300XYTiA"
+      SubnetId:
+        Ref: "EC2Subnet00subnet0ceb7e847de1ca0c500mq4LJ"
