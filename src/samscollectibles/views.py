@@ -100,7 +100,7 @@ def contact(request):
             subject,
             body,
             settings.DEFAULT_FROM_EMAIL,
-            ['sams.collectibles2@gmail.com'],
+            [settings.DEFAULT_FROM_EMAIL],
         )
         
         messages.success(request, 'Your message has been sent successfully!')

@@ -42,3 +42,6 @@ docker-compose.override.yml
 
 # Local output artifacts
 *.out
+
+# HAR files (may contain session tokens)
+*.har
