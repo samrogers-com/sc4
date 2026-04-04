@@ -8,7 +8,13 @@ At the start of every new Cowork session, run this to restore GitHub SSH access:
 bash /Users/samrogers/Claude/sc4/setup-ssh.sh
 ```
 
-This takes about 2 seconds. Without it, `git push` will fail.
+**Why this is needed:** Cowork sessions run in a sandboxed Linux environment that resets completely each time — SSH keys and config don't carry over between sessions. The script restores the key from `.cowork/ssh/` (which persists on your Mac) and writes `~/.ssh/config` with the `github-samrogers-com` host alias.
+
+**Why git push can't run from inside Cowork:** The sandbox blocks outbound SSH connections (port 22), so `git push` must always be run from your Mac terminal at `/Users/samrogers/Claude/sc4`. Claude Code doesn't have this restriction because it runs directly on your Mac with full network access. In Cowork, always push with:
+
+```bash
+cd /Users/samrogers/Claude/sc4 && git push origin main
+```
 
 ## What This Project Is
 
