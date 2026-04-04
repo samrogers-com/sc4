@@ -70,6 +70,8 @@ ssh-keygen -t rsa -b 4096 -C "sam@samscollectibles"
 
 ### 1.3 Configure Your Inventory
 
+The project lives at `/Users/samrogers/Claude/sc4` on your Mac.
+
 Edit `ansible/inventory.ini` and replace `YOUR_VPS_IP` with your actual Hostinger VPS IP:
 
 ```ini

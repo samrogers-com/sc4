@@ -5,7 +5,7 @@
 At the start of every new Cowork session, run this to restore GitHub SSH access:
 
 ```bash
-bash setup-ssh.sh
+bash /Users/samrogers/Claude/sc4/setup-ssh.sh
 ```
 
 This takes about 2 seconds. Without it, `git push` will fail.
