@@ -1,0 +1,46 @@
+---
+# roles/nginx/tasks/main.yml
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Remove default Nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  become: yes
+  notify: reload nginx
+
+- name: Deploy Nginx site config from template
+  template:
+    src: samscollectibles.conf.j2
+    dest: /etc/nginx/sites-available/samscollectibles
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+  notify: reload nginx
+
+- name: Enable site
+  file:
+    src: /etc/nginx/sites-available/samscollectibles
+    dest: /etc/nginx/sites-enabled/samscollectibles
+    state: link
+  become: yes
+  notify: reload nginx
+
+- name: Test Nginx config
+  command: nginx -t
+  become: yes
+  changed_when: false
+
+- name: Enable and start Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  become: yes

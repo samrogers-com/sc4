@@ -1,0 +1,12 @@
+{
+  "_comment": "Manual overrides for folder names that fuzzy matching can't reliably detect.",
+  "_format": "{ 'upload_folder_name': 'substring of eBay listing title' }",
+
+  "WizardOfOz-DuoCards": "Wizard of Oz Factory Sealed Box Collector 1996 Duo Cards",
+  "WizardOfOz-Pacific": "Wizard of OZ Trading Card Factory Sealed Box w/36 Packs 1990 Pacific",
+  "007JamesBonder_RedBinder": "007 Red Binder 97 Tomorrow Never Dies",
+
+  "_no_match_note": "Items below were sold and need re-listing. Do NOT auto-match them.",
+  "_sold_MarvelUniverse91": "SOLD Dec 16 2025 - needs new listing",
+  "_sold_Valiant": "SOLD - needs new listing"
+}

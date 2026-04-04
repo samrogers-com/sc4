@@ -1,0 +1,23 @@
+---
+# playbooks/deploy.yml
+# Run any time you push code changes and want to redeploy.
+# Usage: ansible-playbook playbooks/deploy.yml --ask-vault-pass
+
+- name: Deploy Sam's Collectibles update
+  hosts: vps
+  become: yes
+
+  roles:
+    - app
+
+  post_tasks:
+    - name: Confirm containers are running
+      command: docker compose -f {{ app_dir }}/src/{{ compose_file }} ps
+      register: compose_status
+      become: yes
+      become_user: "{{ app_user }}"
+      changed_when: false
+
+    - name: Show container status
+      debug:
+        var: compose_status.stdout_lines

@@ -1,0 +1,51 @@
+---
+# roles/app/tasks/main.yml
+# Clones/updates the repo, writes the env file, and runs docker compose
+
+- name: Ensure app directory exists
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0755'
+  become: yes
+
+- name: Clone or update repository
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ app_dir }}"
+    version: "{{ repo_branch }}"
+    force: yes
+  become: yes
+  become_user: "{{ app_user }}"
+  register: git_result
+
+- name: Write production env file from template
+  template:
+    src: env.production.j2
+    dest: "{{ app_dir }}/src/samscollectibles/.env.production"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0600'
+  become: yes
+  no_log: true   # Prevents secrets appearing in Ansible output
+
+- name: Write production docker-compose from template
+  template:
+    src: docker-compose.production.yml.j2
+    dest: "{{ app_dir }}/src/{{ compose_file }}"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0644'
+  become: yes
+
+- name: Build and start Docker containers
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_dir }}/src"
+    files:
+      - "{{ compose_file }}"
+    build: always
+    state: present
+  become: yes
+  become_user: "{{ app_user }}"

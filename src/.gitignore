@@ -140,12 +140,16 @@ celerybeat.pid
 .env
 .env.*
 src/samscollectibles/.env.*
+samscollectibles/.env.*
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+# Allow example/template env files — no secrets
+!.env.*.example
+!samscollectibles/.env.*.example
 
 # Spyder project settings
 .spyderproject

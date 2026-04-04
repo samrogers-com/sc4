@@ -1,0 +1,17 @@
+# group_vars/all.yml
+# Non-sensitive shared variables. Secrets go in vault.yml (ansible-vault).
+
+app_user: sam
+app_dir: /home/sam/sams-collectibles
+repo_url: https://github.com/YOUR_USERNAME/sc4.git
+repo_branch: main
+
+domain: samscollectibles.net
+domain_www: www.samscollectibles.net
+
+# Gunicorn
+gunicorn_workers: 2
+gunicorn_port: 8001
+
+# Docker Compose file to use for production
+compose_file: docker-compose.production.yml

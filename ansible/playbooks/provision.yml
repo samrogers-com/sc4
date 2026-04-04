@@ -1,0 +1,17 @@
+---
+# playbooks/provision.yml
+# Run once to set up a brand-new Hostinger VPS.
+# Usage: ansible-playbook playbooks/provision.yml --ask-vault-pass
+#
+# Run as root for the first time only (Hostinger provides root SSH access):
+#   ansible-playbook playbooks/provision.yml -u root --ask-vault-pass
+
+- name: Provision Hostinger VPS
+  hosts: vps
+  become: yes
+
+  roles:
+    - server_setup
+    - docker
+    - nginx
+    - app

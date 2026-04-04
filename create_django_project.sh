@@ -384,11 +384,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-if config('USE_S3', default=False, cast=bool):
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+# File storage - configure for your hosting provider (Cloudflare R2, Hostinger, etc.)
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 EOL
 
 # Populate local.py
@@ -435,10 +432,7 @@ DB_PASSWORD=postgres_password
 DB_HOST=db
 DB_PORT=5432
 
-# AWS S3 settings
-AWS_ACCESS_KEY_ID='REDACTED-AWS-KEY-1'
-AWS_SECRET_ACCESS_KEY='REDACTED-AWS-SECRET-1'
-AWS_STORAGE_BUCKET_NAME='samscollectibles'
+# File storage settings (configure for your hosting provider)
 TIME_ZONE=America/Los_Angeles
 EOL
 

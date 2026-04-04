@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: >
+      sh -c "./wait-for-it.sh db:5432 -t 30 --
+             python manage.py migrate --noinput &&
+             python manage.py collectstatic --noinput &&
+             gunicorn --bind 0.0.0.0:{{ gunicorn_port }} --workers {{ gunicorn_workers }} samscollectibles.wsgi:application"
+    volumes:
+      - static_volume:/usr/src/app/staticfiles
+    ports:
+      - "{{ gunicorn_port }}:{{ gunicorn_port }}"
+    env_file:
+      - ./samscollectibles/.env.production
+    environment:
+      - ENV_PATH=/usr/src/app/samscollectibles/.env.production
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  db:
+    image: postgres:13
+    env_file:
+      - ./samscollectibles/.env.production
+    environment:
+      POSTGRES_DB: samscollectibles
+      POSTGRES_USER: samscollectibles_user
+      POSTGRES_PASSWORD: {{ vault_db_password }}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  static_volume:

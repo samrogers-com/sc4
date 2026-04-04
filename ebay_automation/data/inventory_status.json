@@ -1,0 +1,702 @@
+{
+  "generated": "2026-04-03T11:10:57.590019",
+  "summary": {
+    "total_upload_folders": 53,
+    "ready_to_list": 10,
+    "needs_description": 7,
+    "already_listed": 36,
+    "descriptions_without_photos": 21,
+    "total_html_descriptions": 27,
+    "total_active_listings": 59
+  },
+  "ready_to_list": [
+    {
+      "name": "007-Goldeneye",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/007-Goldeneye",
+      "product_type": "boxes",
+      "franchise": "movies",
+      "photo_count": 4,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/movies/1979-topps-moonraker-wax-box.html",
+      "description_name": "1979-topps-moonraker-wax-box"
+    },
+    {
+      "name": "DisneyCollectorCards2SkyBox92",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCards2SkyBox92",
+      "product_type": "boxes",
+      "franchise": "disney",
+      "photo_count": 4,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/disney/1991-impel-disney-collector-cards-series-1-box.html",
+      "description_name": "1991-impel-disney-collector-cards-series-1-box"
+    },
+    {
+      "name": "DisneyCollectorCardsImpel91",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCardsImpel91",
+      "product_type": "boxes",
+      "franchise": "disney",
+      "photo_count": 5,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/disney/1991-impel-disney-collector-cards-series-1-box.html",
+      "description_name": "1991-impel-disney-collector-cards-series-1-box"
+    },
+    {
+      "name": "Dune/box-1",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Dune/box-1",
+      "product_type": "boxes",
+      "franchise": "dune",
+      "photo_count": 7,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/dune/1984-fleer-dune-wax-box.html",
+      "description_name": "1984-fleer-dune-wax-box"
+    },
+    {
+      "name": "Dune/box-2",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Dune/box-2",
+      "product_type": "boxes",
+      "franchise": "dune",
+      "photo_count": 7,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/dune/1984-fleer-dune-wax-box.html",
+      "description_name": "1984-fleer-dune-wax-box"
+    },
+    {
+      "name": "Godzilla Green 1998",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Godzilla Green 1998",
+      "product_type": "boxes",
+      "franchise": "movies",
+      "photo_count": 6,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/movies/1979-topps-moonraker-wax-box.html",
+      "description_name": "1979-topps-moonraker-wax-box"
+    },
+    {
+      "name": "Marvel/MarvelUniverse-91",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Marvel/MarvelUniverse-91",
+      "product_type": "boxes",
+      "franchise": "comicbooks",
+      "photo_count": 6,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/comicbooks/1993-dynamic-creators-of-the-universe-box.html",
+      "description_name": "1993-dynamic-creators-of-the-universe-box"
+    },
+    {
+      "name": "Star Wars/SW-ROTJ-stickers",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/SW-ROTJ-stickers",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 6,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/starwars/1996-topps-star-wars-shadows-of-the-empire-box.html",
+      "description_name": "1996-topps-star-wars-shadows-of-the-empire-box"
+    },
+    {
+      "name": "x-files-s1/Box-01",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 9,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/tv/1976-donruss-space-1999-wax-box.html",
+      "description_name": "1976-donruss-space-1999-wax-box"
+    },
+    {
+      "name": "x-files-s1/Box-02",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-02",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 6,
+      "description_file": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/tv/1976-donruss-space-1999-wax-box.html",
+      "description_name": "1976-donruss-space-1999-wax-box"
+    }
+  ],
+  "needs_description": [
+    {
+      "name": "The Outer Limits",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/The Outer Limits",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 6
+    },
+    {
+      "name": "Valiant",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Valiant",
+      "product_type": "boxes",
+      "franchise": "comicbooks",
+      "photo_count": 8
+    },
+    {
+      "name": "x-file-s3",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/x-file-s3",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 4
+    },
+    {
+      "name": "x-files-s2",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/x-files-s2",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 4
+    },
+    {
+      "name": "x-files-showcase",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/x-files-showcase",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 4
+    },
+    {
+      "name": "Star Wars/Vechicles/CutAway",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/CutAway",
+      "product_type": "singles",
+      "franchise": "starwars",
+      "photo_count": 2
+    },
+    {
+      "name": "Star Wars/Vechicles/Promo",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/Promo",
+      "product_type": "singles",
+      "franchise": "starwars",
+      "photo_count": 2
+    }
+  ],
+  "already_listed": [
+    {
+      "name": "007-Moonraker/box-1",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-1",
+      "product_type": "boxes",
+      "franchise": "movies",
+      "photo_count": 2,
+      "ebay_item_number": "325973913216",
+      "ebay_title": "1979 James Bond 007 Moonraker Cards Box Complete With 36 Unopened Packs",
+      "ebay_price": "129.95",
+      "ebay_url": "https://www.ebay.com/itm/325973913216"
+    },
+    {
+      "name": "007-Moonraker/box-2",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-2",
+      "product_type": "boxes",
+      "franchise": "movies",
+      "photo_count": 1,
+      "ebay_item_number": "325973913216",
+      "ebay_title": "1979 James Bond 007 Moonraker Cards Box Complete With 36 Unopened Packs",
+      "ebay_price": "129.95",
+      "ebay_url": "https://www.ebay.com/itm/325973913216"
+    },
+    {
+      "name": "007-Moonraker/box-3",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-3",
+      "product_type": "boxes",
+      "franchise": "movies",
+      "photo_count": 7,
+      "ebay_item_number": "325973913216",
+      "ebay_title": "1979 James Bond 007 Moonraker Cards Box Complete With 36 Unopened Packs",
+      "ebay_price": "129.95",
+      "ebay_url": "https://www.ebay.com/itm/325973913216"
+    },
+    {
+      "name": "007-Moonraker/box-4",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4",
+      "product_type": "boxes",
+      "franchise": "movies",
+      "photo_count": 8,
+      "ebay_item_number": "325973913216",
+      "ebay_title": "1979 James Bond 007 Moonraker Cards Box Complete With 36 Unopened Packs",
+      "ebay_price": "129.95",
+      "ebay_url": "https://www.ebay.com/itm/325973913216"
+    },
+    {
+      "name": "007-TomorrowNeverDies",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/007-TomorrowNeverDies",
+      "product_type": "boxes",
+      "franchise": "movies",
+      "photo_count": 4,
+      "ebay_item_number": "326984610638",
+      "ebay_title": "007 Red Binder 97 Tomorrow Never Dies w base set +  77 Moonraker base set",
+      "ebay_price": "195.95",
+      "ebay_url": "https://www.ebay.com/itm/326984610638"
+    },
+    {
+      "name": "CosmicCardsInauguralImpel",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/CosmicCardsInauguralImpel",
+      "product_type": "boxes",
+      "franchise": "cosmic-cards",
+      "photo_count": 6,
+      "ebay_item_number": "327080031385",
+      "ebay_title": "1992 Impel Star Trek Next Generation Inaugural Edition Cards Sealed Box 36 Packs",
+      "ebay_price": "24.95",
+      "ebay_url": "https://www.ebay.com/itm/327080031385"
+    },
+    {
+      "name": "Marvel/1993_MasterPieces",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces",
+      "product_type": "boxes",
+      "franchise": "comicbooks",
+      "photo_count": 15,
+      "ebay_item_number": "325063710507",
+      "ebay_title": "\ud83d\udd25 Low #'s 1993 MARVEL MASTERPIECES TRADING CARDS SEALED SkyBox BOX \ud83d\udd25",
+      "ebay_price": "205.95",
+      "ebay_url": "https://www.ebay.com/itm/325063710507"
+    },
+    {
+      "name": "Space 1999/Box 1",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 1",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 5,
+      "ebay_item_number": "327081766811",
+      "ebay_title": "1976 SPACE 1999 WAX BOX (24 MINT PACKS)  DONRUSS",
+      "ebay_price": "129.95",
+      "ebay_url": "https://www.ebay.com/itm/327081766811"
+    },
+    {
+      "name": "Space 1999/Box 2",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 2",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 6,
+      "ebay_item_number": "327081766811",
+      "ebay_title": "1976 SPACE 1999 WAX BOX (24 MINT PACKS)  DONRUSS",
+      "ebay_price": "129.95",
+      "ebay_url": "https://www.ebay.com/itm/327081766811"
+    },
+    {
+      "name": "Space 1999/Box 3",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 3",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 5,
+      "ebay_item_number": "327081766811",
+      "ebay_title": "1976 SPACE 1999 WAX BOX (24 MINT PACKS)  DONRUSS",
+      "ebay_price": "129.95",
+      "ebay_url": "https://www.ebay.com/itm/327081766811"
+    },
+    {
+      "name": "Space 1999/Box 4",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 4",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 6,
+      "ebay_item_number": "327081766811",
+      "ebay_title": "1976 SPACE 1999 WAX BOX (24 MINT PACKS)  DONRUSS",
+      "ebay_price": "129.95",
+      "ebay_url": "https://www.ebay.com/itm/327081766811"
+    },
+    {
+      "name": "Star Trek/Deep Space Nine S1",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Trek/Deep Space Nine S1",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "photo_count": 6,
+      "ebay_item_number": "327080400290",
+      "ebay_title": "1993 SkyBox Star Trek Deep Space Nine Series 1 Sealed Box",
+      "ebay_price": "34.95",
+      "ebay_url": "https://www.ebay.com/itm/327080400290"
+    },
+    {
+      "name": "Star Trek/Master Series/box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Trek/Master Series/box",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "photo_count": 2,
+      "ebay_item_number": "325890648264",
+      "ebay_title": "1989-1996 Star Trek DC Series 2 Comic Book Collection- 80+ Issues\u2014 Your Choice",
+      "ebay_price": "3.95",
+      "ebay_url": "https://www.ebay.com/itm/325890648264"
+    },
+    {
+      "name": "Star Trek/Master Series/case",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Trek/Master Series/case",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "photo_count": 4,
+      "ebay_item_number": "325890648264",
+      "ebay_title": "1989-1996 Star Trek DC Series 2 Comic Book Collection- 80+ Issues\u2014 Your Choice",
+      "ebay_price": "3.95",
+      "ebay_url": "https://www.ebay.com/itm/325890648264"
+    },
+    {
+      "name": "Star Trek/Next Gerneration/Inaugural Ed",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Inaugural Ed",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "photo_count": 6,
+      "ebay_item_number": "327080031385",
+      "ebay_title": "1992 Impel Star Trek Next Generation Inaugural Edition Cards Sealed Box 36 Packs",
+      "ebay_price": "24.95",
+      "ebay_url": "https://www.ebay.com/itm/327080031385"
+    },
+    {
+      "name": "Star Trek/Next Gerneration/Season 1",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 1",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "photo_count": 6,
+      "ebay_item_number": "327080031385",
+      "ebay_title": "1992 Impel Star Trek Next Generation Inaugural Edition Cards Sealed Box 36 Packs",
+      "ebay_price": "24.95",
+      "ebay_url": "https://www.ebay.com/itm/327080031385"
+    },
+    {
+      "name": "Star Trek/Next Gerneration/Season 4",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 4",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "photo_count": 6,
+      "ebay_item_number": "327080031385",
+      "ebay_title": "1992 Impel Star Trek Next Generation Inaugural Edition Cards Sealed Box 36 Packs",
+      "ebay_price": "24.95",
+      "ebay_url": "https://www.ebay.com/itm/327080031385"
+    },
+    {
+      "name": "Star Trek/Next Gerneration/Season 5",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 5",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "photo_count": 6,
+      "ebay_item_number": "327080031385",
+      "ebay_title": "1992 Impel Star Trek Next Generation Inaugural Edition Cards Sealed Box 36 Packs",
+      "ebay_price": "24.95",
+      "ebay_url": "https://www.ebay.com/itm/327080031385"
+    },
+    {
+      "name": "Star Trek/TOS 25th anniversary Series 2",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Trek/TOS 25th anniversary Series 2",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "photo_count": 6,
+      "ebay_item_number": "325890648264",
+      "ebay_title": "1989-1996 Star Trek DC Series 2 Comic Book Collection- 80+ Issues\u2014 Your Choice",
+      "ebay_price": "3.95",
+      "ebay_url": "https://www.ebay.com/itm/325890648264"
+    },
+    {
+      "name": "Star Wars/sw-first_anthology/box1",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box1",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 5,
+      "ebay_item_number": "327059485709",
+      "ebay_title": "Star Wars CCG Card Game First Anthology - Sealed Box - Decipher Cards",
+      "ebay_price": "174.95",
+      "ebay_url": "https://www.ebay.com/itm/327059485709"
+    },
+    {
+      "name": "Star Wars/sw-first_anthology/box2",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box2",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 4,
+      "ebay_item_number": "327059485709",
+      "ebay_title": "Star Wars CCG Card Game First Anthology - Sealed Box - Decipher Cards",
+      "ebay_price": "174.95",
+      "ebay_url": "https://www.ebay.com/itm/327059485709"
+    },
+    {
+      "name": "Star Wars/sw-shadows-of-the-empire",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-shadows-of-the-empire",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 4,
+      "ebay_item_number": "327062903408",
+      "ebay_title": "Sealed NEW Topps Star Wars Shadow of the Empire Premium Trading Card Box 1996",
+      "ebay_price": "395.95",
+      "ebay_url": "https://www.ebay.com/itm/327062903408"
+    },
+    {
+      "name": "Star Wars/sw-trilogy-merlin",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-trilogy-merlin",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 6,
+      "ebay_item_number": "326547350223",
+      "ebay_title": "Star  Wars Trilogy Special Edition Widevision 1997 TOPPS 72 Card Set NM",
+      "ebay_price": "19.99",
+      "ebay_url": "https://www.ebay.com/itm/326547350223"
+    },
+    {
+      "name": "Star Wars/sw_3D",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_3D",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 4,
+      "ebay_item_number": "322545732601",
+      "ebay_title": "Dark Horse Star Wars CHEWBACCA #1 of 4  Mint",
+      "ebay_price": "3.99",
+      "ebay_url": "https://www.ebay.com/itm/322545732601"
+    },
+    {
+      "name": "Star Wars/sw_mastervisions",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_mastervisions",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 3,
+      "ebay_item_number": "322545732601",
+      "ebay_title": "Dark Horse Star Wars CHEWBACCA #1 of 4  Mint",
+      "ebay_price": "3.99",
+      "ebay_url": "https://www.ebay.com/itm/322545732601"
+    },
+    {
+      "name": "Star Wars/sw_topps_trilogy_regular/box-01",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-01",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 4,
+      "ebay_item_number": "325834723549",
+      "ebay_title": "1995 Star Wars: Return of the Jedi Topps Sealed Box",
+      "ebay_price": "179.95",
+      "ebay_url": "https://www.ebay.com/itm/325834723549"
+    },
+    {
+      "name": "Star Wars/sw_topps_trilogy_regular/box-02",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-02",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "photo_count": 4,
+      "ebay_item_number": "325834723549",
+      "ebay_title": "1995 Star Wars: Return of the Jedi Topps Sealed Box",
+      "ebay_price": "179.95",
+      "ebay_url": "https://www.ebay.com/itm/325834723549"
+    },
+    {
+      "name": "The Creators Universe",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/The Creators Universe",
+      "product_type": "boxes",
+      "franchise": "comicbooks",
+      "photo_count": 3,
+      "ebay_item_number": "326984520777",
+      "ebay_title": "Creators of the Universe Trading Card Box, Sealed",
+      "ebay_price": "19.95",
+      "ebay_url": "https://www.ebay.com/itm/326984520777"
+    },
+    {
+      "name": "WizardOfOz-DuoCards",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/WizardOfOz-DuoCards",
+      "product_type": "boxes",
+      "franchise": "wizard-of-oz",
+      "photo_count": 4,
+      "ebay_item_number": "326979674638",
+      "ebay_title": "The Wizard of Oz Factory Sealed Box Collector 1996 Duo Cards 30 packs Wicked!",
+      "ebay_price": "89.95",
+      "ebay_url": "https://www.ebay.com/itm/326979674638"
+    },
+    {
+      "name": "WizardOfOz-Pacific",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/WizardOfOz-Pacific",
+      "product_type": "boxes",
+      "franchise": "wizard-of-oz",
+      "photo_count": 5,
+      "ebay_item_number": "326979691166",
+      "ebay_title": "The Wizard of OZ Trading Card Factory Sealed Box w/36 Packs 1990 Pacific",
+      "ebay_price": "99.95",
+      "ebay_url": "https://www.ebay.com/itm/326979691166"
+    },
+    {
+      "name": "x-files-contact",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Boxes/x-files-contact",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "photo_count": 4,
+      "ebay_item_number": "326986517769",
+      "ebay_title": "1996 Intrepid The X Files Contact Trading Card Series Box NEW Sealed Rare Aliens",
+      "ebay_price": "69.95",
+      "ebay_url": "https://www.ebay.com/itm/326986517769"
+    },
+    {
+      "name": "Casper",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Packs/Casper",
+      "product_type": "packs",
+      "franchise": "casper",
+      "photo_count": 1,
+      "ebay_item_number": "324444271666",
+      "ebay_title": "Fleer Casper Cards Pack.",
+      "ebay_price": "2.99",
+      "ebay_url": "https://www.ebay.com/itm/324444271666"
+    },
+    {
+      "name": "Star Wars/sw-shadows-of-the-Empire",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire",
+      "product_type": "sets",
+      "franchise": "starwars",
+      "photo_count": 20,
+      "ebay_item_number": "327062903408",
+      "ebay_title": "Sealed NEW Topps Star Wars Shadow of the Empire Premium Trading Card Box 1996",
+      "ebay_price": "395.95",
+      "ebay_url": "https://www.ebay.com/itm/327062903408"
+    },
+    {
+      "name": "Star Wars/sw-wide-anh_esb_rotj-sets",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-wide-anh_esb_rotj-sets",
+      "product_type": "sets",
+      "franchise": "starwars",
+      "photo_count": 4,
+      "ebay_item_number": "326547350223",
+      "ebay_title": "Star  Wars Trilogy Special Edition Widevision 1997 TOPPS 72 Card Set NM",
+      "ebay_price": "19.99",
+      "ebay_url": "https://www.ebay.com/itm/326547350223"
+    },
+    {
+      "name": "Star Wars/Vechicles/3Di",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/3Di",
+      "product_type": "singles",
+      "franchise": "starwars",
+      "photo_count": 2,
+      "ebay_item_number": "322545732601",
+      "ebay_title": "Dark Horse Star Wars CHEWBACCA #1 of 4  Mint",
+      "ebay_price": "3.99",
+      "ebay_url": "https://www.ebay.com/itm/322545732601"
+    },
+    {
+      "name": "007JamesBonder_RedBinder",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder",
+      "product_type": "binders",
+      "franchise": "007jamesbonder-redbinder",
+      "photo_count": 24,
+      "ebay_item_number": "326984610638",
+      "ebay_title": "007 Red Binder 97 Tomorrow Never Dies w base set +  77 Moonraker base set",
+      "ebay_price": "195.95",
+      "ebay_url": "https://www.ebay.com/itm/326984610638"
+    }
+  ],
+  "descriptions_without_photos": [
+    {
+      "name": "1992-impel-dc-cosmic-cards-inaugural-edition-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/comicbooks/1992-impel-dc-cosmic-cards-inaugural-edition-box.html",
+      "product_type": "boxes",
+      "franchise": "comicbooks",
+      "filename": "1992-impel-dc-cosmic-cards-inaugural-edition-box.html"
+    },
+    {
+      "name": "1992-skybox-disney-collector-cards-series-2-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/disney/1992-skybox-disney-collector-cards-series-2-box.html",
+      "product_type": "boxes",
+      "franchise": "disney",
+      "filename": "1992-skybox-disney-collector-cards-series-2-box.html"
+    },
+    {
+      "name": "1993-skybox-marvel-masterpieces-sealed-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/marvel/1993-skybox-marvel-masterpieces-sealed-box.html",
+      "product_type": "boxes",
+      "franchise": "marvel",
+      "filename": "1993-skybox-marvel-masterpieces-sealed-box.html"
+    },
+    {
+      "name": "1991-impel-star-trek-25th-anniversary-series-2-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/startrek/1991-impel-star-trek-25th-anniversary-series-2-box.html",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "filename": "1991-impel-star-trek-25th-anniversary-series-2-box.html"
+    },
+    {
+      "name": "1992-impel-star-trek-tng-inaugural-edition-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/startrek/1992-impel-star-trek-tng-inaugural-edition-box.html",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "filename": "1992-impel-star-trek-tng-inaugural-edition-box.html"
+    },
+    {
+      "name": "1993-skybox-star-trek-ds9-series-1-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/startrek/1993-skybox-star-trek-ds9-series-1-box.html",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "filename": "1993-skybox-star-trek-ds9-series-1-box.html"
+    },
+    {
+      "name": "1993-skybox-star-trek-master-series-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/startrek/1993-skybox-star-trek-master-series-box.html",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "filename": "1993-skybox-star-trek-master-series-box.html"
+    },
+    {
+      "name": "1994-skybox-star-trek-tng-season-1-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/startrek/1994-skybox-star-trek-tng-season-1-box.html",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "filename": "1994-skybox-star-trek-tng-season-1-box.html"
+    },
+    {
+      "name": "1996-skybox-star-trek-tng-season-5-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/startrek/1996-skybox-star-trek-tng-season-5-box.html",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "filename": "1996-skybox-star-trek-tng-season-5-box.html"
+    },
+    {
+      "name": "1996-star-trek-tng-season-4-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/startrek/1996-star-trek-tng-season-4-box.html",
+      "product_type": "boxes",
+      "franchise": "startrek",
+      "filename": "1996-star-trek-tng-season-4-box.html"
+    },
+    {
+      "name": "1995-topps-star-wars-return-of-the-jedi-widevision-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/starwars/1995-topps-star-wars-return-of-the-jedi-widevision-box.html",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "filename": "1995-topps-star-wars-return-of-the-jedi-widevision-box.html"
+    },
+    {
+      "name": "1997-star-wars-ccg-anthology-sealed-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/starwars/1997-star-wars-ccg-anthology-sealed-box.html",
+      "product_type": "boxes",
+      "franchise": "starwars",
+      "filename": "1997-star-wars-ccg-anthology-sealed-box.html"
+    },
+    {
+      "name": "1996-intrepid-x-files-contact-trading-card-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/tv/1996-intrepid-x-files-contact-trading-card-box.html",
+      "product_type": "boxes",
+      "franchise": "tv",
+      "filename": "1996-intrepid-x-files-contact-trading-card-box.html"
+    },
+    {
+      "name": "1990-pacific-wizard-of-oz-sealed-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/wizard-of-oz/1990-pacific-wizard-of-oz-sealed-box.html",
+      "product_type": "boxes",
+      "franchise": "wizard-of-oz",
+      "filename": "1990-pacific-wizard-of-oz-sealed-box.html"
+    },
+    {
+      "name": "1996-duo-cards-wizard-of-oz-sealed-box",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/boxes/wizard-of-oz/1996-duo-cards-wizard-of-oz-sealed-box.html",
+      "product_type": "boxes",
+      "franchise": "wizard-of-oz",
+      "filename": "1996-duo-cards-wizard-of-oz-sealed-box.html"
+    },
+    {
+      "name": "1989-dc-star-trek-series-2-comic-book-collection",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/comicbooks/startrek/1989-dc-star-trek-series-2-comic-book-collection.html",
+      "product_type": "comicbooks",
+      "franchise": "startrek",
+      "filename": "1989-dc-star-trek-series-2-comic-book-collection.html"
+    },
+    {
+      "name": "2000-dark-horse-star-wars-chewbacca-1-of-4",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/comicbooks/starwars/2000-dark-horse-star-wars-chewbacca-1-of-4.html",
+      "product_type": "comicbooks",
+      "franchise": "starwars",
+      "filename": "2000-dark-horse-star-wars-chewbacca-1-of-4.html"
+    },
+    {
+      "name": "1995-fleer-casper-trading-card-pack",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/packs/movies/1995-fleer-casper-trading-card-pack.html",
+      "product_type": "packs",
+      "franchise": "movies",
+      "filename": "1995-fleer-casper-trading-card-pack.html"
+    },
+    {
+      "name": "1997-inkworks-007-tomorrow-never-dies-moonraker-binder-set",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/sets/movies/1997-inkworks-007-tomorrow-never-dies-moonraker-binder-set.html",
+      "product_type": "sets",
+      "franchise": "movies",
+      "filename": "1997-inkworks-007-tomorrow-never-dies-moonraker-binder-set.html"
+    },
+    {
+      "name": "1996-topps-star-wars-shadows-of-the-empire-set",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/sets/starwars/1996-topps-star-wars-shadows-of-the-empire-set.html",
+      "product_type": "sets",
+      "franchise": "starwars",
+      "filename": "1996-topps-star-wars-shadows-of-the-empire-set.html"
+    },
+    {
+      "name": "1997-topps-star-wars-trilogy-special-edition-widevision-set",
+      "path": "/sessions/wizardly-sleepy-carson/mnt/sc4/ebay_descriptions/ns-cards/sets/starwars/1997-topps-star-wars-trilogy-special-edition-widevision-set.html",
+      "product_type": "sets",
+      "franchise": "starwars",
+      "filename": "1997-topps-star-wars-trilogy-special-edition-widevision-set.html"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+---
+# playbooks/backup.yml
+# Dumps the PostgreSQL database and fetches it to your local machine.
+# Usage: ansible-playbook playbooks/backup.yml
+
+- name: Backup PostgreSQL database
+  hosts: vps
+  become: yes
+  become_user: "{{ app_user }}"
+
+  vars:
+    backup_filename: "backup_{{ ansible_date_time.date }}.sql"
+    remote_backup_path: "/home/{{ app_user }}/backups/{{ backup_filename }}"
+    local_backup_path: "./backups/{{ backup_filename }}"
+
+  tasks:
+    - name: Ensure backups directory exists on VPS
+      file:
+        path: "/home/{{ app_user }}/backups"
+        state: directory
+        mode: '0700'
+
+    - name: Dump database from running container
+      command: >
+        docker compose -f {{ app_dir }}/src/{{ compose_file }} exec -T db
+        pg_dump -U samscollectibles_user samscollectibles
+      register: db_dump
+
+    - name: Save dump to file on VPS
+      copy:
+        content: "{{ db_dump.stdout }}"
+        dest: "{{ remote_backup_path }}"
+        mode: '0600'
+
+    - name: Fetch backup to local machine
+      fetch:
+        src: "{{ remote_backup_path }}"
+        dest: "{{ local_backup_path }}"
+        flat: yes
+
+    - name: Report
+      debug:
+        msg: "Backup saved locally to {{ local_backup_path }}"

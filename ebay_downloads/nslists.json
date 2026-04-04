@@ -1,0 +1,521 @@
+[
+  {
+    "name": "A. Conan Doyle Characters (Acheron)",
+    "url": "https://www.nslists.com/aconando.htm",
+    "year": 2014,
+    "manufacturer": "Acheron Mint",
+    "subsets": [
+      {
+        "name": "Base Cards",
+        "type": "base",
+        "cards": [
+          {
+            "number": "",
+            "name": "Dr. John Watson",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Grimesby Roylott",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Inspector Lestrade",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Irene Adler",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Mycroft Holmes",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Neville St. Claire",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Professor Challenger",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Professor Moriarty",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Sherlock Holmes",
+            "notes": "1/2-L profile"
+          },
+          {
+            "number": "",
+            "name": "Sherlock Holmes",
+            "notes": "L profile"
+          },
+          {
+            "number": "",
+            "name": "Sherlock Holmes ppipe]",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Silver Blaze",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Sir Henry Baskerville",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "The Hound of the Baskervilles",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "The King of Bohemia",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Tonga",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "Professor J. Moriarty",
+            "notes": ""
+          },
+          {
+            "number": "",
+            "name": "(8 others)",
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "name": "Sketch Card (1:pack)",
+        "type": "insert",
+        "cards": [
+          {
+            "number": "",
+            "name": "Artist's Sketch Card",
+            "notes": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "The A-Team",
+    "url": "https://www.nslists.com/ateam.htm",
+    "year": 1983,
+    "manufacturer": "Topps",
+    "subsets": [
+      {
+        "name": "Base Set",
+        "type": "base",
+        "cards": [
+          {
+            "number": "1",
+            "name": "Introducing the A-Team",
+            "notes": ""
+          },
+          {
+            "number": "2",
+            "name": "He's Bad!",
+            "notes": ""
+          },
+          {
+            "number": "3",
+            "name": "A Wild Ride!",
+            "notes": ""
+          },
+          {
+            "number": "4",
+            "name": "Crash!!!",
+            "notes": ""
+          },
+          {
+            "number": "5",
+            "name": "\"Up against the Wall!\"",
+            "notes": ""
+          },
+          {
+            "number": "6",
+            "name": "\"What?\"",
+            "notes": ""
+          },
+          {
+            "number": "7",
+            "name": "\"You Turkey!\"",
+            "notes": ""
+          },
+          {
+            "number": "8",
+            "name": "\"No Way!\"",
+            "notes": ""
+          },
+          {
+            "number": "9",
+            "name": "\"Put It in Gear!\"",
+            "notes": ""
+          },
+          {
+            "number": "10",
+            "name": "\"Are You Nuts?\"",
+            "notes": ""
+          },
+          {
+            "number": "11",
+            "name": "\"No Sweat!\"",
+            "notes": ""
+          },
+          {
+            "number": "12",
+            "name": "Strong Man!",
+            "notes": ""
+          },
+          {
+            "number": "13",
+            "name": "A New Assignment!",
+            "notes": ""
+          },
+          {
+            "number": "14",
+            "name": "\"What's So Funny?\"",
+            "notes": ""
+          },
+          {
+            "number": "15",
+            "name": "In Disguise!",
+            "notes": ""
+          },
+          {
+            "number": "16",
+            "name": "\"A Likely Story!\"",
+            "notes": ""
+          },
+          {
+            "number": "17",
+            "name": "Too Bad for Howling Mad!",
+            "notes": ""
+          },
+          {
+            "number": "18",
+            "name": "\"What the Heck!\"",
+            "notes": ""
+          },
+          {
+            "number": "19",
+            "name": "Ready for Action!",
+            "notes": ""
+          },
+          {
+            "number": "20",
+            "name": "Pretty as a Picture!",
+            "notes": ""
+          },
+          {
+            "number": "21",
+            "name": "Beautiful, But Deadly!",
+            "notes": ""
+          },
+          {
+            "number": "22",
+            "name": "\"Say Cheese!\"",
+            "notes": ""
+          },
+          {
+            "number": "23",
+            "name": "A Busy Lady!",
+            "notes": ""
+          },
+          {
+            "number": "24",
+            "name": "\"Wouldn't You Like to Know?\"",
+            "notes": ""
+          },
+          {
+            "number": "25",
+            "name": "\"The Faceman's Here!\"",
+            "notes": ""
+          },
+          {
+            "number": "26",
+            "name": "\"Sure You Don't Want a Bite?\"",
+            "notes": ""
+          },
+          {
+            "number": "27",
+            "name": "\"Time to Go!\"",
+            "notes": ""
+          },
+          {
+            "number": "28",
+            "name": "\"Move It or Lose It!\"",
+            "notes": ""
+          },
+          {
+            "number": "29",
+            "name": "A Lucky Break!",
+            "notes": ""
+          },
+          {
+            "number": "30",
+            "name": "The A-Team's In for It!!",
+            "notes": ""
+          },
+          {
+            "number": "31",
+            "name": "\"Eeeeeyahh!\"",
+            "notes": ""
+          },
+          {
+            "number": "32",
+            "name": "B.A.'s Biggest Van!",
+            "notes": ""
+          },
+          {
+            "number": "33",
+            "name": "A Smash Hit!",
+            "notes": ""
+          },
+          {
+            "number": "34",
+            "name": "No Escape!",
+            "notes": ""
+          },
+          {
+            "number": "35",
+            "name": "\"Out of the Way!\"",
+            "notes": ""
+          },
+          {
+            "number": "36",
+            "name": "\"Comin' Through!\"",
+            "notes": ""
+          },
+          {
+            "number": "37",
+            "name": "Over the Top!",
+            "notes": ""
+          },
+          {
+            "number": "38",
+            "name": "One That Got Away!",
+            "notes": ""
+          },
+          {
+            "number": "39",
+            "name": "The Deadly Getaway!",
+            "notes": ""
+          },
+          {
+            "number": "40",
+            "name": "Ready for the Mission!",
+            "notes": ""
+          },
+          {
+            "number": "41",
+            "name": "\"I Won't Fly!\"",
+            "notes": ""
+          },
+          {
+            "number": "42",
+            "name": "Take Off!",
+            "notes": ""
+          },
+          {
+            "number": "43",
+            "name": "Ready to Land!",
+            "notes": ""
+          },
+          {
+            "number": "44",
+            "name": "A Heavy Load!",
+            "notes": ""
+          },
+          {
+            "number": "45",
+            "name": "\"What's This?\"",
+            "notes": ""
+          },
+          {
+            "number": "46",
+            "name": "\"You'll Get Yours!\"",
+            "notes": ""
+          },
+          {
+            "number": "47",
+            "name": "\"Don't Gimme No Bull!\"",
+            "notes": ""
+          },
+          {
+            "number": "48",
+            "name": "On with the Mission!",
+            "notes": ""
+          },
+          {
+            "number": "49",
+            "name": "Heavy Traffic!",
+            "notes": ""
+          },
+          {
+            "number": "50",
+            "name": "Crashing the Gates!",
+            "notes": ""
+          },
+          {
+            "number": "51",
+            "name": "It's a Knockout!",
+            "notes": ""
+          },
+          {
+            "number": "52",
+            "name": "Out of Control!",
+            "notes": ""
+          },
+          {
+            "number": "53",
+            "name": "Roll Out!",
+            "notes": ""
+          },
+          {
+            "number": "54",
+            "name": "Mad Man!",
+            "notes": ""
+          },
+          {
+            "number": "55",
+            "name": "\"Oop! Wrong Turn!\"",
+            "notes": ""
+          },
+          {
+            "number": "56",
+            "name": "Fast Break!",
+            "notes": ""
+          },
+          {
+            "number": "57",
+            "name": "A Close Call!",
+            "notes": ""
+          },
+          {
+            "number": "58",
+            "name": "On Target!",
+            "notes": ""
+          },
+          {
+            "number": "59",
+            "name": "The Darkest Moment!",
+            "notes": ""
+          },
+          {
+            "number": "60",
+            "name": "It's a Blast!",
+            "notes": ""
+          },
+          {
+            "number": "61",
+            "name": "Fiery Getaway!",
+            "notes": ""
+          },
+          {
+            "number": "62",
+            "name": "Explosive Escape!",
+            "notes": ""
+          },
+          {
+            "number": "63",
+            "name": "Two Cool Customers!",
+            "notes": ""
+          },
+          {
+            "number": "64",
+            "name": "B.A.'s Little Joke!",
+            "notes": ""
+          },
+          {
+            "number": "65",
+            "name": "Mission Accomplished!",
+            "notes": ""
+          },
+          {
+            "number": "66",
+            "name": "The A-Team Checklist",
+            "notes": ""
+          },
+          {
+            "number": "1",
+            "name": "B.A. (Bad Attitude) Baracus",
+            "notes": ""
+          },
+          {
+            "number": "2",
+            "name": "Templeton (The Faceman) Peck",
+            "notes": ""
+          },
+          {
+            "number": "3",
+            "name": "Amy Amanda Allen",
+            "notes": ""
+          },
+          {
+            "number": "4",
+            "name": "Colonel \"Hannibal\" Smith",
+            "notes": "scarce"
+          },
+          {
+            "number": "5",
+            "name": "\"Howling Mad\" Murdock",
+            "notes": "scarce"
+          },
+          {
+            "number": "6",
+            "name": "Don't Mess with B.A.!",
+            "notes": ""
+          },
+          {
+            "number": "7",
+            "name": "Fearless Five",
+            "notes": ""
+          },
+          {
+            "number": "8",
+            "name": "B.A. -- The Baddest",
+            "notes": ""
+          },
+          {
+            "number": "9",
+            "name": "The A-Team (B.A.)",
+            "notes": ""
+          },
+          {
+            "number": "10",
+            "name": "The A-Team (Team)",
+            "notes": ""
+          },
+          {
+            "number": "11",
+            "name": "The A-Team (Hannibal & The Faceman)",
+            "notes": "scarce"
+          },
+          {
+            "number": "12",
+            "name": "Trio for Trouble!",
+            "notes": ""
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -25,6 +25,9 @@ uv.lock.bak
 .env.*
 **/.env
 **/.env.*
+# Allow .env example/template files — these contain no secrets
+!.env.*.example
+!**/.env.*.example
 
 # Local Python version file
 .python-version
@@ -40,8 +43,48 @@ uv.lock.bak
 # Docker local overrides
 docker-compose.override.yml
 
+# Ansible
+# vault.yml (unencrypted) must never be committed — encrypted version is safe
+ansible/group_vars/vault.yml
+# Ansible operational artifacts
+ansible/backups/
+*.retry
+
 # Local output artifacts
 *.out
 
 # HAR files (may contain session tokens)
 *.har
+
+# Product photos — large binaries, stored in R2 not git
+# Keep the folder structure, exclude the actual image files
+ebay_uploads/**/*.jpg
+ebay_uploads/**/*.JPG
+ebay_uploads/**/*.jpeg
+ebay_uploads/**/*.JPEG
+ebay_uploads/**/*.png
+ebay_uploads/**/*.PNG
+ebay_uploads/**/*.webp
+ebay_uploads/**/*.WEBP
+ebay_uploads/**/*.heic
+ebay_uploads/**/*.HEIC
+ebay_uploads/**/*.heif
+ebay_uploads/**/*.HEIF
+ebay_uploads/**/*.dat*
+ebay_downloads/**/*.jpg
+ebay_downloads/**/*.JPG
+ebay_downloads/**/*.jpeg
+ebay_downloads/**/*.JPEG
+ebay_downloads/**/*.png
+ebay_downloads/**/*.PNG
+
+# Loose reference images / PDFs in src root (use R2 for hosting)
+src/*.jpg
+src/*.JPG
+src/*.jpeg
+src/*.JPEG
+src/*.pdf
+src/*.PDF
+
+# Large static media in src (serve via R2 or Django staticfiles)
+src/comic_books/staticfiles/imgies/**

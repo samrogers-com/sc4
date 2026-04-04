@@ -14,8 +14,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=lambda v: [s.strip() for s in v.split(',')])
 
-# src/samscollectibles/settings/base.py
-S3_BASE_URL = "https://samscollectibles.s3-us-west-1.amazonaws.com/"
+# Base URL for hosted images (update when migrating to new hosting provider)
+IMAGE_BASE_URL = "https://samscollectibles.s3-us-west-1.amazonaws.com/"
 
 # Redirects user after a successful login
 LOGIN_REDIRECT_URL = '/'  # Change this to the desired path after login
@@ -122,11 +122,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This ensures the static f
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-if config('USE_S3', default=False, cast=bool):
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+# File storage - configure for your hosting provider (Cloudflare R2, Hostinger, etc.)
+# if config('USE_REMOTE_STORAGE', default=False, cast=bool):
+#     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Email settings in settings.py
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

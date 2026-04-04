@@ -1,8 +1,0 @@
-Resources:
-  MyECSCluster:
-    Type: AWS::ECS::Cluster
-  MyService:
-    Type: AWS::ECS::Service
-    Properties:
-      Cluster: !Ref MyECSCluster
-      TaskDefinition: arn:aws:ecs:us-west-2>:REDACTED-AWS-ACCOUNT-ID:task-definition/sams-collectibles-task

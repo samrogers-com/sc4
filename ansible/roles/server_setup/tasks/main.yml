@@ -1,0 +1,62 @@
+---
+# roles/server_setup/tasks/main.yml
+# One-time server hardening and base configuration
+
+- name: Update and upgrade apt packages
+  apt:
+    update_cache: yes
+    upgrade: dist
+    cache_valid_time: 3600
+  become: yes
+
+- name: Install base packages
+  apt:
+    name:
+      - git
+      - curl
+      - ufw
+      - fail2ban
+      - unattended-upgrades
+    state: present
+  become: yes
+
+- name: Create app user
+  user:
+    name: "{{ app_user }}"
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+    state: present
+  become: yes
+
+- name: Add SSH authorized key for app user
+  authorized_key:
+    user: "{{ app_user }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  become: yes
+
+- name: Allow SSH through firewall
+  ufw:
+    rule: allow
+    name: OpenSSH
+  become: yes
+
+- name: Allow Nginx through firewall
+  ufw:
+    rule: allow
+    name: "Nginx Full"
+  become: yes
+
+- name: Enable firewall
+  ufw:
+    state: enabled
+    policy: deny
+  become: yes
+
+- name: Enable fail2ban
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes
+  become: yes

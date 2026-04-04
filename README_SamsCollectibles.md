@@ -1,13 +1,12 @@
 
 # Deployment Guide for Sam's Collectibles Django Application
 
-This guide provides step-by-step instructions to deploy the Sam's Collectibles Django application using AWS Fargate, AWS ECS, Docker, and PostgreSQL in a containerized environment.
+This guide provides step-by-step instructions to deploy the Sam's Collectibles Django application using Docker and PostgreSQL in a containerized environment, hosted on Cloudflare or Hostinger.
 
 ## Prerequisites
-1. **AWS CLI Installed**: Ensure the AWS CLI is installed and configured.
-2. **Docker Installed**: Docker is needed to build and push images to ECR.
-3. **AWS Account**: You must have an AWS account with sufficient permissions.
-4. **Django Project Setup**: Make sure the Django project is working locally with PostgreSQL.
+1. **Docker Installed**: Docker is needed to build and run application containers.
+2. **Django Project Setup**: Make sure the Django project is working locally with PostgreSQL.
+3. **Hosting Account**: A Cloudflare or Hostinger account for production deployment.
 
 ## Step 1: Dockerize the Django Application
 
@@ -64,30 +63,15 @@ EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 ```
 
-## Step 2: Build and Push Docker Image to ECR
+## Step 2: Build the Docker Image
 
-### 2.1 Create an ECR Repository
-```bash
-aws ecr create-repository --repository-name sams-collectibles
-```
-
-### 2.2 Authenticate Docker with ECR
-```bash
-$(aws ecr get-login --no-include-email --region your-region)
-```
-
-### 2.3 Build and Push the Docker Image
 ```bash
 docker build -t sams-collectibles .
-docker tag sams-collectibles:latest <your_account_id>.dkr.ecr.<region>.amazonaws.com/sams-collectibles:latest
-docker push <your_account_id>.dkr.ecr.<region>.amazonaws.com/sams-collectibles:latest
 ```
 
 ## Step 3: Set Up PostgreSQL in a Container
 
-Instead of using AWS RDS, we'll configure PostgreSQL as a separate container.
-
-### 3.1 Update your `docker-compose.yml` file
+### 3.1 Docker Compose for Local Development
 
 ```yaml
 version: '3.8'
@@ -133,61 +117,10 @@ DB_HOST=db
 DB_PORT=5432
 ```
 
-## Step 4: Create AWS Fargate Cluster
+## Step 4: Deploy to Cloudflare or Hostinger
 
-### 4.1 Create a new ECS Cluster
-```bash
-aws ecs create-cluster --cluster-name sams-collectibles-cluster
-```
+Deployment steps will depend on which hosting provider you choose. Both support Docker containers. Push your built image to a container registry (Docker Hub or the provider's registry) and configure the service to run it.
 
-### 4.2 Define a task definition `sams-collectibles-task.yaml`
-Update the `taskDefinition` to include both Django and PostgreSQL containers:
-```yaml
-family: 'sams-collectibles-task'
-networkMode: awsvpc
-requiresCompatibilities:
-  - FARGATE
-cpu: 256
-memory: 512
-executionRoleArn: 'arn:aws:iam::REDACTED-AWS-ACCOUNT-ID:role/ecsTaskExecutionRole'
-containerDefinitions:
-  -
-    name: 'sams-collectibles-web-container-defs'
-    image: 'sams-collectibles:latest'
-    portMappings:
-      -
-        containerPort: 80
-        protocol: tcp
-    essential: true
-    logConfiguration:
-      logDriver: awslogs
-      options:
-        awslogs-group: '/ecs/sams-collectibles'
-        awslogs-region: 'us-west-2'
-        awslogs-stream-prefix: ecs
-```
-### 4.3 Register and Deploy the Task
-* Register
-```bash
-aws ecs register-task-definition \
-  --cli-input-yaml file://sams-collectibles-task.yaml
-```
-
-* Deploy the Task
-```bash
-aws ecs create-service \
-  --cluster sams-collectibles-cluster \
-  --service-name sams-collectibles-service \
-  --task-definition sams-collectibles \
-  --desired-count 1 \
-  --launch-type FARGATE \
-  --network-configuration "awsvpcConfiguration={subnets=[subnet-xxxxxx],securityGroups=[sg-xxxxxx],assignPublicIp=ENABLED}"
-```
-
-## Additional Configuration
-- For the database communication, ensure both Django and PostgreSQL containers are in the same task and AWS VPC/Subnet.
-
-## Additional Resources
-- Use AWS Secrets Manager for managing secrets securely.
-- Integrate AWS CloudWatch for logging.
-
+## Additional Notes
+- Use your hosting provider's secrets/environment variable management for sensitive values (DB passwords, Django secret key, etc.).
+- Configure logging through your hosting provider's dashboard or via Django's built-in logging settings.

@@ -2,7 +2,7 @@
 
 from .base import *
 
-# For AWS production, environment variables are managed by ECS/Fargate, so rely on `config` to access those
+# Production environment variables are managed by the hosting provider (Cloudflare or Hostinger)
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=lambda v: [s.strip() for s in v.split(',')])
 

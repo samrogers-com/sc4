@@ -1,0 +1,14 @@
+# vault.yml.example
+# Copy this to vault.yml and fill in real values, then encrypt with:
+#   ansible-vault encrypt group_vars/vault.yml
+#
+# To run playbooks with vault:
+#   ansible-playbook playbooks/provision.yml --ask-vault-pass
+
+vault_secret_key: your-very-long-random-secret-key-here
+vault_db_password: a-strong-db-password
+vault_r2_access_key_id: your-r2-access-key-id
+vault_r2_secret_access_key: your-r2-secret-access-key
+vault_r2_endpoint_url: https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com
+vault_email_host_user: your-gmail@gmail.com
+vault_email_host_password: your-app-password
