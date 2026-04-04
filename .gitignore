@@ -50,6 +50,11 @@ ansible/group_vars/vault.yml
 ansible/backups/
 *.retry
 
+# Cowork session SSH — private key must never be committed
+.cowork/ssh/id_ed25519_github
+# Public key and setup script are safe to commit
+!.cowork/ssh/id_ed25519_github.pub
+
 # Local output artifacts
 *.out
 

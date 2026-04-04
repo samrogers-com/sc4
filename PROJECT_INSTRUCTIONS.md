@@ -1,5 +1,15 @@
 # Project Instructions — Sam's Collectibles eBay Store
 
+## Session Start Checklist
+
+At the start of every new Cowork session, run this to restore GitHub SSH access:
+
+```bash
+bash setup-ssh.sh
+```
+
+This takes about 2 seconds. Without it, `git push` will fail.
+
 ## What This Project Is
 
 This is the operational hub for Sam's Collectibles, an eBay store selling non-sport trading cards (sealed boxes, packs, sets, singles), comic books, and posters. Everything here supports listing inventory on eBay, automating that process, and eventually managing the store through a custom dashboard.
