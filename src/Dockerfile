@@ -18,14 +18,14 @@ WORKDIR /usr/src/app
 COPY requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Create the staticfiles directory before running collectstatic
+# Create the staticfiles directory
 RUN mkdir -p /usr/src/app/staticfiles
 
 # Copy application code
 COPY . /usr/src/app/
 
-# Collect static files (for Django)
-RUN python manage.py collectstatic --noinput
+# Note: collectstatic runs at container startup (via docker-compose command)
+# not during build, because it needs the production env file
 
 # Expose port (overridden by docker-compose)
 EXPOSE 8000
