@@ -63,10 +63,19 @@ class MoviePostersForm(forms.ModelForm):
     class Meta:
         model = MoviePosters
         fields = [
-            'title', 
-            'release_date', 
-            'size', 
-            'description', 
-            'condition'
+            'title',
+            'year',
+            'franchise',
+            'artist',
+            'poster_type',
+            'size',
+            'dimensions',
+            'country_of_origin',
+            'condition',
+            'linen_backed',
+            'rolled_or_folded',
+            'description',
+            'ebay_listing_url',
+            'ebay_item_id',
         ]
 

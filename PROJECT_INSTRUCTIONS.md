@@ -55,6 +55,26 @@ The Hostinger VPS (KVM 2: 2 CPU, 8GB RAM, 100GB disk) hosts both:
 
 Both sites share the VPS with separate Nginx server blocks, Docker networks, and databases.
 
+## Movie Posters Workflow
+
+The movie_posters app supports a photo-to-listing pipeline:
+
+1. **Photograph** the poster
+2. **Identify** — Claude reads the image, identifies title, artist, edition, size, condition
+3. **Cross-reference** — Compare against SW/movie poster databases for details (print type, country of origin, rarity)
+4. **Generate eBay listing** — Create branded HTML description via `ebay-html-builder` skill
+5. **Link back** — Store `ebay_listing_url` and `ebay_item_id` on the Django model for tracking
+
+### MoviePosters model fields
+Core: `title`, `year`, `franchise`, `artist`, `description`
+Poster specifics: `poster_type` (original/reissue/advance/etc.), `size` (one sheet/half sheet/etc.), `dimensions`, `country_of_origin`, `condition`, `linen_backed`, `rolled_or_folded`
+eBay: `ebay_listing_url`, `ebay_item_id`
+Tracking: `validation_status` (unvalidated/enriched/verified)
+Images: `MoviePosterImage` model with S3/R2 paths (front, back, detail, other)
+
+### eBay integration (both apps)
+Both `NonSportsCards` and `MoviePosters` have `ebay_listing_url` and `ebay_item_id` fields for linking Django records to live eBay listings.
+
 ## Key Folders
 
 - `ebay_automation/` — Python pipeline that tracks inventory, looks up sold prices, and generates bulk-upload CSVs for eBay Seller Hub. See `ebay_automation/PLAN.md` for the full workflow, column reference, and category/condition mappings.

@@ -9,7 +9,7 @@ from .models import (
 
 @admin.register(NonSportsCards)
 class NonSportsCardsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'manufacturer', 'date_manufactured', 'number_of_packs_per_box', 'number_of_cards_per_pack', 'number_of_cards_in_a_set', 'number_of_sets_per_box', 'number_of_cards_in_a_set', 'description', 'validation_status')
+    list_display = ('title', 'manufacturer', 'date_manufactured', 'number_of_packs_per_box', 'number_of_cards_per_pack', 'number_of_cards_in_a_set', 'number_of_sets_per_box', 'description', 'validation_status', 'ebay_item_id')
     search_fields = ('title', 'manufacturer', 'date_manufactured')
     list_filter = ('validation_status', 'manufacturer', 'date_manufactured')
 

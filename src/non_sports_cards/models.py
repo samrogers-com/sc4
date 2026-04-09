@@ -61,6 +61,10 @@ class NonSportsCards(models.Model):
     sub_category = models.CharField(max_length=100)
     validation_status = models.CharField(max_length=20, choices=VALIDATION_STATUSES, default='unvalidated')
 
+    # eBay integration
+    ebay_listing_url = models.URLField(null=True, blank=True)
+    ebay_item_id = models.CharField(max_length=20, null=True, blank=True)
+
     class Meta:
         db_table = 'nonsportscards'
 
