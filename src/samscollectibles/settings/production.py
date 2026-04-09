@@ -7,7 +7,9 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Security settings
-SECURE_SSL_REDIRECT = True
+# SSL redirect is handled by Cloudflare — Django should NOT redirect
+# or it creates an infinite loop (Cloudflare → Nginx → Django → redirect → Cloudflare...)
+SECURE_SSL_REDIRECT = False
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 

@@ -3,7 +3,7 @@
 
 app_user: sam
 app_dir: /home/sam/sams-collectibles
-repo_url: https://github.com/YOUR_USERNAME/sc4.git
+repo_url: git@github-samrogers-com:samrogers-com/sc4.git
 repo_branch: main
 
 domain: samscollectibles.net

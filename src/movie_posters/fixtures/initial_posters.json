@@ -1,0 +1,46 @@
+[
+  {
+    "model": "movie_posters.movieposters",
+    "pk": 1,
+    "fields": {
+      "title": "Star Wars: A New Hope - Style B Teaser One Sheet",
+      "condition": null,
+      "release_date": null,
+      "size": "one_sheet",
+      "description": "Original 1977 Star Wars Style B advance teaser one sheet poster. Features the iconic \"A long time ago in a galaxy far, far away...\" text on dark background with outlined STAR WARS logo. Printed ID: ONE SHEET\u2014TEASER B STAR WARS, code 77/21-0. Has GAU logo confirming authenticity (this is one of the most commonly bootlegged SW posters \u2014 the 77/21 code and GAU logo are key authentication markers). 20th Century Fox, Dolby System logo, PG rating. Purchased 1983-1990 from reputable poster dealer, predating the known bootleg era.",
+      "artist": null,
+      "franchise": "Star Wars",
+      "year": "1977",
+      "poster_type": "advance",
+      "dimensions": "27x41",
+      "country_of_origin": "United States",
+      "linen_backed": 0,
+      "rolled_or_folded": "folded",
+      "ebay_listing_url": null,
+      "ebay_item_id": null,
+      "validation_status": "unvalidated"
+    }
+  },
+  {
+    "model": "movie_posters.movieposters",
+    "pk": 2,
+    "fields": {
+      "title": "Star Wars: The Empire Strikes Back - Advance One Sheet (Gone with the Wind Style)",
+      "condition": null,
+      "release_date": null,
+      "size": "one_sheet",
+      "description": "Original 1980 Empire Strikes Back advance one sheet poster. \"Gone with the Wind\" style featuring Darth Vader helmet silhouette in starfield. Tagline: \"Coming to your galaxy this Summer.\" NSS code: 800001 (confirms 1980 first printing). Printed as ADVANCE ONE SHEET. This poster was recalled from theaters because it omitted Billy Dee Williams from the credits, making originals rarer. Full cast credits: Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams, Anthony Daniels. Director: Irvin Kershner. Purchased 1983-1990 from reputable poster dealer, predating the known bootleg era.",
+      "artist": null,
+      "franchise": "Star Wars",
+      "year": "1980",
+      "poster_type": "advance",
+      "dimensions": "27x41",
+      "country_of_origin": "United States",
+      "linen_backed": 0,
+      "rolled_or_folded": "folded",
+      "ebay_listing_url": null,
+      "ebay_item_id": null,
+      "validation_status": "unvalidated"
+    }
+  }
+]

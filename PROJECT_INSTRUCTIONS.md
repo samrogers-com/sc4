@@ -22,12 +22,26 @@ This is the operational hub for Sam's Collectibles, an eBay store selling non-sp
 
 ## Hosting Stack
 
-- **Hostinger VPS** (KVM 2, Ubuntu 22.04) — runs Docker containers (Django + PostgreSQL)
+- **Hostinger VPS** (KVM 2: 2 CPU, 8GB RAM, 100GB disk, Ubuntu 22.04) — runs Docker containers
 - **Cloudflare** — DNS, SSL termination, CDN, and DDoS protection in front of the VPS
 - **Cloudflare R2** — image and media file storage (replaces S3), served via `media.samscollectibles.net`
 - **Ansible** — automates all server provisioning and deployments (`ansible/` folder)
 
 See `DEPLOYMENT.md` for the full step-by-step deployment guide, Ansible playbook usage, and Cloudflare R2 setup.
+
+### Database Strategy
+- **Local development:** SQLite (`src/db.sqlite3`) — fast, no setup needed
+- **Production (VPS):** PostgreSQL 13 in Docker container — proper concurrency, full-text search, ACID
+- **Schema sync:** Django migrations keep both databases schema-identical
+- **Data flow:** Real data lives in Postgres. To seed dev from production: `manage.py dumpdata > fixture.json` on prod, then `manage.py loaddata fixture.json` locally
+- The `USE_POSTGRES` env var controls which database Django uses (set in `.env.production`)
+
+### Deployment Readiness Checklist
+Before first deploy, you need to:
+1. Create `ansible/group_vars/vault.yml` from `vault.yml.example` with real secrets
+2. Encrypt it: `ansible-vault encrypt ansible/group_vars/vault.yml`
+3. Set up SSH key for the `sam` user on the VPS
+4. Run: `ansible-playbook ansible/playbooks/provision.yml -u root --ask-vault-pass`
 
 ## Non-Sports Cards Inventory Pipeline
 
@@ -109,6 +123,21 @@ ansible-playbook ansible/playbooks/deploy.yml --ask-vault-pass
 ```
 
 Secrets (API keys, passwords) are stored encrypted in `ansible/group_vars/vault.yml` using ansible-vault. Never commit an unencrypted vault file.
+
+## Movie Posters — Provenance & Authentication Notes
+
+**Collection provenance:** Almost all posters were purchased between 1983–1990 (after ROTJ release) from 1–2 reputable poster dealers. This predates the known bootleg era (mid-to-late 1980s onward), which is a strong authenticity selling point.
+
+**Key authentication details to ALWAYS include in listings:**
+- **Star Wars Style B Teaser (1977):** One of the most commonly bootlegged SW posters. The **77/21 code** and **GAU logo** on the bottom border confirm authenticity. Always highlight these in eBay descriptions.
+- **Empire Strikes Back Advance (1980):** The "Gone with the Wind" style with **800001 NSS code**. This poster was **recalled from theaters** because it omitted Billy Dee Williams — making originals rarer. Always mention the recall history.
+- **General rule:** For every poster, research and include authentication markers (NSS codes, printer codes, studio logos, paper stock details) in both eBay listings and website descriptions. This differentiates from bootleg sellers.
+- **Bootleg controversy:** There is at least one major eBay poster seller who actively raises bootleg concerns. Proactively providing authentication evidence (codes, provenance, purchase timeline) neutralizes this.
+
+**Condition terminology for posters:**
+- Rolled vs. Folded (all pre-1980s one-sheets were shipped folded — this is expected, not a defect)
+- Linen-backed = professionally mounted for preservation (increases value)
+- Note: tear, pinholes, tape residue, foxing, fading in condition descriptions
 
 ## Comic Books Inventory
 
