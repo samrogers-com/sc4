@@ -27,8 +27,8 @@ COPY . /usr/src/app/
 # Collect static files (for Django)
 RUN python manage.py collectstatic --noinput
 
-# Expose port 8001 for the application
-EXPOSE 8001
+# Expose port (overridden by docker-compose)
+EXPOSE 8000
 
 # Use Gunicorn for production
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "sams_collectibles.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "samscollectibles.wsgi:application"]

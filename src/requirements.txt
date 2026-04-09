@@ -1,0 +1,22 @@
+# Django core
+Django>=4.2,<5.0
+gunicorn>=22.0
+
+# Database
+psycopg2-binary>=2.9
+
+# Django extensions
+django-extensions>=3.2
+django-filter>=23.0
+django-htmx>=1.17
+django-debug-toolbar>=4.0
+django-widget-tweaks>=1.5
+django-allauth>=0.57
+django-humanize>=0.1
+
+# Configuration
+python-decouple>=3.8
+
+# Storage (R2/S3)
+django-storages>=1.14
+boto3>=1.28
