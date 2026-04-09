@@ -35,6 +35,7 @@ OUTPUT_DIR = AUTOMATION_DIR / "output"
 # descriptions subfolder structure.
 
 UPLOAD_FOLDER_MAP = {
+    # Non-Sport Trading Cards
     "NS-Boxes": {
         "product_type": "boxes",
         "description_path": "ns-cards/boxes",
@@ -54,6 +55,24 @@ UPLOAD_FOLDER_MAP = {
     "NS-Binders": {
         "product_type": "binders",
         "description_path": "ns-cards/binders",
+    },
+    # Movie Posters
+    "Posters": {
+        "product_type": "posters",
+        "description_path": "posters",
+    },
+    # Comic Books
+    "Comics-SW-Marvel": {
+        "product_type": "comic_books",
+        "description_path": "comic-books/starwars-marvel",
+    },
+    "Comics-SW-DarkHorse": {
+        "product_type": "comic_books",
+        "description_path": "comic-books/starwars-darkhorse",
+    },
+    "Comics-Other": {
+        "product_type": "comic_books",
+        "description_path": "comic-books/other",
     },
 }
 
@@ -94,10 +113,32 @@ FRANCHISE_MAP = {
     "x-files-s2": "tv",
     "x-files-showcase": "tv",
 
-    # Comic Book properties
+    # Comic Book properties (trading cards)
     "Marvel": "comicbooks",
     "Valiant": "comicbooks",
     "The Creators Universe": "comicbooks",
+
+    # Posters
+    "SW-Posters": "starwars",
+    "Marvel-Posters": "marvel",
+    "Movie-Posters": "movies",
+
+    # Comics - Marvel Star Wars (1977-1986, #1-107)
+    "SW-Marvel": "starwars",
+    "complete-sets": "starwars",
+    "key-issues": "starwars",
+    "lots": "starwars",
+
+    # Comics - Dark Horse Star Wars (1990s)
+    "SW-DarkHorse": "starwars",
+    "dark-empire": "starwars",
+    "dark-empire-ii": "starwars",
+    "crimson-empire": "starwars",
+    "tales-of-the-jedi": "starwars",
+    "shadows-of-the-empire": "starwars",
+    "x-wing-rogue-squadron": "starwars",
+    "classic-star-wars": "starwars",
+    "other-series": "starwars",
 
     # Other franchises (get their own folder)
     "Dune": "dune",
@@ -132,6 +173,21 @@ CONDITION_MAP = {
     "very_good": "5000",     # Very Good
     "good": "4000",          # Good
     "acceptable": "3000",    # Acceptable
+}
+
+# Comic book grading → eBay condition ID mapping
+COMIC_CONDITION_MAP = {
+    "near_mint_mint": "7000",       # NM/M (9.2+)
+    "near_mint": "7000",            # NM (9.0-9.2)
+    "very_fine_near_mint": "6000",  # VF/NM (8.0-9.0)
+    "very_fine": "5000",            # VF (7.0-8.0)
+    "fine_very_fine": "4000",       # F/VF (6.0-7.0)
+    "fine": "4000",                 # Fine (5.0-6.0)
+    "very_good_fine": "3000",       # VG/F (4.0-5.0)
+    "very_good": "3000",            # VG (3.0-4.0)
+    "good": "3000",                 # Good (1.8-3.0)
+    "fair": "3000",                 # Fair (1.0-1.8)
+    "poor": "3000",                 # Poor (0.5-1.0)
 }
 
 # Default condition for sealed boxes
@@ -186,14 +242,77 @@ ITEM_SPECIFICS_DEFAULTS = {
     "C:Vintage": "Yes",
 }
 
+# Comic book item specifics
+COMIC_ITEM_SPECIFICS = {
+    "C:Type": "Comic Book",
+    "C:Country of Origin": "United States",
+    "C:Language": "English",
+}
+
+# Poster item specifics
+POSTER_ITEM_SPECIFICS = {
+    "C:Type": "Poster",
+    "C:Country of Origin": "United States",
+}
+
+# =============================================================================
+# COMIC BOOK ERA CLASSIFICATION
+# =============================================================================
+
+COMIC_ERAS = {
+    "golden_age": (1938, 1956),
+    "silver_age": (1956, 1970),
+    "bronze_age": (1970, 1984),
+    "copper_age": (1984, 1991),
+    "modern_age": (1992, 2099),
+}
+
+# =============================================================================
+# COMIC PUBLISHERS
+# =============================================================================
+
+COMIC_PUBLISHERS = [
+    "Marvel",
+    "Dark Horse",
+    "DC",
+    "Image",
+    "Valiant",
+    "IDW",
+]
+
 # =============================================================================
 # EBAY API CONFIGURATION
 # =============================================================================
 
 # Get a free API key at: https://developer.ebay.com
-# Store as environment variable for security, or set directly here.
-EBAY_APP_ID = os.environ.get("EBAY_APP_ID", "")
+# Store these as environment variables in ~/.zshrc:
+#   export EBAY_APP_ID="SamRoger-s-PRD-..."
+#   export EBAY_DEV_ID="fdbd3909-..."
+#   export EBAY_CERT_ID="PRD-..."
+#   export EBAY_SANDBOX_APP_ID="SamRoger-s-SBX-..."
+#   export EBAY_SANDBOX_CERT_ID="SBX-..."
+
 EBAY_API_ENVIRONMENT = "production"  # "sandbox" for testing
+
+# Production credentials
+EBAY_PROD_APP_ID = os.environ.get("EBAY_APP_ID", "")
+EBAY_PROD_DEV_ID = os.environ.get("EBAY_DEV_ID", "")
+EBAY_PROD_CERT_ID = os.environ.get("EBAY_CERT_ID", "")
+
+# Sandbox credentials
+EBAY_SANDBOX_APP_ID = os.environ.get("EBAY_SANDBOX_APP_ID", "")
+EBAY_SANDBOX_DEV_ID = os.environ.get("EBAY_DEV_ID", "")  # Same Dev ID for both
+EBAY_SANDBOX_CERT_ID = os.environ.get("EBAY_SANDBOX_CERT_ID", "")
+
+# Active credentials based on environment
+if EBAY_API_ENVIRONMENT == "production":
+    EBAY_APP_ID = EBAY_PROD_APP_ID
+    EBAY_DEV_ID = EBAY_PROD_DEV_ID
+    EBAY_CERT_ID = EBAY_PROD_CERT_ID
+else:
+    EBAY_APP_ID = EBAY_SANDBOX_APP_ID
+    EBAY_DEV_ID = EBAY_SANDBOX_DEV_ID
+    EBAY_CERT_ID = EBAY_SANDBOX_CERT_ID
 
 # Finding API settings
 FINDING_API_ENDPOINT = "https://svcs.ebay.com/services/search/FindingService/v1"

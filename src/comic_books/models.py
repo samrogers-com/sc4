@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+
 class Publisher(models.Model):
     name = models.CharField(max_length=100)
 
@@ -15,36 +16,67 @@ class Publisher(models.Model):
         # Get or create an "Unknown" publisher
         return Publisher.objects.get_or_create(name='Unknown')[0]
 
-class ComicBook(models.Model):    
+
+class ComicBook(models.Model):
+    VALIDATION_STATUSES = [
+        ('unvalidated', 'Unvalidated'),
+        ('enriched', 'Enriched'),
+        ('verified', 'Verified'),
+    ]
+
+    CONDITIONS = [
+        ('near_mint_mint', 'NM/M (9.2+)'),
+        ('near_mint', 'NM (9.0-9.2)'),
+        ('very_fine_near_mint', 'VF/NM (8.0-9.0)'),
+        ('very_fine', 'VF (7.0-8.0)'),
+        ('fine_very_fine', 'F/VF (6.0-7.0)'),
+        ('fine', 'Fine (5.0-6.0)'),
+        ('very_good_fine', 'VG/F (4.0-5.0)'),
+        ('very_good', 'VG (3.0-4.0)'),
+        ('good', 'Good (1.8-3.0)'),
+        ('fair', 'Fair (1.0-1.8)'),
+        ('poor', 'Poor (0.5-1.0)'),
+    ]
+
     title = models.CharField(max_length=200, default='Unknown')
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, default=Publisher.get_unknown_publisher)
     issue_number = models.IntegerField(default=1)
-    release_date = models.DateField(null=True)
+    release_date = models.DateField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    condition = models.CharField(max_length=50, choices=CONDITIONS, null=True, blank=True)
+
+    # eBay integration
+    ebay_listing_url = models.URLField(null=True, blank=True)
+    ebay_item_id = models.CharField(max_length=20, null=True, blank=True)
+
+    # Tracking
+    validation_status = models.CharField(max_length=20, choices=VALIDATION_STATUSES, default='unvalidated')
 
     class Meta:
         abstract = True
-        unique_together = ('issue_number', 'publisher')  # Apply across all subclasses
+        unique_together = ('issue_number', 'publisher')
 
     def __str__(self):
         return f"{self.title} #{self.issue_number:03d} ({self.publisher})"
 
+
 class StarWarsMarvelComic(ComicBook):
-    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.title} #{self.issue_number:03d} (Star Wars Marvel)"
 
+
 class StarWarsDarkHorseComic(ComicBook):
-    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.title} #{self.issue_number:03d} (Star Wars Dark Horse)"
 
+
 class StarTrekDcComic(ComicBook):
-    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.title} #{self.issue_number:03d} (Star Trek DC)"
+
 
 # Generalized Key Issue Facts model that can be related to any ComicBook
 class KeyIssueFacts(models.Model):
@@ -57,10 +89,10 @@ class KeyIssueFacts(models.Model):
 
     # Store multiple key facts as a comma-separated string
     key_facts = models.TextField(blank=True, null=True, help_text="Provide details like first appearances, major events (comma-separated).")
-    
+
     # Store characters as a comma-separated string
     characters_appearing = models.TextField(blank=True, help_text="List of important characters appearing (comma-separated).")
-    
+
     # Store reasons as a comma-separated string
     key_reason = models.TextField(max_length=255, blank=True, help_text="Reason why this issue is a key issue (comma-separated).")
 

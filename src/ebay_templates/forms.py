@@ -33,11 +33,14 @@ class NonSportsCardForm(forms.ModelForm):
 class BaseComicBookForm(forms.ModelForm):
     class Meta:
         fields = [
-            'title', 
-            'publisher', 
-            'issue_number', 
-            'release_date', 
-            'description'
+            'title',
+            'publisher',
+            'issue_number',
+            'release_date',
+            'description',
+            'condition',
+            'ebay_listing_url',
+            'ebay_item_id',
         ]
 
 # Generic ComicBookForm for use in views requiring a single reference

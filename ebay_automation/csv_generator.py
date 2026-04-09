@@ -36,10 +36,15 @@ from config import (
     CSV_TEMPLATE_PATH,
     CATEGORY_MAP,
     CONDITION_MAP,
+    COMIC_CONDITION_MAP,
     LISTING_DEFAULTS,
     SHIPPING_DEFAULTS,
     RETURN_DEFAULTS,
     ITEM_SPECIFICS_DEFAULTS,
+    COMIC_ITEM_SPECIFICS,
+    POSTER_ITEM_SPECIFICS,
+    COMIC_ERAS,
+    COMIC_PUBLISHERS,
 )
 
 
@@ -170,7 +175,9 @@ def extract_item_specifics_from_html(html_path: str) -> dict:
     character_keywords = [
         "captain jean-luc picard", "luke skywalker", "darth vader",
         "william shatner", "patrick stewart", "prince xizor",
-        "deanna troi", "leonard nimoy",
+        "deanna troi", "leonard nimoy", "han solo", "princess leia",
+        "chewbacca", "boba fett", "yoda", "obi-wan kenobi",
+        "emperor palpatine", "lando calrissian",
     ]
     found_characters = []
     for char in character_keywords:
@@ -178,6 +185,92 @@ def extract_item_specifics_from_html(html_path: str) -> dict:
             found_characters.append(char.title())
     if found_characters:
         specifics["C:Character"] = ", ".join(found_characters[:3])
+
+    # --- Comic Book specifics ---
+    publisher_keywords = {
+        "marvel comics": "Marvel",
+        "marvel": "Marvel",
+        "dark horse": "Dark Horse",
+        "dc comics": "DC",
+        "image comics": "Image",
+        "valiant": "Valiant",
+        "idw": "IDW",
+    }
+    for keyword, publisher in publisher_keywords.items():
+        if keyword in content:
+            specifics["C:Publisher"] = publisher
+            break
+
+    # Issue number detection
+    issue_match = re.search(r'#\s*(\d+)', content) or re.search(r'issue\s+(\d+)', content)
+    if issue_match:
+        specifics["C:Issue Number"] = issue_match.group(1)
+
+    # Comic era classification
+    year_str = specifics.get("C:Year Manufactured", "")
+    if year_str:
+        try:
+            year_int = int(year_str)
+            for era_name, (start, end) in COMIC_ERAS.items():
+                if start <= year_int <= end:
+                    specifics["C:Era"] = era_name.replace("_", " ").title()
+                    break
+        except ValueError:
+            pass
+
+    # Key issue indicators
+    key_issue_keywords = [
+        "first appearance", "1st appearance", "origin story", "origin of",
+        "death of", "first issue", "last issue", "key issue",
+    ]
+    for keyword in key_issue_keywords:
+        if keyword in content:
+            specifics["C:Key Issue"] = "Yes"
+            break
+
+    # --- Poster specifics ---
+    poster_type_keywords = {
+        "original theatrical": "Original Theatrical Release",
+        "original one sheet": "Original Theatrical Release",
+        "re-issue": "Re-issue",
+        "reissue": "Re-issue",
+        "re-release": "Re-issue",
+        "reproduction": "Reproduction",
+        "reprint": "Reproduction",
+        "advance": "Advance/Teaser",
+        "teaser": "Advance/Teaser",
+        "special edition": "Special Edition",
+        "commercial": "Commercial Print",
+        "promotional": "Promotional",
+    }
+    for keyword, ptype in poster_type_keywords.items():
+        if keyword in content:
+            specifics["C:Poster Type"] = ptype
+            break
+
+    # Poster size detection
+    poster_size_keywords = {
+        "one sheet": "One Sheet (27x41)",
+        "one-sheet": "One Sheet (27x41)",
+        "27x41": "One Sheet (27x41)",
+        "half sheet": "Half Sheet (22x28)",
+        "22x28": "Half Sheet (22x28)",
+        "insert 14x36": "Insert (14x36)",
+        "14x36": "Insert (14x36)",
+        "lobby card": "Lobby Card (11x14)",
+        "11x14": "Lobby Card (11x14)",
+        "24x36": "Standard (24x36)",
+        "three sheet": "Three Sheet (41x81)",
+    }
+    for keyword, psize in poster_size_keywords.items():
+        if keyword in content:
+            specifics["C:Size"] = psize
+            break
+
+    # Artist detection for posters
+    artist_match = re.search(r'artist[:\s]+([a-z\s\.\-]+)', content)
+    if artist_match:
+        specifics["C:Artist"] = artist_match.group(1).strip().title()
 
     return specifics
 
@@ -195,16 +288,35 @@ def read_html_description(html_path: str) -> str:
 def generate_sku(item: dict) -> str:
     """
     Generate a custom label/SKU for an item.
-    Format: NS-{TYPE}-{FRANCHISE}-{NAME_SLUG}
+    Format varies by product type:
+      Trading cards: NS-{TYPE}-{FRANCHISE}-{NAME_SLUG}
+      Comic books:   CB-{PUBLISHER}-{FRANCHISE}-{SLUG}
+      Posters:       MP-{FRANCHISE}-{SLUG}
     """
-    product_type = item.get("product_type", "unknown").upper()[:3]
+    product_type = item.get("product_type", "unknown")
     franchise = item.get("franchise", "unknown").upper()[:4]
     name = item.get("description_name", item.get("name", "unknown"))
-
-    # Create slug from name
     slug = re.sub(r'[^a-z0-9]+', '-', name.lower())[:30].strip('-')
 
-    return f"NS-{product_type}-{franchise}-{slug}"
+    if product_type == "comic_books":
+        # Try to detect publisher from the path or name
+        publisher = "UNK"
+        name_lower = name.lower()
+        if "marvel" in name_lower or "sw-marvel" in name_lower:
+            publisher = "MRVL"
+        elif "dark horse" in name_lower or "darkhorse" in name_lower:
+            publisher = "DH"
+        elif "dc" in name_lower:
+            publisher = "DC"
+        return f"CB-{publisher}-{franchise}-{slug}"
+
+    elif product_type == "posters":
+        return f"MP-{franchise}-{slug}"
+
+    else:
+        # Trading cards (default)
+        type_prefix = product_type.upper()[:3]
+        return f"NS-{type_prefix}-{franchise}-{slug}"
 
 
 # =============================================================================
@@ -332,8 +444,15 @@ def build_row(item: dict, price: float | None, headers: list[str]) -> dict:
     row["RefundOption"] = RETURN_DEFAULTS["refund_option"]
     row["ShippingCostPaidByOption"] = RETURN_DEFAULTS["shipping_cost_paid_by"]
 
-    # Item Specifics (from HTML parsing)
-    merged_specifics = {**ITEM_SPECIFICS_DEFAULTS, **specifics}
+    # Item Specifics — choose defaults based on product type
+    if product_type == "comic_books":
+        base_specifics = COMIC_ITEM_SPECIFICS
+    elif product_type == "posters":
+        base_specifics = POSTER_ITEM_SPECIFICS
+    else:
+        base_specifics = ITEM_SPECIFICS_DEFAULTS
+
+    merged_specifics = {**base_specifics, **specifics}
     for key, value in merged_specifics.items():
         if key in row:
             row[key] = value

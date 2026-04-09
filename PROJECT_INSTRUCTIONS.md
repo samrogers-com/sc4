@@ -110,6 +110,26 @@ ansible-playbook ansible/playbooks/deploy.yml --ask-vault-pass
 
 Secrets (API keys, passwords) are stored encrypted in `ansible/group_vars/vault.yml` using ansible-vault. Never commit an unencrypted vault file.
 
+## Comic Books Inventory
+
+### Star Wars Marvel (#1-107, 1977-1986)
+- 4 complete sets of #1-107 (best condition copies)
+- 100s of additional individual issues
+- Key issues sold individually, complete sets as single listings, common issues in lots
+- Django models: `StarWarsMarvelComic` with condition grading, eBay fields, validation_status
+
+### Star Wars Dark Horse (1990s)
+- 300-600 issues across multiple series
+- Series include: Dark Empire, Crimson Empire, Tales of the Jedi, X-Wing Rogue Squadron, Classic Star Wars, and others
+- Django model: `StarWarsDarkHorseComic`
+
+### eBay automation folder structure
+```
+ebay_uploads/Comics-SW-Marvel/{complete-sets,key-issues,lots}/
+ebay_uploads/Comics-SW-DarkHorse/{dark-empire,crimson-empire,tales-of-the-jedi,...}/
+ebay_uploads/Posters/{Star Wars,Marvel,Other}/
+```
+
 ## What I Need Help With
 
 - Creating and refining HTML listing descriptions for new products
