@@ -139,6 +139,21 @@ CommandError(f"File '{csv_file_path}' does not exist") except Exception as e: ra
 * The command ensures that the CSV file exists. If it doesn't, it raises a CommandError. 
 * It also catches any other exceptions and raises them as CommandError, which will terminate the command execution.
 
+## Enrichment Workflow (CSV → Postgres)
+
+The intended import flow for the non-sports cards inventory:
+
+1. Start with `nstc-core-10-29-22-enriched.csv` (after nslists.com enrichment and manual review)
+2. Ensure CSV columns map to Django model fields:
+   - `maker` → `manufacturer`
+   - `year_made` → `date_manufactured`
+   - `number_of_packs` → `number_of_packs_per_box`
+   - `cards_per_pack` → `number_of_cards_per_pack`
+   - `number_of_cards_in_a_set` → `number_of_cards_in_a_set`
+   - `validation_status` → `validation_status` (unvalidated/enriched/verified)
+3. Run with `--update` flag to upsert by title
+4. Chase/insert/special cards go into their respective models (`NonSportsChaseCards`, `NonSportsInsertCards`, `NonSportsSpecialCards`) via separate import or extended command
+
 ## Key Features:
 - Flexibility: The command can either create new records or update existing ones using the --update flag.
 - Logging: Success and error messages are written both to the console and a log file (load_non_sports_cards.log).

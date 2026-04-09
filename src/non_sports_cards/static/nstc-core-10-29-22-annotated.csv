@@ -1,0 +1,284 @@
+product_id,title,maker,year_made,type,type_number,number_of_packs,cards_per_pack,description,prodid,quantity
+1,"21 Jump Street",Topps,1987,base,0,48,6,"5 STICKERS WITH PUZZLE BACKS PER PACK FEATURING SCENES FROM THE TV SERIES STARRING JOHNNY DEPP. ",NULL,2
+2,"A Team",Topps,1983,base,0,36,11,"THE POPULAR TV HIT THE A-TEAM !",NULL,1
+254,"Abbott & Costello",DuoCards,1996,box,0,30,7,NULL,NULL,0
+3,"Aladdin (Disney's)",Panini,1993,base,0,36,8,"BASED ON THE DISNEY ANIMATED MOVIE.",NULL,2
+482,"Aladdin (Disney's)",Skybox,1993,base,0,NULL,NULL,"BASED ON THE DISNEY ANIMATED MOVIE.",NULL,2
+483,"Aladdin (Disney's)",NULL,1993,chase,0,NULL,NULL,NULL,NULL,2
+265,"Alf 1",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+5,"Alf 2",Topps,1988,base,0,48,6,"BASED ON THE HIT TV SHOW. CARDS ARE NUMBERED 48 THROUGH 91 AND B23 THROUGH B44 AND STICKERS ARE NUMBERED 19 THROUGH 29. ",NULL,1
+6,"Alien 3","Star Pics",1992,base,0,36,10,"Based on the Movie series, with Sigourney Weaver.",NULL,1
+7,"Alien 79",Topps,1979,base,0,36,10,"Based on the Movie series, with Sigourney Weaver.",NULL,1
+8,"Aliens vs. Preditor",Inkworks,2004,box,0,36,7,"Based on the Movie series.",NULL,0
+9,"American Cycles",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+10,"American Vintage Cycles",Champs,1992,base,100,NULL,NULL,NULL,NULL,2
+266,"An American Tail: Fievel goes West",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+11,"Andy Griffith 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+12,"Andy Griffith 2",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+13,"Andy Griffith 3",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+263,Archie,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+269,"Art Treasures of the Vatican",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+455,"Avengers, The 1",Cornerstone,1992,box,81,36,10,NULL,NULL,0
+456,"Avengers, The 2 (in color)",Cornerstone,1993,base,99,36,10,NULL,NULL,2
+14,"Bablyon 5 S1",NULL,1995,base,0,NULL,NULL,"Ultra?",NULL,1
+15,"Bablyon 5 S2",Fleer/SkyBox,1996,base,0,48,8,"Base Set (60) -- Chase Cards -- ** Babylon 5 Trivia Set (50) (1:2 packs) ** **  Nightwatch Poster Set (10) (1:5 packs) ** **  Creator's Collection Set (10) (1:10 packs) ** **  Comming of Shadows Set (9) (1:10 packs) ** **  Laser Cut Cards (2)",NULL,2
+16,"Bablyon 5 S3",SkyBox,1997,base,0,36,8,"Sp Ed.",NULL,1
+17,"Bablyon 5 S4",Fleer/SkyBox,1998,base,0,36,8,NULL,NULL,1
+255,"Bablyon 5 S5",Fleer/SkyBox,1999,box,0,36,8,"FROM THE 5TH SEASON OF THE TV SERIES. A BOX CONTAINS APPROX. 36 PARALLEL EMBOSSED CARDS, 6 THIRDSPACE TNT CARDS, 9 RIVER OF SOULS CARDS, 4 SLEEPING IN LIGHT CARDS, 4 ONE EXIT AT A TIME CARDS, AND 1 AUTOGRAPHED CARD. ",NULL,0
+18,"Back to the Future 2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+19,"Bars. Ken - The Beast Within",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+20,"Batman & Robin",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+424,"Batman & Robin: The Adventures Series",NULL,NULL,box,0,30,NULL,NULL,NULL,0
+21,"Batman 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,3
+22,"Batman 2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+272,"Batman Forever",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+484,"Batman Returns - OPC",O-Pee-Chee,NULL,chase,0,NULL,NULL,NULL,NULL,1
+485,"Batman Returns - OPC",O-Pee-Chee,NULL,base,0,NULL,NULL,NULL,NULL,2
+24,"Batman Returns - Topps",Topps,NULL,box,0,NULL,NULL,NULL,NULL,0
+273,"Batman Returns Movie Photo Cards",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+25,"Batman Saga of the Dark Night",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+276,"Batman The Adventures Series",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+275,"Batman The Master Series",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+26,"Battle Cards",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+27,"Battlestar Galactica",Dart,1996,insert,0,30,7,"30 packs per box 7 cards per pack: Base Set (72) ** Gold-Foil Set (6) ** Big Boy Set (4) ** Personally signed autographed card from Richard Hatch ** RANDOMLY  INSERTED 7 cards per pack 30 packs per box Se",NULL,1
+486,"Battlestar Galactica",Dart,1996,sticker,0,30,7,NULL,NULL,1
+487,"Battlestar Galactica",Dart,1996,base,0,30,7,NULL,NULL,1
+459,"Battlestar Galactica 2006",NULL,2006,box,0,NULL,NULL,NULL,NULL,0
+278,"Beatles, The: Yellow Submaarine",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+29,"Beauty and the Beast. The",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+30,"Beetle Bailey",Authentix,NULL,base,0,NULL,NULL,NULL,NULL,1
+31,Beetlejuice,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+32,"Bell. Julie",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+33,"Betty Boop S1",Krome,1995,base,0,36,NULL,NULL,NULL,1
+34,"Betty Boop S2",Krome,1997,box,0,36,5,NULL,NULL,0
+35,"Betty Boop S3",Krome,1997,box,0,36,NULL,NULL,NULL,0
+36,"Betty Boop S3 sparkle",Krome,1997,base,0,36,NULL,NULL,NULL,2
+488,"Betty Boop Chrome",Krome,NULL,base,0,NULL,NULL,NULL,NULL,2
+37,"Bill & Ted's most excelent Adventure",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+38,"Bionic Man. The",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+39,"Bionic Woman",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+40,"Black Hole, The",NULL,1979,base,0,NULL,NULL,NULL,NULL,2
+489,"Black Hole, The",NULL,1979,sticker,0,NULL,NULL,NULL,NULL,1
+41,Blondie,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+42,"Blue & Gray",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+43,"Blue Angels","Sterling Cards",NULL,box,0,NULL,NULL,NULL,NULL,0
+44,"Boris 1","Comic Images",NULL,base,0,NULL,NULL,NULL,NULL,1
+45,"Boris 2","Comic Images",NULL,base,0,NULL,NULL,NULL,NULL,1
+46,"Boris 3","Comic Images",NULL,box,0,NULL,NULL,NULL,NULL,0
+47,"Boris 4","Comic Images",NULL,base,0,NULL,NULL,NULL,NULL,1
+283,"Branson: On Stage",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+48,"Buck Rogers in the 25th Century",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+284,"California Rasins: World Tour",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+50,Casper,NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+426,"Christina Aguilera","Upper Deck",2000,box,0,36,4,NULL,NULL,0
+285,"Cinderella (Walt Disney's)",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+286,"Cindy Lauper",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+51,"Civil War",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+52,"Close Encounters of the Third Kind",NULL,NULL,base,0,NULL,NULL,NULL,NULL,3
+490,"Close Encounters of the Third Kind",NULL,NULL,sticker,0,NULL,NULL,NULL,NULL,2
+53,"Coca Cola 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,3
+54,"Coca Cola 2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+55,"Coca Cola 3",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+56,"Coca Cola Santa Around the World",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+57,"Coca Cola Sign of Good Taste",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+58,"Colossal Conflicts",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+59,"Conan 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+60,"Conan 2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+427,"Conan II All Chromium",NULL,NULL,box,0,30,NULL,NULL,NULL,0
+288,"Cosmic DC Cards Inaugural Edition",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+289,"Creators Universe, The",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+61,Cycles,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+62,Dalla,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+428,"Dark Crystal",NULL,NULL,box,0,30,NULL,NULL,NULL,0
+63,Darktarie,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+64,"David Matingly",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+491,"Coca Cola S4",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+492,"Campbell's Soup 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+493,"Coca Cola Wide 96",NULL,1996,base,0,NULL,NULL,NULL,NULL,2
+65,"DC Comics 91 - Impel   w/#44 trivia",NULL,NULL,base,0,NULL,NULL,NULL,NULL,4
+66,"DC Comics 93",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+290,"DC Comics Edition Premiere Series",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+291,"DC Cosmic Teams",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+292,"Demoliton Man",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+67,"Desert Storm - Pro Set","Pro Set",NULL,box,0,NULL,NULL,NULL,NULL,0
+68,"Desert Storm - Topps",Tops,NULL,box,0,NULL,NULL,NULL,NULL,0
+69,"Dick Tracy",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+71,Dinosaurs,"1st Glance Prod.",NULL,box,0,NULL,NULL,NULL,NULL,0
+70,"Dinosaurs - T.V.",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+494,"Dinosaurs Attack",NULL,1988,sticker,0,NULL,NULL,NULL,NULL,3
+72,"Dinosaurs - The Mesazoic Era",NULL,NULL,base,0,NULL,NULL,NULL,NULL,3
+73,Dinotopia,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+294,"Disney Collector Cards Series I",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+295,"Disney Collector Cards Series II",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+74,"Disneyland   (Donnuss)",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+75,Dragonhart,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+76,Dune,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+77,E.T.,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+495,E.T.,NULL,NULL,sticker,0,NULL,NULL,NULL,NULL,1
+78,"Easley. Jeff",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+79,"Escape of the Dinosaurs",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+80,Excalibur,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+81,"Farscape: in Motion",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+82,"Farscape: Season 1",Rittenhouse,NULL,base,0,NULL,NULL,NULL,NULL,3
+83,"Farscape: Season 2",Rittenhouse,NULL,base,0,NULL,NULL,NULL,NULL,2
+297,"Farscape: Season 3",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+84,"Farscape: Ships of",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+85,"Fire Departments 1981",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+86,"Fire Engines 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+461,Firefly,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+87,"Flash Gordon 90 #2630",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+88,"Flintstones. The",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+298,"Fright Flicks",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+89,"G.I. Joe",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+90,Garfield,NULL,1995,base,0,NULL,NULL,NULL,NULL,1
+91,"Garfield S1 Chrome",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+92,"Garfield S2 Chrome",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+93,Gargoyles,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+94,"Giligans Island",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+95,"Godzilla: Chromium",NULL,NULL,base,0,30,NULL,NULL,NULL,1
+96,"Godzilla: Japanese",NULL,1995,base,0,30,12,Paper,NULL,1
+302,"Godzilla: The Movie",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+303,Gremlins,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+97,"Growing Pains",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+496,"DC Cosmic Cards (Impel)",Impel,1992,base,0,NULL,NULL,NULL,NULL,1
+98,Gunsmoke,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+306,"Happy Day's",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+497,"Harley Davidson",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+99,"Heavy Metall",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+100,Hershey's,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+101,"Hilderbrandt 2 - 30 Years of Magic",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+102,"Hilderbrandt, The Brothers",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+103,"Hilderbrandts, The best of the",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+104,"Hilderbrandts: Greg & Tim - Seprate & Together",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+105,Hollywood,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+106,Hook,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+498,Hook,NULL,NULL,sticker,0,NULL,NULL,NULL,NULL,1
+309,"Howard the Duck",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+107,Hulk,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+108,"Hunchback of Notre Dame, The",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+310,"I Love Lucy: Moments & Memories",NULL,NULL,box,0,30,NULL,NULL,NULL,0
+311,"I Love Lucy: Pacific",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+109,"Image Universe",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+312,"Indiana Jones and the Temple of Doom",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+313,"Indiana Jones: Raiders of the Lost Ark",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+314,"It's a Wonderful Life",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+315,"James Bond: Goldeneye",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+110,"James Bond: Moonraker",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+499,"Jeffery Jones",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+111,"James Bond: Tomorrow Never Dies",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+112,"John Berkly",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+500,"Julie Bell Keepsake",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+113,"Judge Dredd: The Epics",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+114,"Jurassic Park 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,4
+501,"Jurassic Park 1",NULL,NULL,sticker,0,NULL,NULL,NULL,NULL,3
+115,"Jurassic Park 2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+320,"Jurassic Park 3: 3D",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+116,"Justus League America",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+117,"King Kong 76",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+502,"King Kong 76",NULL,NULL,sticker,0,NULL,NULL,NULL,NULL,1
+118,"Kung Fu",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+119,"Last Action Hero",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+120,"Leave it to Beaver 83","Pacific Trading Card",1983,base,60,NULL,NULL,NULL,NULL,1
+321,"Lion King, The (Disney's)",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+322,"Lionel Greatest Trains",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+323,"Lionel Legendary Trains",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+324,"Little Mermaid, The (Disney's)",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+121,"Little Shop of Horrors",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+325,"Lord of the Rings: Fellowship of the Rings",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+503,"Lord of the Rings: The Two Towers",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+122,"Lost in Space 66",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+123,"Lost in Space Reprint #59",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+124,"Lost in Space: Classic",NULL,NULL,base,72,NULL,NULL,NULL,NULL,1
+125,"Lost in Space: Movie",Inkworks,1998,base,0,30,8,NULL,NULL,2
+126,"Man from U.N.C.L.E.",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+504,"James Bond Eclipse",Eclipse,1993,base,0,NULL,NULL,NULL,NULL,1
+460,"Mars Attacks:  (reprint)",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+127,"Mars Attacks:  Wide",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+128,"Marvel 91 - Imple",Imple,NULL,base,0,NULL,NULL,NULL,NULL,1
+129,"Marvel 91 - Skybox",SkyBox,NULL,base,0,NULL,NULL,NULL,NULL,1
+130,"Marvel Annual 94",Flair,NULL,base,0,NULL,NULL,NULL,NULL,1
+131,"Marvel Annual 95",Flair,1995,base,150,24,9,"Up for auction is a full 12 chase card set of 1995 Flair Marvel Annual Chromium. To complete this set one would need to go through about 2-3 boxes if odds are good. Each box costs about $85-$100 on ebay.",NULL,1
+132,"Marvel Masterpeice 93: Fleer",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+133,"Marvel Masterpeice 94: Fleer",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+328,"Marvel Masterpieces Collector Cards",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+433,"Marvel Masterpieces Final Edition",SkyBox,1993,box,0,30,6,NULL,NULL,0
+134,"Marvel Masterprints 5x7 94",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+135,"Marvel Universe 1",NULL,1990,base,0,NULL,NULL,NULL,NULL,1
+136,"Marvel Universe 2",NULL,1991,base,0,NULL,NULL,NULL,NULL,1
+137,"Marvel Universe 3",NULL,1992,base,0,NULL,NULL,NULL,NULL,1
+333,"Marvel Universe 4",NULL,1993,box,0,NULL,NULL,NULL,NULL,0
+334,"Marvel vs. Wildstorm",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+138,"Mash 82",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+139,"Masterpeice Collection, The -",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+335,"Maverick: The Movie",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+140,"Max Headroom",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+141,"McHales Navey 65",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+336,"Men in Black",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+142,"Milk & Cheese",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+143,"Miller: Ron",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+435,Moonraker,NULL,NULL,base,0,30,NULL,"THE MOVE STARRING ROGER MOORE.",NULL,1
+337,"Native Americans 1",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+144,"Norman Rockwell 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+145,"Norman Rockwell 2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+146,"Olympic games: Centenial",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+147,"Pepsi 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,3
+148,"Pepsi 1 Secondary",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+437,"Pepsi 2",NULL,NULL,box,0,30,NULL,NULL,NULL,0
+149,"Pepsi 2: Tin",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+150,"Pepsi Primium",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+151,"Phantom - The",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+152,"Planet of the Apes: The Archives",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+153,Pocahontas,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+154,Popeye,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+344,"Power Rangers: Mighty Morphin, The Movie 1995 Ultra",NULL,1995,box,0,NULL,NULL,NULL,NULL,0
+155,"Pro Set 92",NULL,1992,base,0,NULL,NULL,NULL,NULL,1
+156,"Raiders of the Lost Ark",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+157,"Rat Patrol 66",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+158,"Reboot Premiere Edition",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+505,"Marvel 92",Impel,1992,base,0,NULL,NULL,NULL,NULL,1
+159,"Richard Hiscox",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+346,"Robin Hood: Prince of Thieves",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+160,"Robo Cop 2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+462,Rocketeer,NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+161,"Roger Rabbit",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+347,Roswell,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+162,"Royals. The",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+163,"Sailor Moon",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+164,"Sarayama 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+348,"Sea Quest DSV",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+463,"Sea Quest S1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+464,Serenity,NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+349,"Shadow, The",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+465,"Silver Surfer",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+165,"Sliders 1",Inkworks,1997,base,0,36,8,"FEATURING SCENES FROM THE TV SERIES. A BOX CONTAINS APPROXIMATLEY 1 LENTICULAR CARD, 2 PUZZLE CARDS, AND 3 EMBOSSED CARDS. ",NULL,1
+166,"Snowwhite 1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,3
+167,"Snowwhite 2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+168,"Space 1999",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+172,"Space Shots Moon Mars",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+169,"Space Shots S1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+170,"Space Shots S2",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+171,"Space Shots S3",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+506,"Sanjulian Collection",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+466,"Spiderman 92 S2 30th Anniversary",NULL,1992,base,0,NULL,NULL,NULL,NULL,1
+173,"Star Trek 1 - The Motion Picture",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+174,"Star Trek 4 - The Voyage Home",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+175,"Star Trek 6 - Generations",NULL,NULL,base,0,NULL,NULL,NULL,NULL,3
+176,"Star Trek 7 - First Contact",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+177,"Star Trek 8 - Insurection",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+178,"Star Trek CCG-BB",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+439,"Star Trek Deep Space Nine",NULL,NULL,box,0,30,NULL,NULL,NULL,0
+179,"Star Trek DS9 Series Premiere",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+355,"Star Trek DS9 Series Premiere (little pckg)",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+180,"Star Trek Master S1",SkyBox,1993,base,0,NULL,NULL,NULL,NULL,1
+181,"Star Trek Master S2",SkyBox,1994,base,0,NULL,NULL,NULL,NULL,1
+359,"Star Trek The Next Generation CCG (60 card starter sets) ?",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+360,"Star Trek The Next Generation CCG 15 card exp Limited Edition",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+361,"Star Trek The Next Generation Inaugural Edition",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+182,"Star Trek TNG S1",NULL,NULL,base,0,NULL,NULL,NULL,NULL,2
+183,"Star Trek TNG S2",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+184,"Star Trek TNG S3",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+185,"Star Trek TNG S4",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+186,"Star Trek TNG S5",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+187,"Star Trek Voyager Profiles",NULL,NULL,box,0,NULL,NULL,NULL,NULL,0
+507,"Star Trek TOS + TNG",NULL,NULL,base,0,NULL,NULL,NULL,NULL,1
+508,"ST Art & Images of ST TOS 2005",NULL,2005,base,0,NULL,NULL,NULL,NULL,1

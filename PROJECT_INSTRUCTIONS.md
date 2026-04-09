@@ -29,6 +29,32 @@ This is the operational hub for Sam's Collectibles, an eBay store selling non-sp
 
 See `DEPLOYMENT.md` for the full step-by-step deployment guide, Ansible playbook usage, and Cloudflare R2 setup.
 
+## Non-Sports Cards Inventory Pipeline
+
+The non-sports cards inventory is being built through a multi-stage CSV-to-database workflow:
+
+1. **Source CSV** (`src/non_sports_cards/static/nstc-core-10-29-22.csv`) — Original printed inventory list
+2. **Annotated CSV** (`src/non_sports_cards/static/nstc-core-10-29-22-annotated.csv`) — Handwritten inventory counts and type classifications (box/base/chase/sticker/insert) added from physical review of printed sheets
+3. **Enriched CSV** (`src/non_sports_cards/static/nstc-core-10-29-22-enriched.csv`) — Machine-enriched from nslists.com with manufacturer, year, pack counts, set sizes, and chase card details (scheduled task runs this)
+4. **Flagged items** (`src/non_sports_cards/static/nstc-flagged-items.csv`) — Items with uncertain data needing manual verification
+5. **Margin notes** (`src/non_sports_cards/static/nstc-margin-notes.csv`) — Handwritten margin notes not yet added due to insufficient info
+6. **Postgres import** — Final validated data imported into Django models via `load_non_sports_cards` management command
+
+### Django Model: validation_status field
+The `NonSportsCards` model includes a `validation_status` field to track data quality:
+- `unvalidated` — Default, freshly imported or unmatched by enrichment
+- `enriched` — Machine-enriched from nslists.com (needs human review)
+- `verified` — Human-reviewed and confirmed accurate
+
+This field is inherited by all child models (Boxes, BaseSets, SpecialSets) and is filterable in Django admin.
+
+### VPS Co-hosting
+The Hostinger VPS (KVM 2: 2 CPU, 8GB RAM, 100GB disk) hosts both:
+- **Adventures of Lucy Lu** (bassethoundbooks.com) — Django/Gunicorn on port 8000, deployed from `/Users/samrogers/Developer/adventuresoflucylu.com`
+- **Sam's Collectibles** (samscollectibles.net) — Django/Gunicorn on port 8001, deployed from this repo
+
+Both sites share the VPS with separate Nginx server blocks, Docker networks, and databases.
+
 ## Key Folders
 
 - `ebay_automation/` — Python pipeline that tracks inventory, looks up sold prices, and generates bulk-upload CSVs for eBay Seller Hub. See `ebay_automation/PLAN.md` for the full workflow, column reference, and category/condition mappings.
@@ -72,6 +98,8 @@ Secrets (API keys, passwords) are stored encrypted in `ansible/group_vars/vault.
 - Generating and uploading bulk listing CSVs
 - Researching sold prices and market trends for collectibles
 - Migrating image hosting from S3 to Cloudflare R2
+- Completing the non-sports cards inventory enrichment from nslists.com and importing into Postgres
+- Deploying Sam's Collectibles alongside Lucy Lu on the Hostinger VPS
 
 ## Important Notes
 

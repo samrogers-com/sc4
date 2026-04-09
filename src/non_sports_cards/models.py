@@ -15,6 +15,12 @@ def validate_key_features(value):
             raise ValidationError("Each feature in key features must be a string.")
 
 class NonSportsCards(models.Model):
+    VALIDATION_STATUSES = [
+        ('unvalidated', 'Unvalidated'),
+        ('enriched', 'Enriched'),
+        ('verified', 'Verified'),
+    ]
+
     MANUFACTURERS = [
         ('Topps', 'Topps'),
         ('Fleer', 'Fleer'),
@@ -53,6 +59,7 @@ class NonSportsCards(models.Model):
     app = models.CharField(max_length=50, default="ns-cards")
     image_type = models.CharField(max_length=50, default="sets")
     sub_category = models.CharField(max_length=100)
+    validation_status = models.CharField(max_length=20, choices=VALIDATION_STATUSES, default='unvalidated')
 
     class Meta:
         db_table = 'nonsportscards'
