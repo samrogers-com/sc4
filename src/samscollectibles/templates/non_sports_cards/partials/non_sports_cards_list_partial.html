@@ -4,7 +4,7 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
     {% for card in cards %}
-    <div class="bg-gray-700 border border-gray-600 hover:border-amber-500 p-4 rounded-lg transition card-hover">
+    <a href="{% url 'non_sports_cards:card_detail' card.pk %}" class="block bg-gray-700 border border-gray-600 hover:border-amber-500 p-4 rounded-lg transition card-hover no-underline">
         <div class="flex items-start justify-between mb-2">
             <h3 class="text-base font-bold text-gray-100 leading-tight">{{ card.title }}</h3>
             <span class="ml-2 px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap
@@ -36,9 +36,9 @@
         <p class="mt-2 text-gray-500 text-xs leading-relaxed">{{ card.description|truncatewords:25 }}</p>
         {% endif %}
         {% if card.ebay_listing_url %}
-        <a href="{{ card.ebay_listing_url }}" target="_blank" rel="noopener" class="btn-ebay mt-3 text-center block text-xs">Buy on eBay &#8599;</a>
+        <span class="btn-ebay mt-3 text-center block text-xs">On eBay &#8599;</span>
         {% endif %}
-    </div>
+    </a>
     {% empty %}
     <div class="col-span-3 text-center py-12">
         <p class="text-gray-400">No cards match your search.</p>

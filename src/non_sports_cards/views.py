@@ -1,6 +1,6 @@
 # src/non_sports_cards/views.py
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import NonSportsCards
 from .filters import NonSportsCardsFilter
 
@@ -55,3 +55,13 @@ def list_cards(request):
         return render(request, 'non_sports_cards/partials/non_sports_cards_list_partial.html', context)
 
     return render(request, 'non_sports_cards/home.html', context)
+
+
+def card_detail(request, pk):
+    card = get_object_or_404(NonSportsCards, pk=pk)
+    # Get images if any
+    images = card.images.all() if hasattr(card, 'images') else []
+    return render(request, 'non_sports_cards/card_detail.html', {
+        'card': card,
+        'images': images,
+    })

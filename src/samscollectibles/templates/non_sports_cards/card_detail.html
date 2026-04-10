@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ card.title }} — Sam's Collectibles{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'non_sports_cards:list_cards' %}?category={{ card.category }}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to {{ card.category }}</a>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Left: Images -->
+    <div class="md:col-span-1">
+        {% if images %}
+        <div class="space-y-3">
+            {% for img in images %}
+            <div class="bg-gray-700 rounded-lg overflow-hidden border border-gray-600">
+                <img src="{{ img.s3_path }}" alt="{{ card.title }}" class="w-full">
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="bg-gray-700 rounded-lg border border-gray-600 aspect-square flex items-center justify-center">
+            <div class="text-center p-6">
+                <span class="text-5xl block mb-3">&#127183;</span>
+                <p class="text-gray-400 text-sm">Photos coming soon</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Right: Details -->
+    <div class="md:col-span-2">
+        <h1 class="text-3xl font-bold text-white mb-1">{{ card.title }}</h1>
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4
+            {% if card.category == 'Star Wars' %}bg-amber-900 text-amber-300
+            {% elif card.category == 'Star Trek' %}bg-blue-900 text-blue-300
+            {% elif card.category == 'Marvel' %}bg-red-900 text-red-300
+            {% elif card.category == 'DC Comics' %}bg-blue-800 text-blue-200
+            {% elif card.category == 'Disney' %}bg-purple-900 text-purple-300
+            {% elif card.category == 'Movies' %}bg-green-900 text-green-300
+            {% elif card.category == 'TV Shows' %}bg-teal-900 text-teal-300
+            {% elif card.category == 'Fantasy Art' %}bg-pink-900 text-pink-300
+            {% elif card.category == 'Sci-Fi' %}bg-indigo-900 text-indigo-300
+            {% elif card.category == 'Historical & Military' %}bg-yellow-900 text-yellow-300
+            {% elif card.category == 'Pop Culture' %}bg-orange-900 text-orange-300
+            {% else %}bg-gray-600 text-gray-300{% endif %}">
+            {{ card.category }}
+        </span>
+
+        <!-- Item Specifics -->
+        <div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mb-6">
+            <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Set Details</h3>
+            <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                {% if card.manufacturer and card.manufacturer != 'Unknown' %}
+                <span class="text-gray-400">Manufacturer:</span>
+                <span class="text-gray-200">{{ card.manufacturer }}</span>
+                {% endif %}
+
+                {% if card.date_manufactured %}
+                <span class="text-gray-400">Year:</span>
+                <span class="text-gray-200">{{ card.date_manufactured }}</span>
+                {% endif %}
+
+                {% if card.number_of_cards_in_a_set %}
+                <span class="text-gray-400">Cards in Set:</span>
+                <span class="text-gray-200">{{ card.number_of_cards_in_a_set }}</span>
+                {% endif %}
+
+                {% if card.number_of_packs_per_box %}
+                <span class="text-gray-400">Packs per Box:</span>
+                <span class="text-gray-200">{{ card.number_of_packs_per_box }}</span>
+                {% endif %}
+
+                {% if card.number_of_cards_per_pack %}
+                <span class="text-gray-400">Cards per Pack:</span>
+                <span class="text-gray-200">{{ card.number_of_cards_per_pack }}</span>
+                {% endif %}
+
+                {% if card.number_of_sets_per_box %}
+                <span class="text-gray-400">Sets per Box:</span>
+                <span class="text-gray-200">{{ card.number_of_sets_per_box }}</span>
+                {% endif %}
+
+                <span class="text-gray-400">Sub-type:</span>
+                <span class="text-gray-200">{{ card.sub_category|title }}</span>
+
+                {% if card.validation_status %}
+                <span class="text-gray-400">Data Status:</span>
+                <span class="text-gray-200 {% if card.validation_status == 'verified' %}text-green-400{% elif card.validation_status == 'enriched' %}text-amber-400{% else %}text-gray-400{% endif %}">
+                    {{ card.validation_status|title }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if card.description %}
+        <div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mb-6">
+            <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Description</h3>
+            <p class="text-gray-300 text-sm leading-relaxed">{{ card.description }}</p>
+        </div>
+        {% endif %}
+
+        <!-- eBay -->
+        {% if card.ebay_listing_url %}
+        <a href="{{ card.ebay_listing_url }}" target="_blank" rel="noopener"
+           class="btn-ebay text-center block py-3 text-lg mb-4">
+            Buy on eBay &#8599;
+        </a>
+        {% else %}
+        <div class="bg-gray-700 border border-gray-600 rounded-lg p-4 text-center">
+            <p class="text-gray-400">Listing coming soon</p>
+            <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener"
+               class="text-amber-500 text-sm hover:text-amber-400">
+                Browse our eBay store &#8599;
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
