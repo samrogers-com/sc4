@@ -1,25 +1,35 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {% for poster in movie_posters %}
     <div class="bg-gray-700 rounded-xl border-2 border-gray-600 hover:border-amber-500 overflow-hidden transition card-hover">
-        <!-- Stock Image Placeholder -->
-        <div class="h-64 bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center relative">
-            {% if poster.title == "Star Wars: A New Hope - Style B Teaser One Sheet" %}
-            <div class="text-center p-6">
-                <div class="text-5xl mb-3">&#9733;</div>
-                <p class="text-amber-400 font-bold text-lg">Style B Teaser</p>
-                <p class="text-gray-300 text-sm italic">"A long time ago in a galaxy far, far away..."</p>
+        <!-- Poster Visual -->
+        <div class="h-80 flex items-center justify-center relative overflow-hidden">
+            {% if "Style B Teaser" in poster.title %}
+            <!-- Star Wars Style B Teaser recreation -->
+            <div class="w-full h-full bg-gradient-to-b from-indigo-950 via-gray-900 to-gray-950 flex flex-col items-center justify-center p-8 border-4 border-gray-400" style="border-style:double">
+                <p class="text-white text-center text-2xl font-light leading-relaxed tracking-wide" style="font-family:Georgia,serif">A long time ago<br>in a galaxy<br>far, far away...</p>
+                <div class="mt-6">
+                    <p class="text-white text-3xl font-black tracking-widest" style="text-shadow:0 0 10px rgba(255,255,255,0.3)">STAR WARS</p>
+                </div>
             </div>
             {% elif "Empire Strikes Back" in poster.title %}
-            <div class="text-center p-6">
-                <div class="text-5xl mb-3">&#9733;</div>
-                <p class="text-amber-400 font-bold text-lg">Advance One Sheet</p>
-                <p class="text-gray-300 text-sm italic">"Coming to your galaxy this Summer."</p>
+            <!-- ESB Gone with the Wind style recreation -->
+            <div class="w-full h-full bg-gradient-to-b from-gray-800 via-blue-950 to-black flex flex-col items-center justify-between p-6">
+                <p class="text-white text-center text-sm tracking-[0.3em] uppercase">The Star Wars Saga Continues</p>
+                <div class="flex-grow flex items-center">
+                    <div class="text-center">
+                        <p class="text-white text-sm tracking-widest uppercase">Star Wars</p>
+                        <p class="text-white text-3xl font-black mt-1" style="text-shadow:0 0 15px rgba(255,255,255,0.2)">THE EMPIRE<br>STRIKES BACK</p>
+                    </div>
+                </div>
+                <p class="text-blue-200 text-xs italic">Coming to your galaxy this Summer.</p>
             </div>
             {% else %}
-            <span class="text-6xl text-gray-500">&#127916;</span>
+            <div class="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
+                <span class="text-7xl text-gray-500">&#127916;</span>
+            </div>
             {% endif %}
-            <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-amber-400 text-xs px-2 py-1 rounded">
-                Stock photo &mdash; actual photos coming soon
+            <div class="absolute bottom-2 right-2 bg-black bg-opacity-80 text-amber-400 text-xs px-2 py-1 rounded">
+                &#128247; Actual photos coming soon
             </div>
         </div>
 
