@@ -1,32 +1,56 @@
 # src/non_sports_cards/views.py
 
-import logging
 from django.shortcuts import render
 from .models import NonSportsCards
 from .filters import NonSportsCardsFilter
 
-logger = logging.getLogger(__name__)
-
 
 def home(request):
-    return render(request, 'non_sports_cards/home.html')
+    # Get category counts for the page
+    from django.db.models import Count
+    categories = (
+        NonSportsCards.objects
+        .values('category')
+        .annotate(count=Count('id'))
+        .order_by('-count')
+    )
+    total = NonSportsCards.objects.count()
+    return render(request, 'non_sports_cards/home.html', {
+        'categories': categories,
+        'total': total,
+    })
 
 
 def list_cards(request):
-    non_sports_cards_filter = NonSportsCardsFilter(request.GET, queryset=NonSportsCards.objects.all())
+    queryset = NonSportsCards.objects.all().order_by('title')
 
-    if request.GET and non_sports_cards_filter.is_valid():
-        queryset = non_sports_cards_filter.qs
-    else:
-        queryset = NonSportsCards.objects.all()
+    # Category filter from URL param
+    category = request.GET.get('category', '')
+    if category:
+        queryset = queryset.filter(category=category)
+
+    # Text search
+    search = request.GET.get('q', '')
+    if search:
+        queryset = queryset.filter(title__icontains=search)
+
+    # Get all categories for filter buttons
+    from django.db.models import Count
+    categories = (
+        NonSportsCards.objects
+        .values('category')
+        .annotate(count=Count('id'))
+        .order_by('category')
+    )
 
     context = {
-        'filter': non_sports_cards_filter,
         'cards': queryset,
-        'title': 'Non-Sports Cards',
+        'categories': categories,
+        'active_category': category,
+        'search_query': search,
+        'result_count': queryset.count(),
     }
 
-    # HTMX partial or full page
     if request.htmx:
         return render(request, 'non_sports_cards/partials/non_sports_cards_list_partial.html', context)
 

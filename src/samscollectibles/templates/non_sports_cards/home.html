@@ -4,16 +4,58 @@
 
 {% block content %}
 <h1 class="text-3xl font-bold text-amber-500 mb-2">Non-Sport Trading Cards</h1>
-<p class="text-gray-400 mb-6">Sealed boxes, base sets, chase cards, and more from hundreds of franchises.</p>
+<p class="text-gray-400 mb-6">
+    {{ total }} sets — sealed boxes, base sets, chase cards, and more.
+</p>
 
+<!-- Category Filter Buttons -->
+<div class="flex flex-wrap gap-2 mb-4">
+    <a href="{% url 'non_sports_cards:list_cards' %}"
+       hx-get="{% url 'non_sports_cards:list_cards' %}"
+       hx-target="#cards-list-container"
+       hx-push-url="true"
+       class="px-3 py-1.5 rounded-full text-sm font-medium transition
+              {% if not active_category %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">
+        All ({{ total }})
+    </a>
+    {% for cat in categories %}
+    <a href="{% url 'non_sports_cards:list_cards' %}?category={{ cat.category }}"
+       hx-get="{% url 'non_sports_cards:list_cards' %}?category={{ cat.category }}"
+       hx-target="#cards-list-container"
+       hx-push-url="true"
+       class="px-3 py-1.5 rounded-full text-sm font-medium transition
+              {% if active_category == cat.category %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">
+        {{ cat.category }} ({{ cat.count }})
+    </a>
+    {% endfor %}
+</div>
+
+<!-- Search -->
+<div class="mb-6">
+    <input type="search" id="card-search"
+           placeholder="Search by title..."
+           value="{{ search_query }}"
+           hx-get="{% url 'non_sports_cards:list_cards' %}{% if active_category %}?category={{ active_category }}&{% else %}?{% endif %}"
+           hx-trigger="keyup changed delay:300ms"
+           hx-target="#cards-list-container"
+           hx-include="[name='q']"
+           name="q"
+           class="w-full max-w-md px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:border-amber-500 focus:outline-none">
+</div>
+
+<!-- Cards List -->
 <div id="cards-list-container">
-    <div hx-get="{% url 'non_sports_cards:list_cards' %}"
-         hx-trigger="load"
-         hx-target="#cards-list-container"
-         hx-swap="innerHTML"
-         class="text-center py-12">
-        <div class="htmx-indicator"></div>
-        <p class="text-gray-400 mt-4">Loading collection...</p>
-    </div>
+    {% if cards %}
+        {% include 'non_sports_cards/partials/non_sports_cards_list_partial.html' %}
+    {% else %}
+        <div hx-get="{% url 'non_sports_cards:list_cards' %}"
+             hx-trigger="load"
+             hx-target="#cards-list-container"
+             hx-swap="innerHTML"
+             class="text-center py-12">
+            <div class="htmx-indicator"></div>
+            <p class="text-gray-400 mt-4">Loading collection...</p>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

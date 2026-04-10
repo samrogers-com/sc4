@@ -1,25 +1,47 @@
-<div class="space-y-3">
-    {% if cards %}
-        {% for card in cards %}
-            <div class="bg-gray-700 border border-gray-600 hover:border-amber-500 p-4 rounded-lg transition card-hover">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-bold text-gray-100">{{ card.title }}</h3>
-                    <div class="text-sm text-gray-400">
-                        {% if card.manufacturer %}{{ card.manufacturer }}{% endif %}
-                        {% if card.date_manufactured %} &middot; {{ card.date_manufactured }}{% endif %}
-                    </div>
-                </div>
-                {% if card.description %}
-                <p class="mt-2 text-gray-400 text-sm">{{ card.description|truncatewords:30 }}</p>
-                {% endif %}
-                {% if card.ebay_listing_url %}
-                <a href="{{ card.ebay_listing_url }}" target="_blank" rel="noopener" class="btn-ebay mt-2">Buy on eBay</a>
-                {% endif %}
-            </div>
-        {% endfor %}
-    {% else %}
-        <div class="text-center py-8">
-            <p class="text-gray-400">Collection is being cataloged. Check back soon!</p>
+{% if result_count %}
+<p class="text-gray-500 text-sm mb-3">Showing {{ result_count }} item{{ result_count|pluralize }}</p>
+{% endif %}
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+    {% for card in cards %}
+    <div class="bg-gray-700 border border-gray-600 hover:border-amber-500 p-4 rounded-lg transition card-hover">
+        <div class="flex items-start justify-between mb-2">
+            <h3 class="text-base font-bold text-gray-100 leading-tight">{{ card.title }}</h3>
+            <span class="ml-2 px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap
+                {% if card.category == 'Star Wars' %}bg-amber-900 text-amber-300
+                {% elif card.category == 'Star Trek' %}bg-blue-900 text-blue-300
+                {% elif card.category == 'Marvel' %}bg-red-900 text-red-300
+                {% elif card.category == 'DC Comics' %}bg-blue-800 text-blue-200
+                {% elif card.category == 'Disney' %}bg-purple-900 text-purple-300
+                {% elif card.category == 'Movies' %}bg-green-900 text-green-300
+                {% elif card.category == 'TV Shows' %}bg-teal-900 text-teal-300
+                {% else %}bg-gray-600 text-gray-300{% endif %}">
+                {{ card.category }}
+            </span>
         </div>
-    {% endif %}
+        <div class="text-sm text-gray-400 space-y-0.5">
+            {% if card.manufacturer and card.manufacturer != 'Unknown' %}
+            <p>{{ card.manufacturer }}{% if card.date_manufactured %} &middot; {{ card.date_manufactured }}{% endif %}</p>
+            {% elif card.date_manufactured %}
+            <p>{{ card.date_manufactured }}</p>
+            {% endif %}
+            {% if card.number_of_cards_in_a_set %}
+            <p>{{ card.number_of_cards_in_a_set }} cards in set</p>
+            {% endif %}
+            {% if card.number_of_packs_per_box and card.number_of_cards_per_pack %}
+            <p>{{ card.number_of_packs_per_box }} packs/box &middot; {{ card.number_of_cards_per_pack }} cards/pack</p>
+            {% endif %}
+        </div>
+        {% if card.description and card.description != 'None' %}
+        <p class="mt-2 text-gray-500 text-xs leading-relaxed">{{ card.description|truncatewords:25 }}</p>
+        {% endif %}
+        {% if card.ebay_listing_url %}
+        <a href="{{ card.ebay_listing_url }}" target="_blank" rel="noopener" class="btn-ebay mt-3 text-center block text-xs">Buy on eBay &#8599;</a>
+        {% endif %}
+    </div>
+    {% empty %}
+    <div class="col-span-3 text-center py-12">
+        <p class="text-gray-400">No cards match your search.</p>
+    </div>
+    {% endfor %}
 </div>

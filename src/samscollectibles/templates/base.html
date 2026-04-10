@@ -36,7 +36,23 @@
                     </div>
                 </div>
 
-                <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="text-gray-300 hover:text-amber-400 transition">Trading Cards</a>
+                <!-- Trading Cards Dropdown -->
+                <div class="relative group">
+                    <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="text-gray-300 hover:text-amber-400 transition">Trading Cards</a>
+                    <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
+                        <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Star Wars" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">Star Wars</a>
+                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Star Trek" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">Star Trek</a>
+                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Marvel" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">Marvel</a>
+                            <a href="{% url 'non_sports_cards:list_cards' %}?category=DC Comics" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">DC Comics</a>
+                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Movies" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">Movies</a>
+                            <a href="{% url 'non_sports_cards:list_cards' %}?category=TV Shows" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">TV Shows</a>
+                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Disney" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">Disney</a>
+                            <div class="border-t border-gray-700 my-1"></div>
+                            <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">View All</a>
+                        </div>
+                    </div>
+                </div>
                 <a href="{% url 'movie_posters:home' %}" class="text-gray-300 hover:text-amber-400 transition">Movie Posters</a>
                 <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener" class="text-gray-300 hover:text-amber-400 transition">eBay Store &#8599;</a>
                 <a href="{% url 'about' %}" class="text-gray-300 hover:text-amber-400 transition">About</a>
@@ -61,6 +77,15 @@
             <a href="{% url 'home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Home</a>
             <a href="{% url 'comic_books:comicbooks_home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Comic Books</a>
             <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Trading Cards</a>
+            <div class="pl-4 space-y-1">
+                <a href="{% url 'non_sports_cards:list_cards' %}?category=Star Wars" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Star Wars</a>
+                <a href="{% url 'non_sports_cards:list_cards' %}?category=Star Trek" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Star Trek</a>
+                <a href="{% url 'non_sports_cards:list_cards' %}?category=Marvel" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Marvel</a>
+                <a href="{% url 'non_sports_cards:list_cards' %}?category=DC Comics" class="block py-1 text-sm text-gray-400 hover:text-amber-400">DC Comics</a>
+                <a href="{% url 'non_sports_cards:list_cards' %}?category=Movies" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Movies</a>
+                <a href="{% url 'non_sports_cards:list_cards' %}?category=TV Shows" class="block py-1 text-sm text-gray-400 hover:text-amber-400">TV Shows</a>
+                <a href="{% url 'non_sports_cards:list_cards' %}?category=Disney" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Disney</a>
+            </div>
             <a href="{% url 'movie_posters:home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Movie Posters</a>
             <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener" class="block py-2 text-gray-300 hover:text-amber-400">eBay Store &#8599;</a>
             <a href="{% url 'about' %}" class="block py-2 text-gray-300 hover:text-amber-400">About</a>
