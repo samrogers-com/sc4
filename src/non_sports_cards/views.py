@@ -28,6 +28,6 @@ def list_cards(request):
 
     # HTMX partial or full page
     if request.htmx:
-        return render(request, 'partials/non_sports_cards_list_partial.html', context)
+        return render(request, 'non_sports_cards/partials/non_sports_cards_list_partial.html', context)
 
     return render(request, 'non_sports_cards/home.html', context)

@@ -1,20 +1,25 @@
-<!-- src/non_sports_cards/templates/partials/non_sports_cards_list_partial.html -->
-
-<div class="non-sports-cards-list space-y-1">
+<div class="space-y-3">
     {% if cards %}
         {% for card in cards %}
-            <div class="border border-gray-300 p-4 rounded-lg shadow-md bg-white">
-                <div class="flex items-center">
-                    <h3 class="text-xl font-bold flex-1">{{ card.title }}</h3>
-                    <div class="text-md font-bold text-gray-500 flex-1 text-center">
-                        Manufacturer: {{ card.manufacturer }} | Date Manufactured: {{ card.date_manufactured }}
+            <div class="bg-gray-700 border border-gray-600 hover:border-amber-500 p-4 rounded-lg transition card-hover">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-gray-100">{{ card.title }}</h3>
+                    <div class="text-sm text-gray-400">
+                        {% if card.manufacturer %}{{ card.manufacturer }}{% endif %}
+                        {% if card.date_manufactured %} &middot; {{ card.date_manufactured }}{% endif %}
                     </div>
                 </div>
-                <p class="mt-2 text-gray-700">{{ card.description }}</p>
+                {% if card.description %}
+                <p class="mt-2 text-gray-400 text-sm">{{ card.description|truncatewords:30 }}</p>
+                {% endif %}
+                {% if card.ebay_listing_url %}
+                <a href="{{ card.ebay_listing_url }}" target="_blank" rel="noopener" class="btn-ebay mt-2">Buy on eBay</a>
+                {% endif %}
             </div>
         {% endfor %}
     {% else %}
-        <p class="text-gray-500">No Non-Sports Cards available now, but coming soon.</p>
+        <div class="text-center py-8">
+            <p class="text-gray-400">Collection is being cataloged. Check back soon!</p>
+        </div>
     {% endif %}
 </div>
-
