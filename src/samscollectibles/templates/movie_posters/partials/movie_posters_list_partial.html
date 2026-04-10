@@ -1,9 +1,87 @@
-<!-- src/movie_posters/templates/movie_posters/partials/posters_list_partial.html -->
-<div class="list">
-   {% for poster in posters %}
-      {% include 'movie_posters/partials/poster_item_partial.html' with poster=poster %}
-   {% empty %}
-       <p>No Movie Posters available now, but coming soon.</p>
-   {% endfor %}
-</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {% for poster in movie_posters %}
+    <div class="bg-gray-700 rounded-xl border-2 border-gray-600 hover:border-amber-500 overflow-hidden transition card-hover">
+        <!-- Stock Image Placeholder -->
+        <div class="h-64 bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center relative">
+            {% if poster.title == "Star Wars: A New Hope - Style B Teaser One Sheet" %}
+            <div class="text-center p-6">
+                <div class="text-5xl mb-3">&#9733;</div>
+                <p class="text-amber-400 font-bold text-lg">Style B Teaser</p>
+                <p class="text-gray-300 text-sm italic">"A long time ago in a galaxy far, far away..."</p>
+            </div>
+            {% elif "Empire Strikes Back" in poster.title %}
+            <div class="text-center p-6">
+                <div class="text-5xl mb-3">&#9733;</div>
+                <p class="text-amber-400 font-bold text-lg">Advance One Sheet</p>
+                <p class="text-gray-300 text-sm italic">"Coming to your galaxy this Summer."</p>
+            </div>
+            {% else %}
+            <span class="text-6xl text-gray-500">&#127916;</span>
+            {% endif %}
+            <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-amber-400 text-xs px-2 py-1 rounded">
+                Stock photo &mdash; actual photos coming soon
+            </div>
+        </div>
 
+        <!-- Listing Details (eBay style) -->
+        <div class="p-5">
+            <h3 class="text-xl font-bold text-white mb-2">{{ poster.title }}</h3>
+
+            <!-- Item Specifics Table -->
+            <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-sm mb-4">
+                {% if poster.year %}
+                <span class="text-gray-400">Year:</span>
+                <span class="text-gray-200">{{ poster.year }}</span>
+                {% endif %}
+
+                {% if poster.poster_type %}
+                <span class="text-gray-400">Type:</span>
+                <span class="text-gray-200">{{ poster.get_poster_type_display }}</span>
+                {% endif %}
+
+                {% if poster.size %}
+                <span class="text-gray-400">Size:</span>
+                <span class="text-gray-200">{{ poster.get_size_display }}</span>
+                {% endif %}
+
+                {% if poster.country_of_origin %}
+                <span class="text-gray-400">Origin:</span>
+                <span class="text-gray-200">{{ poster.country_of_origin }}</span>
+                {% endif %}
+
+                {% if poster.rolled_or_folded %}
+                <span class="text-gray-400">Condition:</span>
+                <span class="text-gray-200">{{ poster.rolled_or_folded|title }}</span>
+                {% endif %}
+
+                <span class="text-gray-400">Linen Backed:</span>
+                <span class="text-gray-200">{% if poster.linen_backed %}Yes{% else %}No{% endif %}</span>
+            </div>
+
+            <!-- Description -->
+            {% if poster.description %}
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">{{ poster.description|truncatewords:60 }}</p>
+            {% endif %}
+
+            <!-- Provenance Badge -->
+            <div class="bg-gray-800 border border-gray-600 rounded-lg p-3 mb-4">
+                <p class="text-amber-500 text-xs font-bold uppercase mb-1">&#9989; Authenticity Verified</p>
+                <p class="text-gray-400 text-xs">Purchased 1983-1990 from reputable poster dealer, predating the known bootleg era.</p>
+            </div>
+
+            <!-- eBay Button -->
+            {% if poster.ebay_listing_url %}
+            <a href="{{ poster.ebay_listing_url }}" target="_blank" rel="noopener" class="btn-ebay w-full text-center block">
+                Buy on eBay &#8599;
+            </a>
+            {% else %}
+            <span class="text-gray-500 text-sm italic">Listing coming soon</span>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-2 text-center py-12">
+        <p class="text-gray-400 text-lg">Poster collection being photographed. Check back soon!</p>
+    </div>
+    {% endfor %}
+</div>

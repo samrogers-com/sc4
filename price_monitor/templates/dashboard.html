@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam's Collectibles - Price Monitor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <style>
+        :root {
+            --up-color: #2e7d32;
+            --down-color: #c62828;
+            --stable-color: #757575;
+            --none-color: #bdbdbd;
+        }
+        body { padding: 1rem; }
+        header { margin-bottom: 1.5rem; }
+        header h1 { margin-bottom: 0.25rem; }
+        header p { margin-top: 0; color: var(--muted-color); }
+
+        .stats-bar {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: var(--card-background-color);
+            border: 1px solid var(--muted-border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            min-width: 140px;
+        }
+        .stat-card .label { font-size: 0.8rem; color: var(--muted-color); }
+        .stat-card .value { font-size: 1.4rem; font-weight: 700; }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .controls input[type="search"] { max-width: 300px; margin-bottom: 0; }
+        .controls select { max-width: 180px; margin-bottom: 0; }
+        .controls button { margin-bottom: 0; white-space: nowrap; }
+
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .alert-warning { background: #fff3e0; border: 1px solid #ffb74d; color: #e65100; }
+        .alert-info { background: #e3f2fd; border: 1px solid #64b5f6; color: #1565c0; }
+
+        table { font-size: 0.9rem; }
+        th { cursor: pointer; user-select: none; white-space: nowrap; }
+        th:hover { background: var(--muted-border-color); }
+        th .sort-arrow { margin-left: 4px; font-size: 0.7rem; }
+
+        .price { font-family: monospace; text-align: right; }
+        .qty { text-align: center; }
+        .trend-up { color: var(--up-color); font-weight: 600; }
+        .trend-down { color: var(--down-color); font-weight: 600; }
+        .trend-stable { color: var(--stable-color); }
+        .trend-none { color: var(--none-color); }
+
+        .type-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .type-base { background: #e3f2fd; color: #1565c0; }
+        .type-box { background: #fce4ec; color: #c62828; }
+        .type-chase { background: #fff3e0; color: #e65100; }
+        .type-insert { background: #e8f5e9; color: #2e7d32; }
+        .type-sticker { background: #f3e5f5; color: #7b1fa2; }
+
+        .btn-refresh {
+            background: none;
+            border: 1px solid var(--muted-border-color);
+            border-radius: 4px;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: var(--contrast);
+        }
+        .btn-refresh:hover { background: var(--muted-border-color); }
+        .btn-refresh.loading { opacity: 0.5; pointer-events: none; }
+
+        .checked-date { font-size: 0.8rem; color: var(--muted-color); white-space: nowrap; }
+
+        #refresh-status {
+            display: none;
+            padding: 0.75rem 1rem;
+            background: #1f2937;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #f3f4f6;
+            position: sticky;
+            top: 60px;
+            z-index: 40;
+        }
+
+        @media (max-width: 768px) {
+            .stats-bar { gap: 0.75rem; }
+            .stat-card { min-width: 100px; padding: 0.5rem 0.75rem; }
+            .controls { flex-direction: column; }
+            .controls input, .controls select { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <main class="container-fluid">
+        <header>
+            <h1>Sam's Collectibles</h1>
+            <p>Price Monitor &mdash; eBay Sold Price Tracker</p>
+        </header>
+
+        {% if not has_ebay %}
+        <div class="alert alert-warning">
+            <strong>ebaysdk not installed.</strong> Run <code>pip install ebaysdk</code> to enable live price lookups.
+        </div>
+        {% elif not has_api_key %}
+        <div class="alert alert-warning">
+            <strong>EBAY_APP_ID not set.</strong> Export your eBay API key: <code>export EBAY_APP_ID="your-key"</code>
+        </div>
+        {% endif %}
+
+        {% if total_items == 0 %}
+        <div class="alert alert-info">
+            <strong>No inventory loaded.</strong>
+            <button onclick="importInventory()" class="btn-refresh" style="margin-left: 8px;">Import from CSV</button>
+        </div>
+        {% endif %}
+
+        <div class="stats-bar" id="stats-bar">
+            <div class="stat-card">
+                <div class="label">Total Items</div>
+                <div class="value" id="stat-total">{{ total_items }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Priced</div>
+                <div class="value" id="stat-priced">{{ items|selectattr('recommended_price')|list|length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Unpriced</div>
+                <div class="value" id="stat-unpriced">{{ items|rejectattr('recommended_price')|list|length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Avg Price</div>
+                <div class="value" id="stat-avg">
+                    {% set priced_items = items|selectattr('recommended_price')|list %}
+                    {% if priced_items %}
+                        ${{ "%.2f"|format(priced_items|map(attribute='recommended_price')|sum / priced_items|length) }}
+                    {% else %}
+                        --
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <input type="search" id="search-input" placeholder="Search by title..." oninput="filterTable()">
+            <select id="type-filter" onchange="filterTable()">
+                <option value="">All Types</option>
+                {% for t in types %}
+                <option value="{{ t }}">{{ t|capitalize }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn-refresh" onclick="refreshVisible()" id="btn-refresh-all">Refresh Visible Items</button>
+        </div>
+
+        <div id="refresh-status"></div>
+
+        <figure>
+        <table role="grid" id="inventory-table">
+            <thead>
+                <tr>
+                    <th data-sort="title" onclick="sortTable('title')">Title <span class="sort-arrow"></span></th>
+                    <th data-sort="type" onclick="sortTable('type')">Type <span class="sort-arrow"></span></th>
+                    <th data-sort="quantity" onclick="sortTable('quantity')">Qty <span class="sort-arrow"></span></th>
+                    <th data-sort="recommended_price" onclick="sortTable('recommended_price')">Price <span class="sort-arrow"></span></th>
+                    <th data-sort="avg_price" onclick="sortTable('avg_price')">Avg Sold <span class="sort-arrow"></span></th>
+                    <th data-sort="min_price" onclick="sortTable('min_price')">Min <span class="sort-arrow"></span></th>
+                    <th data-sort="max_price" onclick="sortTable('max_price')">Max <span class="sort-arrow"></span></th>
+                    <th data-sort="num_results" onclick="sortTable('num_results')">Sold # <span class="sort-arrow"></span></th>
+                    <th data-sort="checked_at" onclick="sortTable('checked_at')">Last Checked <span class="sort-arrow"></span></th>
+                    <th data-sort="trend" onclick="sortTable('trend')">Trend <span class="sort-arrow"></span></th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                {% for item in items %}
+                <tr data-id="{{ item.id }}"
+                    data-title="{{ item.title|lower }}"
+                    data-type="{{ item.type }}"
+                    data-quantity="{{ item.quantity }}"
+                    data-recommended_price="{{ item.recommended_price or '' }}"
+                    data-avg_price="{{ item.avg_price or '' }}"
+                    data-min_price="{{ item.min_price or '' }}"
+                    data-max_price="{{ item.max_price or '' }}"
+                    data-num_results="{{ item.num_results or 0 }}"
+                    data-checked_at="{{ item.checked_at or '' }}"
+                    data-trend="{{ item.trend }}">
+                    <td>
+                        <strong>{{ item.title }}</strong>
+                        {% if item.maker %}<br><small style="color:var(--muted-color)">{{ item.maker }}{% if item.year_made %} ({{ item.year_made }}){% endif %}</small>{% endif %}
+                    </td>
+                    <td><span class="type-badge type-{{ item.type }}">{{ item.type }}</span></td>
+                    <td class="qty">{{ item.quantity }}</td>
+                    <td class="price">{% if item.recommended_price is not none %}${{ "%.2f"|format(item.recommended_price) }}{% else %}<span style="color:var(--none-color)">--</span>{% endif %}</td>
+                    <td class="price">{% if item.avg_price is not none %}${{ "%.2f"|format(item.avg_price) }}{% else %}--{% endif %}</td>
+                    <td class="price">{% if item.min_price is not none %}${{ "%.2f"|format(item.min_price) }}{% else %}--{% endif %}</td>
+                    <td class="price">{% if item.max_price is not none %}${{ "%.2f"|format(item.max_price) }}{% else %}--{% endif %}</td>
+                    <td class="qty">{{ item.num_results or 0 }}</td>
+                    <td class="checked-date">
+                        {% if item.checked_at %}
+                            {{ item.checked_at[:10] }}
+                        {% else %}
+                            <span style="color:var(--none-color)">never</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.trend == 'up' %}
+                            <span class="trend-up">&#9650; Up</span>
+                        {% elif item.trend == 'down' %}
+                            <span class="trend-down">&#9660; Down</span>
+                        {% elif item.trend == 'stable' %}
+                            <span class="trend-stable">&#9644; Stable</span>
+                        {% else %}
+                            <span class="trend-none">&mdash;</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="btn-refresh" onclick="refreshItem({{ item.id }}, this)" title="Refresh price">&#8635;</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </figure>
+    </main>
+
+    <script>
+        // ---- Filtering ----
+        function filterTable() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const typeFilter = document.getElementById('type-filter').value;
+            const rows = document.querySelectorAll('#table-body tr');
+
+            rows.forEach(row => {
+                const title = row.dataset.title;
+                const type = row.dataset.type;
+                const matchSearch = !search || title.includes(search);
+                const matchType = !typeFilter || type === typeFilter;
+                row.style.display = (matchSearch && matchType) ? '' : 'none';
+            });
+        }
+
+        // ---- Sorting ----
+        let currentSort = { col: null, asc: true };
+
+        function sortTable(col) {
+            const tbody = document.getElementById('table-body');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            if (currentSort.col === col) {
+                currentSort.asc = !currentSort.asc;
+            } else {
+                currentSort.col = col;
+                currentSort.asc = true;
+            }
+
+            // Update arrows
+            document.querySelectorAll('th .sort-arrow').forEach(el => el.textContent = '');
+            const th = document.querySelector(`th[data-sort="${col}"] .sort-arrow`);
+            if (th) th.textContent = currentSort.asc ? '\u25B2' : '\u25BC';
+
+            const numericCols = ['quantity', 'recommended_price', 'avg_price', 'min_price', 'max_price', 'num_results'];
+            const isNumeric = numericCols.includes(col);
+
+            rows.sort((a, b) => {
+                let va = a.dataset[col] || '';
+                let vb = b.dataset[col] || '';
+
+                if (isNumeric) {
+                    va = va === '' ? -Infinity : parseFloat(va);
+                    vb = vb === '' ? -Infinity : parseFloat(vb);
+                    return currentSort.asc ? va - vb : vb - va;
+                }
+
+                // Trend sort order
+                if (col === 'trend') {
+                    const order = { up: 3, down: 2, stable: 1, none: 0 };
+                    return currentSort.asc
+                        ? (order[va] || 0) - (order[vb] || 0)
+                        : (order[vb] || 0) - (order[va] || 0);
+                }
+
+                return currentSort.asc
+                    ? va.localeCompare(vb)
+                    : vb.localeCompare(va);
+            });
+
+            rows.forEach(r => tbody.appendChild(r));
+        }
+
+        // ---- Price refresh ----
+        async function refreshItem(id, btn) {
+            const row = btn.closest('tr');
+            const cells = row.querySelectorAll('td');
+            btn.classList.add('loading');
+            btn.textContent = '...';
+
+            // Show inline status
+            const actionCell = cells[cells.length - 1];
+            const origAction = actionCell.innerHTML;
+            actionCell.innerHTML = '<span style="color:#f59e0b;font-size:0.8rem">Looking up...</span>';
+
+            try {
+                const resp = await fetch(`/api/prices/refresh/${id}`);
+                if (!resp.ok) {
+                    const err = await resp.json();
+                    actionCell.innerHTML = '<span style="color:#c62828;font-size:0.8rem">' + (err.detail || 'Error') + '</span>';
+                    setTimeout(() => { actionCell.innerHTML = origAction; }, 3000);
+                    return;
+                }
+                const data = await resp.json();
+
+                // Update ALL columns inline
+                const fmt = (v) => v !== null && v !== undefined ? '$' + v.toFixed(2) : '--';
+
+                // cells: title(0), type(1), qty(2), price(3), avg(4), min(5), max(6), sold#(7), lastChecked(8), trend(9), action(10)
+                if (cells[3]) cells[3].innerHTML = `<span class="price">${fmt(data.recommended_price)}</span>`;
+                if (cells[4]) cells[4].innerHTML = `<span class="price">${fmt(data.avg_price)}</span>`;
+                if (cells[5]) cells[5].innerHTML = `<span class="price">${fmt(data.min_price)}</span>`;
+                if (cells[6]) cells[6].innerHTML = `<span class="price">${fmt(data.max_price)}</span>`;
+                if (cells[7]) cells[7].innerHTML = `<span class="qty">${data.num_results || 0}</span>`;
+                if (cells[8]) cells[8].innerHTML = `<span class="checked-date">just now</span>`;
+
+                // Update data attributes for sorting
+                row.dataset.recommended_price = data.recommended_price || '';
+                row.dataset.avg_price = data.avg_price || '';
+                row.dataset.min_price = data.min_price || '';
+                row.dataset.max_price = data.max_price || '';
+                row.dataset.num_results = data.num_results || 0;
+
+                // Flash the row gold briefly
+                row.style.background = 'rgba(245, 158, 11, 0.15)';
+                setTimeout(() => { row.style.background = ''; }, 2000);
+
+                // Restore action button
+                actionCell.innerHTML = origAction;
+
+            } catch (e) {
+                actionCell.innerHTML = '<span style="color:#c62828;font-size:0.8rem">Network error</span>';
+                setTimeout(() => { actionCell.innerHTML = origAction; }, 3000);
+            } finally {
+                btn.classList.remove('loading');
+                btn.textContent = '\u21BB';
+            }
+        }
+
+        async function refreshVisible() {
+            // Get IDs of currently visible (filtered) rows only
+            const visibleRows = Array.from(document.querySelectorAll('#table-body tr'))
+                .filter(row => row.style.display !== 'none');
+            const ids = visibleRows.map(row => row.dataset.id);
+
+            if (ids.length === 0) {
+                alert('No items visible to refresh.');
+                return;
+            }
+
+            const btn = document.getElementById('btn-refresh-all');
+            btn.disabled = true;
+            const filterLabel = document.getElementById('type-filter').value || 'all';
+            btn.textContent = `Refreshing ${ids.length} items...`;
+
+            const status = document.getElementById('refresh-status');
+            status.style.display = 'block';
+            status.innerHTML = `Refreshing ${ids.length} ${filterLabel} items...`;
+
+            try {
+                const resp = await fetch('/api/prices/refresh-filtered', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({item_ids: ids.map(Number)})
+                });
+                const data = await resp.json();
+                if (data.status === 'already_running') {
+                    status.innerHTML = 'A refresh is already in progress. Please wait.';
+                } else {
+                    pollRefreshStatus();
+                }
+            } catch (e) {
+                status.innerHTML = 'Error: ' + e.message;
+                btn.disabled = false;
+                btn.textContent = 'Refresh Visible Items';
+            }
+        }
+
+        function pollRefreshStatus() {
+            const status = document.getElementById('refresh-status');
+            const btn = document.getElementById('btn-refresh-all');
+
+            const interval = setInterval(async () => {
+                try {
+                    const resp = await fetch('/api/prices/refresh-status');
+                    const data = await resp.json();
+                    const p = data.progress;
+
+                    if (p.status === 'running') {
+                        const pct = p.total > 0 ? Math.round((p.completed / p.total) * 100) : 0;
+                        status.innerHTML = `
+                            <div style="margin-bottom:6px">
+                                <strong>Refreshing prices:</strong> ${p.completed} / ${p.total} (${pct}%)
+                                ${p.errors > 0 ? ' &mdash; <span style="color:#c62828">' + p.errors + ' errors</span>' : ''}
+                            </div>
+                            <div style="background:#374151;border-radius:4px;height:8px;overflow:hidden">
+                                <div style="background:#f59e0b;height:100%;width:${pct}%;transition:width 0.3s"></div>
+                            </div>
+                            <div style="margin-top:4px;font-size:0.85rem;color:#9ca3af">
+                                Current: ${p.current_item}
+                            </div>
+                        `;
+                    } else if (p.status === 'done') {
+                        clearInterval(interval);
+                        status.innerHTML = `<strong>Done!</strong> Refreshed ${p.completed} items. ${p.errors > 0 ? p.errors + ' errors.' : ''} <a href="/" style="color:#f59e0b">Reload page</a> to see results.`;
+                        btn.disabled = false;
+                        btn.textContent = 'Refresh Visible Items';
+                    }
+
+                    if (!data.running && p.status !== 'done') {
+                        clearInterval(interval);
+                        btn.disabled = false;
+                        btn.textContent = 'Refresh Visible Items';
+                    }
+                } catch (e) {
+                    // Network error, keep polling
+                }
+            }, 2000); // Poll every 2 seconds
+        }
+
+        // On page load, check if a refresh is running
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const resp = await fetch('/api/prices/refresh-status');
+                const data = await resp.json();
+                if (data.running) {
+                    document.getElementById('refresh-status').style.display = 'block';
+                    document.getElementById('btn-refresh-all').disabled = true;
+                    document.getElementById('btn-refresh-all').textContent = 'Refreshing...';
+                    pollRefreshStatus();
+                }
+            } catch (e) {}
+        });
+
+        async function importInventory() {
+            try {
+                const resp = await fetch('/api/inventory/import', { method: 'POST' });
+                const data = await resp.json();
+                if (data.error) {
+                    alert('Import error: ' + data.error);
+                } else {
+                    alert(`Imported ${data.inserted} items (${data.skipped} skipped)`);
+                    location.reload();
+                }
+            } catch (e) {
+                alert('Network error: ' + e.message);
+            }
+        }
+    </script>
+</body>
+</html>
