@@ -1,14 +1,16 @@
 """
 Sam's Collectibles - Sold Price Lookup (Phase 2)
-Queries eBay's Finding API for completed/sold listings to determine
-competitive Buy It Now pricing.
+Queries eBay's Browse API for listings to determine competitive Buy It Now pricing.
+
+Uses OAuth2 Client Credentials flow with the Browse API's item_summary/search
+endpoint. The deprecated Finding API (findCompletedItems) has been replaced.
 
 Setup:
     1. Create a free eBay Developer account at https://developer.ebay.com
-    2. Get your App ID (Client ID) from the developer dashboard
-    3. Set it as an environment variable:
-         export EBAY_APP_ID="your-app-id-here"
-       Or update EBAY_APP_ID in config.py
+    2. Get your App ID (Client ID) and Cert ID (Client Secret)
+    3. Set them as environment variables:
+         export EBAY_APP_ID="your-client-id"
+         export EBAY_CERT_ID="your-client-secret"
 
 Usage:
     python sold_price_lookup.py "1993 SkyBox Star Trek Deep Space Nine sealed box"
@@ -18,24 +20,84 @@ Usage:
 """
 
 import argparse
+import base64
 import json
 import sys
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
-try:
-    from ebaysdk.finding import Connection as FindingAPI
-    HAS_EBAYSDK = True
-except ImportError:
-    HAS_EBAYSDK = False
+import requests
 
 from config import (
     EBAY_APP_ID,
+    EBAY_CERT_ID,
     EBAY_API_ENVIRONMENT,
     DATA_DIR,
     MAX_SOLD_RESULTS,
     PRICE_CACHE_DAYS,
 )
+
+
+# =============================================================================
+# OAUTH2 TOKEN MANAGEMENT
+# =============================================================================
+
+_token_cache = {
+    "access_token": None,
+    "expires_at": 0,
+}
+
+OAUTH_ENDPOINTS = {
+    "production": "https://api.ebay.com/identity/v1/oauth2/token",
+    "sandbox": "https://api.sandbox.ebay.com/identity/v1/oauth2/token",
+}
+
+BROWSE_ENDPOINTS = {
+    "production": "https://api.ebay.com/buy/browse/v1/item_summary/search",
+    "sandbox": "https://api.sandbox.ebay.com/buy/browse/v1/item_summary/search",
+}
+
+
+def get_oauth_token() -> str:
+    """
+    Get an OAuth2 application access token using Client Credentials grant.
+    Caches the token and refreshes when expired.
+    """
+    now = time.time()
+    if _token_cache["access_token"] and now < _token_cache["expires_at"] - 60:
+        return _token_cache["access_token"]
+
+    if not EBAY_APP_ID or not EBAY_CERT_ID:
+        raise ValueError(
+            "EBAY_APP_ID and EBAY_CERT_ID must be set. "
+            "Get credentials at https://developer.ebay.com"
+        )
+
+    credentials = base64.b64encode(
+        f"{EBAY_APP_ID}:{EBAY_CERT_ID}".encode()
+    ).decode()
+
+    env = EBAY_API_ENVIRONMENT or "production"
+    token_url = OAUTH_ENDPOINTS.get(env, OAUTH_ENDPOINTS["production"])
+
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": f"Basic {credentials}",
+    }
+    data = {
+        "grant_type": "client_credentials",
+        "scope": "https://api.ebay.com/oauth/api_scope",
+    }
+
+    resp = requests.post(token_url, headers=headers, data=data, timeout=15)
+    resp.raise_for_status()
+    token_data = resp.json()
+
+    _token_cache["access_token"] = token_data["access_token"]
+    _token_cache["expires_at"] = now + token_data.get("expires_in", 7200)
+
+    return _token_cache["access_token"]
 
 
 # =============================================================================
@@ -67,81 +129,101 @@ def is_cache_fresh(cache_entry: dict) -> bool:
 
 
 # =============================================================================
-# EBAY FINDING API
+# EBAY BROWSE API
 # =============================================================================
 
 def search_sold_items(keywords: str, category_id: str = None) -> list[dict]:
     """
-    Query eBay Finding API findCompletedItems for sold listings.
-    Returns a list of sold items with prices.
-    """
-    if not HAS_EBAYSDK:
-        print("ERROR: ebaysdk not installed. Run: pip install ebaysdk")
-        print("       Then set EBAY_APP_ID in config.py or as env variable.")
-        return []
+    Query eBay Browse API for listings matching keywords.
 
-    if not EBAY_APP_ID:
-        print("ERROR: EBAY_APP_ID not configured.")
-        print("       1. Get a free key at https://developer.ebay.com")
-        print("       2. Set it: export EBAY_APP_ID='your-key-here'")
-        print("       Or update EBAY_APP_ID in config.py")
+    The Browse API with Client Credentials grant returns active listings
+    (not completed/sold items). These active listing prices serve as
+    market reference for competitive pricing.
+
+    Returns a list of items with prices.
+    """
+    if not EBAY_APP_ID or not EBAY_CERT_ID:
+        print("ERROR: EBAY_APP_ID and EBAY_CERT_ID not configured.")
+        print("       1. Get credentials at https://developer.ebay.com")
+        print("       2. Set them:")
+        print("            export EBAY_APP_ID='your-client-id'")
+        print("            export EBAY_CERT_ID='your-client-secret'")
         return []
 
     try:
-        api = FindingAPI(
-            appid=EBAY_APP_ID,
-            config_file=None,
-            siteid="EBAY-US",
-        )
+        token = get_oauth_token()
+    except Exception as e:
+        print(f"  OAuth Error: {e}")
+        return []
 
-        request_params = {
-            "keywords": keywords,
-            "itemFilter": [
-                {"name": "SoldItemsOnly", "value": "true"},
-                {"name": "ListingType", "value": "FixedPrice"},
-            ],
-            "sortOrder": "PricePlusShippingHighest",
-            "paginationInput": {
-                "entriesPerPage": str(MAX_SOLD_RESULTS),
-                "pageNumber": "1",
-            },
-        }
+    env = EBAY_API_ENVIRONMENT or "production"
+    search_url = BROWSE_ENDPOINTS.get(env, BROWSE_ENDPOINTS["production"])
 
-        if category_id:
-            request_params["categoryId"] = category_id
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "X-EBAY-C-MARKETPLACE-ID": "EBAY_US",
+        "Content-Type": "application/json",
+    }
 
-        response = api.execute("findCompletedItems", request_params)
-        results = response.dict()
+    # Build filter string for the Browse API
+    filters = ["buyingOptions:{FIXED_PRICE}"]
+    filters.append("conditions:{NEW|LIKE_NEW|VERY_GOOD}")
 
-        items = []
-        search_result = results.get("searchResult", {})
-        result_items = search_result.get("item", [])
+    if category_id:
+        filters.append(f"categoryIds:{{{category_id}}}")
 
-        if not isinstance(result_items, list):
-            result_items = [result_items] if result_items else []
+    params = {
+        "q": keywords,
+        "filter": ",".join(filters),
+        "sort": "newlyListed",
+        "limit": str(min(MAX_SOLD_RESULTS, 200)),
+    }
 
-        for item in result_items:
-            selling_status = item.get("sellingStatus", {})
-            current_price = selling_status.get("currentPrice", {})
-
-            price = float(current_price.get("value", 0))
-            sold_date = item.get("listingInfo", {}).get("endTime", "")
-
-            items.append({
-                "title": item.get("title", ""),
-                "price": price,
-                "currency": current_price.get("_currencyId", "USD"),
-                "item_id": item.get("itemId", ""),
-                "sold_date": sold_date,
-                "url": item.get("viewItemURL", ""),
-                "condition": item.get("condition", {}).get("conditionDisplayName", ""),
-            })
-
-        return items
-
+    try:
+        resp = requests.get(search_url, headers=headers, params=params, timeout=20)
+        resp.raise_for_status()
+        data = resp.json()
+    except requests.exceptions.HTTPError as e:
+        print(f"  API HTTP Error: {e}")
+        if resp.status_code == 403:
+            print("  (Browse API access may require additional marketplace approval)")
+        return []
     except Exception as e:
         print(f"  API Error: {e}")
         return []
+
+    items = []
+    for item_summary in data.get("itemSummaries", []):
+        price_info = item_summary.get("price", {})
+        price_val = float(price_info.get("value", 0))
+        currency = price_info.get("currency", "USD")
+
+        # Only include USD items with a positive price
+        if currency != "USD" or price_val <= 0:
+            continue
+
+        condition = item_summary.get("condition", "")
+        item_url = item_summary.get("itemWebUrl", "")
+        item_id = item_summary.get("itemId", "")
+        title = item_summary.get("title", "")
+
+        # Use itemEndDate if available (for completed items), otherwise itemCreationDate
+        sold_date = (
+            item_summary.get("itemEndDate")
+            or item_summary.get("itemCreationDate", "")
+        )
+
+        items.append({
+            "title": title,
+            "price": price_val,
+            "currency": currency,
+            "item_id": item_id,
+            "sold_date": sold_date,
+            "url": item_url,
+            "condition": condition,
+        })
+
+    return items
 
 
 # =============================================================================

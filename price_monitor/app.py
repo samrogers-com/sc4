@@ -165,27 +165,35 @@ def import_csv(csv_path: Path | str = CSV_PATH) -> dict:
 # eBay lookup helper
 # ---------------------------------------------------------------------------
 def build_search_query(item: dict) -> str:
-    """Build eBay search keywords from an inventory item."""
-    parts = []
-    if item.get("year_made"):
-        parts.append(str(item["year_made"]))
-    if item.get("maker"):
-        parts.append(str(item["maker"]))
-    parts.append(str(item["title"]))
+    """Build eBay search keywords from an inventory item.
 
+    Keeps queries short and broad for better match rates.
+    The Browse API works best with fewer, more relevant keywords.
+    """
+    parts = []
+
+    # Add title (core search term)
+    title = str(item.get("title", ""))
+    parts.append(title)
+
+    # Add maker only if it's not NULL/None/empty
+    maker = str(item.get("maker", ""))
+    if maker and maker.upper() != "NULL" and maker != "None":
+        parts.append(maker)
+
+    # Add a simple type keyword — keep it short
     item_type = item.get("type", "base")
     if item_type == "box":
-        parts.append("sealed box trading cards")
-    elif item_type == "base":
-        parts.append("complete set trading cards")
-    elif item_type == "chase":
-        parts.append("chase set trading cards")
-    elif item_type == "insert":
-        parts.append("insert set trading cards")
+        parts.append("sealed box")
     elif item_type == "sticker":
-        parts.append("sticker set trading cards")
-    else:
-        parts.append("trading cards")
+        parts.append("sticker")
+    elif item_type == "chase":
+        parts.append("chase")
+    elif item_type == "insert":
+        parts.append("insert")
+
+    # Always add "trading cards" for context
+    parts.append("trading cards")
 
     return " ".join(parts)
 
