@@ -1,43 +1,70 @@
-# CBCS/CGC Comic Book Grading Scale
+# Comic Book Grading Scale — CBCS & CGC Comparison
 
-Reference: https://www.cbcscomics.com/comics-grading-scale
-Both CBCS and CGC use the same universal grading scale.
+## Overview
+Both CBCS (Comic Book Certification Service) and CGC (Certified Guaranty Company) use the same 10-point grading scale. The numeric grades and grade names are identical. The differences are in how they apply the grades, handle edge cases, and their business practices.
 
-## Grading Scale
+## Universal Grading Scale (Used by Both CBCS and CGC)
 
-| Grade | Name | Description |
-|-------|------|-------------|
-| **10.0** | Gem Mint | The highest grade assigned. The collectible must have no evidence of any manufacturing or handling defects. |
-| **9.9** | Mint | Nearly indistinguishable from a 10.0 but will have a very minor manufacturing defect. No handling issues. |
-| **9.8** | NM/M (Near Mint/Mint) | A nearly flawless collectible displaying only negligible manufacturing or handling defects. |
-| **9.6** | NM+ (Near Mint+) | A well-preserved item with several minor manufacturing or handling defects present. Tape is never allowed in this grade range. |
-| **9.4** | NM (Near Mint) | Very well-maintained with minor wear and small manufacturing or handling defects visible. |
-| **9.2** | NM- (Near Mint-) | Well-preserved condition with noticeable wear and small manufacturing or handling defects. |
-| **9.0** | VF/NM (Very Fine/Near Mint) | A very well-preserved collectible with good eye appeal showing multiple minor handling/manufacturing defects. |
-| **8.5** | VF+ (Very Fine+) | An attractive piece with either a moderate defect or numerous small defects accumulated. |
-| **8.0** | VF (Very Fine) | Attractive condition featuring a moderate defect or accumulation of small defects. |
-| **7.5** | VF- (Very Fine-) | Above-average with a moderate defect or accumulation of small defects. |
-| **7.0** | FN/VF (Fine/Very Fine) | Above-average condition with a major defect or accumulated small defects. |
-| **6.5** | FN+ (Fine+) | Above-average with a major defect plus smaller ones, or significant accumulation of minor defects. |
-| **6.0** | FN (Fine) | Slightly above-average with major and smaller defects or significant accumulation. |
-| **5.5** | FN- (Fine-) | Slightly above-average displaying several moderate defects. |
-| **5.0** | VG/FN (Very Good/Fine) | Average collectible with several moderate defects present. |
-| **4.5** | VG+ (Very Good+) | Slightly below-average with multiple moderate defects. |
-| **4.0** | VG (Very Good) | Below-average with multiple moderate defects evident. |
-| **3.5** | VG- (Very Good-) | Below-average showing several major defects or accumulated moderate defects. |
-| **3.0** | G/VG (Good/Very Good) | Shows significant evidence of handling with several moderate-to-major defects. |
-| **2.5** | G+ (Good+) | Shows extensive handling evidence with multiple moderate-to-major defects. |
-| **2.0** | G (Good) | Extensive handling evidence with numerous moderate-to-major defects. |
-| **1.8** | G- (Good-) | Extensive handling with numerous major defects throughout. |
-| **1.5** | Fa/G (Fair/Good) | Extensive evidence of handling with a heavy accumulation of major defects. |
-| **1.0** | Fa (Fair) | Very poorly handled with heavy accumulation of major defects. |
-| **0.5** | Pr (Poor) | Heavily defaced collectible with a number of major defects. Some pieces will also be missing. |
+| Grade | Name | CGC Description | CBCS Notes |
+|-------|------|-----------------|------------|
+| **10.0** | Gem Mint | The highest grade assigned. No evidence of any manufacturing or handling defects. | Same |
+| **9.9** | Mint | Nearly indistinguishable from 10.0 but will have a very minor manufacturing defect. No handling issues. | Same |
+| **9.8** | NM/M | A nearly perfect collectible with negligible handling or manufacturing defects. | Same |
+| **9.6** | NM+ | A very well-preserved collectible with several minor manufacturing or handling defects. | Same. Tape never allowed at this grade or above. |
+| **9.4** | NM | A very well-preserved collectible with minor wear and small manufacturing or handling defects. | Same |
+| **9.2** | NM- | A very well-preserved collectible with some wear and small manufacturing or handling defects. | Same |
+| **9.0** | VF/NM | A very well-preserved collectible with good eye appeal. Multiple minor handling/manufacturing defects. | Same. Cover inks exceptionally bright with high gloss. Interior pages must be white and supple. |
+| **8.5** | VF+ | An attractive collectible with a moderate defect or a number of small defects. | Same |
+| **8.0** | VF | An attractive collectible with a moderate defect or an accumulation of small defects. | Same |
+| **7.5** | VF- | An above-average collectible with a moderate defect or an accumulation of small defects. | Same |
+| **7.0** | FN/VF | An above-average collectible with a major defect or an accumulation of small defects. | Same |
+| **6.5** | FN+ | An above-average collectible with a major defect and some smaller defects, or significant accumulation of small defects. | Same |
+| **6.0** | FN | A slightly above-average collectible with a major defect and some smaller defects, or significant accumulation. | Same |
+| **5.5** | FN- | A slightly above-average collectible with several moderate defects. | Same |
+| **5.0** | VG/FN | An average collectible with several moderate defects. | Same |
+| **4.5** | VG+ | A slightly below-average collectible with multiple moderate defects. | Same |
+| **4.0** | VG | A below-average collectible with multiple moderate defects. | Same |
+| **3.5** | VG- | A below-average collectible with several major defects or accumulated moderate defects. | Same. Complete books can have major creases and spine roll. Cover gloss can be very low or nonexistent. |
+| **3.0** | G/VG | Shows significant evidence of handling with several moderate-to-major defects. | Same |
+| **2.5** | G+ | Shows extensive handling evidence with multiple moderate-to-major defects. | Same |
+| **2.0** | G | Extensive handling evidence with numerous moderate-to-major defects. | Same |
+| **1.8** | G- | Extensive handling with numerous major defects throughout. | Same |
+| **1.5** | Fa/G | Extensive evidence of handling with a heavy accumulation of major defects. | Same |
+| **1.0** | Fa | Very poorly handled with heavy accumulation of major defects. | Same |
+| **0.5** | Pr | Heavily defaced collectible with major defects. Some pieces may be missing. | Same |
 
-## Special Designations
-| Grade | Description |
-|-------|-------------|
-| **0.3** | Coverless but otherwise complete |
-| **0.1** | Coverless with incomplete interiors, wraps, or single pages |
+## Special Designations — KEY DIFFERENCE
+
+| Situation | CGC | CBCS |
+|-----------|-----|------|
+| **Coverless, otherwise complete** | NG (No Grade) | **0.3** (gets a numeric grade) |
+| **Coverless, incomplete interiors** | NG (No Grade) | **0.1** (gets a numeric grade) |
+| **Remaindered (missing upper cover portion)** | **0.5** | **1.0** (more lenient) |
+
+## CBCS vs CGC — Key Differences
+
+### Grading Approach
+| Factor | CGC | CBCS |
+|--------|-----|------|
+| **Focus** | Overall condition and eye appeal | More detailed criteria: page quality, centerfold attachment, staple quality |
+| **Consistency** | More standardized (higher volume = better calibration) | Slightly less consistent but improving |
+| **Leniency** | Stricter graders | Known for being slightly more lenient on borderline books |
+| **Coverless books** | NG (No Grade) | Assigns 0.3 or 0.1 numeric grade |
+
+### Business & Services
+| Factor | CGC | CBCS |
+|--------|-----|------|
+| **Market value** | Comics graded by CGC generally sell for MORE | CBCS-graded books sell for slightly less |
+| **Pricing** | Economy tier ~$27/book | Modern tier ~$18/book |
+| **Turnaround** | Slower (higher volume) | Generally faster |
+| **Signature verification** | Must be witnessed by CGC staff (Signature Series) | **Can authenticate old signatures** not witnessed by them (Verified Signature Program) |
+| **Re-submission** | Stricter re-submission policies | Easier re-submission if unhappy with grade |
+| **Founded** | 2000 | 2014 (by former CGC co-founder Steve Borock) |
+
+### Which to Use?
+- **CGC** — If maximizing resale value is the priority (CGC commands a premium)
+- **CBCS** — If you have signed books (unwitnessed), want faster/cheaper service, or have borderline books that might get a bump
+- **For eBay listings without professional grading** — Use CBCS standards for self-grading descriptions, note "not professionally graded" in listing
 
 ## What to Look For When Grading
 
@@ -77,7 +104,11 @@ Both CBCS and CGC use the same universal grading scale.
 - Photos show front cover, back cover, and spine close-up for transparency
 - All SW Marvel 1977 comics were purchased and stored properly since 1983
 - Dark Horse comics all purchased new, bagged and boarded, never read
+- We note "not professionally graded" on all eBay listings — honest self-assessment based on CBCS criteria
 
-Sources:
-- https://www.cbcscomics.com/comics-grading-scale
-- https://www.cgccomics.com/grading/grading-scale/
+## Sources
+- CBCS Grading Scale: https://www.cbcscomics.com/comics-grading-scale
+- CGC Grading Scale: https://www.cgccomics.com/grading/grading-scale/
+- CBCS vs CGC Comparison: https://www.dylanuniversecomics.com/cbcs-cgc/
+- CGC vs CBCS Detailed: https://www.subzerocomics.com/post/cgc-vs-cbcs-who-should-you-use-when-grading-your-comics
+- CBCS 12 Reasons: https://www.cbcscomics.com/cbcs-vs-cgc
