@@ -78,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'samscollectibles.context_processors.site_settings',
             ],
         },
     },
@@ -121,6 +122,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This ensures the static f
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Image base URL — change this when migrating from S3 to R2
+# S3:  https://samscollectibles.s3-us-west-1.amazonaws.com/
+# R2:  https://media.samscollectibles.net/
+IMAGE_BASE_URL = "https://samscollectibles.s3-us-west-1.amazonaws.com/"
+
+# eBay store URL
+EBAY_STORE_URL = "https://www.ebay.com/usr/sams.collectibles"
 
 # File storage - configure for your hosting provider (Cloudflare R2, Hostinger, etc.)
 # if config('USE_REMOTE_STORAGE', default=False, cast=bool):

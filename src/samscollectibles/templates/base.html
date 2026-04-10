@@ -1,49 +1,121 @@
-<!-- src/samscollectibles/templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sam's Collectibles{% endblock %}</title>
-
-    <!-- Load static files and HTMX -->
     {% load static %}
-    <script src="{% static 'js/htmx.min.js' %}"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'js/htmx.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <script>
-        const toggleButton = document.getElementById('navbar-toggle');
-        const navbarMenu = document.getElementById('navbar-menu');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        toggleButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    </script>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
 </head>
-<body class="flex flex-col min-h-screen text-gray-800" style="background: url('/static/images/SpaceBackground-1.png') center/cover fixed;">
+<body class="flex flex-col min-h-screen bg-gray-800 text-gray-100">
 
-    <!-- Translucent Header -->
-    <header class="bg-black bg-opacity-70 text-white text-center py-5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-4xl font-bold text-white">Welcome to Sam's Collectibles</h1>
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-gray-900 border-b border-gray-700 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="{% url 'home' %}" class="flex items-center gap-3 no-underline">
+                <span class="text-2xl font-bold text-amber-500">Sam's Collectibles</span>
+            </a>
 
-            <!-- Include the navbar from partials -->
-            {% include 'partials/navbar.html' %}
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center gap-6">
+                <a href="{% url 'home' %}" class="text-gray-300 hover:text-amber-400 transition">Home</a>
+
+                <!-- Comics Dropdown -->
+                <div class="relative group">
+                    <a href="{% url 'comic_books:comicbooks_home' %}" class="text-gray-300 hover:text-amber-400 transition">Comic Books</a>
+                    <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
+                        <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                            <a href="{% url 'comic_books:starwars_marvel' %}" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">Star Wars Marvel</a>
+                            <a href="{% url 'comic_books:starwars_dark_horse' %}" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">Star Wars Dark Horse</a>
+                            <a href="{% url 'comic_books:startrek_dc' %}" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-amber-400">Star Trek DC</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="text-gray-300 hover:text-amber-400 transition">Trading Cards</a>
+                <a href="{% url 'movie_posters:home' %}" class="text-gray-300 hover:text-amber-400 transition">Movie Posters</a>
+                <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener" class="text-gray-300 hover:text-amber-400 transition">eBay Store &#8599;</a>
+                <a href="{% url 'about' %}" class="text-gray-300 hover:text-amber-400 transition">About</a>
+                <a href="{% url 'contact' %}" class="text-gray-300 hover:text-amber-400 transition">Contact</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'ebay_templates:home' %}" class="text-gray-500 hover:text-gray-300 text-sm transition">Templates</a>
+                    <a href="{% url 'logout' %}" class="text-gray-500 hover:text-gray-300 text-sm transition">Logout</a>
+                {% endif %}
+            </nav>
+
+            <!-- Mobile Hamburger -->
+            <button id="mobile-toggle" class="lg:hidden text-gray-300 hover:text-amber-400 focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-gray-900 border-t border-gray-700 px-4 pb-4">
+            <a href="{% url 'home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Home</a>
+            <a href="{% url 'comic_books:comicbooks_home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Comic Books</a>
+            <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Trading Cards</a>
+            <a href="{% url 'movie_posters:home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Movie Posters</a>
+            <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener" class="block py-2 text-gray-300 hover:text-amber-400">eBay Store &#8599;</a>
+            <a href="{% url 'about' %}" class="block py-2 text-gray-300 hover:text-amber-400">About</a>
+            <a href="{% url 'contact' %}" class="block py-2 text-gray-300 hover:text-amber-400">Contact</a>
         </div>
     </header>
 
-    <!-- Main Content - Flex-grow to take the available space -->
-    <main class="flex-grow max-w-7xl mx-auto py-8">
-        {% block content %}
-        {% endblock %}
+    <!-- Flash Messages -->
+    {% if messages %}
+    <div class="max-w-7xl mx-auto px-4 mt-4">
+        {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-error{% else %}alert-info{% endif %} mb-2">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-8">
+        {% block content %}{% endblock %}
     </main>
 
-    <!-- Translucent Footer -->
-    <footer class="bg-black bg-opacity-70 text-white text-center py-2 w-full text-sm">
-        <p class="text-white"> &copy; 2024 Sam's Collectibles</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-700 text-gray-400 py-6">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <span class="text-amber-500 font-bold">Sam's Collectibles</span>
+                    <span class="text-sm ml-2">Non-Sport Trading Cards &middot; Comic Books &middot; Movie Posters</span>
+                </div>
+                <div class="flex gap-4 text-sm">
+                    <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener" class="hover:text-amber-400 transition">eBay Store</a>
+                    <a href="{% url 'contact' %}" class="hover:text-amber-400 transition">Contact</a>
+                    <a href="{% url 'about' %}" class="hover:text-amber-400 transition">About</a>
+                </div>
+            </div>
+            <div class="text-center text-sm mt-4 text-gray-500">
+                &copy; 2024-2026 Sam's Collectibles. All rights reserved.
+            </div>
+        </div>
     </footer>
 
+    <!-- Mobile menu toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('mobile-toggle');
+            const menu = document.getElementById('mobile-menu');
+            if (toggle && menu) {
+                toggle.addEventListener('click', function() {
+                    menu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
 </body>
 </html>

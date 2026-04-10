@@ -1,39 +1,38 @@
-<!-- file: src/samscollectibles/templates/contact.html -->
-
 {% extends 'base.html' %}
-{% load static %}
 
-{% block title %}Contact Us{% endblock %}
+{% block title %}Contact — Sam's Collectibles{% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto p-8 bg-white rounded shadow-md">
-    <h2 class="text-3xl font-bold mb-4 text-center">Contact Us</h2>
-    
-    {% if messages %}
-        {% for message in messages %}
-            <p class="text-green-500">{{ message }}</p>
-        {% endfor %}
-    {% endif %}
+<div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-amber-500 mb-6">Contact Us</h1>
 
-    <form action="{% url 'contact' %}" method="post" class="space-y-4">
-        {% csrf_token %}
-        
-        <div>
-            <label for="name" class="block text-sm font-medium">Your Name</label>
-            <input type="text" name="name" id="name" required class="w-full px-3 py-2 border rounded">
-        </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-8">
+        <form action="{% url 'contact' %}" method="post" class="space-y-5">
+            {% csrf_token %}
 
-        <div>
-            <label for="email" class="block text-sm font-medium">Your Email</label>
-            <input type="email" name="email" id="email" required class="w-full px-3 py-2 border rounded">
-        </div>
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Your Name</label>
+                <input type="text" name="name" id="name" required
+                       class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
 
-        <div>
-            <label for="message" class="block text-sm font-medium">Your Message</label>
-            <textarea name="message" id="message" rows="5" required class="w-full px-3 py-2 border rounded"></textarea>
-        </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Your Email</label>
+                <input type="email" name="email" id="email" required
+                       class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
 
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Send Message</button>
-    </form>
+            <div>
+                <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Your Message</label>
+                <textarea name="message" id="message" rows="5" required
+                          class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none"></textarea>
+            </div>
+
+            <button type="submit"
+                    class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">
+                Send Message
+            </button>
+        </form>
+    </div>
 </div>
 {% endblock %}

@@ -1,64 +1,87 @@
-<!-- file: src/samscollectibles/templates/home.html -->
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Sam's Collectibles — Non-Sport Trading Cards, Comics & Posters{% endblock %}
+
 {% block content %}
-    <h1 class="text-center text-4xl font-bold my-6">Welcome to Sam's Collectibles</h1>
-    <p class="text-center text-lg mb-8">{{ welcome_message }}</p>
+<!-- Hero Section -->
+<section class="text-center py-12">
+    <h1 class="text-5xl font-bold text-amber-500 mb-4">Sam's Collectibles</h1>
+    <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+        Curated non-sport trading cards, vintage comic books, and original movie posters.
+        Collecting since 1983.
+    </p>
+    <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener"
+       class="inline-block mt-6 px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">
+        Visit Our eBay Store &#8599;
+    </a>
+</section>
 
-    <!-- Comic Books Section -->
-    <h2 class="text-2xl font-bold mb-4">Comic Books</h2>
-    <!-- Full-height container with scrollable card list but keeping the footer visible -->
-    <div class="flex flex-col items-center justify-start min-h-screen mx-auto max-w-7xl">
-        <!-- Container that doesn't override the footer, scrollable within available window height -->
-        <div class="overflow-auto w-full flex-grow bg-gray-100 p-4 rounded-lg shadow-lg" style="max-height: calc(65vh - 200px);">
-            {% for comicbook in comic_books %}
-                <div class="comic-card border border-gray-300 p-4 mb-6 rounded-lg shadow-md bg-white max-w-3xl mx-auto flex">
-                    <!-- Image on the left -->
-                    <div class="w-1/3">
-                        <img src="{{ comicbook.sw_s3image_link }}" alt="{{ comicbook.title }} - Issue #{{ comicbook.issue_number }}" class="max-w-full h-auto rounded">
-                    </div>
+<!-- Featured Collections -->
+<section class="py-8">
+    <h2 class="text-2xl font-bold text-gray-100 mb-6 text-center">Our Collections</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                    <!-- Comic details on the right -->
-                    <div class="w-2/3 pl-6 flex flex-col justify-between">
-                        <!-- Title and Release Date on the same line -->
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-xl font-bold">{{ comicbook.title }} - Issue #{{ comicbook.issue_number }}</h3>
-                            <p class="text-gray-600 text-right">{{ comicbook.release_date }}</p>
-                        </div>
-                        <!-- Description below the title and date -->
-                        <p class="mt-2 text-gray-700">{{ comicbook.description }}</p>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- Non-Sports Cards Section -->
-    <h2 class="text-2xl font-bold mb-4">Non-Sports Cards</h2>
-    <div class="grid grid-cols-2 gap-4 mb-10">
-        {% for card in non_sports_cards %}
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <h3 class="text-xl font-bold">{{ card.title }}</h3>
-                <p class="text-gray-600">Manufacturer: {{ card.manufacturer }}</p>
-                <p class="text-gray-500">Date: {{ card.date_manufactured }}</p>
+        <!-- Non-Sport Trading Cards -->
+        <a href="{% url 'non_sports_cards:non_sports_cards_home' %}"
+           class="group block bg-gray-700 rounded-lg overflow-hidden border border-gray-600 hover:border-amber-500 transition shadow-lg hover:shadow-amber-500/10">
+            <div class="h-48 bg-gradient-to-br from-blue-900 to-gray-800 flex items-center justify-center">
+                <span class="text-6xl">&#127183;</span>
             </div>
-        {% empty %}
-            <p class="text-gray-500">No non-sports cards available now, but coming soon.</p>
-        {% endfor %}
-    </div>
-
-    <!-- Movie Posters Section -->
-    <h2 class="text-2xl font-bold mb-4">Movie Posters</h2>
-    <div class="grid grid-cols-2 gap-4 mb-10">
-        {% for poster in movie_posters %}
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <h3 class="text-xl font-bold">{{ poster.title }}</h3>
-                <p class="text-gray-600">Movie: {{ poster.movie_title }}</p>
-                <p class="text-gray-500">Year: {{ poster.year }}</p>
+            <div class="p-5">
+                <h3 class="text-xl font-bold text-gray-100 group-hover:text-amber-400 transition">Non-Sport Trading Cards</h3>
+                <p class="text-gray-400 mt-2">Star Wars, Star Trek, Marvel, X-Files, and hundreds more sealed boxes, base sets, and chase cards.</p>
+                {% if ns_card_count %}
+                <p class="text-amber-500 text-sm mt-3 font-medium">{{ ns_card_count }} sets in collection</p>
+                {% endif %}
             </div>
-        {% empty %}
-            <p class="text-gray-500">No movie posters available now, but coming soon.</p>
-        {% endfor %}
+        </a>
+
+        <!-- Comic Books -->
+        <a href="{% url 'comic_books:comicbooks_home' %}"
+           class="group block bg-gray-700 rounded-lg overflow-hidden border border-gray-600 hover:border-amber-500 transition shadow-lg hover:shadow-amber-500/10">
+            <div class="h-48 bg-gradient-to-br from-red-900 to-gray-800 flex items-center justify-center">
+                <span class="text-6xl">&#128214;</span>
+            </div>
+            <div class="p-5">
+                <h3 class="text-xl font-bold text-gray-100 group-hover:text-amber-400 transition">Comic Books</h3>
+                <p class="text-gray-400 mt-2">Star Wars Marvel #1-107 (1977-1986), Dark Horse collections, and Star Trek DC series.</p>
+                {% if comic_count %}
+                <p class="text-amber-500 text-sm mt-3 font-medium">{{ comic_count }} issues in collection</p>
+                {% endif %}
+            </div>
+        </a>
+
+        <!-- Movie Posters -->
+        <a href="{% url 'movie_posters:home' %}"
+           class="group block bg-gray-700 rounded-lg overflow-hidden border border-gray-600 hover:border-amber-500 transition shadow-lg hover:shadow-amber-500/10">
+            <div class="h-48 bg-gradient-to-br from-amber-900 to-gray-800 flex items-center justify-center">
+                <span class="text-6xl">&#127916;</span>
+            </div>
+            <div class="p-5">
+                <h3 class="text-xl font-bold text-gray-100 group-hover:text-amber-400 transition">Movie Posters</h3>
+                <p class="text-gray-400 mt-2">Original theatrical one-sheets, advance posters, and lobby cards. Star Wars and beyond.</p>
+                {% if poster_count %}
+                <p class="text-amber-500 text-sm mt-3 font-medium">{{ poster_count }} posters in collection</p>
+                {% endif %}
+            </div>
+        </a>
+
     </div>
+</section>
+
+<!-- About / eBay Section -->
+<section class="py-8 mt-4">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-8 text-center">
+        <h2 class="text-2xl font-bold text-gray-100 mb-3">Find Us on eBay</h2>
+        <p class="text-gray-400 max-w-xl mx-auto mb-4">
+            We list new items regularly. Non-sport trading card boxes, complete sets, chase cards,
+            vintage comics, and original movie posters — all from a collector who's been in the hobby since 1983.
+        </p>
+        <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener"
+           class="inline-block px-5 py-2 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-gray-900 rounded-lg font-medium transition">
+            Browse Our eBay Store &#8599;
+        </a>
+    </div>
+</section>
 {% endblock %}

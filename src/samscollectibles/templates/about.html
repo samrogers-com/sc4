@@ -1,21 +1,39 @@
-<!-- file: src/samscollectibles/templates/about.html -->
-
 {% extends 'base.html' %}
 
-{% block title %}About Us{% endblock %}
+{% block title %}About — Sam's Collectibles{% endblock %}
 
 {% block content %}
-<div class="max-w-5xl mx-auto my-10 p-6 bg-white bg-opacity-80 rounded-lg shadow-lg">
-    <h2 class="text-3xl font-bold text-center mb-4">About Sam's Collectibles</h2>
-    <p class="text-lg leading-7 mb-4">
-        I started in 1983 when I purchased my first Star Wars movie poster and got hooked on collecting. Over time, I accumulated around 70 posters. Unfortunately, due to damage from moving, only about 30 posters remain, and they are currently available for sale.
-    </p>
-    <p class="text-lg leading-7 mb-4">
-        Following my love for Star Wars, I began collecting Star Wars Marvel comic books from 1977 and later moved on to Star Wars Dark Horse comics. This collection continues to be a cherished part of my memorabilia.
-    </p>
-    <p class="text-lg leading-7">
-        I then got hooked on non-sports trading cards, with Star Wars and Star Trek making up the bulk of my collection. Today, non-sports trading cards are the cornerstone of my collectibles, with a focus on the worlds and universes that captivated me.
-    </p>
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-amber-500 mb-6">About Sam's Collectibles</h1>
+
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-8 space-y-4">
+        <p class="text-gray-300 leading-7">
+            I started in 1983 when I purchased my first Star Wars movie poster and got hooked on collecting.
+            Over time, I accumulated around 70 posters. Unfortunately, due to damage from moving, only about
+            30 posters remain, and they are currently available for sale.
+        </p>
+        <p class="text-gray-300 leading-7">
+            Following my love for Star Wars, I began collecting Star Wars Marvel comic books from 1977 and
+            later moved on to Star Wars Dark Horse comics. This collection continues to be a cherished part
+            of my memorabilia.
+        </p>
+        <p class="text-gray-300 leading-7">
+            I then got hooked on non-sports trading cards, with Star Wars and Star Trek making up the bulk
+            of my collection. Today, non-sports trading cards are the cornerstone of my collectibles, with
+            a focus on the worlds and universes that captivated me.
+        </p>
+        <p class="text-gray-300 leading-7">
+            Almost all of my posters were purchased between 1983 and 1990 from reputable poster dealers
+            — well before the bootleg era — and my card collection spans hundreds of sealed boxes and
+            complete sets from that golden era of collecting.
+        </p>
+    </div>
+
+    <div class="mt-8 text-center">
+        <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener"
+           class="inline-block px-5 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">
+            Browse Our eBay Store &#8599;
+        </a>
+    </div>
 </div>
 {% endblock %}
-

@@ -1,10 +1,16 @@
-<!-- src/movie_posters/templates/movie_posters/home.html -->
 {% extends 'base.html' %}
-{% load static %}
-{% block title %}Movie Posters{% endblock %}
+
+{% block title %}Movie Posters — Sam's Collectibles{% endblock %}
+
 {% block content %}
-    <h2>Movie Posters Collection</h2>
-    <div id="movie-posters-list" hx-get="{% url 'movie_posters:list_posters' %}" hx-trigger="load">
-        Loading movie posters...
-    </div>
+<h1 class="text-3xl font-bold text-amber-500 mb-2">Movie Posters</h1>
+<p class="text-gray-400 mb-6">Original theatrical one-sheets, advance posters, and lobby cards.</p>
+
+<div id="posters-list"
+     hx-get="{% url 'movie_posters:list_posters' %}"
+     hx-trigger="load"
+     class="text-center py-12">
+    <div class="htmx-indicator"></div>
+    <p class="text-gray-400 mt-4">Loading posters...</p>
+</div>
 {% endblock %}

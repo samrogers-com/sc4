@@ -1,17 +1,48 @@
-<!-- src/comic_books/templates/comic_books/home.html -->
-
 {% extends 'base.html' %}
 
-<h2 class="text-3xl font-bold text-center my-6">Star Wars Marvel Comics</h2>
+{% block title %}Comic Books — Sam's Collectibles{% endblock %}
 
-<div class="grid grid-cols-2 gap-4 mx-auto max-w-7xl">
-    {% for comic in sw_comics %}
-    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-        <h3 class="text-xl font-bold">{{ comic.title }} - Issue #{{ comic.issue_number }}</h3>
-        <p class="text-gray-700">{{ comic.description }}</p>
-        <p class="text-gray-600">Released on: {{ comic.release_date }}</p>
-    </div>
-    {% empty %}
-    <p class="text-center text-gray-500">No Star Wars Marvel comics available now, but coming soon.</p>
-    {% endfor %}
+{% block content %}
+<h1 class="text-3xl font-bold text-amber-500 mb-2">Comic Books</h1>
+<p class="text-gray-400 mb-6">Star Wars, Star Trek, and more from the Bronze Age through Modern Age.</p>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Star Wars Marvel -->
+    <a href="{% url 'comic_books:starwars_marvel' %}"
+       class="group block bg-gray-700 rounded-lg overflow-hidden border border-gray-600 hover:border-amber-500 transition card-hover">
+        <div class="h-40 bg-gradient-to-br from-red-900 to-gray-800 flex items-center justify-center">
+            <span class="text-5xl">&#9733;</span>
+        </div>
+        <div class="p-5">
+            <h3 class="text-xl font-bold text-gray-100 group-hover:text-amber-400 transition">Star Wars Marvel</h3>
+            <p class="text-gray-400 mt-2">#1-107 (1977-1986). Bronze Age classics featuring the original trilogy era.</p>
+        </div>
+    </a>
+
+    <!-- Star Wars Dark Horse -->
+    <a href="{% url 'comic_books:starwars_dark_horse' %}"
+       class="group block bg-gray-700 rounded-lg overflow-hidden border border-gray-600 hover:border-amber-500 transition card-hover">
+        <div class="h-40 bg-gradient-to-br from-purple-900 to-gray-800 flex items-center justify-center">
+            <span class="text-5xl">&#9733;</span>
+        </div>
+        <div class="p-5">
+            <h3 class="text-xl font-bold text-gray-100 group-hover:text-amber-400 transition">Star Wars Dark Horse</h3>
+            <p class="text-gray-400 mt-2">Dark Empire, Crimson Empire, Tales of the Jedi, and more from the 1990s.</p>
+        </div>
+    </a>
+
+    <!-- Star Trek DC -->
+    <a href="{% url 'comic_books:startrek_dc' %}"
+       class="group block bg-gray-700 rounded-lg overflow-hidden border border-gray-600 hover:border-amber-500 transition card-hover">
+        <div class="h-40 bg-gradient-to-br from-blue-900 to-gray-800 flex items-center justify-center">
+            <span class="text-5xl">&#9734;</span>
+        </div>
+        <div class="p-5">
+            <h3 class="text-xl font-bold text-gray-100 group-hover:text-amber-400 transition">Star Trek DC</h3>
+            <p class="text-gray-400 mt-2">DC Comics Star Trek series from the late 1980s through 1990s.</p>
+        </div>
+    </a>
+
 </div>
+{% endblock %}

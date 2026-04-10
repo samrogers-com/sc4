@@ -1,52 +1,58 @@
-/* src/samscollectibles/static/css/base.css */
+/* Sam's Collectibles — Base Styles */
 
+/* Smooth scrolling */
+html { scroll-behavior: smooth; }
 
-/* Hide by default */
+/* Remove default link underlines in nav */
+nav a { text-decoration: none; }
 
-#loading-indicator {
-    display: none;
+/* Loading indicator for HTMX */
+.htmx-indicator {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid #f59e0b;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
 }
 
-
-/* Show when HTMX adds the class */
-
-#loading-indicator.htmx-request {
-    display: block;
-    text-align: center;
-    color: blue;
-    font-weight: bold;
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
-
-/* General body styles including background and typography */
-
-body {
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
+/* Placeholder image for missing images */
+.placeholder-img {
+    background: linear-gradient(135deg, #374151, #1f2937);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 2rem;
 }
 
-
-/* Typography adjustments */
-
-h1 {
-    font-size: 2.5em;
-    text-align: center;
-    color: #333;
+/* Card hover lift effect */
+.card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.1);
 }
 
-h2 {
-    font-size: 2em;
-    color: #333;
+/* eBay button */
+.btn-ebay {
+    background: #0064d2;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
 }
-
-p {
-    font-size: 1em;
-    line-height: 1.6;
-    color: #666;
+.btn-ebay:hover {
+    background: #0050a8;
+    color: white;
 }

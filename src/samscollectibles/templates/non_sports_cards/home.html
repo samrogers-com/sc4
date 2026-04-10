@@ -1,28 +1,19 @@
-<!-- file: src/non_sports_cards/templates/non_sports_cards/home.html -->
 {% extends 'base.html' %}
 
+{% block title %}Non-Sport Trading Cards — Sam's Collectibles{% endblock %}
+
 {% block content %}
-    <!-- Title stays fixed and does not scroll -->
-    <h2 class="text-center text-3xl font-bold my-6">{{ title }}</h2>
+<h1 class="text-3xl font-bold text-amber-500 mb-2">Non-Sport Trading Cards</h1>
+<p class="text-gray-400 mb-6">Sealed boxes, base sets, chase cards, and more from hundreds of franchises.</p>
 
-    <div class="grid grid-cols-4 gap-4 mx-auto max-w-7xl h-full">
-        <!-- Left side - Card List -->
-        <div class="col-span-3 flex flex-col">
-            <!-- Scrollable card list container -->
-            <div id="cards-list-container" class="overflow-auto flex-grow">
-                <!-- HTMX GET request for loading cards asynchronously -->
-                <div hx-get="{% url 'non_sports_cards:list_cards' %}" 
-                     hx-trigger="load" 
-                     hx-target="#cards-list-container" 
-                     hx-swap="innerHTML"
-                     hx-indicator="#loading-indicator"
-                     class="bg-gray-100 p-4 rounded shadow-md">
-                    Loading cards...
-                </div>
-
-                <!-- Loading indicator -->
-                <div id="loading-indicator" class="text-center hidden mt-4 text-blue-600">Loading...</div>
-            </div>
-        </div>
+<div id="cards-list-container">
+    <div hx-get="{% url 'non_sports_cards:list_cards' %}"
+         hx-trigger="load"
+         hx-target="#cards-list-container"
+         hx-swap="innerHTML"
+         class="text-center py-12">
+        <div class="htmx-indicator"></div>
+        <p class="text-gray-400 mt-4">Loading collection...</p>
     </div>
+</div>
 {% endblock %}
