@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Star Wars Marvel #{{ comic.issue_number }} — Sam's Collectibles{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'comic_books:starwars_marvel' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to all issues</a>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Cover Image -->
+    <div class="bg-gray-700 rounded-xl border-2 border-gray-600 overflow-hidden">
+        <div class="relative">
+            <img src="{{ IMAGE_BASE_URL }}comic-books/star-wars-marvel/StarWarsMarvel-{{ comic.issue_number|stringformat:'03d' }}.webp"
+                 alt="Star Wars #{{ comic.issue_number }} Cover"
+                 class="w-full">
+            <div class="absolute bottom-2 right-2 bg-black bg-opacity-80 text-amber-400 text-xs px-2 py-1 rounded">
+                Stock reference image — actual photos of our copies below
+            </div>
+        </div>
+    </div>
+
+    <!-- Details -->
+    <div>
+        <h1 class="text-3xl font-bold text-white mb-2">Star Wars #{{ comic.issue_number }}</h1>
+        <p class="text-gray-400 mb-4">Marvel Comics (1977-1986 series)</p>
+
+        <!-- Item Specifics -->
+        <div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mb-6">
+            <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Item Details</h3>
+            <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <span class="text-gray-400">Publisher:</span>
+                <span class="text-gray-200">Marvel Comics</span>
+
+                <span class="text-gray-400">Series:</span>
+                <span class="text-gray-200">Star Wars (1977)</span>
+
+                <span class="text-gray-400">Issue:</span>
+                <span class="text-gray-200">#{{ comic.issue_number }} of 107</span>
+
+                <span class="text-gray-400">Era:</span>
+                <span class="text-gray-200">Bronze Age (1977-1986)</span>
+
+                {% if comic.condition %}
+                <span class="text-gray-400">Condition:</span>
+                <span class="text-gray-200">{{ comic.get_condition_display }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if comic.description %}
+        <p class="text-gray-300 mb-6">{{ comic.description }}</p>
+        {% endif %}
+
+        <!-- Provenance -->
+        <div class="bg-gray-800 border border-gray-600 rounded-lg p-4 mb-6">
+            <p class="text-amber-500 text-xs font-bold uppercase mb-1">&#9989; Collector's Note</p>
+            <p class="text-gray-400 text-sm">From a long-time collector's personal collection. Bagged and boarded, stored properly since acquisition.</p>
+        </div>
+
+        <!-- eBay Button -->
+        {% if comic.ebay_listing_url %}
+        <a href="{{ comic.ebay_listing_url }}" target="_blank" rel="noopener"
+           class="btn-ebay text-center block py-3 text-lg">
+            Buy on eBay &#8599;
+        </a>
+        {% else %}
+        <div class="bg-gray-700 border border-gray-600 rounded-lg p-4 text-center">
+            <p class="text-gray-400">Listing coming soon</p>
+            <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener" class="text-amber-500 text-sm hover:text-amber-400">
+                Browse our eBay store for available issues &#8599;
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Actual Photos Section -->
+<section class="mt-10">
+    <h2 class="text-2xl font-bold text-gray-100 mb-4">Photos of Our Copy</h2>
+    <div class="bg-gray-700 rounded-xl border-2 border-gray-600 p-8 text-center">
+        <span class="text-4xl block mb-3">&#128247;</span>
+        <p class="text-gray-400">Photos of our actual copy are coming soon.</p>
+        <p class="text-gray-500 text-sm mt-1">Each issue will be photographed front and back to show exact condition.</p>
+    </div>
+</section>
+
+<!-- Navigation -->
+<div class="flex justify-between mt-8">
+    {% if comic.issue_number > 1 %}
+    <a href="{% url 'comic_books:starwars_marvel_detail' comic.issue_number|add:'-1' %}"
+       class="text-amber-500 hover:text-amber-400">&larr; Issue #{{ comic.issue_number|add:"-1" }}</a>
+    {% else %}
+    <span></span>
+    {% endif %}
+
+    {% if comic.issue_number < 107 %}
+    <a href="{% url 'comic_books:starwars_marvel_detail' comic.issue_number|add:'1' %}"
+       class="text-amber-500 hover:text-amber-400">Issue #{{ comic.issue_number|add:"1" }} &rarr;</a>
+    {% endif %}
+</div>
+{% endblock %}

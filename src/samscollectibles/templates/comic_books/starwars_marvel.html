@@ -5,27 +5,43 @@
 {% block content %}
 <h1 class="text-3xl font-bold text-amber-500 mb-2">Star Wars Marvel Comics</h1>
 <p class="text-gray-400 mb-2">#1-107 (1977-1986) — The original Bronze Age Star Wars comic series.</p>
-<p class="text-gray-500 text-sm mb-6">4 complete sets available, plus hundreds of individual issues. Key issues sold separately.</p>
+<p class="text-gray-500 text-sm mb-6">4 complete sets available, plus hundreds of individual issues. Key issues sold separately. All comics bagged, boarded, and stored properly since purchase.</p>
 
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3">
     {% for comic in starwars_marvel %}
-    <div class="bg-gray-700 rounded-lg border border-gray-600 hover:border-amber-500 overflow-hidden transition card-hover">
-        <!-- Issue cover placeholder -->
-        <div class="h-44 bg-gradient-to-b from-red-900 to-gray-800 flex flex-col items-center justify-center p-3">
-            <span class="text-3xl font-black text-white">#{{ comic.issue_number }}</span>
-            <span class="text-xs text-gray-400 mt-1">Star Wars</span>
+    <a href="{% url 'comic_books:starwars_marvel_detail' comic.issue_number %}"
+       class="group block bg-gray-700 rounded-lg border border-gray-600 hover:border-amber-400 overflow-hidden transition-all card-hover">
+        <!-- Cover Image with Stock Image overlay -->
+        <div class="relative aspect-[2/3] bg-gray-800">
+            <img src="{{ IMAGE_BASE_URL }}comic-books/star-wars-marvel/StarWarsMarvel-{{ comic.issue_number|stringformat:'03d' }}.webp"
+                 alt="Star Wars #{{ comic.issue_number }} Cover"
+                 class="w-full h-full object-cover"
+                 loading="lazy">
+            <!-- Stock Image diagonal banner -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+                <span class="text-amber-400 text-xs font-bold tracking-wider opacity-60 rotate-[-35deg] whitespace-nowrap"
+                      style="font-size:0.65rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                    STOCK IMAGE
+                </span>
+            </div>
         </div>
-        <div class="p-3">
-            <p class="text-sm font-bold text-gray-200">Issue #{{ comic.issue_number }}</p>
+        <!-- Issue info -->
+        <div class="p-2 text-center">
+            <p class="text-sm font-bold text-gray-200 group-hover:text-amber-300 transition">#{{ comic.issue_number }}</p>
             {% if comic.ebay_listing_url %}
-            <a href="{{ comic.ebay_listing_url }}" target="_blank" rel="noopener" class="btn-ebay text-xs mt-2 block text-center">Buy &#8599;</a>
+            <span class="text-xs text-blue-400">On eBay</span>
             {% endif %}
         </div>
-    </div>
+    </a>
     {% empty %}
-    <div class="col-span-6 text-center py-12">
+    <div class="col-span-7 text-center py-12">
         <p class="text-gray-400">Comics being cataloged. Check back soon!</p>
     </div>
     {% endfor %}
 </div>
+
+<style>
+    /* Ensure images don't break aspect ratio */
+    .aspect-\[2\/3\] { aspect-ratio: 2/3; }
+</style>
 {% endblock %}

@@ -8,6 +8,7 @@ app_name = 'comic_books'
 urlpatterns = [
     path('', views.comicbooks_home, name='comicbooks_home'),
     path('starwars_marvel/', views.starwars_marvel, name='starwars_marvel'),
-    path('starwars_dark_horse/', views.starwars_dark_horse, name='starwars_dark_horse'),  # Correct name here
+    path('starwars_marvel/<int:issue_number>/', views.starwars_marvel_detail, name='starwars_marvel_detail'),
+    path('starwars_dark_horse/', views.starwars_dark_horse, name='starwars_dark_horse'),
     path('startrek_dc/', views.startrek_dc, name='startrek_dc'),
 ]
