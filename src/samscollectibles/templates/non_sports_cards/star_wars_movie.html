@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ movie_title }} Trading Cards — Sam's Collectibles{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'non_sports_cards:sw_hub' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to Star Wars</a>
+</div>
+
+<h1 class="text-3xl font-bold text-amber-500 mb-2">{{ movie_title }}</h1>
+<p class="text-gray-400 mb-6">Topps {{ year }} &middot; {{ total_series }} Series &middot; Each card features a 1-star or 2-star puzzle piece on the back</p>
+
+<!-- Star System Explanation -->
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-4 mb-6">
+    <p class="text-amber-500 text-xs font-bold uppercase mb-1">&#9733; About the Star System</p>
+    <p class="text-gray-400 text-sm">Each card has a 1-star or 2-star marking. Cards with the same star type form a complete puzzle picture on their backs when assembled. <strong class="text-gray-200">Complete 1-star or 2-star sets</strong> include the full puzzle and are more valuable than mixed sets.</p>
+</div>
+
+<!-- Series Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for series in series_list %}
+    <a href="{% url 'non_sports_cards:sw_series' movie=movie_slug series=series.number %}"
+       class="group block rounded-xl overflow-hidden border-2 border-gray-500 hover:border-amber-400 transition-all card-hover"
+       style="background: {{ series.bg_style }};">
+        <div class="h-32 flex items-center justify-center">
+            <div class="text-center">
+                <span class="text-3xl font-black text-white drop-shadow-lg">Series {{ series.number }}</span>
+                <p class="text-white text-sm opacity-80 mt-1">{{ series.color_name }} border</p>
+            </div>
+        </div>
+        <div class="bg-gray-700 bg-opacity-90 p-4">
+            <div class="grid grid-cols-4 gap-2 text-center text-xs">
+                <div>
+                    <span class="block text-gray-400">1&#9733;</span>
+                    <span class="text-gray-200 font-bold">{{ series.qty_1star }}</span>
+                </div>
+                <div>
+                    <span class="block text-gray-400">2&#9733;</span>
+                    <span class="text-gray-200 font-bold">{{ series.qty_2star }}</span>
+                </div>
+                <div>
+                    <span class="block text-gray-400">Mix</span>
+                    <span class="text-gray-200 font-bold">{{ series.qty_mixed }}</span>
+                </div>
+                <div>
+                    <span class="block text-gray-400">Stickers</span>
+                    <span class="text-gray-200 font-bold">{{ series.qty_sticker }}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

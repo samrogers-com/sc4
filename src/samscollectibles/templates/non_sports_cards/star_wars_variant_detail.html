@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ movie_title }} Series {{ series_number }} {{ variant_name }} — Sam's Collectibles{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'non_sports_cards:sw_series' movie=movie_slug series=series_number %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to Series {{ series_number }}</a>
+</div>
+
+<h1 class="text-3xl font-bold text-amber-500 mb-1">{{ movie_title }} — Series {{ series_number }}</h1>
+<div class="flex items-center gap-3 mb-6">
+    <span class="inline-block px-3 py-1 rounded-full text-sm font-bold text-white" style="background: {{ series_bg }};">
+        {{ series_color }} border
+    </span>
+    <span class="text-xl font-bold text-gray-200">{{ variant_name }}</span>
+</div>
+
+{% if quantity > 0 %}
+    <!-- IN STOCK -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Photo Gallery -->
+        <div>
+            <div class="bg-gray-700 rounded-xl border-2 border-gray-600 aspect-[3/4] flex items-center justify-center">
+                <div class="text-center p-6">
+                    <span class="text-5xl block mb-3">&#128247;</span>
+                    <p class="text-gray-400">Photos of this set coming soon</p>
+                    <p class="text-gray-500 text-sm mt-1">Each set will be photographed to show exact condition</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details -->
+        <div>
+            <div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mb-6">
+                <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Set Details</h3>
+                <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                    <span class="text-gray-400">Movie:</span>
+                    <span class="text-gray-200">{{ movie_title }}</span>
+
+                    <span class="text-gray-400">Series:</span>
+                    <span class="text-gray-200">{{ series_number }} ({{ series_color }} border)</span>
+
+                    <span class="text-gray-400">Type:</span>
+                    <span class="text-gray-200">{{ variant_name }}</span>
+
+                    <span class="text-gray-400">Manufacturer:</span>
+                    <span class="text-gray-200">Topps</span>
+
+                    <span class="text-gray-400">Year:</span>
+                    <span class="text-gray-200">{{ year }}</span>
+
+                    <span class="text-gray-400">Available:</span>
+                    <span class="text-amber-400 font-bold">{{ quantity }} set{{ quantity|pluralize }}</span>
+                </div>
+            </div>
+
+            <!-- Star System Info -->
+            {% if variant_key != 'sticker' %}
+            <div class="bg-gray-800 border border-gray-600 rounded-lg p-4 mb-6">
+                <p class="text-amber-500 text-xs font-bold uppercase mb-1">&#9733; Star System</p>
+                {% if variant_key == '1_star' %}
+                <p class="text-gray-400 text-sm">This is a <strong class="text-white">complete 1-star set</strong>. All cards have a 1-star marking, and the backs form a complete puzzle picture when assembled.</p>
+                {% elif variant_key == '2_star' %}
+                <p class="text-gray-400 text-sm">This is a <strong class="text-white">complete 2-star set</strong>. All cards have a 2-star marking, and the backs form a complete puzzle picture when assembled.</p>
+                {% elif variant_key == 'mixed' %}
+                <p class="text-gray-400 text-sm">This set contains a <strong class="text-white">mix of 1-star and 2-star cards</strong>. The backs contain partial puzzle pieces from both puzzles.</p>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- eBay -->
+            {% if card and card.ebay_listing_url %}
+            <a href="{{ card.ebay_listing_url }}" target="_blank" rel="noopener"
+               class="btn-ebay text-center block py-3 text-lg mb-4">
+                Buy on eBay &#8599;
+            </a>
+            {% else %}
+            <div class="bg-gray-700 border border-gray-600 rounded-lg p-4 text-center">
+                <p class="text-gray-400">eBay listing coming soon</p>
+                <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener"
+                   class="text-amber-500 text-sm hover:text-amber-400">
+                    Browse our eBay store &#8599;
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% else %}
+    <!-- OUT OF STOCK -->
+    <div class="bg-gray-700 rounded-xl border-2 border-gray-600 p-12 text-center max-w-lg mx-auto">
+        <span class="text-5xl block mb-4">&#128532;</span>
+        <h2 class="text-2xl font-bold text-gray-200 mb-2">Sorry, Out of Stock</h2>
+        <p class="text-gray-400 mb-6">
+            We don't currently have {{ movie_title }} Series {{ series_number }} {{ variant_name }} sets available.
+            Check back later or browse our eBay store for other Star Wars items.
+        </p>
+        <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener"
+           class="inline-block px-5 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">
+            Browse eBay Store &#8599;
+        </a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -61,6 +61,23 @@ class NonSportsCards(models.Model):
     sub_category = models.CharField(max_length=100)
     validation_status = models.CharField(max_length=20, choices=VALIDATION_STATUSES, default='unvalidated')
 
+    # Series/variant fields (for Topps 1977-83 Star Wars sets with star system)
+    parent_set = models.CharField(max_length=100, null=True, blank=True)  # e.g., "SW 77 ANH"
+    series_number = models.IntegerField(null=True, blank=True)  # e.g., 1, 2, 3, 4, 5
+    series_color = models.CharField(max_length=50, null=True, blank=True)  # e.g., "Blue", "Red"
+    star_variant = models.CharField(
+        max_length=20,
+        choices=[
+            ('1_star', '1 Star'),
+            ('2_star', '2 Star'),
+            ('mixed', 'Mixed Stars'),
+            ('sticker', 'Sticker Set'),
+            ('na', 'N/A'),
+        ],
+        null=True, blank=True,
+    )
+    quantity_owned = models.IntegerField(default=0)  # How many of this variant Sam owns
+
     # eBay integration
     ebay_listing_url = models.URLField(null=True, blank=True)
     ebay_item_id = models.CharField(max_length=20, null=True, blank=True)
