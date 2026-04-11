@@ -42,28 +42,47 @@
                     <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
                         <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-52">
                             <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Franchises</p>
-                            <!-- Star Wars with flyout submenu -->
+                            <!-- Star Wars → Movie → Series cascading flyouts -->
                             <div class="relative group/sw">
-                                <a href="{% url 'non_sports_cards:sw_hub' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Wars &#9656;</a>
+                                <a href="{% url 'non_sports_cards:sw_hub' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Wars <span class="text-gray-500">&#9656;</span></a>
                                 <div class="absolute left-full top-0 hidden group-hover/sw:block z-50 ml-0.5">
-                                    <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-56">
-                                        <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">A New Hope (1977)</p>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=1 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 1 (Blue)</a>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=2 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 2 (Red)</a>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=3 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 3 (Yellow)</a>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=4 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 4 (Green)</a>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=5 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 5 (Orange)</a>
+                                    <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-52">
+                                        <!-- A New Hope -->
+                                        <div class="relative group/anh">
+                                            <a href="{% url 'non_sports_cards:sw_movie' movie='anh' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">A New Hope <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/anh:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-44">
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=1 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-blue-400 text-sm">Series 1 <span class="text-blue-400">(Blue)</span></a>
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=2 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-red-400 text-sm">Series 2 <span class="text-red-400">(Red)</span></a>
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=3 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-yellow-400 text-sm">Series 3 <span class="text-yellow-400">(Yellow)</span></a>
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=4 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-green-400 text-sm">Series 4 <span class="text-green-400">(Green)</span></a>
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=5 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-orange-400 text-sm">Series 5 <span class="text-orange-400">(Orange)</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Empire Strikes Back -->
+                                        <div class="relative group/esb">
+                                            <a href="{% url 'non_sports_cards:sw_movie' movie='esb' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Empire Strikes Back <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/esb:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-44">
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=1 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-red-400 text-sm">Series 1 <span class="text-red-400">(Silver/Red)</span></a>
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=2 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-blue-400 text-sm">Series 2 <span class="text-blue-400">(Silver/Blue)</span></a>
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=3 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-green-400 text-sm">Series 3 <span class="text-green-400">(Yellow/Green)</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Return of the Jedi -->
+                                        <div class="relative group/rotj">
+                                            <a href="{% url 'non_sports_cards:sw_movie' movie='rotj' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Return of the Jedi <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/rotj:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-44">
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='rotj' series=1 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-red-400 text-sm">Series 1 <span class="text-red-400">(Red)</span></a>
+                                                    <a href="{% url 'non_sports_cards:sw_series' movie='rotj' series=2 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-blue-400 text-sm">Series 2 <span class="text-blue-400">(Blue)</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="border-t border-gray-700 my-1"></div>
-                                        <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Empire Strikes Back (1980)</p>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=1 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 1 (Silver/Red)</a>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=2 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 2 (Silver/Blue)</a>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=3 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 3 (Yellow/Green)</a>
-                                        <div class="border-t border-gray-700 my-1"></div>
-                                        <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Return of the Jedi (1983)</p>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='rotj' series=1 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 1 (Red)</a>
-                                        <a href="{% url 'non_sports_cards:sw_series' movie='rotj' series=2 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 2 (Blue)</a>
-                                        <div class="border-t border-gray-700 my-1"></div>
-                                        <a href="{% url 'non_sports_cards:sw_hub' %}" class="block px-4 py-1.5 text-amber-500 hover:bg-gray-700 text-xs font-medium">View All SW Cards</a>
+                                        <a href="{% url 'non_sports_cards:sw_hub' %}" class="block px-4 py-1.5 text-amber-500 hover:bg-gray-700 text-sm font-medium">View All SW Cards</a>
                                     </div>
                                 </div>
                             </div>

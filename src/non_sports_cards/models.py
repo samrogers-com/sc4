@@ -79,6 +79,7 @@ class NonSportsCards(models.Model):
     quantity_owned = models.IntegerField(default=0)  # How many of this variant Sam owns
 
     # eBay integration
+    custom_label = models.CharField(max_length=20, null=True, blank=True)  # SKU e.g. "101", "102" — must match photos + eBay listing
     ebay_listing_url = models.URLField(null=True, blank=True)
     ebay_item_id = models.CharField(max_length=20, null=True, blank=True)
 

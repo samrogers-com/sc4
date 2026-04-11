@@ -51,6 +51,11 @@
 
                     <span class="text-gray-400">Available:</span>
                     <span class="text-amber-400 font-bold">{{ quantity }} set{{ quantity|pluralize }}</span>
+
+                    {% if card.custom_label %}
+                    <span class="text-gray-400">SKU:</span>
+                    <span class="text-gray-200 font-mono">{{ card.custom_label }}</span>
+                    {% endif %}
                 </div>
             </div>
 
