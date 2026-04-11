@@ -42,7 +42,31 @@
                     <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
                         <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-52">
                             <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Franchises</p>
-                            <a href="{% url 'non_sports_cards:sw_hub' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Wars</a>
+                            <!-- Star Wars with flyout submenu -->
+                            <div class="relative group/sw">
+                                <a href="{% url 'non_sports_cards:sw_hub' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Wars &#9656;</a>
+                                <div class="absolute left-full top-0 hidden group-hover/sw:block z-50 ml-0.5">
+                                    <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-56">
+                                        <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">A New Hope (1977)</p>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=1 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 1 (Blue)</a>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=2 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 2 (Red)</a>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=3 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 3 (Yellow)</a>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=4 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 4 (Green)</a>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=5 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 5 (Orange)</a>
+                                        <div class="border-t border-gray-700 my-1"></div>
+                                        <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Empire Strikes Back (1980)</p>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=1 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 1 (Silver/Red)</a>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=2 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 2 (Silver/Blue)</a>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=3 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 3 (Yellow/Green)</a>
+                                        <div class="border-t border-gray-700 my-1"></div>
+                                        <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Return of the Jedi (1983)</p>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='rotj' series=1 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 1 (Red)</a>
+                                        <a href="{% url 'non_sports_cards:sw_series' movie='rotj' series=2 %}" class="block px-4 py-1 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-xs">Series 2 (Blue)</a>
+                                        <div class="border-t border-gray-700 my-1"></div>
+                                        <a href="{% url 'non_sports_cards:sw_hub' %}" class="block px-4 py-1.5 text-amber-500 hover:bg-gray-700 text-xs font-medium">View All SW Cards</a>
+                                    </div>
+                                </div>
+                            </div>
                             <a href="{% url 'non_sports_cards:list_cards' %}?category=Star Trek" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Trek</a>
                             <a href="{% url 'non_sports_cards:list_cards' %}?category=Marvel" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Marvel</a>
                             <a href="{% url 'non_sports_cards:list_cards' %}?category=DC Comics" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">DC Comics</a>

@@ -15,61 +15,61 @@
     <!-- 1 Star -->
     <a href="{% url 'non_sports_cards:sw_variant' movie=movie_slug series=series_number variant='1-star' %}"
        class="group block rounded-xl overflow-hidden border-2 transition-all card-hover
-              {% if qty_1star > 0 %}bg-gray-600 border-gray-500 hover:border-amber-400{% else %}bg-gray-800 border-gray-700 opacity-60{% endif %}">
-        <div class="h-28 flex items-center justify-center" style="background: {{ series_bg }};">
-            <span class="text-5xl text-white drop-shadow-lg">&#9733;</span>
+              {% if qty_1star > 0 %}bg-gray-600 border-gray-500 hover:border-amber-400{% else %}bg-gray-800 border-gray-700{% endif %}">
+        <div class="h-36 flex items-center justify-center" style="background: {{ series_bg }};">
+            <span class="text-6xl text-white drop-shadow-lg">&#9733;</span>
         </div>
         <div class="p-4 text-center">
-            <h3 class="text-lg font-bold {% if qty_1star > 0 %}text-white group-hover:text-amber-300{% else %}text-gray-500{% endif %}">1 Star</h3>
-            <p class="text-sm mt-1 {% if qty_1star > 0 %}text-amber-500{% else %}text-gray-600{% endif %}">
+            <h3 class="text-xl font-bold {% if qty_1star > 0 %}text-white group-hover:text-amber-300{% else %}text-gray-400{% endif %}">1 Star</h3>
+            <p class="text-base mt-1 font-medium {% if qty_1star > 0 %}text-amber-400{% else %}text-gray-500{% endif %}">
                 {% if qty_1star > 0 %}{{ qty_1star }} set{{ qty_1star|pluralize }} available{% else %}Out of stock{% endif %}
             </p>
-            <p class="text-xs text-gray-500 mt-1">Complete puzzle on backs</p>
+            <p class="text-sm text-gray-300 mt-1">Complete puzzle on backs</p>
         </div>
     </a>
 
     <!-- 2 Star -->
     <a href="{% url 'non_sports_cards:sw_variant' movie=movie_slug series=series_number variant='2-star' %}"
        class="group block rounded-xl overflow-hidden border-2 transition-all card-hover
-              {% if qty_2star > 0 %}bg-gray-600 border-gray-500 hover:border-amber-400{% else %}bg-gray-800 border-gray-700 opacity-60{% endif %}">
-        <div class="h-28 flex items-center justify-center" style="background: {{ series_bg }};">
-            <span class="text-5xl text-white drop-shadow-lg">&#9733;&#9733;</span>
+              {% if qty_2star > 0 %}bg-gray-600 border-gray-500 hover:border-amber-400{% else %}bg-gray-800 border-gray-700{% endif %}">
+        <div class="h-36 flex items-center justify-center" style="background: {{ series_bg }};">
+            <span class="text-6xl text-white drop-shadow-lg">&#9733;&#9733;</span>
         </div>
         <div class="p-4 text-center">
-            <h3 class="text-lg font-bold {% if qty_2star > 0 %}text-white group-hover:text-amber-300{% else %}text-gray-500{% endif %}">2 Star</h3>
-            <p class="text-sm mt-1 {% if qty_2star > 0 %}text-amber-500{% else %}text-gray-600{% endif %}">
+            <h3 class="text-xl font-bold {% if qty_2star > 0 %}text-white group-hover:text-amber-300{% else %}text-gray-400{% endif %}">2 Star</h3>
+            <p class="text-base mt-1 font-medium {% if qty_2star > 0 %}text-amber-400{% else %}text-gray-500{% endif %}">
                 {% if qty_2star > 0 %}{{ qty_2star }} set{{ qty_2star|pluralize }} available{% else %}Out of stock{% endif %}
             </p>
-            <p class="text-xs text-gray-500 mt-1">Complete puzzle on backs</p>
+            <p class="text-sm text-gray-300 mt-1">Complete puzzle on backs</p>
         </div>
     </a>
 
     <!-- Mixed Stars -->
     <a href="{% url 'non_sports_cards:sw_variant' movie=movie_slug series=series_number variant='mixed' %}"
        class="group block rounded-xl overflow-hidden border-2 transition-all card-hover
-              {% if qty_mixed > 0 %}bg-gray-600 border-gray-500 hover:border-amber-400{% else %}bg-gray-800 border-gray-700 opacity-60{% endif %}">
-        <div class="h-28 flex items-center justify-center" style="background: {{ series_bg }};">
-            <span class="text-4xl text-white drop-shadow-lg">&#9733;&#9734;</span>
+              {% if qty_mixed > 0 %}bg-gray-600 border-gray-500 hover:border-amber-400{% else %}bg-gray-800 border-gray-700{% endif %}">
+        <div class="h-36 flex items-center justify-center" style="background: {{ series_bg }};">
+            <span class="text-6xl text-white drop-shadow-lg">&#9733;&#9734;</span>
         </div>
         <div class="p-4 text-center">
-            <h3 class="text-lg font-bold {% if qty_mixed > 0 %}text-white group-hover:text-amber-300{% else %}text-gray-500{% endif %}">Mixed Stars</h3>
-            <p class="text-sm mt-1 {% if qty_mixed > 0 %}text-amber-500{% else %}text-gray-600{% endif %}">
+            <h3 class="text-xl font-bold {% if qty_mixed > 0 %}text-white group-hover:text-amber-300{% else %}text-gray-400{% endif %}">Mixed Stars</h3>
+            <p class="text-base mt-1 font-medium {% if qty_mixed > 0 %}text-amber-400{% else %}text-gray-500{% endif %}">
                 {% if qty_mixed > 0 %}{{ qty_mixed }} set{{ qty_mixed|pluralize }} available{% else %}Out of stock{% endif %}
             </p>
-            <p class="text-xs text-gray-500 mt-1">Partial puzzles</p>
+            <p class="text-sm text-gray-300 mt-1">Partial puzzles</p>
         </div>
     </a>
 
     <!-- Stickers -->
     <a href="{% url 'non_sports_cards:sw_variant' movie=movie_slug series=series_number variant='stickers' %}"
        class="group block rounded-xl overflow-hidden border-2 transition-all card-hover
-              {% if qty_sticker > 0 %}bg-gray-600 border-gray-500 hover:border-amber-400{% else %}bg-gray-800 border-gray-700 opacity-60{% endif %}">
-        <div class="h-28 flex items-center justify-center" style="background: {{ series_bg }};">
-            <span class="text-4xl text-white drop-shadow-lg">&#127915;</span>
+              {% if qty_sticker > 0 %}bg-gray-600 border-gray-500 hover:border-amber-400{% else %}bg-gray-800 border-gray-700{% endif %}">
+        <div class="h-36 flex items-center justify-center" style="background: {{ series_bg }};">
+            <span class="text-8xl text-white drop-shadow-lg">&#127915;</span>
         </div>
         <div class="p-4 text-center">
-            <h3 class="text-lg font-bold {% if qty_sticker > 0 %}text-white group-hover:text-amber-300{% else %}text-gray-500{% endif %}">Stickers</h3>
-            <p class="text-sm mt-1 {% if qty_sticker > 0 %}text-amber-500{% else %}text-gray-600{% endif %}">
+            <h3 class="text-xl font-bold {% if qty_sticker > 0 %}text-white group-hover:text-amber-300{% else %}text-gray-400{% endif %}">Stickers</h3>
+            <p class="text-base mt-1 font-medium {% if qty_sticker > 0 %}text-amber-400{% else %}text-gray-500{% endif %}">
                 {% if qty_sticker > 0 %}{{ qty_sticker }} set{{ qty_sticker|pluralize }} available{% else %}Out of stock{% endif %}
             </p>
         </div>

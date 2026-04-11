@@ -153,6 +153,7 @@ def sw_movie(request, movie):
             if item.star_variant in qty:
                 qty[item.star_variant] = item.quantity_owned
 
+        total = sum(qty.values())
         series_list.append({
             'number': num,
             'color_name': color_info['name'],
@@ -161,6 +162,7 @@ def sw_movie(request, movie):
             'qty_2star': qty.get('2_star', 0),
             'qty_mixed': qty.get('mixed', 0),
             'qty_sticker': qty.get('sticker', 0),
+            'total_qty': total,
         })
 
     return render(request, 'non_sports_cards/star_wars_movie.html', {
