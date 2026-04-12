@@ -175,9 +175,11 @@ aws s3 sync ./ebay_uploads/ s3://samscollectibles/ebay-uploads/ --profile r2
 - `stickers-120-p01.jpg` — SKU 120, sticker set, photo 1
 
 ### Comic Books
-`{view}-{issue_number}.jpg`
-- `front-001.jpg` — Issue #1 front cover
-- `back-001.jpg` — Issue #1 back cover
+`{issue_number}-{copy_count}/{view}.jpg`
+- `001-01/front.jpg` — Issue #1, Copy 01, front cover
+- `001-01/back.jpg` — Issue #1, Copy 01, back cover
+- `001-02/front.jpg` — Issue #1, Copy 02 (different physical copy)
+- `042-01/front.jpg` — Issue #42, Copy 01
 
 ### Posters
 `{movie}-{style}-{view}.jpg`

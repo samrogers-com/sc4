@@ -72,12 +72,29 @@ Examples:
 - `stickers-120-p01.jpg` — SKU 120, sticker set, photo 1
 
 ### Comic Books
-Format: `{view}-{issue_number}.jpg`
+Format: `{issue_number}-{copy_count}/{view}.jpg`
+
+SKU = `{issue_number}-{copy_count}` where:
+- `issue_number` = 3-digit zero-padded (001-107)
+- `copy_count` = 2-digit zero-padded (01-99) — which physical copy this is
+
+R2 path: `comic-books/star-wars-marvel/{sku}/{view}.jpg`
 
 Examples:
-- `front-001.jpg` — Issue #1 front cover
-- `back-001.jpg` — Issue #1 back cover
-- `spine-001.jpg` — Issue #1 spine close-up
+- `comic-books/star-wars-marvel/001-01/front.jpg` — Issue #1, Copy 01, front cover
+- `comic-books/star-wars-marvel/001-01/back.jpg` — Issue #1, Copy 01, back cover
+- `comic-books/star-wars-marvel/001-01/spine.jpg` — Issue #1, Copy 01, spine
+- `comic-books/star-wars-marvel/001-02/front.jpg` — Issue #1, Copy 02 (different physical copy)
+- `comic-books/star-wars-marvel/042-01/front.jpg` — Issue #42, Copy 01
+- `comic-books/star-wars-marvel/107-03/front.jpg` — Issue #107, Copy 03
+
+Views: `front.jpg`, `back.jpg`, `spine.jpg`, `inside.jpg`, `detail.jpg`
+
+The SKU ties to:
+- Physical label on the bag/board
+- Django database `custom_label` field
+- eBay listing Custom Label
+- Photo folder name on R2
 
 ### Posters
 Format: `{movie}-{style}-{view}.jpg`
