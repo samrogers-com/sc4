@@ -177,6 +177,12 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Additional Set categories (mirror Boxes) -->
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='sets' path='star-trek' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Trek</a>
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='sets' path='movies' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Movies</a>
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='sets' path='tv-shows' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">TV Shows</a>
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='sets' path='disney' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Disney</a>
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='sets' path='other' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Other</a>
                                     </div>
                                 </div>
                             </div>
@@ -221,10 +227,10 @@
                 {% if user.is_authenticated %}
                     <!-- User dropdown -->
                     <div class="relative group">
-                        <button class="flex items-center gap-1 text-gray-300 hover:text-amber-400 text-sm transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                            {{ user.username }}
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <button class="flex items-center gap-1.5 text-sm transition">
+                            <svg class="w-5 h-5 {% if user.is_superuser %}text-red-400{% elif user.is_staff %}text-amber-400{% else %}text-blue-400{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            <span class="{% if user.is_superuser %}text-red-400{% elif user.is_staff %}text-amber-400{% else %}text-blue-400{% endif %} font-medium">{{ user.username }}</span>
+                            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div class="absolute right-0 top-full pt-2 hidden group-hover:block z-50">
                             <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
