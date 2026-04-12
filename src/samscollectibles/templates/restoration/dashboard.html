@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Restoration Dashboard — Sam's Collectibles{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold text-amber-500 mb-2">Restoration Dashboard</h1>
+<p class="text-gray-400 mb-6">Private — manage restoration priorities and track progress</p>
+
+<!-- Summary Stats -->
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Recommended</p>
+        <p class="text-2xl font-bold text-amber-400">{{ stats.recommended }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">In Progress</p>
+        <p class="text-2xl font-bold text-blue-400">{{ stats.in_progress }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Completed</p>
+        <p class="text-2xl font-bold text-green-400">{{ stats.completed }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Est. Cost</p>
+        <p class="text-2xl font-bold text-red-400">${{ stats.total_cost|floatformat:0 }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Est. Value Gain</p>
+        <p class="text-2xl font-bold text-green-400">${{ stats.total_value_gain|floatformat:0 }}</p>
+    </div>
+</div>
+
+<!-- Filter Tabs -->
+<div class="flex gap-2 mb-6 flex-wrap">
+    <a href="?status=recommended" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if filter_status == 'recommended' %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">Recommended</a>
+    <a href="?status=in_progress" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if filter_status == 'in_progress' %}bg-blue-500 text-white{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">In Progress</a>
+    <a href="?status=completed" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if filter_status == 'completed' %}bg-green-500 text-white{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">Completed</a>
+    <a href="?type=posters" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if filter_type == 'posters' %}bg-purple-500 text-white{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">Posters</a>
+    <a href="?type=comics" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if filter_type == 'comics' %}bg-red-500 text-white{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">Comics</a>
+    <a href="?type=cards" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if filter_type == 'cards' %}bg-blue-500 text-white{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">Cards</a>
+    <a href="{% url 'restoration_dashboard' %}" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if not filter_status and not filter_type %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">All</a>
+</div>
+
+<!-- Items Table -->
+<div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-gray-800">
+            <tr>
+                <th class="px-4 py-3 text-left text-gray-300 font-medium">Item</th>
+                <th class="px-4 py-3 text-left text-gray-300 font-medium">Type</th>
+                <th class="px-4 py-3 text-center text-gray-300 font-medium">Priority</th>
+                <th class="px-4 py-3 text-left text-gray-300 font-medium">Treatment</th>
+                <th class="px-4 py-3 text-left text-gray-300 font-medium">Status</th>
+                <th class="px-4 py-3 text-right text-gray-300 font-medium">Grade</th>
+                <th class="px-4 py-3 text-right text-gray-300 font-medium">Est. Cost</th>
+                <th class="px-4 py-3 text-right text-gray-300 font-medium">Value Before</th>
+                <th class="px-4 py-3 text-right text-gray-300 font-medium">Value After</th>
+                <th class="px-4 py-3 text-right text-gray-300 font-medium">ROI</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-600">
+            {% for item in items %}
+            <tr class="hover:bg-gray-600 transition">
+                <td class="px-4 py-3">
+                    <span class="text-gray-100 font-medium">{{ item.title|truncatewords:8 }}</span>
+                    <span class="block text-xs text-gray-500">{{ item.source }}</span>
+                </td>
+                <td class="px-4 py-3">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                        {% if item.source == 'Poster' %}bg-purple-900 text-purple-300
+                        {% elif item.source == 'Comic' %}bg-red-900 text-red-300
+                        {% else %}bg-blue-900 text-blue-300{% endif %}">
+                        {{ item.restoration_type|default:"—" }}
+                    </span>
+                </td>
+                <td class="px-4 py-3 text-center">
+                    {% if item.restoration_priority %}
+                    <span class="inline-block w-6 h-6 rounded-full text-xs font-bold leading-6 text-center
+                        {% if item.restoration_priority == 1 %}bg-red-600 text-white
+                        {% elif item.restoration_priority == 2 %}bg-orange-600 text-white
+                        {% elif item.restoration_priority == 3 %}bg-yellow-600 text-gray-900
+                        {% elif item.restoration_priority == 4 %}bg-gray-500 text-white
+                        {% else %}bg-gray-700 text-gray-400{% endif %}">
+                        {{ item.restoration_priority }}
+                    </span>
+                    {% else %}—{% endif %}
+                </td>
+                <td class="px-4 py-3 text-gray-300">{{ item.get_restoration_type_display|default:"—" }}</td>
+                <td class="px-4 py-3">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                        {% if item.restoration_status == 'recommended' %}bg-amber-900 text-amber-300
+                        {% elif item.restoration_status == 'in_progress' %}bg-blue-900 text-blue-300
+                        {% elif item.restoration_status == 'completed' %}bg-green-900 text-green-300
+                        {% else %}bg-gray-600 text-gray-400{% endif %}">
+                        {{ item.get_restoration_status_display }}
+                    </span>
+                </td>
+                <td class="px-4 py-3 text-right text-gray-300 font-mono text-xs">
+                    {{ item.pre_restoration_grade|default:"—" }}
+                    {% if item.post_restoration_grade %} → {{ item.post_restoration_grade }}{% endif %}
+                </td>
+                <td class="px-4 py-3 text-right text-gray-300 font-mono">
+                    {% if item.restoration_cost %}${{ item.restoration_cost|floatformat:0 }}{% else %}—{% endif %}
+                </td>
+                <td class="px-4 py-3 text-right text-gray-300 font-mono">
+                    {% if item.pre_restoration_value %}${{ item.pre_restoration_value|floatformat:0 }}{% else %}—{% endif %}
+                </td>
+                <td class="px-4 py-3 text-right text-gray-300 font-mono">
+                    {% if item.post_restoration_value %}${{ item.post_restoration_value|floatformat:0 }}{% else %}—{% endif %}
+                </td>
+                <td class="px-4 py-3 text-right font-mono font-bold
+                    {% if item.roi > 0 %}text-green-400{% elif item.roi < 0 %}text-red-400{% else %}text-gray-400{% endif %}">
+                    {% if item.roi is not None %}{{ item.roi|floatformat:0 }}%{% else %}—{% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10" class="px-4 py-8 text-center text-gray-400">No items match the current filter.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<p class="text-gray-500 text-xs mt-4">Use Django Admin to update restoration status, grades, and values for individual items.</p>
+{% endblock %}

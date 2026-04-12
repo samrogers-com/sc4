@@ -79,9 +79,44 @@ class NonSportsCards(models.Model):
     quantity_owned = models.IntegerField(default=0)  # How many of this variant Sam owns
 
     # eBay integration
-    custom_label = models.CharField(max_length=20, null=True, blank=True)  # SKU e.g. "101", "102" — must match photos + eBay listing
+    custom_label = models.CharField(max_length=20, null=True, blank=True)
     ebay_listing_url = models.URLField(null=True, blank=True)
     ebay_item_id = models.CharField(max_length=20, null=True, blank=True)
+
+    # Restoration tracking
+    RESTORATION_STATUSES = [
+        ('none', 'No Treatment Needed'),
+        ('recommended', 'Recommended'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+    ]
+    RESTORATION_TYPES = [
+        ('cleaning', 'Cleaning'),
+        ('pressing', 'Pressing'),
+        ('pressing_cleaning', 'Pressing + Cleaning'),
+        ('whitening', 'Page Whitening'),
+        ('linen_backing', 'Linen-Backing'),
+        ('tear_repair', 'Tear Repair'),
+        ('color_touch', 'Color Touch-Up'),
+        ('cgc_submission', 'CGC/CBCS Submission'),
+    ]
+    RESTORATION_PRIORITIES = [
+        (1, '1 - Critical (High Value)'),
+        (2, '2 - High'),
+        (3, '3 - Medium'),
+        (4, '4 - Low'),
+        (5, '5 - Skip'),
+    ]
+    restoration_status = models.CharField(max_length=20, choices=RESTORATION_STATUSES, default='none')
+    restoration_type = models.CharField(max_length=30, choices=RESTORATION_TYPES, null=True, blank=True)
+    restoration_priority = models.IntegerField(choices=RESTORATION_PRIORITIES, null=True, blank=True)
+    restoration_cost = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    pre_restoration_grade = models.CharField(max_length=20, null=True, blank=True)
+    post_restoration_grade = models.CharField(max_length=20, null=True, blank=True)
+    pre_restoration_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    post_restoration_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    restoration_notes = models.TextField(null=True, blank=True)
+    restoration_completed_date = models.DateField(null=True, blank=True)
 
     class Meta:
         db_table = 'nonsportscards'

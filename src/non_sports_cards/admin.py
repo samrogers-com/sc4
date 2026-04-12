@@ -9,9 +9,9 @@ from .models import (
 
 @admin.register(NonSportsCards)
 class NonSportsCardsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'custom_label', 'manufacturer', 'date_manufactured', 'category', 'parent_set', 'series_number', 'star_variant', 'quantity_owned', 'validation_status', 'ebay_item_id')
+    list_display = ('title', 'custom_label', 'manufacturer', 'category', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'ebay_item_id')
     search_fields = ('title', 'manufacturer', 'date_manufactured', 'parent_set')
-    list_filter = ('validation_status', 'category', 'parent_set', 'star_variant', 'manufacturer')
+    list_filter = ('restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'category', 'parent_set', 'star_variant', 'manufacturer')
 
 @admin.register(NonSportsChaseCards)
 class NonSportsChaseCardsAdmin(admin.ModelAdmin):

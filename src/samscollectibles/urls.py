@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
+from . import restoration_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -21,4 +22,7 @@ urlpatterns = [
     path('ebay_templates/', include('ebay_templates.urls', namespace='ebay_templates')),
     path('non_sports_cards/', include('non_sports_cards.urls', namespace='non_sports_cards')),
     path('movie_posters/', include('movie_posters.urls', namespace='movie_posters')),
+
+    # Private dashboard (staff/restoration group only)
+    path('restoration/', restoration_views.restoration_dashboard, name='restoration_dashboard'),
 ]
