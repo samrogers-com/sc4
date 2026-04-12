@@ -25,6 +25,13 @@
     </div>
 </div>
 
+{% if 'posters' in product_type %}
+<div class="bg-gray-700 border border-gray-600 rounded-lg p-3 mb-6 text-sm">
+    <span class="text-amber-400">&#128247;</span>
+    <span class="text-gray-300">These are preliminary photos taken through protective sleeves. Professional photos (removed from sleeves) will be coming soon.</span>
+</div>
+{% endif %}
+
 {% if has_sw_data and sw_groups %}
 <!-- ================================================================== -->
 <!-- Star Wars Set Cards — grouped by SKU                               -->

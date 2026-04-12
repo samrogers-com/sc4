@@ -360,6 +360,41 @@ def folder_display_name(folder_name):
         'casper': 'Casper',
         # Singles
         'vehicles': 'Vehicles',
+        # Posters - Movies
+        'anh': 'A New Hope',
+        'esb': 'Empire Strikes Back',
+        'rotj': 'Return of the Jedi',
+        # Poster styles
+        'style-a-copy-1': 'Style A (Tom Jung) - Copy 1',
+        'style-a-copy-2': 'Style A (Tom Jung) - Copy 2',
+        'style-a-copy-3': 'Style A (Tom Jung) - Copy 3',
+        'style-a-copy-4': 'Style A (Tom Jung) - Copy 4',
+        'style-a-advance-teaser': 'Style A Advance Teaser "Coming to Your Galaxy"',
+        'style-a-soundtrack-banner': 'Style A w/ Soundtrack Banner (2nd Printing)',
+        'style-a-gwtw-copy-1': 'Style A "Gone with the Wind" - Copy 1',
+        'style-a-gwtw-copy-2': 'Style A "Gone with the Wind" - Copy 2',
+        'style-a-gwtw-copy-3': 'Style A "Gone with the Wind" - Copy 3',
+        'style-b-teaser': 'Style B Teaser "A Long Time Ago..."',
+        'style-b-copy-1': 'Style B (Tom Jung) - Copy 1',
+        'style-b-copy-2': 'Style B (Tom Jung) - Copy 2',
+        'style-c-copy-1': 'Style C (Tom Chantrell) - Copy 1',
+        'style-c-copy-2': 'Style C (Tom Chantrell) - Copy 2',
+        'style-d-copy-1': 'Style D (Drew Struzan) - Copy 1',
+        'style-d-copy-2': 'Style D (Drew Struzan) - Copy 2',
+        'advance-gwtw-copy-1': 'Advance "Gone with the Wind" - Copy 1',
+        'advance-gwtw-copy-2': 'Advance "Gone with the Wind" - Copy 2',
+        're-release-1982': 'Re-release (1982)',
+        'its-back-1979': '"It\'s Back!" Re-release (1979)',
+        'french-la-guerre-des-etoiles': 'French "La Guerre des Étoiles"',
+        'first-ten-years-signed-struzan': 'First Ten Years - SIGNED Drew Struzan LE',
+        'landscape-variant': 'Landscape Variant',
+        'style-a': 'Style A (Tim Reamer)',
+        # Star Trek posters
+        'new-borg-city-le-725-of-1701': 'New Borg City - LE Print (725/1701)',
+        'ds9-way-of-the-warrior': 'DS9 "Way of the Warrior"',
+        # Reference
+        'laffiche-checklist-1985': "L'Affiche Poster Checklist (1985)",
+        'reference': 'Reference',
     }
 
     if folder_name in DISPLAY_NAMES:

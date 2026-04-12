@@ -19,13 +19,20 @@
 <h1 class="text-3xl font-bold text-amber-500 mb-2">
     {% with last_crumb=breadcrumbs|last %}{{ last_crumb.label }}{% endwith %}
 </h1>
-<p class="text-gray-400 mb-8">
+<p class="text-gray-400 mb-4">
     {% if folders %}
         {{ folders|length }} item{{ folders|length|pluralize }}
     {% else %}
         No items found in this category yet.
     {% endif %}
 </p>
+
+{% if 'posters' in product_type %}
+<div class="bg-gray-700 border border-gray-600 rounded-lg p-3 mb-6 text-sm">
+    <span class="text-amber-400">&#128247;</span>
+    <span class="text-gray-300">These are preliminary photos taken through protective sleeves. Professional photos of each poster (removed from sleeves) will be coming soon.</span>
+</div>
+{% endif %}
 
 {% if folders %}
 <!-- Folder Grid -->
