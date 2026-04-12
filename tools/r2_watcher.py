@@ -144,6 +144,21 @@ def upload_file(s3, local_path, r2_key, dry_run=False):
     return url
 
 
+def verify_r2_upload(s3, r2_key):
+    """Verify a file exists on R2 by checking its metadata. Returns True if OK."""
+    try:
+        resp = s3.head_object(Bucket=BUCKET, Key=r2_key)
+        size = resp.get('ContentLength', 0)
+        if size > 0:
+            logger.debug("Verified on R2: %s (%d bytes)", r2_key, size)
+            return True
+        logger.warning("R2 file has 0 bytes: %s", r2_key)
+        return False
+    except Exception as e:
+        logger.warning("R2 verification failed for %s: %s", r2_key, e)
+        return False
+
+
 # ---------------------------------------------------------------------------
 # Path resolution: local path -> R2 key
 # ---------------------------------------------------------------------------
@@ -203,8 +218,9 @@ def resolve_r2_key(filepath, watch_root):
 # ---------------------------------------------------------------------------
 # Process files
 # ---------------------------------------------------------------------------
-def process_file(s3, filepath, watch_root, dry_run=False, delay=0.5):
-    """Process a single image file: resolve R2 key and upload."""
+def process_file(s3, filepath, watch_root, dry_run=False, delay=0.5,
+                  delete_after_upload=False):
+    """Process a single image file: resolve R2 key, upload, optionally delete."""
     filepath = Path(filepath)
     if not filepath.is_file():
         return None
@@ -216,13 +232,21 @@ def process_file(s3, filepath, watch_root, dry_run=False, delay=0.5):
     r2_key = resolve_r2_key(filepath, watch_root)
     url = upload_file(s3, filepath, r2_key, dry_run=dry_run)
 
+    if delete_after_upload and not dry_run and url:
+        if verify_r2_upload(s3, r2_key):
+            filepath.unlink()
+            logger.info("Deleted local file: %s", filepath)
+        else:
+            logger.warning("Keeping local file (R2 verify failed): %s", filepath)
+
     if delay > 0 and not dry_run:
         time.sleep(delay)
 
     return url
 
 
-def process_directory(s3, watch_root, dry_run=False, delay=0.5):
+def process_directory(s3, watch_root, dry_run=False, delay=0.5,
+                      delete_after_upload=False):
     """Walk the watch directory and process all existing image files."""
     watch_root = Path(watch_root)
     if not watch_root.exists():
@@ -247,7 +271,8 @@ def process_directory(s3, watch_root, dry_run=False, delay=0.5):
 
             try:
                 url = process_file(s3, filepath, watch_root,
-                                   dry_run=dry_run, delay=delay)
+                                   dry_run=dry_run, delay=delay,
+                                   delete_after_upload=delete_after_upload)
                 if url:
                     uploaded += 1
                 else:
@@ -265,12 +290,14 @@ def process_directory(s3, watch_root, dry_run=False, delay=0.5):
 class R2UploadHandler(FileSystemEventHandler):
     """Handles new/moved image files and uploads them to R2."""
 
-    def __init__(self, s3, watch_root, dry_run=False, delay=0.5):
+    def __init__(self, s3, watch_root, dry_run=False, delay=0.5,
+                 delete_after_upload=False):
         super().__init__()
         self.s3 = s3
         self.watch_root = Path(watch_root)
         self.dry_run = dry_run
         self.delay = delay
+        self.delete_after_upload = delete_after_upload
         self.processed = set()
 
     def _handle(self, filepath):
@@ -290,7 +317,8 @@ class R2UploadHandler(FileSystemEventHandler):
         self.processed.add(str(filepath))
         try:
             process_file(self.s3, filepath, self.watch_root,
-                         dry_run=self.dry_run, delay=self.delay)
+                         dry_run=self.dry_run, delay=self.delay,
+                         delete_after_upload=self.delete_after_upload)
         except Exception as e:
             logger.error("Failed to upload %s: %s", filepath, e)
 
@@ -345,6 +373,8 @@ Examples:
                         default=os.path.expanduser('~/Pictures/SC4-Upload'))
     parser.add_argument('--dry-run', action='store_true',
                         help='Show what would be uploaded without uploading')
+    parser.add_argument('--delete-after-upload', action='store_true',
+                        help='Delete local file after upload + R2 verification (200 OK)')
     parser.add_argument('--delay', type=float, default=0.5,
                         help='Delay between uploads in seconds (default: 0.5)')
     parser.add_argument('--verbose', '-v', action='store_true',
@@ -361,6 +391,8 @@ Examples:
 
     if args.dry_run:
         logger.info("** DRY RUN MODE -- no files will be uploaded **")
+    if args.delete_after_upload:
+        logger.info("** DELETE AFTER UPLOAD -- local files will be removed after R2 verification **")
 
     # Ensure the watch directory exists
     if not watch_dir.exists():
@@ -372,7 +404,8 @@ Examples:
     if args.once:
         logger.info("Processing existing files...")
         uploaded, skipped, errors = process_directory(
-            s3, watch_dir, dry_run=args.dry_run, delay=args.delay)
+            s3, watch_dir, dry_run=args.dry_run, delay=args.delay,
+            delete_after_upload=args.delete_after_upload)
         logger.info("Done. Uploaded: %d | Skipped: %d | Errors: %d",
                      uploaded, skipped, errors)
 
@@ -385,13 +418,15 @@ Examples:
         # First process any existing files
         logger.info("Processing existing files before watching...")
         uploaded, skipped, errors = process_directory(
-            s3, watch_dir, dry_run=args.dry_run, delay=args.delay)
+            s3, watch_dir, dry_run=args.dry_run, delay=args.delay,
+            delete_after_upload=args.delete_after_upload)
         logger.info("Initial scan: Uploaded: %d | Skipped: %d | Errors: %d",
                      uploaded, skipped, errors)
 
         # Start watching
         handler = R2UploadHandler(s3, watch_dir,
-                                  dry_run=args.dry_run, delay=args.delay)
+                                  dry_run=args.dry_run, delay=args.delay,
+                                  delete_after_upload=args.delete_after_upload)
         observer = Observer()
         observer.schedule(handler, str(watch_dir), recursive=True)
         observer.start()
