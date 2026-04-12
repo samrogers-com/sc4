@@ -13,6 +13,15 @@ SECURE_SSL_REDIRECT = False
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+# Trust Cloudflare proxy for CSRF — without this, POST forms get 403
+CSRF_TRUSTED_ORIGINS = [
+    'https://samscollectibles.net',
+    'https://www.samscollectibles.net',
+]
+
+# Tell Django to trust X-Forwarded-Proto from Cloudflare/Nginx
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Ensure the secret key is retrieved from environment variables
 SECRET_KEY = config('SECRET_KEY')
 
