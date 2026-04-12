@@ -20,8 +20,9 @@ POSTER_THUMBNAIL_MAP = {
     'Style D%Copy 2': 'posters/star-wars/anh/style-d-copy-2/front.jpg',
     'Advance Teaser%Coming': 'posters/star-wars/anh/style-a-advance-teaser/front.jpg',
     'Style B Teaser': 'posters/star-wars/anh/style-b-teaser/front.jpg',
-    'Style C%Copy 1': 'posters/star-wars/anh/style-c-copy-1/front.jpg',
-    'Style C%Copy 2': 'posters/star-wars/anh/style-c-copy-2/front.jpg',
+    'Style C%Chantrell%Copy 1': 'posters/star-wars/anh/style-c-copy-1/front.jpg',
+    'Style C%Chantrell%Copy 2': 'posters/star-wars/anh/style-c-copy-2/front.jpg',
+    'Style C%Chantrell': 'posters/star-wars/anh/style-c-copy-1/front.jpg',
     'Style A%Copy 1': 'posters/star-wars/anh/style-a-copy-1/front.jpg',
     'Style A%Copy 2': 'posters/star-wars/anh/style-a-copy-2/front.jpg',
     'Style A%Copy 3': 'posters/star-wars/anh/style-a-copy-3/front.jpg',
@@ -99,23 +100,47 @@ def restoration_dashboard(request):
         c.roi = _calc_roi(c)
         card_items.append(c)
 
+    # Add admin edit URLs to each item
+    for item in poster_items:
+        item.admin_url = f"/admin/movie_posters/movieposters/{item.pk}/change/"
+    for item in comic_items:
+        model_name = item.__class__.__name__.lower()
+        item.admin_url = f"/admin/comic_books/{model_name}/{item.pk}/change/"
+    for item in card_items:
+        item.admin_url = f"/admin/non_sports_cards/nonsportscards/{item.pk}/change/"
+
+    # Section totals
+    def _section_totals(items):
+        return {
+            'cost': sum(float(i.restoration_cost or 0) for i in items),
+            'before': sum(float(i.pre_restoration_value or 0) for i in items),
+            'after': sum(float(i.post_restoration_value or 0) for i in items),
+        }
+
+    poster_totals = _section_totals(poster_items)
+    comic_totals = _section_totals(comic_items)
+    card_totals = _section_totals(card_items)
+
     # Stats
     all_items = poster_items + comic_items + card_items
+    total_before = sum(float(i.pre_restoration_value or 0) for i in all_items)
+    total_after = sum(float(i.post_restoration_value or 0) for i in all_items)
     stats = {
         'recommended': sum(1 for i in all_items if i.restoration_status == 'recommended'),
         'in_progress': sum(1 for i in all_items if i.restoration_status == 'in_progress'),
         'completed': sum(1 for i in all_items if i.restoration_status == 'completed'),
         'total_cost': sum(float(i.restoration_cost or 0) for i in all_items if i.restoration_status in ('recommended', 'in_progress')),
-        'total_value_gain': sum(
-            float(i.post_restoration_value or 0) - float(i.pre_restoration_value or 0)
-            for i in all_items
-            if i.post_restoration_value and i.pre_restoration_value
-        ),
+        'total_before': total_before,
+        'total_after': total_after,
+        'total_value_gain': total_after - total_before,
     }
 
     return render(request, 'restoration/dashboard.html', {
         'poster_items': poster_items,
+        'poster_totals': poster_totals,
         'comic_items': comic_items,
+        'comic_totals': comic_totals,
         'card_items': card_items,
+        'card_totals': card_totals,
         'stats': stats,
     })

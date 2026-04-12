@@ -7,26 +7,30 @@
 <p class="text-gray-400 mb-6">Private — manage restoration priorities and track progress</p>
 
 <!-- Summary Stats -->
-<div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+<div class="grid grid-cols-2 md:grid-cols-6 gap-3 mb-8">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-3 text-center">
         <p class="text-gray-400 text-xs uppercase">Recommended</p>
         <p class="text-2xl font-bold text-amber-400">{{ stats.recommended }}</p>
     </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-3 text-center">
         <p class="text-gray-400 text-xs uppercase">In Progress</p>
         <p class="text-2xl font-bold text-blue-400">{{ stats.in_progress }}</p>
     </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-3 text-center">
         <p class="text-gray-400 text-xs uppercase">Completed</p>
         <p class="text-2xl font-bold text-green-400">{{ stats.completed }}</p>
     </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-3 text-center">
+        <p class="text-gray-400 text-xs uppercase">Current Value</p>
+        <p class="text-2xl font-bold text-gray-200">${{ stats.total_before|floatformat:0 }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-3 text-center">
         <p class="text-gray-400 text-xs uppercase">Est. Cost</p>
         <p class="text-2xl font-bold text-red-400">${{ stats.total_cost|floatformat:0 }}</p>
     </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
-        <p class="text-gray-400 text-xs uppercase">Est. Value Gain</p>
-        <p class="text-2xl font-bold text-green-400">${{ stats.total_value_gain|floatformat:0 }}</p>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-3 text-center">
+        <p class="text-gray-400 text-xs uppercase">After Value</p>
+        <p class="text-2xl font-bold text-green-400">${{ stats.total_after|floatformat:0 }} <span class="text-sm">(+${{ stats.total_value_gain|floatformat:0 }})</span></p>
     </div>
 </div>
 
@@ -54,7 +58,7 @@
             </thead>
             <tbody class="divide-y divide-gray-600">
                 {% for item in poster_items %}
-                <tr class="hover:bg-gray-600 transition">
+                <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{{ item.admin_url }}'">
                     <td class="px-3 py-2">
                         {% if item.thumbnail_url %}
                         <img src="{{ item.thumbnail_url }}" alt="" class="w-12 h-16 object-cover rounded">
@@ -109,6 +113,15 @@
                 </tr>
                 {% endfor %}
             </tbody>
+            <tfoot class="bg-gray-800 border-t-2 border-gray-500">
+                <tr class="font-bold">
+                    <td colspan="6" class="px-3 py-3 text-right text-gray-300 uppercase text-xs">Totals</td>
+                    <td class="px-3 py-3 text-right text-red-400 font-mono">${{ poster_totals.cost|floatformat:0 }}</td>
+                    <td class="px-3 py-3 text-right text-gray-300 font-mono">${{ poster_totals.before|floatformat:0 }}</td>
+                    <td class="px-3 py-3 text-right text-green-400 font-mono">${{ poster_totals.after|floatformat:0 }}</td>
+                    <td class="px-3 py-3"></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>
@@ -139,7 +152,7 @@
             </thead>
             <tbody class="divide-y divide-gray-600">
                 {% for item in comic_items %}
-                <tr class="hover:bg-gray-600 transition">
+                <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{{ item.admin_url }}'">
                     <td class="px-3 py-2">
                         {% if item.cover_url %}
                         <img src="{{ item.cover_url }}" alt="" class="w-10 h-14 object-cover rounded">
@@ -195,6 +208,15 @@
                 </tr>
                 {% endfor %}
             </tbody>
+            <tfoot class="bg-gray-800 border-t-2 border-gray-500">
+                <tr class="font-bold">
+                    <td colspan="7" class="px-3 py-3 text-right text-gray-300 uppercase text-xs">Totals</td>
+                    <td class="px-3 py-3 text-right text-red-400 font-mono">${{ comic_totals.cost|floatformat:0 }}</td>
+                    <td class="px-3 py-3 text-right text-gray-300 font-mono">${{ comic_totals.before|floatformat:0 }}</td>
+                    <td class="px-3 py-3 text-right text-green-400 font-mono">${{ comic_totals.after|floatformat:0 }}</td>
+                    <td class="px-3 py-3"></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>
