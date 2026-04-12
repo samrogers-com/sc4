@@ -93,3 +93,4 @@ src/*.PDF
 
 # Large static media in src (serve via R2 or Django staticfiles)
 src/comic_books/staticfiles/imgies/**
+tools/ebay_user_token.json
