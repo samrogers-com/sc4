@@ -255,17 +255,30 @@ from .r2_utils import (
 )
 
 
+NON_TRADING_CARD_TYPES = ('posters', 'comic-books', 'reference')
+
+
+def _r2_prefix(product_type, path=''):
+    """Build the R2 prefix from product type and path.
+    Posters and comic-books live at root level on R2, not under trading-cards/.
+    """
+    if product_type in NON_TRADING_CARD_TYPES:
+        prefix = f"{product_type}/"
+    else:
+        prefix = f"trading-cards/{product_type}/"
+    if path:
+        prefix += f"{path}/"
+    return prefix
+
+
 def r2_gallery(request, product_type, path=''):
     """
     Browse R2 gallery — shows subfolders or images under a product type path.
 
-    URL: /trading-cards/gallery/<product_type>/
-         /trading-cards/gallery/<product_type>/<path>/
+    URL: /non_sports_cards/gallery/<product_type>/
+         /non_sports_cards/gallery/<product_type>/<path>/
     """
-    # Build the R2 prefix
-    prefix = f"trading-cards/{product_type}/"
-    if path:
-        prefix += f"{path}/"
+    prefix = _r2_prefix(product_type, path)
 
     # Check for subfolders first
     subfolders = get_r2_folders(prefix)
@@ -324,7 +337,7 @@ def r2_gallery_detail(request, product_type, path):
 
     URL: /trading-cards/gallery/<product_type>/<path>/detail/
     """
-    prefix = f"trading-cards/{product_type}/{path}/"
+    prefix = _r2_prefix(product_type, path)
     images = get_r2_images(prefix)
     return _render_gallery_detail(request, product_type, path, images)
 
