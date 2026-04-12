@@ -235,3 +235,150 @@ def sw_variant(request, movie, series, variant):
         'year': movie_data['year'],
         'card': card,
     })
+
+
+# =============================================================================
+# R2 Gallery Views — auto-generated from R2 bucket images
+# =============================================================================
+
+from django.urls import reverse
+
+from .r2_utils import (
+    get_r2_folders,
+    get_r2_images,
+    get_r2_folder_thumbnails,
+    folder_display_name,
+    parse_sw_filename,
+    group_sw_images_by_sku,
+    PRODUCT_TYPE_NAMES,
+    CDN_BASE,
+)
+
+
+def r2_gallery(request, product_type, path=''):
+    """
+    Browse R2 gallery — shows subfolders or images under a product type path.
+
+    URL: /trading-cards/gallery/<product_type>/
+         /trading-cards/gallery/<product_type>/<path>/
+    """
+    # Build the R2 prefix
+    prefix = f"trading-cards/{product_type}/"
+    if path:
+        prefix += f"{path}/"
+
+    # Check for subfolders first
+    subfolders = get_r2_folders(prefix)
+
+    if subfolders:
+        # Show folder browsing view with thumbnails
+        folder_data = get_r2_folder_thumbnails(prefix)
+
+        # Enrich each folder with display name and URL
+        for f in folder_data:
+            f['display_name'] = folder_display_name(f['folder'])
+            sub_path = f"{path}/{f['folder']}" if path else f['folder']
+            browse_url = reverse(
+                'non_sports_cards:r2_gallery',
+                kwargs={'product_type': product_type, 'path': sub_path},
+            )
+            detail_url = reverse(
+                'non_sports_cards:r2_gallery_detail',
+                kwargs={'product_type': product_type, 'path': sub_path},
+            )
+            # Check if this folder has subfolders — if so, link to browse, else detail
+            child_prefix = f"{prefix}{f['folder']}/"
+            child_folders = get_r2_folders(child_prefix)
+            f['url'] = browse_url if child_folders else detail_url
+
+        context = {
+            'product_type': product_type,
+            'product_type_name': PRODUCT_TYPE_NAMES.get(product_type, product_type.title()),
+            'path': path,
+            'breadcrumbs': _build_breadcrumbs(product_type, path),
+            'folders': folder_data,
+        }
+        return render(request, 'non_sports_cards/r2_gallery.html', context)
+    else:
+        # No subfolders — show images directly (redirect to detail view logic)
+        images = get_r2_images(prefix)
+        if images:
+            # Render as a detail/product page
+            return _render_gallery_detail(request, product_type, path, images)
+
+        # Empty — show gallery page with empty state
+        context = {
+            'product_type': product_type,
+            'product_type_name': PRODUCT_TYPE_NAMES.get(product_type, product_type.title()),
+            'path': path,
+            'breadcrumbs': _build_breadcrumbs(product_type, path),
+            'folders': [],
+            'folder_display': {},
+        }
+        return render(request, 'non_sports_cards/r2_gallery.html', context)
+
+
+def r2_gallery_detail(request, product_type, path):
+    """
+    Product detail gallery — shows all images for a specific product folder.
+
+    URL: /trading-cards/gallery/<product_type>/<path>/detail/
+    """
+    prefix = f"trading-cards/{product_type}/{path}/"
+    images = get_r2_images(prefix)
+    return _render_gallery_detail(request, product_type, path, images)
+
+
+def _render_gallery_detail(request, product_type, path, images):
+    """Shared renderer for the gallery detail page."""
+    # Check if these are SW ANH set photos with SKU naming
+    sw_groups = None
+    has_sw_data = False
+    if images:
+        parsed = parse_sw_filename(images[0]['filename'])
+        if parsed:
+            has_sw_data = True
+            sw_groups = group_sw_images_by_sku(images)
+
+    # Build a display name from the last path segment
+    last_segment = path.rstrip('/').split('/')[-1] if path else product_type
+    display_name = folder_display_name(last_segment)
+
+    context = {
+        'product_type': product_type,
+        'product_type_name': PRODUCT_TYPE_NAMES.get(product_type, product_type.title()),
+        'path': path,
+        'breadcrumbs': _build_breadcrumbs(product_type, path),
+        'display_name': display_name,
+        'images': images,
+        'image_count': len(images),
+        'has_sw_data': has_sw_data,
+        'sw_groups': sw_groups,
+    }
+    return render(request, 'non_sports_cards/r2_gallery_detail.html', context)
+
+
+def _build_breadcrumbs(product_type, path):
+    """
+    Build breadcrumb list from product_type and path.
+
+    Returns: [{'label': 'Trading Cards', 'url': '...'}, {'label': 'Boxes', 'url': '...'}, ...]
+    """
+    crumbs = [
+        {'label': 'Trading Cards', 'url': reverse('non_sports_cards:non_sports_cards_home')},
+        {'label': PRODUCT_TYPE_NAMES.get(product_type, product_type.title()),
+         'url': reverse('non_sports_cards:r2_gallery_root', kwargs={'product_type': product_type})},
+    ]
+
+    if path:
+        parts = [p for p in path.split('/') if p]
+        accumulated = ''
+        for part in parts:
+            accumulated = f"{accumulated}/{part}" if accumulated else part
+            crumbs.append({
+                'label': folder_display_name(part),
+                'url': reverse('non_sports_cards:r2_gallery',
+                               kwargs={'product_type': product_type, 'path': accumulated}),
+            })
+
+    return crumbs

@@ -37,70 +37,132 @@
                     </div>
                 </div>
 
-                <!-- Trading Cards Dropdown -->
+                <!-- Trading Cards Dropdown — Product Type first, then franchise -->
                 <div class="relative group">
                     <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="text-gray-300 hover:text-amber-400 transition">Trading Cards</a>
                     <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
                         <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-52">
-                            <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Franchises</p>
-                            <!-- Star Wars → Movie → Series cascading flyouts -->
-                            <div class="relative group/sw">
-                                <a href="{% url 'non_sports_cards:sw_hub' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Wars <span class="text-gray-500">&#9656;</span></a>
-                                <div class="absolute left-full top-0 hidden group-hover/sw:block z-50 ml-0.5">
-                                    <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-52">
-                                        <!-- A New Hope -->
-                                        <div class="relative group/anh">
-                                            <a href="{% url 'non_sports_cards:sw_movie' movie='anh' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">A New Hope <span class="text-gray-500">&#9656;</span></a>
-                                            <div class="absolute left-full top-0 hidden group-hover/anh:block z-50 ml-0.5">
-                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-44">
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=1 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-blue-400 text-sm">Series 1 <span class="text-blue-400">(Blue)</span></a>
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=2 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-red-400 text-sm">Series 2 <span class="text-red-400">(Red)</span></a>
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=3 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-yellow-400 text-sm">Series 3 <span class="text-yellow-400">(Yellow)</span></a>
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=4 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-green-400 text-sm">Series 4 <span class="text-green-400">(Green)</span></a>
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='anh' series=5 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-orange-400 text-sm">Series 5 <span class="text-orange-400">(Orange)</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Empire Strikes Back -->
-                                        <div class="relative group/esb">
-                                            <a href="{% url 'non_sports_cards:sw_movie' movie='esb' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Empire Strikes Back <span class="text-gray-500">&#9656;</span></a>
-                                            <div class="absolute left-full top-0 hidden group-hover/esb:block z-50 ml-0.5">
-                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-44">
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=1 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-red-400 text-sm">Series 1 <span class="text-red-400">(Silver/Red)</span></a>
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=2 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-blue-400 text-sm">Series 2 <span class="text-blue-400">(Silver/Blue)</span></a>
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='esb' series=3 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-green-400 text-sm">Series 3 <span class="text-green-400">(Yellow/Green)</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Return of the Jedi -->
-                                        <div class="relative group/rotj">
-                                            <a href="{% url 'non_sports_cards:sw_movie' movie='rotj' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Return of the Jedi <span class="text-gray-500">&#9656;</span></a>
-                                            <div class="absolute left-full top-0 hidden group-hover/rotj:block z-50 ml-0.5">
-                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-44">
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='rotj' series=1 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-red-400 text-sm">Series 1 <span class="text-red-400">(Red)</span></a>
-                                                    <a href="{% url 'non_sports_cards:sw_series' movie='rotj' series=2 %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-blue-400 text-sm">Series 2 <span class="text-blue-400">(Blue)</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="border-t border-gray-700 my-1"></div>
-                                        <a href="{% url 'non_sports_cards:sw_hub' %}" class="block px-4 py-1.5 text-amber-500 hover:bg-gray-700 text-sm font-medium">View All SW Cards</a>
+
+                            <!-- Binders -->
+                            <div class="relative group/binders">
+                                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='binders' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Binders <span class="text-gray-500">&#9656;</span></a>
+                                <div class="absolute left-full top-0 hidden group-hover/binders:block z-50 ml-0.5">
+                                    <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                        <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='binders' path='007jamesbonder-redbinder' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">James Bond Red Binder</a>
                                     </div>
                                 </div>
                             </div>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Star Trek" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Trek</a>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Marvel" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Marvel</a>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=DC Comics" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">DC Comics</a>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Disney" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Disney</a>
+
+                            <!-- Boxes -->
+                            <div class="relative group/boxes">
+                                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='boxes' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Boxes <span class="text-gray-500">&#9656;</span></a>
+                                <div class="absolute left-full top-0 hidden group-hover/boxes:block z-50 ml-0.5">
+                                    <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-52">
+                                        <!-- Star Wars boxes -->
+                                        <div class="relative group/boxsw">
+                                            <a href="{% url 'non_sports_cards:r2_gallery' product_type='boxes' path='star-wars' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Wars <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/boxsw:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='star-wars/sw-3d' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">SW 3D Widevision</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='star-wars/sw-first-anthology' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">First Anthology</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='star-wars/sw-mastervisions' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Mastervisions</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='star-wars/sw-vehicles' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">SW Vehicles</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Star Trek boxes -->
+                                        <div class="relative group/boxst">
+                                            <a href="{% url 'non_sports_cards:r2_gallery' product_type='boxes' path='star-trek' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Trek <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/boxst:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='star-trek/ds9' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Deep Space Nine</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='star-trek/master-series' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Master Series</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='star-trek/tng' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">The Next Generation</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='star-trek/tos' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">The Original Series</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Movies boxes -->
+                                        <div class="relative group/boxmov">
+                                            <a href="{% url 'non_sports_cards:r2_gallery' product_type='boxes' path='movies' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Movies <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/boxmov:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='movies/007-goldeneye' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">007 Goldeneye</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='movies/007-moonraker' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">007 Moonraker</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='movies/dune' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Dune</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='movies/godzilla' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Godzilla</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- TV Shows boxes -->
+                                        <div class="relative group/boxtv">
+                                            <a href="{% url 'non_sports_cards:r2_gallery' product_type='boxes' path='tv-shows' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">TV Shows <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/boxtv:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='tv-shows/outer-limits' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Outer Limits</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='tv-shows/space-1999' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Space 1999</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='boxes' path='tv-shows/x-files' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">X-Files</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='boxes' path='marvel' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Marvel</a>
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='boxes' path='disney' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Disney</a>
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='boxes' path='valiant' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Valiant</a>
+                                        <a href="{% url 'non_sports_cards:r2_gallery' product_type='boxes' path='other' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Other</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Packs -->
+                            <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='packs' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Packs</a>
+
+                            <!-- Sets -->
+                            <div class="relative group/sets">
+                                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='sets' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Sets <span class="text-gray-500">&#9656;</span></a>
+                                <div class="absolute left-full top-0 hidden group-hover/sets:block z-50 ml-0.5">
+                                    <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                        <!-- Star Wars sets -->
+                                        <div class="relative group/setsw">
+                                            <a href="{% url 'non_sports_cards:r2_gallery' product_type='sets' path='star-wars' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Wars <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/setsw:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='star-wars/anh-series-1' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">ANH Series 1</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='star-wars/anh-series-2' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">ANH Series 2</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='star-wars/anh-series-3' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">ANH Series 3</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='star-wars/anh-series-4' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">ANH Series 4</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='star-wars/anh-series-5' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">ANH Series 5</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='star-wars/shadows-of-the-empire' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Shadows of the Empire</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='star-wars/widevision' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Widevision</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Marvel sets -->
+                                        <div class="relative group/setmv">
+                                            <a href="{% url 'non_sports_cards:r2_gallery' product_type='sets' path='marvel' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Marvel <span class="text-gray-500">&#9656;</span></a>
+                                            <div class="absolute left-full top-0 hidden group-hover/setmv:block z-50 ml-0.5">
+                                                <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='marvel/masterpieces' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Masterpieces</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='marvel/universe' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Universe</a>
+                                                    <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='sets' path='marvel/x-men' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">X-Men</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Singles -->
+                            <div class="relative group/singles">
+                                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='singles' %}" class="flex justify-between px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Singles <span class="text-gray-500">&#9656;</span></a>
+                                <div class="absolute left-full top-0 hidden group-hover/singles:block z-50 ml-0.5">
+                                    <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                        <a href="{% url 'non_sports_cards:r2_gallery_detail' product_type='singles' path='star-wars/vehicles' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Star Wars Vehicles</a>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="border-t border-gray-700 my-1"></div>
-                            <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Genres</p>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Movies" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Movies</a>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=TV Shows" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">TV Shows</a>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Sci-Fi" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Sci-Fi</a>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Fantasy Art" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Fantasy Art</a>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Historical & Military" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Historical & Military</a>
-                            <a href="{% url 'non_sports_cards:list_cards' %}?category=Pop Culture" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Pop Culture</a>
-                            <div class="border-t border-gray-700 my-1"></div>
-                            <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="block px-4 py-1.5 text-amber-500 hover:bg-gray-700 text-sm font-medium">View All</a>
+                            <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="block px-4 py-1.5 text-amber-500 hover:bg-gray-700 text-sm font-medium">View All Categories</a>
                         </div>
                     </div>
                 </div>
@@ -129,17 +191,11 @@
             <a href="{% url 'comic_books:comicbooks_home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Comic Books</a>
             <a href="{% url 'non_sports_cards:non_sports_cards_home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Trading Cards</a>
             <div class="pl-4 space-y-1">
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Star Wars" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Star Wars</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Star Trek" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Star Trek</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Marvel" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Marvel</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=DC Comics" class="block py-1 text-sm text-gray-400 hover:text-amber-400">DC Comics</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Disney" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Disney</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Movies" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Movies</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=TV Shows" class="block py-1 text-sm text-gray-400 hover:text-amber-400">TV Shows</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Sci-Fi" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Sci-Fi</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Fantasy Art" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Fantasy Art</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Historical %26 Military" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Historical & Military</a>
-                <a href="{% url 'non_sports_cards:list_cards' %}?category=Pop Culture" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Pop Culture</a>
+                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='binders' %}" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Binders</a>
+                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='boxes' %}" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Boxes</a>
+                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='packs' %}" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Packs</a>
+                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='sets' %}" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Sets</a>
+                <a href="{% url 'non_sports_cards:r2_gallery_root' product_type='singles' %}" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Singles</a>
             </div>
             <a href="{% url 'movie_posters:home' %}" class="block py-2 text-gray-300 hover:text-amber-400">Movie Posters</a>
             <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener" class="block py-2 text-gray-300 hover:text-amber-400">eBay Store &#8599;</a>

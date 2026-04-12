@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ display_name }} — {{ product_type_name }} — Sam's Collectibles{% endblock %}
+
+{% block content %}
+
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm text-gray-400 mb-6 flex-wrap">
+    {% for crumb in breadcrumbs %}
+        {% if not forloop.last %}
+            <a href="{{ crumb.url }}" class="hover:text-amber-400 transition">{{ crumb.label }}</a>
+            <span class="text-gray-600">/</span>
+        {% else %}
+            <span class="text-amber-500 font-medium">{{ crumb.label }}</span>
+        {% endif %}
+    {% endfor %}
+</nav>
+
+<div class="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-8">
+    <div>
+        <h1 class="text-3xl font-bold text-amber-500 mb-1">{{ display_name }}</h1>
+        <p class="text-gray-400">
+            {{ image_count }} photo{{ image_count|pluralize }} &middot; {{ product_type_name }}
+        </p>
+    </div>
+</div>
+
+{% if has_sw_data and sw_groups %}
+<!-- ================================================================== -->
+<!-- Star Wars Set Cards — grouped by SKU                               -->
+<!-- ================================================================== -->
+<div class="space-y-8">
+    {% for sku, group in sw_groups.items %}
+    {% if group.info %}
+    <div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+        <!-- SKU header -->
+        <div class="px-4 py-3 bg-gray-750 border-b border-gray-600 flex flex-wrap items-center gap-4">
+            <h3 class="text-lg font-semibold text-gray-100">
+                SKU {{ group.info.sku }}
+            </h3>
+            <div class="flex flex-wrap gap-2 text-xs">
+                <span class="bg-gray-600 text-gray-200 px-2 py-0.5 rounded">{{ group.info.movie_name }}</span>
+                <span class="bg-gray-600 text-gray-200 px-2 py-0.5 rounded">Series {{ group.info.series }}</span>
+                <span class="bg-gray-600 text-gray-200 px-2 py-0.5 rounded">{{ group.info.star_label }}</span>
+                <span class="bg-gray-600 text-gray-200 px-2 py-0.5 rounded">{{ group.info.card_type }}</span>
+            </div>
+            <span class="text-gray-400 text-sm ml-auto">{{ group.images|length }} photo{{ group.images|length|pluralize }}</span>
+        </div>
+        <!-- Photo grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
+            {% for img in group.images %}
+            <div class="relative cursor-pointer gallery-thumb" data-full-url="{{ img.url }}">
+                <img src="{{ img.url }}"
+                     alt="{{ img.filename }}"
+                     loading="lazy"
+                     class="w-full aspect-square object-cover rounded border border-gray-600 hover:border-amber-500 transition">
+                <span class="absolute bottom-1 left-1 bg-gray-900/75 text-gray-300 text-xs px-1.5 py-0.5 rounded">
+                    P{{ forloop.counter }}
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    {% with other_group=sw_groups.other %}
+    {% if other_group and other_group.images %}
+    <div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+        <div class="px-4 py-3 bg-gray-750 border-b border-gray-600">
+            <h3 class="text-lg font-semibold text-gray-100">Other Photos</h3>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-3">
+            {% for img in other_group.images %}
+            <div class="relative cursor-pointer gallery-thumb" data-full-url="{{ img.url }}">
+                <img src="{{ img.url }}"
+                     alt="{{ img.filename }}"
+                     loading="lazy"
+                     class="w-full aspect-square object-cover rounded border border-gray-600 hover:border-amber-500 transition">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+</div>
+
+{% else %}
+<!-- ================================================================== -->
+<!-- Standard photo gallery — flat grid                                 -->
+<!-- ================================================================== -->
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+    {% for img in images %}
+    <div class="relative cursor-pointer gallery-thumb" data-full-url="{{ img.url }}">
+        <img src="{{ img.url }}"
+             alt="{{ img.filename }}"
+             loading="lazy"
+             class="w-full aspect-square object-cover rounded-lg border border-gray-600 hover:border-amber-500 transition shadow-md">
+        <span class="absolute bottom-1.5 left-1.5 bg-gray-900/75 text-gray-300 text-xs px-1.5 py-0.5 rounded">
+            {{ forloop.counter }}/{{ image_count }}
+        </span>
+    </div>
+    {% empty %}
+    <div class="col-span-full text-center py-16">
+        <p class="text-gray-400 text-lg">No photos found.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- ================================================================== -->
+<!-- Lightbox overlay                                                   -->
+<!-- ================================================================== -->
+<div id="lightbox" class="fixed inset-0 z-[100] bg-black/90 hidden items-center justify-center"
+     style="display:none;">
+    <!-- Close button -->
+    <button id="lb-close"
+            class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl z-10 w-10 h-10 flex items-center justify-center"
+            aria-label="Close lightbox">&times;</button>
+    <!-- Previous -->
+    <button id="lb-prev"
+            class="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white text-4xl z-10 w-12 h-12 flex items-center justify-center"
+            aria-label="Previous image">&#8249;</button>
+    <!-- Next -->
+    <button id="lb-next"
+            class="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white text-4xl z-10 w-12 h-12 flex items-center justify-center"
+            aria-label="Next image">&#8250;</button>
+    <!-- Image -->
+    <img id="lb-img" src="" alt="" class="max-h-[90vh] max-w-[95vw] object-contain rounded shadow-2xl">
+    <!-- Caption -->
+    <div id="lb-caption" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-gray-300 text-sm bg-gray-900/80 px-3 py-1 rounded"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const thumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCaption = document.getElementById('lb-caption');
+    const lbClose = document.getElementById('lb-close');
+    const lbPrev = document.getElementById('lb-prev');
+    const lbNext = document.getElementById('lb-next');
+    let currentIndex = 0;
+
+    function openLightbox(index) {
+        currentIndex = index;
+        const url = thumbs[index].dataset.fullUrl;
+        const img = thumbs[index].querySelector('img');
+        lbImg.src = url;
+        lbCaption.textContent = (index + 1) + ' / ' + thumbs.length;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.style.display = 'none';
+        lbImg.src = '';
+        document.body.style.overflow = '';
+    }
+
+    function navigate(delta) {
+        currentIndex = (currentIndex + delta + thumbs.length) % thumbs.length;
+        openLightbox(currentIndex);
+    }
+
+    thumbs.forEach(function(thumb, i) {
+        thumb.addEventListener('click', function() { openLightbox(i); });
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', function() { navigate(-1); });
+    lbNext.addEventListener('click', function() { navigate(1); });
+
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (lightbox.style.display === 'none') return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigate(-1);
+        if (e.key === 'ArrowRight') navigate(1);
+    });
+});
+</script>
+
+{% endblock %}
