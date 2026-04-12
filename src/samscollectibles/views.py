@@ -43,12 +43,15 @@ def contact(request):
         email = request.POST.get('email')
         message = request.POST.get('message')
 
-        send_mail(
-            f"Contact Form Submission from {name}",
-            f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}",
-            settings.DEFAULT_FROM_EMAIL,
-            [settings.DEFAULT_FROM_EMAIL],
+        from django.core.mail import EmailMessage
+        msg = EmailMessage(
+            subject=f"Contact Form Submission from {name}",
+            body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[settings.DEFAULT_FROM_EMAIL],
+            reply_to=[email],  # Reply goes to the person who filled out the form
         )
+        msg.send()
 
         messages.success(request, 'Your message has been sent successfully!')
         return redirect('contact')
