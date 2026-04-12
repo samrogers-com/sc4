@@ -1,0 +1,332 @@
+
+============================================================
+Migration run: 2026-04-11 18:03:53
+============================================================
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1554.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1554.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1555.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1555.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1556.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1556.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1557.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1557.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1558.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1558.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1559.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1559.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1560.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1560.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1561.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1561.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1562.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1562.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1563.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1563.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1564.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1564.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1565.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1565.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1566.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1566.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1567.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1567.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1568.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1568.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1569.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1569.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1570.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1570.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1571.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1571.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1572.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1572.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1573.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1573.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1574.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1574.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1575.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1575.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1576.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1576.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Binders/007JamesBonder_RedBinder/IMG_1577.JPG  ->  trading-cards/binders/007jamesbonder-redbinder/img-1577.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/Posters/Star Wars/sw-anh-style-b-teaser.jpg  ->  posters/star-wars/sw-anh-style-b-teaser.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/Posters/Star Wars/sw-esb-advance-gwtw.jpg  ->  posters/star-wars/sw-esb-advance-gwtw.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s101-p01.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s101-p01.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s101-p02.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s101-p02.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s101-p03.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s101-p03.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s101-p04.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s101-p04.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s101-p05.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s101-p05.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s101-p06.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s101-p06.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s101-p07.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s101-p07.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s101-p08.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s101-p08.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s102-p01.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s102-p01.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s102-p02.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s102-p02.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s102-p03.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s102-p03.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s102-p04.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s102-p04.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s102-p05.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s102-p05.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s102-p06.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s102-p06.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s102-p07.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s102-p07.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s102-p08.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s102-p08.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s103-p01.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s103-p01.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s103-p02.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s103-p02.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s103-p03.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s103-p03.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/starwars/sw_anh_s2base_1s103-p04.jpg  ->  trading-cards/sets/starwars/sw-anh-s2base-1s103-p04.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/marvel/marvel_masterpieves/93_marvel_masterpieces_iskybox.jpg  ->  trading-cards/sets/marvel/marvel-masterpieves/93-marvel-masterpieces-iskybox.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/marvel/marvel_universe/3.jpg  ->  trading-cards/sets/marvel/marvel-universe/3.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/marvel/marvel_universe/90_marvel_universe_s1_imple.jpg  ->  trading-cards/sets/marvel/marvel-universe/90-marvel-universe-s1-imple.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/marvel/marvel_universe/91_marvel_universe_s2_imple.jpg  ->  trading-cards/sets/marvel/marvel-universe/91-marvel-universe-s2-imple.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/ns_cards/sets/marvel/x-men/92_marvel_x-men_imple.jpeg  ->  trading-cards/sets/marvel/x-men/92-marvel-x-men-imple.jpeg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Goldeneye/IMG_1543.JPG  ->  trading-cards/boxes/007-goldeneye/img-1543.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Goldeneye/IMG_1544.JPG  ->  trading-cards/boxes/007-goldeneye/img-1544.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Goldeneye/IMG_1545.JPG  ->  trading-cards/boxes/007-goldeneye/img-1545.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Goldeneye/IMG_1546.JPG  ->  trading-cards/boxes/007-goldeneye/img-1546.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Godzilla Green 1998/IMG_1873.JPG  ->  trading-cards/boxes/godzilla-green-1998/img-1873.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Godzilla Green 1998/IMG_1874.JPG  ->  trading-cards/boxes/godzilla-green-1998/img-1874.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Godzilla Green 1998/IMG_1875.JPG  ->  trading-cards/boxes/godzilla-green-1998/img-1875.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Godzilla Green 1998/IMG_1876.JPG  ->  trading-cards/boxes/godzilla-green-1998/img-1876.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Godzilla Green 1998/IMG_1877.JPG  ->  trading-cards/boxes/godzilla-green-1998/img-1877.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Godzilla Green 1998/IMG_1878.JPG  ->  trading-cards/boxes/godzilla-green-1998/img-1878.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-contact/IMG_1368.JPG  ->  trading-cards/boxes/x-files-contact/img-1368.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-contact/IMG_1369.JPG  ->  trading-cards/boxes/x-files-contact/img-1369.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-contact/IMG_1370.JPG  ->  trading-cards/boxes/x-files-contact/img-1370.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-contact/IMG_1371.JPG  ->  trading-cards/boxes/x-files-contact/img-1371.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCardsImpel91/IMG_1388.JPG  ->  trading-cards/boxes/disneycollectorcardsimpel91/img-1388.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCardsImpel91/IMG_1389.JPG  ->  trading-cards/boxes/disneycollectorcardsimpel91/img-1389.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCardsImpel91/IMG_1390.JPG  ->  trading-cards/boxes/disneycollectorcardsimpel91/img-1390.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCardsImpel91/IMG_1391.JPG  ->  trading-cards/boxes/disneycollectorcardsimpel91/img-1391.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCardsImpel91/IMG_1392.JPG  ->  trading-cards/boxes/disneycollectorcardsimpel91/img-1392.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Creators Universe/IMG_1535.JPG  ->  trading-cards/boxes/the-creators-universe/img-1535.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Creators Universe/IMG_1536.JPG  ->  trading-cards/boxes/the-creators-universe/img-1536.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Creators Universe/IMG_1537.JPG  ->  trading-cards/boxes/the-creators-universe/img-1537.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-1/IMG_1696.JPG  ->  trading-cards/boxes/dune/box-1/img-1696.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-1/IMG_1697.JPG  ->  trading-cards/boxes/dune/box-1/img-1697.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-1/IMG_1698.JPG  ->  trading-cards/boxes/dune/box-1/img-1698.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-1/IMG_1699.JPG  ->  trading-cards/boxes/dune/box-1/img-1699.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-1/IMG_1700.JPG  ->  trading-cards/boxes/dune/box-1/img-1700.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-1/IMG_1701.JPG  ->  trading-cards/boxes/dune/box-1/img-1701.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-1/IMG_1702.JPG  ->  trading-cards/boxes/dune/box-1/img-1702.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-2/IMG_1709.JPG  ->  trading-cards/boxes/dune/box-2/img-1709.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-2/IMG_1710.JPG  ->  trading-cards/boxes/dune/box-2/img-1710.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-2/IMG_1711.JPG  ->  trading-cards/boxes/dune/box-2/img-1711.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-2/IMG_1712.JPG  ->  trading-cards/boxes/dune/box-2/img-1712.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-2/IMG_1713.JPG  ->  trading-cards/boxes/dune/box-2/img-1713.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-2/IMG_1714.JPG  ->  trading-cards/boxes/dune/box-2/img-1714.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Dune/box-2/IMG_1715.JPG  ->  trading-cards/boxes/dune/box-2/img-1715.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-file-s3/IMG_1372.JPG  ->  trading-cards/boxes/x-file-s3/img-1372.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-file-s3/IMG_1373.JPG  ->  trading-cards/boxes/x-file-s3/img-1373.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-file-s3/IMG_1374.JPG  ->  trading-cards/boxes/x-file-s3/img-1374.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-file-s3/IMG_1375.JPG  ->  trading-cards/boxes/x-file-s3/img-1375.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-TomorrowNeverDies/IMG_1538.JPG  ->  trading-cards/boxes/007-tomorrowneverdies/img-1538.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-TomorrowNeverDies/IMG_1539.JPG  ->  trading-cards/boxes/007-tomorrowneverdies/img-1539.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-TomorrowNeverDies/IMG_1540.JPG  ->  trading-cards/boxes/007-tomorrowneverdies/img-1540.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-TomorrowNeverDies/IMG_1541.JPG  ->  trading-cards/boxes/007-tomorrowneverdies/img-1541.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCards2SkyBox92/IMG_1393.JPG  ->  trading-cards/boxes/disneycollectorcards2skybox92/img-1393.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCards2SkyBox92/IMG_1394.JPG  ->  trading-cards/boxes/disneycollectorcards2skybox92/img-1394.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCards2SkyBox92/IMG_1395.JPG  ->  trading-cards/boxes/disneycollectorcards2skybox92/img-1395.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/DisneyCollectorCards2SkyBox92/IMG_1396.JPG  ->  trading-cards/boxes/disneycollectorcards2skybox92/img-1396.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s2/IMG_1364.JPG  ->  trading-cards/boxes/x-files-s2/img-1364.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s2/IMG_1365.JPG  ->  trading-cards/boxes/x-files-s2/img-1365.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s2/IMG_1366.JPG  ->  trading-cards/boxes/x-files-s2/img-1366.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s2/IMG_1367.JPG  ->  trading-cards/boxes/x-files-s2/img-1367.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Valiant/IMG_1641.jpg  ->  trading-cards/boxes/valiant/img-1641.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Valiant/IMG_1642.jpg  ->  trading-cards/boxes/valiant/img-1642.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Valiant/IMG_1643.jpg  ->  trading-cards/boxes/valiant/img-1643.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Valiant/IMG_1644.jpg  ->  trading-cards/boxes/valiant/img-1644.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Valiant/IMG_1645.jpg  ->  trading-cards/boxes/valiant/img-1645.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Valiant/IMG_1646.jpg  ->  trading-cards/boxes/valiant/img-1646.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Valiant/IMG_1647.jpg  ->  trading-cards/boxes/valiant/img-1647.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Valiant/IMG_1648.jpg  ->  trading-cards/boxes/valiant/img-1648.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-Pacific/IMG_1357.JPG  ->  trading-cards/boxes/wizardofoz-pacific/img-1357.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-Pacific/IMG_1358.JPG  ->  trading-cards/boxes/wizardofoz-pacific/img-1358.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-Pacific/IMG_1359.JPG  ->  trading-cards/boxes/wizardofoz-pacific/img-1359.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-Pacific/IMG_1360.JPG  ->  trading-cards/boxes/wizardofoz-pacific/img-1360.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-Pacific/IMG_1361.JPG  ->  trading-cards/boxes/wizardofoz-pacific/img-1361.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_3D/IMG_1598.JPG  ->  trading-cards/boxes/star-wars/sw-3d/img-1598.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_3D/IMG_1599.JPG  ->  trading-cards/boxes/star-wars/sw-3d/img-1599.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_3D/IMG_1600.jpg  ->  trading-cards/boxes/star-wars/sw-3d/img-1600.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_3D/IMG_1601.jpg  ->  trading-cards/boxes/star-wars/sw-3d/img-1601.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-trilogy-merlin/IMG_1716.JPG  ->  trading-cards/boxes/star-wars/sw-trilogy-merlin/img-1716.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-trilogy-merlin/IMG_1717.JPG  ->  trading-cards/boxes/star-wars/sw-trilogy-merlin/img-1717.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-trilogy-merlin/IMG_1718.JPG  ->  trading-cards/boxes/star-wars/sw-trilogy-merlin/img-1718.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-trilogy-merlin/IMG_1719.JPG  ->  trading-cards/boxes/star-wars/sw-trilogy-merlin/img-1719.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-trilogy-merlin/IMG_1720.jpg  ->  trading-cards/boxes/star-wars/sw-trilogy-merlin/img-1720.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-trilogy-merlin/IMG_1721.jpg  ->  trading-cards/boxes/star-wars/sw-trilogy-merlin/img-1721.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_mastervisions/IMG_1610.JPG  ->  trading-cards/boxes/star-wars/sw-mastervisions/img-1610.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_mastervisions/IMG_1611.JPG  ->  trading-cards/boxes/star-wars/sw-mastervisions/img-1611.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_mastervisions/IMG_1612.jpg  ->  trading-cards/boxes/star-wars/sw-mastervisions/img-1612.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-02/IMG_1606.JPG  ->  trading-cards/boxes/star-wars/sw-topps-trilogy-regular/box-02/img-1606.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-02/IMG_1607.JPG  ->  trading-cards/boxes/star-wars/sw-topps-trilogy-regular/box-02/img-1607.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-02/IMG_1608.jpg  ->  trading-cards/boxes/star-wars/sw-topps-trilogy-regular/box-02/img-1608.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-02/IMG_1609.jpg  ->  trading-cards/boxes/star-wars/sw-topps-trilogy-regular/box-02/img-1609.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-01/IMG_1602.JPG  ->  trading-cards/boxes/star-wars/sw-topps-trilogy-regular/box-01/img-1602.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-01/IMG_1603.JPG  ->  trading-cards/boxes/star-wars/sw-topps-trilogy-regular/box-01/img-1603.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-01/IMG_1604.jpg  ->  trading-cards/boxes/star-wars/sw-topps-trilogy-regular/box-01/img-1604.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw_topps_trilogy_regular/box-01/IMG_1605.jpg  ->  trading-cards/boxes/star-wars/sw-topps-trilogy-regular/box-01/img-1605.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-shadows-of-the-empire/IMG_1776.JPG  ->  trading-cards/boxes/star-wars/sw-shadows-of-the-empire/img-1776.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-shadows-of-the-empire/IMG_1777.JPG  ->  trading-cards/boxes/star-wars/sw-shadows-of-the-empire/img-1777.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-shadows-of-the-empire/IMG_1778.JPG  ->  trading-cards/boxes/star-wars/sw-shadows-of-the-empire/img-1778.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-shadows-of-the-empire/IMG_1779.JPG  ->  trading-cards/boxes/star-wars/sw-shadows-of-the-empire/img-1779.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/SW-ROTJ-stickers/IMG_1621.JPG  ->  trading-cards/boxes/star-wars/sw-rotj-stickers/img-1621.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/SW-ROTJ-stickers/IMG_1622.JPG  ->  trading-cards/boxes/star-wars/sw-rotj-stickers/img-1622.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/SW-ROTJ-stickers/IMG_1623.JPG  ->  trading-cards/boxes/star-wars/sw-rotj-stickers/img-1623.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/SW-ROTJ-stickers/IMG_1624.JPG  ->  trading-cards/boxes/star-wars/sw-rotj-stickers/img-1624.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/SW-ROTJ-stickers/IMG_1625.JPG  ->  trading-cards/boxes/star-wars/sw-rotj-stickers/img-1625.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/SW-ROTJ-stickers/IMG_1626.JPG  ->  trading-cards/boxes/star-wars/sw-rotj-stickers/img-1626.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box2/IMG_1758.jpg  ->  trading-cards/boxes/star-wars/sw-first-anthology/box2/img-1758.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box2/IMG_1759.jpg  ->  trading-cards/boxes/star-wars/sw-first-anthology/box2/img-1759.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box2/IMG_1760.jpg  ->  trading-cards/boxes/star-wars/sw-first-anthology/box2/img-1760.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box2/IMG_1761.jpg  ->  trading-cards/boxes/star-wars/sw-first-anthology/box2/img-1761.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box1/IMG_1738.JPG  ->  trading-cards/boxes/star-wars/sw-first-anthology/box1/img-1738.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box1/IMG_1739.JPG  ->  trading-cards/boxes/star-wars/sw-first-anthology/box1/img-1739.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box1/IMG_1740.JPG  ->  trading-cards/boxes/star-wars/sw-first-anthology/box1/img-1740.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box1/IMG_1741.JPG  ->  trading-cards/boxes/star-wars/sw-first-anthology/box1/img-1741.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Wars/sw-first_anthology/box1/IMG_1742.JPG  ->  trading-cards/boxes/star-wars/sw-first-anthology/box1/img-1742.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 1/IMG_1844.JPG  ->  trading-cards/boxes/space-1999/box-1/img-1844.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 1/IMG_1845.JPG  ->  trading-cards/boxes/space-1999/box-1/img-1845.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 1/IMG_1846.JPG  ->  trading-cards/boxes/space-1999/box-1/img-1846.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 1/IMG_1847.JPG  ->  trading-cards/boxes/space-1999/box-1/img-1847.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 1/IMG_1848.JPG  ->  trading-cards/boxes/space-1999/box-1/img-1848.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 4/IMG_1867.JPG  ->  trading-cards/boxes/space-1999/box-4/img-1867.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 4/IMG_1868.JPG  ->  trading-cards/boxes/space-1999/box-4/img-1868.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 4/IMG_1869.JPG  ->  trading-cards/boxes/space-1999/box-4/img-1869.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 4/IMG_1870.JPG  ->  trading-cards/boxes/space-1999/box-4/img-1870.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 4/IMG_1871.JPG  ->  trading-cards/boxes/space-1999/box-4/img-1871.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 4/IMG_1872.JPG  ->  trading-cards/boxes/space-1999/box-4/img-1872.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 3/IMG_1862.JPG  ->  trading-cards/boxes/space-1999/box-3/img-1862.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 3/IMG_1863.JPG  ->  trading-cards/boxes/space-1999/box-3/img-1863.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 3/IMG_1864.JPG  ->  trading-cards/boxes/space-1999/box-3/img-1864.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 3/IMG_1865.JPG  ->  trading-cards/boxes/space-1999/box-3/img-1865.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 3/IMG_1866.JPG  ->  trading-cards/boxes/space-1999/box-3/img-1866.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 2/IMG_1856.JPG  ->  trading-cards/boxes/space-1999/box-2/img-1856.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 2/IMG_1857.JPG  ->  trading-cards/boxes/space-1999/box-2/img-1857.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 2/IMG_1858.JPG  ->  trading-cards/boxes/space-1999/box-2/img-1858.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 2/IMG_1859.JPG  ->  trading-cards/boxes/space-1999/box-2/img-1859.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 2/IMG_1860.JPG  ->  trading-cards/boxes/space-1999/box-2/img-1860.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Space 1999/Box 2/IMG_1861.JPG  ->  trading-cards/boxes/space-1999/box-2/img-1861.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-showcase/IMG_1582.jpg  ->  trading-cards/boxes/x-files-showcase/img-1582.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-showcase/IMG_1583.jpg  ->  trading-cards/boxes/x-files-showcase/img-1583.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-showcase/IMG_1584.jpg  ->  trading-cards/boxes/x-files-showcase/img-1584.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-showcase/IMG_1585.jpg  ->  trading-cards/boxes/x-files-showcase/img-1585.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Outer Limits/IMG_1849.JPG  ->  trading-cards/boxes/the-outer-limits/img-1849.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Outer Limits/IMG_1851.JPG  ->  trading-cards/boxes/the-outer-limits/img-1851.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Outer Limits/IMG_1852.JPG  ->  trading-cards/boxes/the-outer-limits/img-1852.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Outer Limits/IMG_1853.JPG  ->  trading-cards/boxes/the-outer-limits/img-1853.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Outer Limits/IMG_1854.JPG  ->  trading-cards/boxes/the-outer-limits/img-1854.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/The Outer Limits/IMG_1855.JPG  ->  trading-cards/boxes/the-outer-limits/img-1855.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/MarvelUniverse-91/marvel_universe_91_box_frt-1.jpeg  ->  trading-cards/boxes/marvel/marveluniverse-91/marvel-universe-91-box-frt-1.jpeg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/MarvelUniverse-91/marvel_universe_91_box_side_bck-1.jpeg  ->  trading-cards/boxes/marvel/marveluniverse-91/marvel-universe-91-box-side-bck-1.jpeg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/MarvelUniverse-91/marvel_universe_91_box_side_bot-1.jpeg  ->  trading-cards/boxes/marvel/marveluniverse-91/marvel-universe-91-box-side-bot-1.jpeg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/MarvelUniverse-91/marvel_universe_91_box_side_lft-1.jpeg  ->  trading-cards/boxes/marvel/marveluniverse-91/marvel-universe-91-box-side-lft-1.jpeg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/MarvelUniverse-91/marvel_universe_91_box_side_rgt-1.jpeg  ->  trading-cards/boxes/marvel/marveluniverse-91/marvel-universe-91-box-side-rgt-1.jpeg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/MarvelUniverse-91/marvel_universe_91_box_side_top-1.jpeg  ->  trading-cards/boxes/marvel/marveluniverse-91/marvel-universe-91-box-side-top-1.jpeg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078708-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078708-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078709-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078709-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078710-1.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078710-1.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078710-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078710-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078711-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078711-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078712-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078712-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078713-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078713-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078714-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078714-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078715-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078715-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078716-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078716-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-078717-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-078717-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-079605-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-079605-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-079637-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-079637-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-325807-1.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-325807-1.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Marvel/1993_MasterPieces/MarvelMasterPieces-325807-2.jpg  ->  trading-cards/boxes/marvel/1993-masterpieces/marvelmasterpieces-325807-2.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/TOS 25th anniversary Series 2/IMG_1838.JPG  ->  trading-cards/boxes/star-trek/tos-25th-anniversary-series-2/img-1838.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/TOS 25th anniversary Series 2/IMG_1839.JPG  ->  trading-cards/boxes/star-trek/tos-25th-anniversary-series-2/img-1839.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/TOS 25th anniversary Series 2/IMG_1840.JPG  ->  trading-cards/boxes/star-trek/tos-25th-anniversary-series-2/img-1840.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/TOS 25th anniversary Series 2/IMG_1841.JPG  ->  trading-cards/boxes/star-trek/tos-25th-anniversary-series-2/img-1841.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/TOS 25th anniversary Series 2/IMG_1842.JPG  ->  trading-cards/boxes/star-trek/tos-25th-anniversary-series-2/img-1842.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/TOS 25th anniversary Series 2/IMG_1843.JPG  ->  trading-cards/boxes/star-trek/tos-25th-anniversary-series-2/img-1843.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 5/IMG_1826.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-5/img-1826.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 5/IMG_1827.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-5/img-1827.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 5/IMG_1828.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-5/img-1828.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 5/IMG_1829.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-5/img-1829.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 5/IMG_1830.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-5/img-1830.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 5/IMG_1831.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-5/img-1831.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 4/IMG_1820.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-4/img-1820.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 4/IMG_1821.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-4/img-1821.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 4/IMG_1822.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-4/img-1822.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 4/IMG_1823.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-4/img-1823.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 4/IMG_1824.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-4/img-1824.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 4/IMG_1825.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-4/img-1825.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Inaugural Ed/IMG_1808.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/inaugural-ed/img-1808.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Inaugural Ed/IMG_1809.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/inaugural-ed/img-1809.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Inaugural Ed/IMG_1810.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/inaugural-ed/img-1810.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Inaugural Ed/IMG_1811.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/inaugural-ed/img-1811.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Inaugural Ed/IMG_1812.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/inaugural-ed/img-1812.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Inaugural Ed/IMG_1813.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/inaugural-ed/img-1813.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 1/IMG_1814.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-1/img-1814.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 1/IMG_1815.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-1/img-1815.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 1/IMG_1816.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-1/img-1816.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 1/IMG_1817.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-1/img-1817.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 1/IMG_1818.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-1/img-1818.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Next Gerneration/Season 1/IMG_1819.JPG  ->  trading-cards/boxes/star-trek/next-gerneration/season-1/img-1819.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Master Series/box/IMG_1804.jpg  ->  trading-cards/boxes/star-trek/master-series/box/img-1804.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Master Series/box/IMG_1805.jpg  ->  trading-cards/boxes/star-trek/master-series/box/img-1805.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Master Series/case/IMG_1704.JPG  ->  trading-cards/boxes/star-trek/master-series/case/img-1704.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Master Series/case/IMG_1705.JPG  ->  trading-cards/boxes/star-trek/master-series/case/img-1705.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Master Series/case/IMG_1706.JPG  ->  trading-cards/boxes/star-trek/master-series/case/img-1706.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Master Series/case/IMG_1707.JPG  ->  trading-cards/boxes/star-trek/master-series/case/img-1707.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Deep Space Nine S1/IMG_1832.JPG  ->  trading-cards/boxes/star-trek/deep-space-nine-s1/img-1832.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Deep Space Nine S1/IMG_1833.JPG  ->  trading-cards/boxes/star-trek/deep-space-nine-s1/img-1833.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Deep Space Nine S1/IMG_1834.JPG  ->  trading-cards/boxes/star-trek/deep-space-nine-s1/img-1834.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Deep Space Nine S1/IMG_1835.JPG  ->  trading-cards/boxes/star-trek/deep-space-nine-s1/img-1835.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Deep Space Nine S1/IMG_1836.JPG  ->  trading-cards/boxes/star-trek/deep-space-nine-s1/img-1836.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/Star Trek/Deep Space Nine S1/IMG_1837.JPG  ->  trading-cards/boxes/star-trek/deep-space-nine-s1/img-1837.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-DuoCards/IMG_1354.JPG  ->  trading-cards/boxes/wizardofoz-duocards/img-1354.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-DuoCards/IMG_1356.JPG  ->  trading-cards/boxes/wizardofoz-duocards/img-1356.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-DuoCards/IMG_1362.JPG  ->  trading-cards/boxes/wizardofoz-duocards/img-1362.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/WizardOfOz-DuoCards/IMG_1363.JPG  ->  trading-cards/boxes/wizardofoz-duocards/img-1363.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/CosmicCardsInauguralImpel/IMG_1376.JPG  ->  trading-cards/boxes/cosmiccardsinauguralimpel/img-1376.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/CosmicCardsInauguralImpel/IMG_1377.JPG  ->  trading-cards/boxes/cosmiccardsinauguralimpel/img-1377.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/CosmicCardsInauguralImpel/IMG_1378.JPG  ->  trading-cards/boxes/cosmiccardsinauguralimpel/img-1378.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/CosmicCardsInauguralImpel/IMG_1379.JPG  ->  trading-cards/boxes/cosmiccardsinauguralimpel/img-1379.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/CosmicCardsInauguralImpel/IMG_1380.JPG  ->  trading-cards/boxes/cosmiccardsinauguralimpel/img-1380.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/CosmicCardsInauguralImpel/IMG_1381.JPG  ->  trading-cards/boxes/cosmiccardsinauguralimpel/img-1381.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-02/IMG_1592.JPG  ->  trading-cards/boxes/x-files-s1/box-02/img-1592.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-02/IMG_1593.jpg  ->  trading-cards/boxes/x-files-s1/box-02/img-1593.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-02/IMG_1594.jpg  ->  trading-cards/boxes/x-files-s1/box-02/img-1594.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-02/IMG_1595.jpg  ->  trading-cards/boxes/x-files-s1/box-02/img-1595.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-02/IMG_1596.jpg  ->  trading-cards/boxes/x-files-s1/box-02/img-1596.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-02/IMG_1597.jpg  ->  trading-cards/boxes/x-files-s1/box-02/img-1597.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1382.JPG  ->  trading-cards/boxes/x-files-s1/box-01/img-1382.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1383.JPG  ->  trading-cards/boxes/x-files-s1/box-01/img-1383.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1384.JPG  ->  trading-cards/boxes/x-files-s1/box-01/img-1384.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1385.JPG  ->  trading-cards/boxes/x-files-s1/box-01/img-1385.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1386.JPG  ->  trading-cards/boxes/x-files-s1/box-01/img-1386.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1586.JPG  ->  trading-cards/boxes/x-files-s1/box-01/img-1586.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1588.jpg  ->  trading-cards/boxes/x-files-s1/box-01/img-1588.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1589.jpg  ->  trading-cards/boxes/x-files-s1/box-01/img-1589.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/x-files-s1/Box-01/IMG_1590.jpg  ->  trading-cards/boxes/x-files-s1/box-01/img-1590.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-1/moonraker-01.webp  ->  trading-cards/boxes/007-moonraker/box-1/moonraker-01.webp
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-1/moonraker-02.webp  ->  trading-cards/boxes/007-moonraker/box-1/moonraker-02.webp
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-3/IMG_1751.JPG  ->  trading-cards/boxes/007-moonraker/box-3/img-1751.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-3/IMG_1752.JPG  ->  trading-cards/boxes/007-moonraker/box-3/img-1752.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-3/IMG_1753.JPG  ->  trading-cards/boxes/007-moonraker/box-3/img-1753.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-3/IMG_1754.JPG  ->  trading-cards/boxes/007-moonraker/box-3/img-1754.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-3/IMG_1755.JPG  ->  trading-cards/boxes/007-moonraker/box-3/img-1755.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-3/IMG_1756.JPG  ->  trading-cards/boxes/007-moonraker/box-3/img-1756.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-3/IMG_1757.JPG  ->  trading-cards/boxes/007-moonraker/box-3/img-1757.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4/IMG_1743.JPG  ->  trading-cards/boxes/007-moonraker/box-4/img-1743.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4/IMG_1744.JPG  ->  trading-cards/boxes/007-moonraker/box-4/img-1744.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4/IMG_1745.JPG  ->  trading-cards/boxes/007-moonraker/box-4/img-1745.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4/IMG_1746.JPG  ->  trading-cards/boxes/007-moonraker/box-4/img-1746.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4/IMG_1747.JPG  ->  trading-cards/boxes/007-moonraker/box-4/img-1747.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4/IMG_1748.JPG  ->  trading-cards/boxes/007-moonraker/box-4/img-1748.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4/IMG_1749.JPG  ->  trading-cards/boxes/007-moonraker/box-4/img-1749.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-4/IMG_1750.JPG  ->  trading-cards/boxes/007-moonraker/box-4/img-1750.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Boxes/007-Moonraker/box-2/moonraker-01.jpg  ->  trading-cards/boxes/007-moonraker/box-2/moonraker-01.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/IMG_1627.JPG  ->  trading-cards/sets/img-1627.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-wide-anh_esb_rotj-sets/IMG_1722.JPG  ->  trading-cards/sets/star-wars/sw-wide-anh-esb-rotj-sets/img-1722.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-wide-anh_esb_rotj-sets/IMG_1723.JPG  ->  trading-cards/sets/star-wars/sw-wide-anh-esb-rotj-sets/img-1723.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-wide-anh_esb_rotj-sets/IMG_1724.JPG  ->  trading-cards/sets/star-wars/sw-wide-anh-esb-rotj-sets/img-1724.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-wide-anh_esb_rotj-sets/IMG_1725.JPG  ->  trading-cards/sets/star-wars/sw-wide-anh-esb-rotj-sets/img-1725.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1780.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1780.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1781.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1781.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1782.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1782.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1783.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1783.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1784.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1784.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1785.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1785.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1786.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1786.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1787.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1787.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1788.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1788.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1789.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1789.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1790.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1790.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1791.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1791.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1792.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1792.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1793.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1793.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1794.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1794.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1795.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1795.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1796.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1796.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1797.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1797.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1798.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1798.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-cvs-sets/Star Wars/sw-shadows-of-the-Empire/IMG_1799.JPG  ->  trading-cards/sets/star-wars/sw-shadows-of-the-empire/img-1799.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/3Di/IMG_1636.JPG  ->  trading-cards/singles/star-wars/vechicles/3di/img-1636.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/3Di/IMG_1640.JPG  ->  trading-cards/singles/star-wars/vechicles/3di/img-1640.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/CutAway/IMG_1635.JPG  ->  trading-cards/singles/star-wars/vechicles/cutaway/img-1635.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/CutAway/IMG_1639.JPG  ->  trading-cards/singles/star-wars/vechicles/cutaway/img-1639.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/Promo/IMG_1637.JPG  ->  trading-cards/singles/star-wars/vechicles/promo/img-1637.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Singles/Star Wars/Vechicles/Promo/IMG_1638.JPG  ->  trading-cards/singles/star-wars/vechicles/promo/img-1638.jpg
+2026-04-11 18:03:53  OK    /Users/samrogers/Claude/sc4/ebay_uploads/NS-Packs/Casper/Casper_5_packs.JPG  ->  trading-cards/packs/casper/casper-5-packs.jpg
+
+Summary: 326 uploaded, 0 skipped, 0 errors

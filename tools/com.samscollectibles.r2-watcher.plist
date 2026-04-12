@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.samscollectibles.r2-watcher</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/python3</string>
+        <string>/Users/samrogers/Claude/sc4/tools/r2_watcher.py</string>
+        <string>--watch</string>
+        <string>/Users/samrogers/Pictures/SC4-Upload</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/samrogers/Library/Logs/r2-watcher-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/samrogers/Library/Logs/r2-watcher-stderr.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/samrogers/Claude/sc4</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>
