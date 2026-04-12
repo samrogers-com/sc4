@@ -78,6 +78,12 @@ mkdir -p ~/Pictures/SC4-Upload/comic-books/star-wars-marvel
 # Dry run (see what would happen without uploading)
 /usr/bin/python3 tools/r2_watcher.py --once --dry-run ~/Pictures/SC4-Upload/
 
+# Delete local files after successful upload to R2
+/usr/bin/python3 tools/r2_watcher.py --once --delete-after-upload ~/Pictures/SC4-Upload/
+
+# Combine: watch mode + auto-delete after upload
+/usr/bin/python3 tools/r2_watcher.py --watch --delete-after-upload ~/Pictures/SC4-Upload/
+
 # Install as auto-start service (runs on Mac login)
 cp tools/com.samscollectibles.r2-watcher.plist ~/Library/LaunchAgents/
 launchctl load ~/Library/LaunchAgents/com.samscollectibles.r2-watcher.plist
@@ -181,10 +187,28 @@ aws s3 sync ./ebay_uploads/ s3://samscollectibles/ebay-uploads/ --profile r2
 - `001-02/front.jpg` — Issue #1, Copy 02 (different physical copy)
 - `042-01/front.jpg` — Issue #42, Copy 01
 
+### Comic Books (SKU Convention)
+Comic book images use a `{issue_number}-{copy_number}` SKU format:
+- `001-01` = Issue #1, physical copy #1
+- `001-02` = Issue #1, physical copy #2 (different condition)
+- `042-01` = Issue #42, physical copy #1
+
+This lets you track multiple copies of the same issue (e.g., 4 copies of Star Wars #1 in different grades).
+
 ### Posters
-`{movie}-{style}-{view}.jpg`
+
+Poster folder structure in R2:
+```
+posters/
+  star-wars/          # Star Wars movie posters
+  marvel/             # Marvel movie posters
+  other/              # All other movie posters
+```
+
+File naming: `{movie}-{style}-{view}.jpg`
 - `sw-anh-style-a-front.jpg`
 - `sw-esb-advance-gwtw-front.jpg`
+- `sw-rotj-style-b-front.jpg`
 
 ## Photo Workflow (iPhone → R2 → Website)
 

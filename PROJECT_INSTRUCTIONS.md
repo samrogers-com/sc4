@@ -99,6 +99,36 @@ Both `NonSportsCards` and `MoviePosters` have `ebay_listing_url` and `ebay_item_
 - `src/` — Django app (Sam's Collectibles website) with Dockerfiles and production docker-compose. Foundation for the store dashboard.
 - `ansible/` — Ansible playbooks and roles for provisioning the Hostinger VPS and deploying the app. Contains encrypted secrets via ansible-vault.
 - `skills/` — Custom Cowork skill files for eBay automation.
+- `tools/` — Standalone utility scripts (R2 image tools, eBay API tools, OAuth setup). See below for full list.
+
+## Tools Directory (`tools/`)
+
+### R2 / Image Tools (deployed, working)
+| Tool | Purpose |
+|------|---------|
+| `tools/r2_tree.py` | Tree view of R2 bucket contents |
+| `tools/upload_to_r2.py` | Upload images to R2 with naming conventions |
+| `tools/r2_watcher.py` | Auto-upload folder watcher (launchd service) |
+| `tools/migrate_uploads_to_r2.py` | Bulk migrate local files to R2 |
+| `tools/test_r2_setup.py` | Test R2 connectivity and CDN |
+
+### eBay API Tools (framework built, pending User OAuth setup)
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `tools/ebay_oauth_setup.py` | User OAuth authorization flow | Ready -- Sam needs to run browser auth |
+| `tools/ebay_sold_tracker.py` | Pull sold orders to SQLite database | Ready -- needs User OAuth token |
+| `tools/ebay_nightly_sync.py` | Cron/scheduled wrapper for nightly order sync | Ready -- needs User OAuth token |
+| `tools/ebay_best_sellers.py` | Rank inventory by sell potential using Browse API | Working -- uses Client Credentials |
+
+### Data Files (gitignored or auto-generated)
+| File | Purpose |
+|------|---------|
+| `tools/ebay_user_token.json` | User OAuth tokens (gitignored) |
+| `tools/data/sold_history.db` | SQLite database of sold orders |
+| `tools/data/market_cache.json` | Cached Browse API market data |
+| `tools/data/nightly_sync.log` | Log output from nightly sync |
+
+See `docs/ebay-api-guide.md` for full API documentation, authentication setup, and environment variables.
 
 ## How Listings Get Created
 
@@ -159,6 +189,34 @@ ebay_uploads/Comics-SW-DarkHorse/{dark-empire,crimson-empire,tales-of-the-jedi,.
 ebay_uploads/Posters/{Star Wars,Marvel,Other}/
 ```
 
+## eBay API Integration
+
+### Current State
+- **Browse API (Client Credentials):** Working. Used for active listing price lookups and market analysis.
+- **Fulfillment API (User OAuth):** Framework built, pending Sam's browser authorization.
+- **Trading API (User OAuth):** Planned for direct listing creation (bypass CSV upload).
+
+### Setup Remaining
+1. Sam runs `python tools/ebay_oauth_setup.py` in terminal
+2. Logs into eBay in the browser, clicks "Agree"
+3. Token saved automatically to `tools/ebay_user_token.json`
+4. Then `python tools/ebay_sold_tracker.py --days 30` will work
+
+See `docs/ebay-api-guide.md` for complete API documentation.
+
+## Cloudflare R2 Image Hosting
+
+R2 migration is complete. 326 images uploaded to the `samscollectibles` bucket, served via `media.samscollectibles.net`.
+
+Key tools:
+- `tools/r2_watcher.py` -- watches `~/Pictures/SC4-Upload/` and auto-uploads to R2
+- `tools/upload_to_r2.py` -- manual uploads with naming conventions
+- `tools/r2_tree.py` -- view R2 bucket structure
+
+The watcher supports `--delete-after-upload` to clean up local files after successful upload.
+
+See `docs/r2-tools-reference.md` for full documentation.
+
 ## What I Need Help With
 
 - Creating and refining HTML listing descriptions for new products
@@ -166,7 +224,7 @@ ebay_uploads/Posters/{Star Wars,Marvel,Other}/
 - Building a store management dashboard (tracking sales, active listings, inventory status, pricing)
 - Generating and uploading bulk listing CSVs
 - Researching sold prices and market trends for collectibles
-- Migrating image hosting from S3 to Cloudflare R2
+- Setting up User OAuth for eBay seller APIs (sold history, order management)
 - Completing the non-sports cards inventory enrichment from nslists.com and importing into Postgres
 - Deploying Sam's Collectibles alongside Lucy Lu on the Hostinger VPS
 
