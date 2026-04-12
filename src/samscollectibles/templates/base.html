@@ -219,8 +219,30 @@
                 <a href="{% url 'contact' %}" class="text-gray-300 hover:text-amber-400 transition">Contact</a>
 
                 {% if user.is_authenticated %}
-                    <a href="{% url 'ebay_templates:home' %}" class="text-gray-500 hover:text-gray-300 text-sm transition">Templates</a>
-                    <a href="{% url 'logout' %}" class="text-gray-500 hover:text-gray-300 text-sm transition">Logout</a>
+                    <!-- User dropdown -->
+                    <div class="relative group">
+                        <button class="flex items-center gap-1 text-gray-300 hover:text-amber-400 text-sm transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            {{ user.username }}
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="absolute right-0 top-full pt-2 hidden group-hover:block z-50">
+                            <div class="bg-gray-900 border border-gray-700 rounded-lg shadow-xl py-2 min-w-48">
+                                <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Signed in as {{ user.username }}</p>
+                                {% if user.is_staff %}
+                                <div class="border-t border-gray-700 my-1"></div>
+                                <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Staff Tools</p>
+                                <a href="{% url 'restoration_dashboard' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Restoration Dashboard</a>
+                                <a href="{% url 'ebay_templates:home' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">eBay Templates</a>
+                                <a href="/admin/" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Django Admin</a>
+                                {% endif %}
+                                <div class="border-t border-gray-700 my-1"></div>
+                                <a href="{% url 'logout' %}" class="block px-4 py-1.5 text-red-400 hover:bg-gray-700 text-sm">Sign Out</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-gray-400 hover:text-amber-400 text-sm transition">Sign In</a>
                 {% endif %}
             </nav>
 
@@ -254,6 +276,19 @@
             <a href="{{ EBAY_STORE_URL }}" target="_blank" rel="noopener" class="block py-2 text-gray-300 hover:text-amber-400">eBay Store &#8599;</a>
             <a href="{% url 'about' %}" class="block py-2 text-gray-300 hover:text-amber-400">About</a>
             <a href="{% url 'contact' %}" class="block py-2 text-gray-300 hover:text-amber-400">Contact</a>
+            {% if user.is_authenticated %}
+            <div class="border-t border-gray-700 my-2 pt-2">
+                <p class="text-xs text-gray-500 mb-1">Signed in as {{ user.username }}</p>
+                {% if user.is_staff %}
+                <a href="{% url 'restoration_dashboard' %}" class="block py-1 text-sm text-amber-400 hover:text-amber-300">Restoration Dashboard</a>
+                <a href="{% url 'ebay_templates:home' %}" class="block py-1 text-sm text-gray-400 hover:text-amber-400">eBay Templates</a>
+                <a href="/admin/" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Django Admin</a>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="block py-1 text-sm text-red-400">Sign Out</a>
+            </div>
+            {% else %}
+            <a href="{% url 'login' %}" class="block py-2 text-gray-400 hover:text-amber-400">Sign In</a>
+            {% endif %}
         </div>
     </header>
 

@@ -53,7 +53,7 @@ TEMPLATE_CONFIG = {
 @login_required
 def ebay_templates_home(request):
     """Homepage for eBay templates."""
-    return render(request, 'ebay_templates/home.html')
+    return render(request, 'ebay_templates/ebay_templates_home.html')
 
 
 @login_required
