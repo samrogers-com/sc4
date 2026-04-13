@@ -296,7 +296,7 @@ def r2_gallery(request, product_type, path=''):
                 kwargs={'product_type': product_type, 'path': sub_path},
             )
             detail_url = reverse(
-                'non_sports_cards:r2_gallery_detail',
+                'non_sports_cards:r2_gallery',
                 kwargs={'product_type': product_type, 'path': sub_path},
             )
             # Check if this folder has subfolders — if so, link to browse, else detail
