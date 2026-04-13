@@ -56,6 +56,10 @@ UPLOAD_FOLDER_MAP = {
         "product_type": "binders",
         "description_path": "ns-cards/binders",
     },
+    "NS-Wrappers": {
+        "product_type": "wrappers",
+        "description_path": "ns-cards/wrappers",
+    },
     # Movie Posters
     "Posters": {
         "product_type": "posters",
@@ -159,6 +163,7 @@ CATEGORY_MAP = {
     "sets": "183052",        # Trading Card Sets
     "singles": "183054",     # Individual Trading Cards
     "binders": "183052",     # Trading Card Sets (closest match)
+    "wrappers": "183054",    # Trading Card Wrappers
     "comic_books": "259104", # Comics & Graphic Novels
     "posters": "261068",     # Posters
 }
