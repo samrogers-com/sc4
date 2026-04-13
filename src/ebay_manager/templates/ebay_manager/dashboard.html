@@ -27,34 +27,34 @@
 
 <!-- Stats -->
 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-8">
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    <a href="{% url 'ebay_manager:listings' %}" class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center hover:bg-gray-600 transition">
         <p class="text-gray-400 text-xs uppercase">Total Listings</p>
         <p class="text-2xl font-bold text-gray-100">{{ total_listings }}</p>
-    </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    </a>
+    <a href="{% url 'ebay_manager:listings' %}?status=active" class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center hover:bg-gray-600 transition">
         <p class="text-gray-400 text-xs uppercase">Active</p>
         <p class="text-2xl font-bold text-green-400">{{ active_listings }}</p>
-    </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    </a>
+    <a href="{% url 'ebay_manager:listings' %}?status=draft" class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center hover:bg-gray-600 transition">
         <p class="text-gray-400 text-xs uppercase">Drafts</p>
         <p class="text-2xl font-bold text-yellow-400">{{ draft_listings }}</p>
-    </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    </a>
+    <a href="{% url 'ebay_manager:listings' %}?status=sold" class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center hover:bg-gray-600 transition">
         <p class="text-gray-400 text-xs uppercase">Sold</p>
         <p class="text-2xl font-bold text-blue-400">{{ sold_listings }}</p>
-    </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    </a>
+    <a href="{% url 'ebay_manager:orders' %}" class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center hover:bg-gray-600 transition">
         <p class="text-gray-400 text-xs uppercase">Orders</p>
         <p class="text-2xl font-bold text-purple-400">{{ total_orders }}</p>
-    </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    </a>
+    <a href="{% url 'ebay_manager:analytics' %}" class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center hover:bg-gray-600 transition">
         <p class="text-gray-400 text-xs uppercase">Revenue</p>
         <p class="text-2xl font-bold text-green-400">${{ revenue|floatformat:0 }}</p>
-    </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+    </a>
+    <a href="{% url 'ebay_manager:analytics' %}" class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center hover:bg-gray-600 transition">
         <p class="text-gray-400 text-xs uppercase">Profit</p>
         <p class="text-2xl font-bold text-amber-400">${{ total_profit|floatformat:0 }}</p>
-    </div>
+    </a>
 </div>
 
 <!-- Quick Actions -->
