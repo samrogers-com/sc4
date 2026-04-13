@@ -57,7 +57,17 @@ samscollectibles/                          (R2 bucket root)
 │   └── other/
 ├── boxes/                                 (sealed box product photos)
 ├── packs/
-└── singles/
+├── singles/
+└── wrappers/                              (wrapper product photos)
+
+Note: sets/, boxes/, wrappers/, and singles/ all share the same
+category/title folder structure. Each title has its own folder
+organized under its category:
+  {product-type}/{category}/{title}/
+  Example: sets/dc-comics/batman-1/
+           boxes/star-wars/anh/series-1/1star/
+           wrappers/tv-shows/a-team/
+           singles/marvel/avengers-the-1/
 ```
 
 ## File Naming Convention
