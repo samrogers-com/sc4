@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}eBay Manager — Sam's Collectibles{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold text-amber-500 mb-6">eBay Manager</h1>
+
+<!-- API Status -->
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-4 mb-6">
+    <div class="flex items-center gap-4 flex-wrap">
+        <span class="text-gray-300 text-sm font-medium">API Status:</span>
+        <span class="flex items-center gap-1.5 text-sm">
+            <span class="w-2.5 h-2.5 rounded-full {% if api_status.browse_api %}bg-green-500{% else %}bg-red-500{% endif %}"></span>
+            <span class="{% if api_status.browse_api %}text-green-400{% else %}text-red-400{% endif %}">Browse API</span>
+        </span>
+        <span class="flex items-center gap-1.5 text-sm">
+            <span class="w-2.5 h-2.5 rounded-full {% if api_status.user_oauth %}bg-green-500{% else %}bg-yellow-500{% endif %}"></span>
+            <span class="{% if api_status.user_oauth %}text-green-400{% else %}text-yellow-400{% endif %}">
+                User OAuth {% if not api_status.user_oauth %}(Setup Required){% endif %}
+            </span>
+        </span>
+        {% if not api_status.user_oauth %}
+        <a href="{% url 'ebay_manager:settings' %}" class="text-amber-500 text-sm hover:text-amber-400">Configure &rarr;</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-8">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Total Listings</p>
+        <p class="text-2xl font-bold text-gray-100">{{ total_listings }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Active</p>
+        <p class="text-2xl font-bold text-green-400">{{ active_listings }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Drafts</p>
+        <p class="text-2xl font-bold text-yellow-400">{{ draft_listings }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Sold</p>
+        <p class="text-2xl font-bold text-blue-400">{{ sold_listings }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Orders</p>
+        <p class="text-2xl font-bold text-purple-400">{{ total_orders }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Revenue</p>
+        <p class="text-2xl font-bold text-green-400">${{ revenue|floatformat:0 }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Profit</p>
+        <p class="text-2xl font-bold text-amber-400">${{ total_profit|floatformat:0 }}</p>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="flex gap-3 mb-8 flex-wrap">
+    <a href="{% url 'ebay_manager:listing_create' %}" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition text-sm">+ Create Listing</a>
+    <a href="{% url 'ebay_manager:listings' %}" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition text-sm">View Listings</a>
+    <a href="{% url 'ebay_manager:orders' %}" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition text-sm">View Orders</a>
+    <a href="{% url 'ebay_manager:analytics' %}" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition text-sm">Analytics</a>
+    <form method="post" action="{% url 'ebay_manager:sync_orders' %}" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition text-sm">Sync Orders</button>
+    </form>
+</div>
+
+<!-- Recent Activity -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent Listings -->
+    <div class="bg-gray-700 rounded-lg border border-gray-600">
+        <div class="px-4 py-3 border-b border-gray-600">
+            <h2 class="text-lg font-bold text-gray-100">Recent Listings</h2>
+        </div>
+        <div class="divide-y divide-gray-600">
+            {% for listing in recent_listings %}
+            <a href="{% url 'ebay_manager:listing_detail' listing.pk %}" class="block px-4 py-3 hover:bg-gray-600 transition">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-200 text-sm">{{ listing.title|truncatewords:8 }}</span>
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                        {% if listing.status == 'active' %}bg-green-900 text-green-300
+                        {% elif listing.status == 'sold' %}bg-blue-900 text-blue-300
+                        {% elif listing.status == 'draft' %}bg-yellow-900 text-yellow-300
+                        {% else %}bg-gray-600 text-gray-400{% endif %}">
+                        {{ listing.get_status_display }}
+                    </span>
+                </div>
+                <span class="text-gray-500 text-xs">${{ listing.price }} &middot; {{ listing.created_at|timesince }} ago</span>
+            </a>
+            {% empty %}
+            <div class="px-4 py-6 text-center text-gray-400">No listings yet. <a href="{% url 'ebay_manager:listing_create' %}" class="text-amber-500">Create one</a></div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="bg-gray-700 rounded-lg border border-gray-600">
+        <div class="px-4 py-3 border-b border-gray-600">
+            <h2 class="text-lg font-bold text-gray-100">Recent Orders</h2>
+        </div>
+        <div class="divide-y divide-gray-600">
+            {% for order in recent_orders %}
+            <a href="{% url 'ebay_manager:order_detail' order.pk %}" class="block px-4 py-3 hover:bg-gray-600 transition">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-200 text-sm">{{ order.buyer_username }}</span>
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                        {% if order.order_status == 'delivered' %}bg-green-900 text-green-300
+                        {% elif order.order_status == 'shipped' %}bg-purple-900 text-purple-300
+                        {% elif order.order_status == 'in_transit' %}bg-orange-900 text-orange-300
+                        {% elif order.order_status == 'paid' %}bg-blue-900 text-blue-300
+                        {% else %}bg-gray-600 text-gray-400{% endif %}">
+                        {{ order.get_order_status_display }}
+                    </span>
+                </div>
+                <span class="text-gray-500 text-xs">${{ order.order_total }} &middot; {{ order.creation_date|timesince }} ago</span>
+            </a>
+            {% empty %}
+            <div class="px-4 py-6 text-center text-gray-400">No orders yet. Sync from eBay when OAuth is configured.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

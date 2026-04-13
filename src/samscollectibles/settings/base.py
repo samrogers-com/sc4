@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'non_sports_cards',
     'movie_posters',
     'ebay_templates',
+    'ebay_manager',
 ]
 
 MIDDLEWARE = [

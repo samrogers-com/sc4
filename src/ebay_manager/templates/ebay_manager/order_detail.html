@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Order {{ order.order_id }} — eBay Manager{% endblock %}
+{% block content %}
+<div class="mb-4"><a href="{% url 'ebay_manager:orders' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to Orders</a></div>
+<div class="flex justify-between items-start mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-100">Order {{ order.order_id|truncatechars:20 }}</h1>
+        <span class="px-2 py-0.5 rounded-full text-xs font-medium {% if order.order_status == 'delivered' %}bg-green-900 text-green-300{% elif order.order_status == 'shipped' %}bg-purple-900 text-purple-300{% elif order.order_status == 'paid' %}bg-blue-900 text-blue-300{% else %}bg-gray-600 text-gray-400{% endif %}">{{ order.get_order_status_display }}</span>
+    </div>
+    <span class="text-3xl font-bold text-green-400">${{ order.order_total }}</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+        <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Buyer</h3>
+        <p class="text-gray-200 font-medium">{{ order.buyer_username }}</p>
+        {% if order.buyer_name %}<p class="text-gray-400 text-sm">{{ order.buyer_name }}</p>{% endif %}
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+        <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Shipping</h3>
+        <p class="text-gray-200">{{ order.shipping_carrier|default:"—" }} {{ order.shipping_service|default:"" }}</p>
+        {% if order.tracking_number %}
+        <p class="text-gray-400 text-sm font-mono mt-1">{{ order.tracking_number }}</p>
+        {% endif %}
+        {% if order.shipped_date %}<p class="text-gray-500 text-xs mt-1">Shipped: {{ order.shipped_date|date:"M d, Y" }}</p>{% endif %}
+        {% if order.delivered_date %}<p class="text-green-400 text-xs">Delivered: {{ order.delivered_date|date:"M d, Y" }}</p>{% endif %}
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+        <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Financials</h3>
+        <div class="space-y-1 text-sm">
+            <div class="flex justify-between"><span class="text-gray-400">Sale Total:</span><span class="text-gray-200">${{ order.order_total }}</span></div>
+            <div class="flex justify-between"><span class="text-gray-400">eBay Fees:</span><span class="text-red-400">{% if order.ebay_fees %}-${{ order.ebay_fees }}{% else %}—{% endif %}</span></div>
+            <div class="flex justify-between"><span class="text-gray-400">Shipping:</span><span class="text-gray-300">{% if order.shipping_cost_actual %}-${{ order.shipping_cost_actual }}{% else %}—{% endif %}</span></div>
+            <div class="flex justify-between"><span class="text-gray-400">Cost Basis:</span><span class="text-gray-300">{% if order.cost_basis %}-${{ order.cost_basis }}{% else %}—{% endif %}</span></div>
+            <div class="border-t border-gray-600 pt-1 flex justify-between font-bold"><span class="text-gray-300">Net Profit:</span><span class="{% if order.net_profit and order.net_profit > 0 %}text-green-400{% else %}text-gray-400{% endif %}">{% if order.net_profit %}${{ order.net_profit }}{% else %}—{% endif %}</span></div>
+        </div>
+    </div>
+</div>
+<div class="mt-6 bg-gray-700 rounded-lg border border-gray-600 p-5">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Items</h3>
+    {% for item in order.items.all %}
+    <div class="flex justify-between py-2 {% if not forloop.last %}border-b border-gray-600{% endif %}">
+        <div>
+            <span class="text-gray-200">{{ item.title }}</span>
+            {% if item.sku %}<span class="text-gray-500 text-xs ml-2">SKU: {{ item.sku }}</span>{% endif %}
+        </div>
+        <span class="text-gray-200 font-mono">${{ item.price }} × {{ item.quantity }}</span>
+    </div>
+    {% endfor %}
+</div>
+<div class="mt-4 text-gray-500 text-xs">
+    <p>Order created: {{ order.creation_date|date:"M d, Y H:i" }} &middot; Last synced: {{ order.last_synced|date:"M d, Y H:i"|default:"Never" }}</p>
+</div>
+{% endblock %}

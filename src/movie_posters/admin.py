@@ -4,9 +4,9 @@ from .models import MoviePosters, MoviePosterImage
 
 @admin.register(MoviePosters)
 class MoviePostersAdmin(admin.ModelAdmin):
-    list_display = ('title', 'franchise', 'year', 'poster_type', 'condition', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'ebay_item_id')
+    list_display = ('title', 'franchise', 'year', 'poster_type', 'condition', 'inventory_status', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'ebay_item_id')
     search_fields = ('title', 'franchise', 'artist', 'year')
-    list_filter = ('restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'franchise', 'poster_type', 'size', 'condition', 'linen_backed')
+    list_filter = ('inventory_status', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'franchise', 'poster_type', 'size', 'condition', 'linen_backed')
 
 
 @admin.register(MoviePosterImage)

@@ -10,21 +10,21 @@ class PublisherAdmin(admin.ModelAdmin):
 
 @admin.register(StarWarsMarvelComic)
 class StarWarsMarvelComicAdmin(admin.ModelAdmin):
-    list_display = ('title', 'issue_number', 'condition', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'ebay_item_id')
+    list_display = ('title', 'issue_number', 'condition', 'inventory_status', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'ebay_item_id')
     search_fields = ('title', 'issue_number')
-    list_filter = ('restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'condition')
+    list_filter = ('inventory_status', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'condition')
 
 @admin.register(StarWarsDarkHorseComic)
 class StarWarsDarkHorseComicAdmin(admin.ModelAdmin):
-    list_display = ('title', 'issue_number', 'condition', 'restoration_status', 'restoration_priority', 'validation_status', 'ebay_item_id')
+    list_display = ('title', 'issue_number', 'condition', 'inventory_status', 'restoration_status', 'restoration_priority', 'validation_status', 'ebay_item_id')
     search_fields = ('title', 'issue_number')
-    list_filter = ('restoration_status', 'restoration_priority', 'validation_status', 'condition')
+    list_filter = ('inventory_status', 'restoration_status', 'restoration_priority', 'validation_status', 'condition')
 
 @admin.register(StarTrekDcComic)
 class StarTrekDcComicAdmin(admin.ModelAdmin):
-    list_display = ('title', 'issue_number', 'condition', 'restoration_status', 'restoration_priority', 'validation_status', 'ebay_item_id')
+    list_display = ('title', 'issue_number', 'condition', 'inventory_status', 'restoration_status', 'restoration_priority', 'validation_status', 'ebay_item_id')
     search_fields = ('title', 'issue_number')
-    list_filter = ('restoration_status', 'restoration_priority', 'validation_status', 'condition')
+    list_filter = ('inventory_status', 'restoration_status', 'restoration_priority', 'validation_status', 'condition')
 
 @admin.register(KeyIssueFacts)
 class KeyIssueFactsAdmin(admin.ModelAdmin):

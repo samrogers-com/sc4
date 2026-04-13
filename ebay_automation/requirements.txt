@@ -2,8 +2,8 @@
 #
 # Install with: pip install -r requirements.txt --break-system-packages
 
-# eBay API SDK (for Finding API - sold price lookups)
-ebaysdk>=2.2.0
+# HTTP requests (for eBay Browse API + OAuth2)
+requests>=2.31.0
 
 # HTML parsing (extract titles and item specifics from descriptions)
 beautifulsoup4>=4.12.0

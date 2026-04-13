@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Orders — eBay Manager{% endblock %}
+{% block content %}
+<div class="mb-4"><a href="{% url 'ebay_manager:dashboard' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Dashboard</a></div>
+<h1 class="text-3xl font-bold text-amber-500 mb-6">Orders</h1>
+<div class="flex gap-2 mb-4 flex-wrap">
+    <a href="{% url 'ebay_manager:orders' %}" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if not status_filter %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">All</a>
+    {% for value, label in status_choices %}
+    <a href="{% url 'ebay_manager:orders' %}?status={{ value }}" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if status_filter == value %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">{{ label }}</a>
+    {% endfor %}
+</div>
+<div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-gray-800">
+            <tr>
+                <th class="px-4 py-3 text-left text-gray-300">Order</th>
+                <th class="px-4 py-3 text-left text-gray-300">Buyer</th>
+                <th class="px-4 py-3 text-right text-gray-300">Total</th>
+                <th class="px-4 py-3 text-left text-gray-300">Status</th>
+                <th class="px-4 py-3 text-left text-gray-300">Tracking</th>
+                <th class="px-4 py-3 text-right text-gray-300">Profit</th>
+                <th class="px-4 py-3 text-left text-gray-300">Date</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-600">
+            {% for order in orders %}
+            <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{% url 'ebay_manager:order_detail' order.pk %}'">
+                <td class="px-4 py-3 text-gray-200 font-mono text-xs">{{ order.order_id|truncatechars:15 }}</td>
+                <td class="px-4 py-3 text-gray-200">{{ order.buyer_username }}</td>
+                <td class="px-4 py-3 text-right text-gray-200 font-mono">${{ order.order_total }}</td>
+                <td class="px-4 py-3">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                        {% if order.order_status == 'delivered' %}bg-green-900 text-green-300
+                        {% elif order.order_status == 'shipped' %}bg-purple-900 text-purple-300
+                        {% elif order.order_status == 'in_transit' %}bg-orange-900 text-orange-300
+                        {% elif order.order_status == 'paid' %}bg-blue-900 text-blue-300
+                        {% elif order.order_status == 'pending' %}bg-yellow-900 text-yellow-300
+                        {% elif order.order_status == 'cancelled' %}bg-red-900 text-red-300
+                        {% else %}bg-gray-600 text-gray-400{% endif %}">
+                        {{ order.get_order_status_display }}
+                    </span>
+                </td>
+                <td class="px-4 py-3 text-gray-400 font-mono text-xs">{{ order.tracking_number|default:"—" }}</td>
+                <td class="px-4 py-3 text-right font-mono {% if order.net_profit and order.net_profit > 0 %}text-green-400{% else %}text-gray-400{% endif %}">{% if order.net_profit %} ${{ order.net_profit|floatformat:2 }}{% else %}—{% endif %}</td>
+                <td class="px-4 py-3 text-gray-500 text-xs">{{ order.creation_date|date:"M d" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="px-4 py-8 text-center text-gray-400">No orders yet. Sync from eBay when OAuth is configured.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

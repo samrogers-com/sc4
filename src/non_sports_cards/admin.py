@@ -9,9 +9,9 @@ from .models import (
 
 @admin.register(NonSportsCards)
 class NonSportsCardsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'custom_label', 'manufacturer', 'category', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'ebay_item_id')
+    list_display = ('title', 'custom_label', 'manufacturer', 'category', 'inventory_status', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'ebay_item_id')
     search_fields = ('title', 'manufacturer', 'date_manufactured', 'parent_set')
-    list_filter = ('restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'category', 'parent_set', 'star_variant', 'manufacturer')
+    list_filter = ('inventory_status', 'restoration_status', 'restoration_priority', 'restoration_type', 'validation_status', 'category', 'parent_set', 'star_variant', 'manufacturer')
 
 @admin.register(NonSportsChaseCards)
 class NonSportsChaseCardsAdmin(admin.ModelAdmin):
@@ -33,21 +33,21 @@ class NonSportsSpecialCardsAdmin(admin.ModelAdmin):
 
 @admin.register(NonSportsCardsBoxes)
 class NonSportsCardsBoxesAdmin(admin.ModelAdmin):
-    list_display = ('title', 'manufacturer', 'date_manufactured', 'validation_status')
+    list_display = ('title', 'manufacturer', 'date_manufactured', 'inventory_status', 'validation_status')
     search_fields = ('title', 'manufacturer', 'date_manufactured')
-    list_filter = ('validation_status', 'manufacturer', 'date_manufactured')
+    list_filter = ('inventory_status', 'validation_status', 'manufacturer', 'date_manufactured')
 
 @admin.register(NonSportsCardsBaseSets)
 class NonSportsCardsBaseSetsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'manufacturer', 'date_manufactured', 'validation_status')
+    list_display = ('title', 'manufacturer', 'date_manufactured', 'inventory_status', 'validation_status')
     search_fields = ('title', 'manufacturer', 'date_manufactured')
-    list_filter = ('validation_status', 'manufacturer', 'date_manufactured')
+    list_filter = ('inventory_status', 'validation_status', 'manufacturer', 'date_manufactured')
 
 @admin.register(NonSportsCardsSpecialSets)
 class NonSportsCardsSpecialSetsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'manufacturer', 'date_manufactured', 'validation_status')
+    list_display = ('title', 'manufacturer', 'date_manufactured', 'inventory_status', 'validation_status')
     search_fields = ('title', 'manufacturer', 'date_manufactured')
-    list_filter = ('validation_status', 'manufacturer', 'date_manufactured')
+    list_filter = ('inventory_status', 'validation_status', 'manufacturer', 'date_manufactured')
 
 @admin.register(NonSportsCardsSingles)
 class NonSportsCardsSinglesAdmin(admin.ModelAdmin):

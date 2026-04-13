@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Listings — eBay Manager{% endblock %}
+{% block content %}
+<div class="mb-4"><a href="{% url 'ebay_manager:dashboard' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Dashboard</a></div>
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-amber-500">Listings</h1>
+    <a href="{% url 'ebay_manager:listing_create' %}" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition text-sm">+ Create Listing</a>
+</div>
+<div class="flex gap-2 mb-4 flex-wrap">
+    <a href="{% url 'ebay_manager:listings' %}" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if not status_filter %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">All</a>
+    {% for value, label in status_choices %}
+    <a href="{% url 'ebay_manager:listings' %}?status={{ value }}" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if status_filter == value %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">{{ label }}</a>
+    {% endfor %}
+</div>
+<div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-gray-800">
+            <tr>
+                <th class="px-4 py-3 text-left text-gray-300">Title</th>
+                <th class="px-4 py-3 text-left text-gray-300">SKU</th>
+                <th class="px-4 py-3 text-right text-gray-300">Price</th>
+                <th class="px-4 py-3 text-left text-gray-300">Status</th>
+                <th class="px-4 py-3 text-right text-gray-300">Views</th>
+                <th class="px-4 py-3 text-right text-gray-300">Watchers</th>
+                <th class="px-4 py-3 text-left text-gray-300">Created</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-600">
+            {% for listing in listings %}
+            <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{% url 'ebay_manager:listing_detail' listing.pk %}'">
+                <td class="px-4 py-3 text-gray-100 font-medium">{{ listing.title|truncatewords:8 }}</td>
+                <td class="px-4 py-3 text-gray-400 font-mono text-xs">{{ listing.sku|default:"—" }}</td>
+                <td class="px-4 py-3 text-right text-gray-200 font-mono">${{ listing.price }}</td>
+                <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium {% if listing.status == 'active' %}bg-green-900 text-green-300{% elif listing.status == 'sold' %}bg-blue-900 text-blue-300{% elif listing.status == 'draft' %}bg-yellow-900 text-yellow-300{% elif listing.status == 'error' %}bg-red-900 text-red-300{% else %}bg-gray-600 text-gray-400{% endif %}">{{ listing.get_status_display }}</span></td>
+                <td class="px-4 py-3 text-right text-gray-400">{{ listing.view_count }}</td>
+                <td class="px-4 py-3 text-right text-gray-400">{{ listing.watch_count }}</td>
+                <td class="px-4 py-3 text-gray-500 text-xs">{{ listing.created_at|date:"M d" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="px-4 py-8 text-center text-gray-400">No listings yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

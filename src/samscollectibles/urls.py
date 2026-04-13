@@ -23,6 +23,9 @@ urlpatterns = [
     path('non_sports_cards/', include('non_sports_cards.urls', namespace='non_sports_cards')),
     path('movie_posters/', include('movie_posters.urls', namespace='movie_posters')),
 
+    # eBay Manager (staff only)
+    path('ebay/', include('ebay_manager.urls', namespace='ebay_manager')),
+
     # Private dashboard (staff/restoration group only)
     path('restoration/', restoration_views.restoration_dashboard, name='restoration_dashboard'),
 ]

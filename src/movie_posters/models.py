@@ -72,6 +72,15 @@ class MoviePosters(models.Model):
     # Tracking
     validation_status = models.CharField(max_length=20, choices=VALIDATION_STATUSES, default='unvalidated')
 
+    # Inventory status
+    INVENTORY_STATUSES = [
+        ('in_stock', 'In Stock'),
+        ('sold_out', 'Sold Out'),
+        ('reserved', 'Reserved'),
+        ('listed', 'Listed on eBay'),
+    ]
+    inventory_status = models.CharField(max_length=20, choices=INVENTORY_STATUSES, default='in_stock')
+
     # Restoration tracking
     RESTORATION_STATUSES = [
         ('none', 'No Treatment Needed'),

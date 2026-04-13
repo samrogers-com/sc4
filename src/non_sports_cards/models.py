@@ -61,6 +61,15 @@ class NonSportsCards(models.Model):
     sub_category = models.CharField(max_length=100)
     validation_status = models.CharField(max_length=20, choices=VALIDATION_STATUSES, default='unvalidated')
 
+    # Inventory status
+    INVENTORY_STATUSES = [
+        ('in_stock', 'In Stock'),
+        ('sold_out', 'Sold Out'),
+        ('reserved', 'Reserved'),
+        ('listed', 'Listed on eBay'),
+    ]
+    inventory_status = models.CharField(max_length=20, choices=INVENTORY_STATUSES, default='in_stock')
+
     # Series/variant fields (for Topps 1977-83 Star Wars sets with star system)
     parent_set = models.CharField(max_length=100, null=True, blank=True)  # e.g., "SW 77 ANH"
     series_number = models.IntegerField(null=True, blank=True)  # e.g., 1, 2, 3, 4, 5

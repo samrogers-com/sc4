@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}{{ listing.title }} — eBay Manager{% endblock %}
+{% block content %}
+<div class="mb-4"><a href="{% url 'ebay_manager:listings' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to Listings</a></div>
+<div class="flex justify-between items-start mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-100">{{ listing.title }}</h1>
+        <span class="px-2 py-0.5 rounded-full text-xs font-medium {% if listing.status == 'active' %}bg-green-900 text-green-300{% elif listing.status == 'sold' %}bg-blue-900 text-blue-300{% elif listing.status == 'draft' %}bg-yellow-900 text-yellow-300{% else %}bg-gray-600 text-gray-400{% endif %}">{{ listing.get_status_display }}</span>
+    </div>
+    <span class="text-3xl font-bold text-amber-400">${{ listing.price }}</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+        <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Listing Details</h3>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+            <span class="text-gray-400">eBay Item ID:</span><span class="text-gray-200 font-mono">{{ listing.ebay_item_id|default:"—" }}</span>
+            <span class="text-gray-400">SKU:</span><span class="text-gray-200 font-mono">{{ listing.sku|default:"—" }}</span>
+            <span class="text-gray-400">Category:</span><span class="text-gray-200">{{ listing.category_id|default:"—" }}</span>
+            <span class="text-gray-400">Condition:</span><span class="text-gray-200">{{ listing.condition_id|default:"—" }}</span>
+            <span class="text-gray-400">Quantity:</span><span class="text-gray-200">{{ listing.quantity }}</span>
+            <span class="text-gray-400">Shipping:</span><span class="text-gray-200">{{ listing.shipping_service }}</span>
+            <span class="text-gray-400">Views:</span><span class="text-gray-200">{{ listing.view_count }}</span>
+            <span class="text-gray-400">Watchers:</span><span class="text-gray-200">{{ listing.watch_count }}</span>
+            <span class="text-gray-400">Created:</span><span class="text-gray-200">{{ listing.created_at|date:"M d, Y" }}</span>
+            <span class="text-gray-400">Listed:</span><span class="text-gray-200">{{ listing.listed_at|date:"M d, Y"|default:"—" }}</span>
+            <span class="text-gray-400">Last Synced:</span><span class="text-gray-200">{{ listing.last_synced|date:"M d, Y H:i"|default:"Never" }}</span>
+        </div>
+        {% if listing.ebay_listing_url %}
+        <a href="{{ listing.ebay_listing_url }}" target="_blank" class="btn-ebay mt-4 block text-center">View on eBay &#8599;</a>
+        {% endif %}
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+        <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Photos</h3>
+        {% if listing.image_urls %}
+        <div class="grid grid-cols-3 gap-2">
+            {% for url in listing.image_urls %}
+            <img src="{{ url }}" class="w-full aspect-square object-cover rounded border border-gray-600">
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-gray-400 text-sm">No photos attached.</p>
+        {% endif %}
+    </div>
+</div>
+{% if order_items %}
+<div class="mt-6 bg-gray-700 rounded-lg border border-gray-600 p-5">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Order History</h3>
+    <div class="divide-y divide-gray-600">
+        {% for item in order_items %}
+        <a href="{% url 'ebay_manager:order_detail' item.order.pk %}" class="block py-2 hover:bg-gray-600 px-2 rounded transition">
+            <span class="text-gray-200">{{ item.order.buyer_username }}</span>
+            <span class="text-gray-400 text-sm ml-2">${{ item.price }} × {{ item.quantity }}</span>
+            <span class="text-gray-500 text-xs ml-2">{{ item.order.creation_date|date:"M d" }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% if listing.error_message %}
+<div class="mt-4 bg-red-900 border border-red-700 rounded-lg p-4">
+    <p class="text-red-300 text-sm"><strong>Error:</strong> {{ listing.error_message }}</p>
+</div>
+{% endif %}
+{% endblock %}

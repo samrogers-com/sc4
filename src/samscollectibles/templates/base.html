@@ -241,6 +241,7 @@
                                 {% if user.is_staff %}
                                 <div class="border-t border-gray-700 my-1"></div>
                                 <p class="px-4 py-1 text-xs text-gray-500 uppercase tracking-wider">Staff Tools</p>
+                                <a href="{% url 'ebay_manager:dashboard' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">eBay Manager</a>
                                 <a href="{% url 'restoration_dashboard' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Restoration Dashboard</a>
                                 <a href="{% url 'ebay_templates:home' %}" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">eBay Templates</a>
                                 <a href="/admin/" class="block px-4 py-1.5 text-gray-300 hover:bg-gray-700 hover:text-amber-400 text-sm">Django Admin</a>
@@ -290,7 +291,8 @@
             <div class="border-t border-gray-700 my-2 pt-2">
                 <p class="text-xs text-gray-500 mb-1">Signed in as {{ user.username }}</p>
                 {% if user.is_staff %}
-                <a href="{% url 'restoration_dashboard' %}" class="block py-1 text-sm text-amber-400 hover:text-amber-300">Restoration Dashboard</a>
+                <a href="{% url 'ebay_manager:dashboard' %}" class="block py-1 text-sm text-amber-400 hover:text-amber-300">eBay Manager</a>
+                <a href="{% url 'restoration_dashboard' %}" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Restoration Dashboard</a>
                 <a href="{% url 'ebay_templates:home' %}" class="block py-1 text-sm text-gray-400 hover:text-amber-400">eBay Templates</a>
                 <a href="/admin/" class="block py-1 text-sm text-gray-400 hover:text-amber-400">Django Admin</a>
                 {% endif %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Create Listing — eBay Manager{% endblock %}
+{% block content %}
+<div class="mb-4"><a href="{% url 'ebay_manager:listings' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to Listings</a></div>
+<h1 class="text-3xl font-bold text-amber-500 mb-6">Create New Listing</h1>
+
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-6 max-w-2xl">
+    <p class="text-gray-400 mb-6">Create a draft listing. After User OAuth is configured, you'll be able to submit directly to eBay.</p>
+    <form method="post" class="space-y-5">
+        {% csrf_token %}
+        <div>
+            <label class="block text-sm font-medium text-gray-300 mb-1">Title (max 80 chars)</label>
+            <input type="text" name="title" maxlength="80" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Price ($)</label>
+                <input type="number" name="price" step="0.01" required class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">SKU / Custom Label</label>
+                <input type="text" name="sku" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">eBay Category ID</label>
+                <input type="text" name="category_id" placeholder="e.g. 183052" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Condition</label>
+                <select name="condition_id" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <option value="7000">New/Factory Sealed</option>
+                    <option value="6000">Like New</option>
+                    <option value="5000">Very Good</option>
+                    <option value="4000">Good</option>
+                    <option value="3000">Acceptable</option>
+                </select>
+            </div>
+        </div>
+        <input type="hidden" name="content_type_id" value="">
+        <input type="hidden" name="object_id" value="">
+        <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">Create Draft Listing</button>
+    </form>
+</div>
+{% endblock %}
