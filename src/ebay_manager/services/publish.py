@@ -125,12 +125,12 @@ def create_inventory_item(listing):
         raise Exception(f"Failed to create inventory item: {resp.status_code} {error_msg}")
 
 
-def create_offer(listing, sku, as_draft=False):
-    """Create an offer for the inventory item.
+def create_or_update_offer(listing, sku):
+    """Create or update an offer for the inventory item.
 
     An offer ties the inventory item to listing policies (shipping,
-    payment, returns) and category. It can be published immediately
-    or saved as a draft.
+    payment, returns) and category. If an offer already exists for
+    this SKU, it updates the existing one.
 
     Returns: offer_id string
     """
@@ -154,25 +154,39 @@ def create_offer(listing, sku, as_draft=False):
             'paymentPolicyId': DEFAULT_POLICIES['payment_policy_id'],
             'returnPolicyId': DEFAULT_POLICIES['return_policy_id'],
         },
-        'merchantLocationKey': None,  # Use default location
     }
 
-    # Remove merchantLocationKey if None (let eBay use default)
-    payload.pop('merchantLocationKey', None)
+    # Check if offer already exists for this SKU
+    existing_resp = requests.get(
+        f'{OFFER_URL}?sku={sku}',
+        headers=headers, timeout=20,
+    )
+    if existing_resp.status_code == 200:
+        offers = existing_resp.json().get('offers', [])
+        if offers:
+            # Update existing offer
+            offer_id = offers[0]['offerId']
+            # Remove sku and marketplaceId from update payload (can't change)
+            update_payload = {k: v for k, v in payload.items() if k not in ('sku', 'marketplaceId')}
+            resp = requests.put(
+                f'{OFFER_URL}/{offer_id}',
+                headers=headers, json=update_payload, timeout=20,
+            )
+            if resp.status_code in (200, 204):
+                return offer_id
+            else:
+                raise Exception(f"Failed to update offer: {resp.status_code} {resp.text[:500]}")
 
+    # Create new offer
     resp = requests.post(
-        OFFER_URL,
-        headers=headers,
-        json=payload,
-        timeout=20,
+        OFFER_URL, headers=headers, json=payload, timeout=20,
     )
 
     if resp.status_code in (200, 201):
         data = resp.json()
         return data.get('offerId', '')
     else:
-        error_msg = resp.text[:500]
-        raise Exception(f"Failed to create offer: {resp.status_code} {error_msg}")
+        raise Exception(f"Failed to create offer: {resp.status_code} {resp.text[:500]}")
 
 
 def publish_offer(offer_id):
@@ -205,7 +219,7 @@ def send_to_ebay_drafts(listing):
     Returns: dict with sku, offer_id
     """
     sku = create_inventory_item(listing)
-    offer_id = create_offer(listing, sku, as_draft=True)
+    offer_id = create_or_update_offer(listing, sku)
 
     # Update local listing status
     listing.status = 'pending'
@@ -223,7 +237,7 @@ def publish_to_ebay(listing):
     Returns: dict with sku, offer_id, listing_id, ebay_url
     """
     sku = create_inventory_item(listing)
-    offer_id = create_offer(listing, sku, as_draft=False)
+    offer_id = create_or_update_offer(listing, sku)
     listing_id = publish_offer(offer_id)
 
     # Update local listing
