@@ -70,6 +70,10 @@ class NonSportsCards(models.Model):
     ]
     inventory_status = models.CharField(max_length=20, choices=INVENTORY_STATUSES, default='in_stock')
 
+    # Weight for shipping (product only, packaging added by eBay Manager)
+    weight_lbs = models.IntegerField(default=0, help_text='Weight - pounds')
+    weight_oz = models.IntegerField(default=0, help_text='Weight - ounces')
+
     # Series/variant fields (for Topps 1977-83 Star Wars sets with star system)
     parent_set = models.CharField(max_length=100, null=True, blank=True)  # e.g., "SW 77 ANH"
     series_number = models.IntegerField(null=True, blank=True)  # e.g., 1, 2, 3, 4, 5

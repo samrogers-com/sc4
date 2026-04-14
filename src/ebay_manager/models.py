@@ -44,10 +44,18 @@ class EbayListing(models.Model):
     # Item specifics
     item_specifics = models.JSONField(default=dict, blank=True)
 
+    # Weight (product only, packaging added automatically)
+    # Store as lbs + oz for easy entry. Ship weight auto-calculated.
+    weight_lbs = models.IntegerField(default=0, help_text='Product weight - pounds')
+    weight_oz = models.IntegerField(default=0, help_text='Product weight - ounces')
+
     # Shipping & returns
     shipping_service = models.CharField(max_length=50, default='USPSGroundAdvantage')
     shipping_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     returns_accepted = models.BooleanField(default=True)
+
+    # Packaging overhead: 4oz box + 1oz bubble wrap = 5oz
+    PACKAGING_OZ = 5
 
     # Dates
     created_at = models.DateTimeField(auto_now_add=True)
@@ -67,6 +75,30 @@ class EbayListing(models.Model):
     class Meta:
         db_table = 'ebay_listings'
         ordering = ['-created_at']
+
+    @property
+    def product_weight_oz(self):
+        """Total product weight in ounces."""
+        return (self.weight_lbs * 16) + self.weight_oz
+
+    @property
+    def ship_weight_oz(self):
+        """Total shipping weight in ounces (product + packaging)."""
+        return self.product_weight_oz + self.PACKAGING_OZ
+
+    @property
+    def ship_weight_display(self):
+        """Shipping weight formatted as 'X lb Y oz'."""
+        total_oz = self.ship_weight_oz
+        lbs = total_oz // 16
+        oz = total_oz % 16
+        if lbs and oz:
+            return f"{lbs} lb {oz} oz"
+        elif lbs:
+            return f"{lbs} lb"
+        elif oz:
+            return f"{oz} oz"
+        return "—"
 
     def __str__(self):
         return f"[{self.status}] {self.title} (${self.price})"

@@ -61,6 +61,10 @@ class ComicBook(models.Model):
     ]
     inventory_status = models.CharField(max_length=20, choices=INVENTORY_STATUSES, default='in_stock')
 
+    # Weight for shipping
+    weight_lbs = models.IntegerField(default=0, help_text='Weight - pounds')
+    weight_oz = models.IntegerField(default=0, help_text='Weight - ounces')
+
     # Restoration tracking
     RESTORATION_STATUSES = [
         ('none', 'No Treatment Needed'),

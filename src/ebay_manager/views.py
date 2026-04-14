@@ -114,6 +114,8 @@ def listing_create(request):
             condition_id=request.POST.get('condition_id', '7000'),
             description_html=request.POST.get('description_html', ''),
             image_urls=image_urls,
+            weight_lbs=int(request.POST.get('weight_lbs', 0) or 0),
+            weight_oz=int(request.POST.get('weight_oz', 0) or 0),
             shipping_service=request.POST.get('shipping_service', 'USPSGroundAdvantage'),
             shipping_cost=request.POST.get('shipping_cost', 0),
             status='draft',
@@ -399,6 +401,8 @@ def listing_edit(request, pk):
         listing.category_id = request.POST.get('category_id', listing.category_id)
         listing.condition_id = request.POST.get('condition_id', listing.condition_id)
         listing.description_html = request.POST.get('description_html', listing.description_html)
+        listing.weight_lbs = int(request.POST.get('weight_lbs', listing.weight_lbs) or 0)
+        listing.weight_oz = int(request.POST.get('weight_oz', listing.weight_oz) or 0)
         listing.shipping_service = request.POST.get('shipping_service', listing.shipping_service)
         listing.shipping_cost = request.POST.get('shipping_cost', listing.shipping_cost)
 

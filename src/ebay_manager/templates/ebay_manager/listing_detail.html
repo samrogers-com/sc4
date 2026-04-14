@@ -55,8 +55,10 @@
         </div>
 
         <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
-            <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Shipping</h3>
+            <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Weight &amp; Shipping</h3>
             <div class="space-y-2 text-sm">
+                <div class="flex justify-between"><span class="text-gray-400">Product Weight:</span><span class="text-gray-200">{% if listing.weight_lbs or listing.weight_oz %}{{ listing.weight_lbs }} lb {{ listing.weight_oz }} oz{% else %}—{% endif %}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Ship Weight:</span><span class="text-amber-400 font-medium">{{ listing.ship_weight_display }}</span></div>
                 <div class="flex justify-between"><span class="text-gray-400">Service:</span><span class="text-gray-200">{{ listing.shipping_service }}</span></div>
                 <div class="flex justify-between"><span class="text-gray-400">Cost:</span><span class="text-gray-200">${{ listing.shipping_cost }}</span></div>
                 <div class="flex justify-between"><span class="text-gray-400">Returns:</span><span class="text-gray-200">{% if listing.returns_accepted %}Yes{% else %}No{% endif %}</span></div>

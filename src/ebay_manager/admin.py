@@ -10,7 +10,7 @@ class EbayOrderItemInline(admin.TabularInline):
 
 @admin.register(EbayListing)
 class EbayListingAdmin(admin.ModelAdmin):
-    list_display = ('title', 'status', 'price', 'sku', 'ebay_item_id', 'view_count', 'watch_count', 'created_at')
+    list_display = ('title', 'status', 'price', 'sku', 'ship_weight_display', 'ebay_item_id', 'view_count', 'watch_count', 'created_at')
     list_filter = ('status', 'category_id')
     search_fields = ('title', 'sku', 'ebay_item_id')
     readonly_fields = ('created_at', 'updated_at', 'last_synced')
