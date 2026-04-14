@@ -190,9 +190,15 @@ def get_gap_report():
     except ImportError:
         return {'r2_without_listing': [], 'listings_without_photos': [], 'stats': {}}
 
-    # Get all active + draft listings
-    listings = EbayListing.objects.filter(status__in=['active', 'draft'])
-    listing_titles = {l.title.lower(): l for l in listings}
+    # Get all listings (active, draft, sold, pending) — check against ALL to avoid dupes
+    listings = EbayListing.objects.filter(status__in=['active', 'draft', 'pending'])
+    all_listings = EbayListing.objects.all()  # includes sold — so sold items don't re-appear
+    listing_titles = {l.title.lower(): l for l in all_listings}
+
+    # Products known to be sold out or needing multi-variant listings
+    SOLD_OUT_SLUGS = {'dune', 'x-files-s1', 'x-files-showcase'}
+    # Pre-1990 items need multi-variant listings (condition varies)
+    MULTI_VARIANT_SLUGS = {'007-moonraker', 'space-1999'}
 
     # Scan R2 for all product folders
     # Note: get_r2_folders returns list of strings, requires trailing slash on prefix
@@ -261,6 +267,25 @@ def get_gap_report():
                 break
 
         if not matched:
+            slug = product['folder_name']
+
+            # Skip sold-out products
+            if slug in SOLD_OUT_SLUGS:
+                continue
+
+            # Flag pre-1990 / multi-variant items
+            product_info = PRODUCT_DATA.get(slug, {})
+            year_str = product_info.get('specs', {}).get('Year Manufactured', '')
+            try:
+                year = int(year_str) if year_str else 0
+            except ValueError:
+                year = 0
+
+            if slug in MULTI_VARIANT_SLUGS or (year > 0 and year < 1990):
+                product['needs_multi_variant'] = True
+            else:
+                product['needs_multi_variant'] = False
+
             # Get thumbnail by fetching first image in the folder
             try:
                 from non_sports_cards.r2_utils import get_r2_images
