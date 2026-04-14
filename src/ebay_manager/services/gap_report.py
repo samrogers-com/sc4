@@ -215,10 +215,10 @@ def get_gap_report():
     except ImportError:
         return {'r2_without_listing': [], 'listings_without_photos': [], 'stats': {}}
 
-    # Get all listings (active, draft, sold, pending) — check against ALL to avoid dupes
+    # Match against active + draft + pending listings only (not sold)
+    # Sold items are excluded via SOLD_OUT_FOLDERS instead
     listings = EbayListing.objects.filter(status__in=['active', 'draft', 'pending'])
-    all_listings = EbayListing.objects.all()  # includes sold — so sold items don't re-appear
-    listing_titles = {l.title.lower(): l for l in all_listings}
+    listing_titles = {l.title.lower(): l for l in listings}
 
     # Products known to be sold out — checks both folder slug and parent folder
     SOLD_OUT_FOLDERS = {'dune', 'x-files-s1', 'x-files-showcase', 'galaxy-s3'}
