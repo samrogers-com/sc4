@@ -195,10 +195,10 @@ def get_gap_report():
     all_listings = EbayListing.objects.all()  # includes sold — so sold items don't re-appear
     listing_titles = {l.title.lower(): l for l in all_listings}
 
-    # Products known to be sold out or needing multi-variant listings
-    SOLD_OUT_SLUGS = {'dune', 'x-files-s1', 'x-files-showcase'}
-    # Pre-1990 items need multi-variant listings (condition varies)
-    MULTI_VARIANT_SLUGS = {'007-moonraker', 'space-1999'}
+    # Products known to be sold out — checks both folder slug and parent folder
+    SOLD_OUT_FOLDERS = {'dune', 'x-files-s1', 'x-files-showcase'}
+    # Products with existing multi-variant or active listings (don't show sub-boxes)
+    ALREADY_LISTED_FOLDERS = {'007-moonraker', 'space-1999'}
 
     # Scan R2 for all product folders
     # Note: get_r2_folders returns list of strings, requires trailing slash on prefix
@@ -268,20 +268,26 @@ def get_gap_report():
 
         if not matched:
             slug = product['folder_name']
+            parent = product.get('parent', '')
 
-            # Skip sold-out products
-            if slug in SOLD_OUT_SLUGS:
+            # Skip sold-out products (check both slug and parent folder)
+            if slug in SOLD_OUT_FOLDERS or parent in SOLD_OUT_FOLDERS:
+                continue
+
+            # Skip products whose parent folder already has an active listing
+            if parent in ALREADY_LISTED_FOLDERS:
                 continue
 
             # Flag pre-1990 / multi-variant items
-            product_info = PRODUCT_DATA.get(slug, {})
+            # Check both the slug and parent for product data
+            product_info = PRODUCT_DATA.get(slug, PRODUCT_DATA.get(parent, {}))
             year_str = product_info.get('specs', {}).get('Year Manufactured', '')
             try:
                 year = int(year_str) if year_str else 0
             except ValueError:
                 year = 0
 
-            if slug in MULTI_VARIANT_SLUGS or (year > 0 and year < 1990):
+            if year > 0 and year < 1990:
                 product['needs_multi_variant'] = True
             else:
                 product['needs_multi_variant'] = False
