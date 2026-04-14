@@ -12,6 +12,7 @@ urlpatterns = [
     path('listings/<int:pk>/preview/', views.listing_preview, name='listing_preview'),
     path('listings/<int:pk>/publish-draft/', views.publish_draft, name='publish_draft'),
     path('listings/<int:pk>/publish-active/', views.publish_active, name='publish_active'),
+    path('listings/<int:pk>/delete/', views.listing_delete, name='listing_delete'),
     path('orders/', views.orders, name='orders'),
     path('orders/<int:pk>/', views.order_detail, name='order_detail'),
     path('analytics/', views.analytics, name='analytics'),

@@ -100,7 +100,7 @@ def create_inventory_item(listing):
     if 'Graded' not in aspects:
         aspects['Graded'] = ['No']
     if 'Professional Grader' not in aspects:
-        aspects['Professional Grader'] = ['Not Applicable']
+        aspects['Professional Grader'] = ['N/A']
 
     product = {
         'title': listing.title,

@@ -442,6 +442,38 @@ def publish_active(request, pk):
 
 @login_required
 @user_passes_test(is_staff)
+def listing_delete(request, pk):
+    """Delete a draft listing. Also cleans up eBay offer/inventory if created."""
+    if request.method == 'POST':
+        listing = get_object_or_404(EbayListing, pk=pk)
+        title = listing.title
+
+        # Clean up eBay side if we pushed an offer
+        if listing.sku:
+            try:
+                import requests as req
+                from .services.api_client import get_user_token
+                token = get_user_token()
+                if token:
+                    headers = {'Authorization': f'Bearer {token}', 'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US'}
+                    # Delete offer
+                    resp = req.get(f'https://api.ebay.com/sell/inventory/v1/offer?sku={listing.sku}', headers=headers, timeout=10)
+                    if resp.status_code == 200:
+                        for o in resp.json().get('offers', []):
+                            req.delete(f'https://api.ebay.com/sell/inventory/v1/offer/{o["offerId"]}', headers=headers, timeout=10)
+                    # Delete inventory item
+                    req.delete(f'https://api.ebay.com/sell/inventory/v1/inventory_item/{listing.sku}', headers=headers, timeout=10)
+            except Exception:
+                pass
+
+        listing.delete()
+        messages.success(request, f'Deleted draft: {title}')
+        return redirect('ebay_manager:listings')
+    return redirect('ebay_manager:listings')
+
+
+@login_required
+@user_passes_test(is_staff)
 def gap_report(request):
     """Web-based gap report comparing R2 photos with active eBay listings.
 

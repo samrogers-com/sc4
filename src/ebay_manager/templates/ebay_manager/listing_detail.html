@@ -26,6 +26,10 @@
                 {% csrf_token %}
                 <button type="submit" class="px-4 py-2 bg-green-700 hover:bg-green-600 text-green-100 font-bold rounded-lg transition text-sm">Publish to eBay</button>
             </form>
+            <form method="post" action="{% url 'ebay_manager:listing_delete' listing.pk %}" class="inline" onsubmit="return confirm('Delete this draft?')">
+                {% csrf_token %}
+                <button type="submit" class="px-4 py-2 bg-red-900 hover:bg-red-800 text-red-300 font-medium rounded-lg transition text-sm">Delete</button>
+            </form>
         </div>
         {% endif %}
     </div>
