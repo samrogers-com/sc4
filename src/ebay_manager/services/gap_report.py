@@ -24,30 +24,97 @@ PRODUCT_TYPES = {
     'binders': 'trading-cards/binders',
 }
 
-# Map R2 folder slugs to proper eBay listing titles
-# Used when creating listings from the gap report
-LISTING_TITLES = {
-    '007-goldeneye': '1995 Graffiti James Bond 007 GoldenEye Trading Cards Factory Sealed Box',
-    '007-tomorrowneverdies': '1997 Inkworks James Bond 007 Tomorrow Never Dies Factory Sealed Box',
-    '007-moonraker': '1979 James Bond 007 Moonraker Cards Box Complete With 36 Unopened Packs',
-    'cosmiccardsinauguralimpel': '1991 Impel DC Comics Cosmic Cards Inaugural Edition Factory Sealed Box',
-    'disneycollectorcardsimpel91': '1991 Impel Disney Collector Cards Factory Sealed Box',
-    'disneycollectorcards2skybox92': '1992 SkyBox Disney Collector Cards Series 2 Factory Sealed Box',
-    'the-outer-limits': '1997 DuoCards The Outer Limits Collector Cards Factory Sealed Box',
-    'valiant': '1993 Upper Deck The Valiant Era Trading Cards Factory Sealed Box',
-    'dune': 'Fleer Dune Trading Cards Wax Box 36 Packs',
-    'godzilla-green-1998': '1998 Inkworks Godzilla The Movie Premium Trading Cards Sealed Box',
-    'the-creators-universe': 'Creators of the Universe Trading Card Box Sealed',
-    'x-file-s3': '1996 X-Files Season 3 Trading Card Box by Topps New Sealed',
-    'x-files-contact': '1996 Intrepid The X Files Contact Trading Card Box Sealed',
-    'x-files-s1': '1991 Topps The X Files Volume 1 Trading Card Box',
-    'x-files-s2': 'Factory Sealed X-Files Season 2 Premium Trading Card Box TOPPS 1996',
-    'x-files-showcase': '1991 Topps The X Files Showcase Volume 1 Trading Card Box',
-    'space-1999': '1976 SPACE 1999 WAX BOX (24 MINT PACKS) DONRUSS',
-    'wizardofoz-duocards': 'Wizard of Oz Factory Sealed Box Collector 1996 Duo Cards 30 packs',
-    'wizardofoz-pacific': 'Wizard of OZ Trading Card Factory Sealed Box 1990 Pacific',
-    'casper': 'Casper Trading Cards Fleer 1995 Lot of 5 Packs Unopened',
+# Product data for gap report listings — title, item specifics, default dimensions
+# Used to pre-populate the listing create form from the gap report
+# Keys are R2 folder slugs
+PRODUCT_DATA = {
+    '007-goldeneye': {
+        'title': '1995 Graffiti James Bond 007 GoldenEye Trading Cards Factory Sealed Box',
+        'specs': {'Manufacturer': 'Graffiti', 'Franchise': 'James Bond', 'Set': 'GoldenEye', 'Year Manufactured': '1995', 'Genre': 'Action', 'Movie': 'GoldenEye', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    '007-tomorrowneverdies': {
+        'title': '1997 Inkworks James Bond 007 Tomorrow Never Dies Factory Sealed Box',
+        'specs': {'Manufacturer': 'Inkworks', 'Franchise': 'James Bond', 'Set': 'Tomorrow Never Dies', 'Year Manufactured': '1997', 'Genre': 'Action', 'Movie': 'Tomorrow Never Dies', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    '007-moonraker': {
+        'title': '1979 James Bond 007 Moonraker Cards Box Complete With 36 Unopened Packs',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'James Bond', 'Set': 'Moonraker', 'Year Manufactured': '1979', 'Genre': 'Action', 'Movie': 'Moonraker', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'cosmiccardsinauguralimpel': {
+        'title': '1991 Impel DC Comics Cosmic Cards Inaugural Edition Factory Sealed Box',
+        'specs': {'Manufacturer': 'Impel', 'Franchise': 'DC Comics', 'Set': 'Cosmic Cards Inaugural Edition', 'Year Manufactured': '1991', 'Genre': 'Sci-Fi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'disneycollectorcardsimpel91': {
+        'title': '1991 Impel Disney Collector Cards Factory Sealed Box',
+        'specs': {'Manufacturer': 'Impel', 'Franchise': 'Disney', 'Set': 'Disney Collector Cards', 'Year Manufactured': '1991', 'Genre': 'Fantasy', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'disneycollectorcards2skybox92': {
+        'title': '1992 SkyBox Disney Collector Cards Series 2 Factory Sealed Box',
+        'specs': {'Manufacturer': 'SkyBox', 'Franchise': 'Disney', 'Set': 'Disney Collector Cards Series 2', 'Year Manufactured': '1992', 'Genre': 'Fantasy', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'the-outer-limits': {
+        'title': '1997 DuoCards The Outer Limits Collector Cards Factory Sealed Box',
+        'specs': {'Manufacturer': 'DuoCards', 'Franchise': 'The Outer Limits', 'Set': 'The Outer Limits', 'Year Manufactured': '1997', 'Genre': 'Sci-Fi', 'TV Show': 'The Outer Limits', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'valiant': {
+        'title': '1993 Upper Deck The Valiant Era Trading Cards Factory Sealed Box',
+        'specs': {'Manufacturer': 'Upper Deck', 'Franchise': 'Valiant Comics', 'Set': 'The Valiant Era', 'Year Manufactured': '1993', 'Genre': 'Sci-Fi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'godzilla-green-1998': {
+        'title': '1998 Inkworks Godzilla The Movie Premium Trading Cards Sealed Box',
+        'specs': {'Manufacturer': 'Inkworks', 'Franchise': 'Godzilla', 'Set': 'Godzilla The Movie', 'Year Manufactured': '1998', 'Genre': 'Sci-Fi', 'Movie': 'Godzilla', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'dune': {
+        'title': 'Fleer Dune Trading Cards Wax Box 36 Packs',
+        'specs': {'Manufacturer': 'Fleer', 'Franchise': 'Dune', 'Set': 'Dune', 'Year Manufactured': '1984', 'Genre': 'Sci-Fi', 'Movie': 'Dune', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'the-creators-universe': {
+        'title': 'Creators of the Universe Trading Card Box Sealed',
+        'specs': {'Manufacturer': 'Dynamic', 'Franchise': 'Creators of the Universe', 'Set': 'Creators of the Universe', 'Year Manufactured': '1993', 'Genre': 'Sci-Fi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'x-file-s3': {
+        'title': '1996 X-Files Season 3 Trading Card Box by Topps New Sealed',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'The X-Files', 'Set': 'X-Files Season 3', 'Year Manufactured': '1996', 'Genre': 'Sci-Fi', 'TV Show': 'The X-Files', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'x-files-contact': {
+        'title': '1996 Intrepid The X Files Contact Trading Card Box Sealed',
+        'specs': {'Manufacturer': 'Intrepid', 'Franchise': 'The X-Files', 'Set': 'X-Files Contact', 'Year Manufactured': '1996', 'Genre': 'Sci-Fi', 'TV Show': 'The X-Files', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'x-files-s1': {
+        'title': '1991 Topps The X Files Volume 1 Trading Card Box',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'The X-Files', 'Set': 'X-Files Volume 1', 'Year Manufactured': '1995', 'Genre': 'Sci-Fi', 'TV Show': 'The X-Files', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'x-files-s2': {
+        'title': 'Factory Sealed X-Files Season 2 Premium Trading Card Box TOPPS 1996',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'The X-Files', 'Set': 'X-Files Season 2', 'Year Manufactured': '1996', 'Genre': 'Sci-Fi', 'TV Show': 'The X-Files', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'x-files-showcase': {
+        'title': '1991 Topps The X Files Showcase Volume 1 Trading Card Box',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'The X-Files', 'Set': 'X-Files Showcase', 'Year Manufactured': '1997', 'Genre': 'Sci-Fi', 'TV Show': 'The X-Files', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'space-1999': {
+        'title': '1976 SPACE 1999 WAX BOX (24 MINT PACKS) DONRUSS',
+        'specs': {'Manufacturer': 'Donruss', 'Franchise': 'Space: 1999', 'Set': 'Space 1999', 'Year Manufactured': '1976', 'Genre': 'Sci-Fi', 'TV Show': 'Space: 1999', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'wizardofoz-duocards': {
+        'title': 'Wizard of Oz Factory Sealed Box Collector 1996 Duo Cards 30 packs',
+        'specs': {'Manufacturer': 'DuoCards', 'Franchise': 'Wizard of Oz', 'Set': 'Wizard of Oz', 'Year Manufactured': '1996', 'Genre': 'Fantasy', 'Movie': 'The Wizard of Oz', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'wizardofoz-pacific': {
+        'title': 'Wizard of OZ Trading Card Factory Sealed Box 1990 Pacific',
+        'specs': {'Manufacturer': 'Pacific', 'Franchise': 'Wizard of Oz', 'Set': 'Wizard of Oz', 'Year Manufactured': '1990', 'Genre': 'Fantasy', 'Movie': 'The Wizard of Oz', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'casper': {
+        'title': 'Casper Trading Cards Fleer 1995 Lot of 5 Packs Unopened',
+        'specs': {'Manufacturer': 'Fleer', 'Franchise': 'Casper', 'Set': 'Casper', 'Year Manufactured': '1995', 'Genre': 'Fantasy', 'Movie': 'Casper', 'Configuration': 'Pack', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
 }
+
+# Default box dimensions for sealed boxes (9x6x4 is standard wax box size)
+DEFAULT_BOX_DIMS = {'length': 9, 'width': 6, 'height': 4}
+
+# Legacy helper for templates that reference LISTING_TITLES
+LISTING_TITLES = {k: v['title'] for k, v in PRODUCT_DATA.items()}
 
 
 def get_gap_report():

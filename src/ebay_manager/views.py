@@ -141,6 +141,10 @@ def listing_create(request):
     description_html = ''
     description_files = []
     category_id = ''
+    item_specs = {}
+    package_length = 9  # default box dims
+    package_width = 6
+    package_height = 4
 
     if r2_prefix:
         # Load R2 images for this product (ensure trailing slash)
@@ -155,6 +159,18 @@ def listing_create(request):
         # Default category for sealed boxes
         if product_type == 'boxes' or 'box' in r2_prefix:
             category_id = '261035'
+
+        # Look up product data (title, item specifics, dims) from gap report
+        folder_slug = r2_prefix.rstrip('/').split('/')[-1]
+        try:
+            from .services.gap_report import PRODUCT_DATA, DEFAULT_BOX_DIMS
+            product_info = PRODUCT_DATA.get(folder_slug, {})
+            if product_info:
+                if not title:
+                    title = product_info.get('title', '')
+                item_specs = product_info.get('specs', {})
+        except Exception:
+            pass
 
         # Try to find a matching pre-built HTML description
         try:
@@ -180,6 +196,10 @@ def listing_create(request):
         'description_html': description_html,
         'description_files': description_files,
         'category_id': category_id,
+        'item_specs': item_specs,
+        'package_length': package_length,
+        'package_width': package_width,
+        'package_height': package_height,
     })
 
 
