@@ -60,10 +60,20 @@
         </div>
     </div>
 
-    <!-- Weight & Shipping -->
+    <!-- Packaging & Weight -->
     <div class="bg-gray-700 rounded-lg border border-gray-600 p-4">
-        <h3 class="text-gray-300 font-bold text-sm uppercase mb-3">Weight &amp; Shipping</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <h3 class="text-gray-300 font-bold text-sm uppercase mb-3">Packaging &amp; Weight</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-3">
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Packaging Type</label>
+                <select name="packaging_config" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <option value="sealed_box" {% if listing.packaging_config == 'sealed_box' %}selected{% endif %}>Sealed Wax Box (varies, 5oz overhead)</option>
+                    <option value="raw_stacked" {% if listing.packaging_config == 'raw_stacked' %}selected{% endif %}>Raw Stacked Cards (6x4x2, 2oz overhead)</option>
+                    <option value="9_pocket_single" {% if listing.packaging_config == '9_pocket_single' %}selected{% endif %}>9-Pocket Single Set (13x10x2, 7oz overhead)</option>
+                    <option value="9_pocket_multi" {% if listing.packaging_config == '9_pocket_multi' %}selected{% endif %}>9-Pocket Multiple Sets (13x10x3, 8oz overhead)</option>
+                    <option value="custom" {% if listing.packaging_config == 'custom' %}selected{% endif %}>Custom / Other</option>
+                </select>
+            </div>
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Product Weight (lbs)</label>
                 <input type="number" name="weight_lbs" min="0" value="{{ listing.weight_lbs }}"
@@ -74,23 +84,8 @@
                 <input type="number" name="weight_oz" min="0" max="15" value="{{ listing.weight_oz }}"
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
             </div>
-            <div>
-                <label class="block text-gray-300 text-sm font-medium mb-1">Service</label>
-                <select name="shipping_service" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
-                    <option value="USPSGroundAdvantage" {% if listing.shipping_service == 'USPSGroundAdvantage' %}selected{% endif %}>USPS Ground Advantage</option>
-                    <option value="USPSPriority" {% if listing.shipping_service == 'USPSPriority' %}selected{% endif %}>USPS Priority Mail</option>
-                    <option value="UPSGround" {% if listing.shipping_service == 'UPSGround' %}selected{% endif %}>UPS Ground</option>
-                    <option value="FedExGround" {% if listing.shipping_service == 'FedExGround' %}selected{% endif %}>FedEx Ground</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-gray-300 text-sm font-medium mb-1">Shipping Cost ($)</label>
-                <input type="number" name="shipping_cost" step="0.01" value="{{ listing.shipping_cost }}"
-                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
-                <span class="text-gray-500 text-xs">0 = Calculated by eBay</span>
-            </div>
         </div>
-        <p class="text-gray-500 text-xs mt-2">Ship weight: <strong class="text-gray-300">{{ listing.ship_weight_display }}</strong> (product + 5 oz packaging)</p>
+        <p class="text-gray-500 text-xs">Ship weight: <strong class="text-gray-300">{{ listing.ship_weight_display }}</strong> (product + {{ listing.packaging_overhead_oz }}oz packaging) | {{ listing.packaging_summary }}</p>
     </div>
 
     <!-- Description HTML -->

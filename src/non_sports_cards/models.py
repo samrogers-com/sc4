@@ -74,6 +74,20 @@ class NonSportsCards(models.Model):
     weight_lbs = models.IntegerField(default=0, help_text='Weight - pounds')
     weight_oz = models.IntegerField(default=0, help_text='Weight - ounces')
 
+    # Storage/shipping configuration for card sets
+    SET_CONFIGURATIONS = [
+        ('sealed_box', 'Sealed Wax Box'),
+        ('raw_stacked', 'Raw Stacked Cards'),
+        ('9_pocket', '9-Pocket Sheet Pages'),
+        ('binder', 'Binder with Pages'),
+        ('pack', 'Sealed Pack(s)'),
+        ('other', 'Other'),
+    ]
+    set_configuration = models.CharField(
+        max_length=20, choices=SET_CONFIGURATIONS, default='sealed_box', blank=True,
+        help_text='How the cards are stored — affects packaging and shipping'
+    )
+
     # Series/variant fields (for Topps 1977-83 Star Wars sets with star system)
     parent_set = models.CharField(max_length=100, null=True, blank=True)  # e.g., "SW 77 ANH"
     series_number = models.IntegerField(null=True, blank=True)  # e.g., 1, 2, 3, 4, 5

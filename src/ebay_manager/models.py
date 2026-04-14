@@ -44,8 +44,30 @@ class EbayListing(models.Model):
     # Item specifics
     item_specifics = models.JSONField(default=dict, blank=True)
 
-    # Weight (product only, packaging added automatically)
-    # Store as lbs + oz for easy entry. Ship weight auto-calculated.
+    # Packaging configuration — determines box size, weight overhead, and shipping policy
+    PACKAGING_CONFIGS = [
+        ('sealed_box', 'Sealed Wax Box'),
+        ('raw_stacked', 'Raw Stacked Cards (6x4x2)'),
+        ('9_pocket_single', '9-Pocket Sheets Single Set (13x10x2)'),
+        ('9_pocket_multi', '9-Pocket Sheets Multiple Sets (13x10x3)'),
+        ('custom', 'Custom / Other'),
+    ]
+    packaging_config = models.CharField(
+        max_length=20, choices=PACKAGING_CONFIGS, default='sealed_box',
+        help_text='Determines box size, packaging weight, and shipping policy'
+    )
+
+    # Packaging specs per config (class-level, not DB fields)
+    # {config: (box_length, box_width, box_height, box_weight_oz, bubble_wrap_oz, fulfillment_policy_id)}
+    PACKAGING_SPECS = {
+        'sealed_box':       (None, None, None, 4, 1, '119108501015'),   # NS Boxes Calculated
+        'raw_stacked':      (6, 4, 2, 2, 0, '282295444015'),           # Calculated Trading Cards Boxes
+        '9_pocket_single':  (13, 10, 2, 5, 2, '282295444015'),         # Calculated Trading Cards Boxes
+        '9_pocket_multi':   (13, 10, 3, 6, 2, '282295444015'),         # Calculated Trading Cards Boxes
+        'custom':           (None, None, None, 4, 1, '282295444015'),   # Calculated Trading Cards Boxes
+    }
+
+    # Weight (product only, packaging added automatically from config)
     weight_lbs = models.IntegerField(default=0, help_text='Product weight - pounds')
     weight_oz = models.IntegerField(default=0, help_text='Product weight - ounces')
 
@@ -53,9 +75,6 @@ class EbayListing(models.Model):
     shipping_service = models.CharField(max_length=50, default='USPSGroundAdvantage')
     shipping_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     returns_accepted = models.BooleanField(default=True)
-
-    # Packaging overhead: 4oz box + 1oz bubble wrap = 5oz
-    PACKAGING_OZ = 5
 
     # Dates
     created_at = models.DateTimeField(auto_now_add=True)
@@ -77,6 +96,30 @@ class EbayListing(models.Model):
         ordering = ['-created_at']
 
     @property
+    def packaging_spec(self):
+        """Get the packaging spec tuple for the current config."""
+        return self.PACKAGING_SPECS.get(self.packaging_config, self.PACKAGING_SPECS['sealed_box'])
+
+    @property
+    def packaging_overhead_oz(self):
+        """Total packaging overhead (box + bubble wrap) in ounces."""
+        spec = self.packaging_spec
+        return spec[3] + spec[4]  # box_weight + bubble_wrap
+
+    @property
+    def box_dimensions(self):
+        """Box dimensions as (length, width, height) or None for variable."""
+        spec = self.packaging_spec
+        if spec[0]:
+            return {'length': spec[0], 'width': spec[1], 'height': spec[2]}
+        return None
+
+    @property
+    def fulfillment_policy_id(self):
+        """eBay fulfillment (shipping) policy ID for this packaging config."""
+        return self.packaging_spec[5]
+
+    @property
     def product_weight_oz(self):
         """Total product weight in ounces."""
         return (self.weight_lbs * 16) + self.weight_oz
@@ -84,7 +127,7 @@ class EbayListing(models.Model):
     @property
     def ship_weight_oz(self):
         """Total shipping weight in ounces (product + packaging)."""
-        return self.product_weight_oz + self.PACKAGING_OZ
+        return self.product_weight_oz + self.packaging_overhead_oz
 
     @property
     def ship_weight_display(self):
@@ -99,6 +142,14 @@ class EbayListing(models.Model):
         elif oz:
             return f"{oz} oz"
         return "—"
+
+    @property
+    def packaging_summary(self):
+        """Human-readable packaging summary."""
+        spec = self.packaging_spec
+        dims = f"{spec[0]}x{spec[1]}x{spec[2]}" if spec[0] else "varies"
+        overhead = spec[3] + spec[4]
+        return f"{dims} box, {overhead}oz packaging"
 
     def __str__(self):
         return f"[{self.status}] {self.title} (${self.price})"

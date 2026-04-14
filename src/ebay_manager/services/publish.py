@@ -24,9 +24,8 @@ INVENTORY_ITEM_URL = 'https://api.ebay.com/sell/inventory/v1/inventory_item'
 OFFER_URL = 'https://api.ebay.com/sell/inventory/v1/offer'
 PUBLISH_URL = 'https://api.ebay.com/sell/inventory/v1/offer/{offerId}/publish'
 
-# Sam's default policy IDs
+# Sam's default policy IDs — fulfillment selected by packaging_config
 DEFAULT_POLICIES = {
-    'fulfillment_policy_id': '282295444015',  # Calculated – Trading Cards Boxes
     'payment_policy_id': '238949740015',       # Combine shipping
     'return_policy_id': '195880479015',        # 30 days money back
 }
@@ -74,6 +73,24 @@ def create_inventory_item(listing):
     image_urls = [u for u in image_urls if u]
 
     # Build the inventory item payload
+    package_info = {
+        'weight': {
+            'value': listing.ship_weight_oz,
+            'unit': 'OUNCE',
+        }
+    }
+
+    # Add box dimensions if known from packaging config
+    dims = listing.box_dimensions
+    if dims:
+        package_info['dimensions'] = {
+            'length': dims['length'],
+            'width': dims['width'],
+            'height': dims['height'],
+            'unit': 'INCH',
+        }
+        package_info['packageType'] = 'PACKAGE_THICK_ENVELOPE' if dims['height'] <= 2 else 'PACKAGE'
+
     payload = {
         'availability': {
             'shipToLocationAvailability': {
@@ -86,12 +103,7 @@ def create_inventory_item(listing):
             'description': listing.description_html or listing.title,
             'imageUrls': image_urls[:24],  # eBay max 24 images
         },
-        'packageWeightAndSize': {
-            'weight': {
-                'value': listing.ship_weight_oz,
-                'unit': 'OUNCE',
-            }
-        },
+        'packageWeightAndSize': package_info,
     }
 
     # Create or replace inventory item (PUT with SKU in URL)
@@ -138,7 +150,7 @@ def create_offer(listing, sku, as_draft=False):
             }
         },
         'listingPolicies': {
-            'fulfillmentPolicyId': DEFAULT_POLICIES['fulfillment_policy_id'],
+            'fulfillmentPolicyId': listing.fulfillment_policy_id,
             'paymentPolicyId': DEFAULT_POLICIES['payment_policy_id'],
             'returnPolicyId': DEFAULT_POLICIES['return_policy_id'],
         },
