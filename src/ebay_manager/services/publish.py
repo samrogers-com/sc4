@@ -96,9 +96,11 @@ def create_inventory_item(listing):
         if value:
             aspects[key] = [value] if isinstance(value, str) else value
 
-    # Add grading fields if not already set (eBay requires these)
+    # Add grading fields if not already set (eBay requires these for card sets)
     if 'Graded' not in aspects:
         aspects['Graded'] = ['No']
+    if 'Professional Grader' not in aspects:
+        aspects['Professional Grader'] = ['Not Applicable']
 
     product = {
         'title': listing.title,
