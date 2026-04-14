@@ -166,13 +166,12 @@ def listing_create(request):
         # Look up product data (title, item specifics, dims) from gap report
         folder_slug = r2_prefix.rstrip('/').split('/')[-1]
         try:
-            from .services.gap_report import PRODUCT_DATA, DEFAULT_BOX_DIMS
+            from .services.gap_report import PRODUCT_DATA
             product_info = PRODUCT_DATA.get(folder_slug, {})
             if product_info:
                 if not title:
                     title = product_info.get('title', '')
                 raw_specs = product_info.get('specs', {})
-                # Convert keys to template-friendly format (spaces → underscores)
                 item_specs = {k.replace(' ', '_'): v for k, v in raw_specs.items()}
                 weight_lbs = product_info.get('weight_lbs', 0)
                 weight_oz = product_info.get('weight_oz', 0)
@@ -189,12 +188,13 @@ def listing_create(request):
         except Exception:
             pass
 
-        # Estimate selling price from eBay market data
+    # Estimate selling price (runs even outside r2_prefix block, uses title)
+    if title:
         try:
             from .services.price_estimate import estimate_price
-            price_data = estimate_price(title or folder_slug.replace('-', ' '), category_id or '261035')
+            price_data = estimate_price(title, category_id or '261035')
         except Exception:
-            price_data = {}
+            pass
 
     # Derive title from r2_prefix if not provided
     if not title and r2_prefix:
