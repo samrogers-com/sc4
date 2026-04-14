@@ -9,25 +9,32 @@
     <a href="{% url 'ebay_manager:orders' %}?status={{ value }}" class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if status_filter == value %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">{{ label }}</a>
     {% endfor %}
 </div>
-<div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+<div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden overflow-x-auto">
     <table class="w-full text-sm">
         <thead class="bg-gray-800">
             <tr>
-                <th class="px-4 py-3 text-left text-gray-300">Order</th>
-                <th class="px-4 py-3 text-left text-gray-300">Buyer</th>
-                <th class="px-4 py-3 text-right text-gray-300">Total</th>
-                <th class="px-4 py-3 text-left text-gray-300">Status</th>
-                <th class="px-4 py-3 text-left text-gray-300">Tracking</th>
-                <th class="px-4 py-3 text-right text-gray-300">Profit</th>
-                <th class="px-4 py-3 text-left text-gray-300">Date</th>
+                {% with base_url="ebay_manager:orders" %}
+                <th class="px-4 py-3 text-left"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == 'buyer' %}-buyer{% else %}buyer{% endif %}" class="text-gray-300 hover:text-amber-400">Buyer {% if current_sort == 'buyer' %}&#9650;{% elif current_sort == '-buyer' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-right"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == '-total' %}total{% else %}-total{% endif %}" class="text-gray-300 hover:text-amber-400">Total {% if current_sort == 'total' %}&#9650;{% elif current_sort == '-total' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-right"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == '-fees' %}fees{% else %}-fees{% endif %}" class="text-gray-300 hover:text-amber-400">Fees {% if current_sort == 'fees' %}&#9650;{% elif current_sort == '-fees' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-right text-gray-300">Net</th>
+                <th class="px-4 py-3 text-left"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == 'status' %}-status{% else %}status{% endif %}" class="text-gray-300 hover:text-amber-400">Status {% if current_sort == 'status' %}&#9650;{% elif current_sort == '-status' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-left text-gray-300">Ship To</th>
+                <th class="px-4 py-3 text-left"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == 'tracking' %}-tracking{% else %}tracking{% endif %}" class="text-gray-300 hover:text-amber-400">Tracking {% if current_sort == 'tracking' %}&#9650;{% elif current_sort == '-tracking' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-left"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == '-date' %}date{% else %}-date{% endif %}" class="text-gray-300 hover:text-amber-400">Date {% if current_sort == 'date' %}&#9650;{% elif current_sort == '-date' %}&#9660;{% endif %}</a></th>
+                {% endwith %}
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-600">
             {% for order in orders %}
             <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{% url 'ebay_manager:order_detail' order.pk %}'">
-                <td class="px-4 py-3 text-gray-200 font-mono text-xs">{{ order.order_id|truncatechars:15 }}</td>
-                <td class="px-4 py-3 text-gray-200">{{ order.buyer_username }}</td>
-                <td class="px-4 py-3 text-right text-gray-200 font-mono">${{ order.order_total }}</td>
+                <td class="px-4 py-3">
+                    <div class="text-gray-200">{{ order.buyer_username }}</div>
+                    {% if order.buyer_name %}<div class="text-gray-500 text-xs">{{ order.buyer_name }}</div>{% endif %}
+                </td>
+                <td class="px-4 py-3 text-right text-gray-200 font-mono">${{ order.order_total|floatformat:2 }}</td>
+                <td class="px-4 py-3 text-right text-red-400 font-mono text-xs">{% if order.ebay_fees %}-${{ order.ebay_fees|floatformat:2 }}{% else %}—{% endif %}</td>
+                <td class="px-4 py-3 text-right text-green-400 font-mono text-xs">{% if order.net_to_seller %}<span class="text-green-400">${{ order.net_to_seller|floatformat:2 }}</span>{% else %}—{% endif %}</td>
                 <td class="px-4 py-3">
                     <span class="px-2 py-0.5 rounded-full text-xs font-medium
                         {% if order.order_status == 'delivered' %}bg-green-900 text-green-300
@@ -40,12 +47,12 @@
                         {{ order.get_order_status_display }}
                     </span>
                 </td>
-                <td class="px-4 py-3 text-gray-400 font-mono text-xs">{{ order.tracking_number|default:"—" }}</td>
-                <td class="px-4 py-3 text-right font-mono {% if order.net_profit and order.net_profit > 0 %}text-green-400{% else %}text-gray-400{% endif %}">{% if order.net_profit %} ${{ order.net_profit|floatformat:2 }}{% else %}—{% endif %}</td>
+                <td class="px-4 py-3 text-gray-400 text-xs">{% if order.ship_to_address %}{{ order.ship_to_address.state }}{% else %}—{% endif %}</td>
+                <td class="px-4 py-3 text-gray-400 font-mono text-xs">{% if order.shipping_carrier %}{{ order.shipping_carrier }}{% endif %} {{ order.tracking_number|default:"—" }}</td>
                 <td class="px-4 py-3 text-gray-500 text-xs">{{ order.creation_date|date:"M d" }}</td>
             </tr>
             {% empty %}
-            <tr><td colspan="7" class="px-4 py-8 text-center text-gray-400">No orders yet. Sync from eBay when OAuth is configured.</td></tr>
+            <tr><td colspan="8" class="px-4 py-8 text-center text-gray-400">No orders found.</td></tr>
             {% endfor %}
         </tbody>
     </table>

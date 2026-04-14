@@ -16,13 +16,15 @@
     <table class="w-full text-sm">
         <thead class="bg-gray-800">
             <tr>
-                <th class="px-4 py-3 text-left text-gray-300">Title</th>
-                <th class="px-4 py-3 text-left text-gray-300">SKU</th>
-                <th class="px-4 py-3 text-right text-gray-300">Price</th>
-                <th class="px-4 py-3 text-left text-gray-300">Status</th>
-                <th class="px-4 py-3 text-right text-gray-300">Views</th>
-                <th class="px-4 py-3 text-right text-gray-300">Watchers</th>
-                <th class="px-4 py-3 text-left text-gray-300">Created</th>
+                {% with base_url="ebay_manager:listings" %}
+                <th class="px-4 py-3 text-left"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == 'title' %}-title{% else %}title{% endif %}" class="text-gray-300 hover:text-amber-400">Title {% if current_sort == 'title' %}&#9650;{% elif current_sort == '-title' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-left"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == 'sku' %}-sku{% else %}sku{% endif %}" class="text-gray-300 hover:text-amber-400">SKU {% if current_sort == 'sku' %}&#9650;{% elif current_sort == '-sku' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-right"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == '-price' %}price{% else %}-price{% endif %}" class="text-gray-300 hover:text-amber-400">Price {% if current_sort == 'price' %}&#9650;{% elif current_sort == '-price' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-left"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == 'status' %}-status{% else %}status{% endif %}" class="text-gray-300 hover:text-amber-400">Status {% if current_sort == 'status' %}&#9650;{% elif current_sort == '-status' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-right"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == '-views' %}views{% else %}-views{% endif %}" class="text-gray-300 hover:text-amber-400">Views {% if current_sort == 'views' %}&#9650;{% elif current_sort == '-views' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-right"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == '-watchers' %}watchers{% else %}-watchers{% endif %}" class="text-gray-300 hover:text-amber-400">Watchers {% if current_sort == 'watchers' %}&#9650;{% elif current_sort == '-watchers' %}&#9660;{% endif %}</a></th>
+                <th class="px-4 py-3 text-left"><a href="{% url base_url %}?{% if status_filter %}status={{ status_filter }}&{% endif %}sort={% if current_sort == '-created' %}created{% else %}-created{% endif %}" class="text-gray-300 hover:text-amber-400">Created {% if current_sort == 'created' %}&#9650;{% elif current_sort == '-created' %}&#9660;{% endif %}</a></th>
+                {% endwith %}
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-600">

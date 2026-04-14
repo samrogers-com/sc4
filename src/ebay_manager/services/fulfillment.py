@@ -1,4 +1,5 @@
 """eBay Fulfillment API service — requires User OAuth."""
+from decimal import Decimal
 from .api_client import get_user_token, make_api_request
 
 ORDERS_URL = 'https://api.ebay.com/sell/fulfillment/v1/order'
@@ -52,38 +53,63 @@ def sync_orders_to_db(days=30):
         if not order_id:
             continue
 
+        # Pricing
         pricing = raw.get('pricingSummary', {})
-        total = float(pricing.get('total', {}).get('value', 0))
+        order_total = Decimal(pricing.get('total', {}).get('value', '0'))
+        delivery_cost = Decimal(pricing.get('deliveryCost', {}).get('value', '0'))
 
-        # Extract shipping/tracking from fulfillments
-        tracking_number = ''
+        # Net payout (after eBay fees)
+        payment_summary = raw.get('paymentSummary', {})
+        total_due_seller = Decimal(
+            payment_summary.get('totalDueSeller', {}).get('value', '0')
+        )
+        ebay_fees = order_total - total_due_seller if total_due_seller else None
+
+        # Shipping info from fulfillment instructions
         shipping_carrier = ''
-        for ful in raw.get('fulfillmentHrefs', raw.get('fulfillmentStartInstructions', [])):
-            pass  # These are instructions, not tracking
-        for ful in raw.get('fulfillments', []):
-            for shipment in ful.get('shipmentTrackingNumber', []):
-                tracking_number = shipment
-            tracking_number = ful.get('shipmentTrackingNumber', tracking_number)
-            shipping_carrier = ful.get('shippingCarrierCode', shipping_carrier)
+        shipping_service = ''
+        buyer_name = ''
+        ship_to_address = {}
 
-        # Extract buyer name and address
+        for inst in raw.get('fulfillmentStartInstructions', []):
+            ship_step = inst.get('shippingStep', {})
+            shipping_carrier = ship_step.get('shippingCarrierCode', '')
+            shipping_service = ship_step.get('shippingServiceCode', '')
+            ship_to = ship_step.get('shipTo', {})
+            buyer_name = ship_to.get('fullName', '')
+            addr = ship_to.get('contactAddress', {})
+            if addr:
+                ship_to_address = {
+                    'name': buyer_name,
+                    'city': addr.get('city', ''),
+                    'state': addr.get('stateOrProvince', ''),
+                    'zip': addr.get('postalCode', ''),
+                    'country': addr.get('countryCode', ''),
+                }
+
+        # Payment date
+        paid_date = None
+        for payment in payment_summary.get('payments', []):
+            if payment.get('paymentStatus') == 'PAID':
+                paid_date = payment.get('paymentDate')
+
         buyer = raw.get('buyer', {})
-        ship_to = raw.get('fulfillmentStartInstructions', [{}])
-        ship_addr = {}
-        if ship_to:
-            ship_addr = ship_to[0].get('shippingStep', {}).get('shipTo', {})
 
         order, was_created = EbayOrder.objects.update_or_create(
             order_id=order_id,
             defaults={
                 'buyer_username': buyer.get('username', ''),
-                'buyer_name': ship_addr.get('fullName', ''),
-                'order_total': total,
+                'buyer_name': buyer_name,
+                'order_total': order_total,
+                'ebay_fees': ebay_fees,
+                'shipping_cost_actual': delivery_cost,
                 'order_status': _map_order_status(raw.get('orderFulfillmentStatus', '')),
                 'payment_status': raw.get('orderPaymentStatus', ''),
                 'creation_date': raw.get('creationDate', ''),
-                'tracking_number': tracking_number,
+                'paid_date': paid_date,
                 'shipping_carrier': shipping_carrier,
+                'shipping_service': shipping_service,
+                'ship_to_address': ship_to_address,
             }
         )
 
@@ -102,7 +128,7 @@ def sync_orders_to_db(days=30):
                     'title': line.get('title', ''),
                     'sku': line.get('sku', ''),
                     'quantity': line.get('quantity', 1),
-                    'price': float(line.get('lineItemCost', {}).get('value', 0)),
+                    'price': Decimal(line.get('lineItemCost', {}).get('value', '0')),
                     'listing': EbayListing.objects.filter(ebay_item_id=item_id).first(),
                 }
             )
@@ -111,10 +137,14 @@ def sync_orders_to_db(days=30):
 
 
 def _map_order_status(ebay_status):
-    """Map eBay fulfillment status to our status choices."""
+    """Map eBay fulfillment status to our status choices.
+
+    eBay only has: NOT_STARTED, IN_PROGRESS, FULFILLED.
+    FULFILLED = shipping label created/shipped.
+    """
     mapping = {
         'NOT_STARTED': 'paid',
         'IN_PROGRESS': 'shipped',
-        'FULFILLED': 'delivered',
+        'FULFILLED': 'shipped',
     }
     return mapping.get(ebay_status, 'pending')

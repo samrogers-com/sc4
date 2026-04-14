@@ -44,19 +44,34 @@ def dashboard(request):
     })
 
 
+LISTING_SORT_FIELDS = {
+    'title': 'title', '-title': '-title',
+    'sku': 'sku', '-sku': '-sku',
+    'price': 'price', '-price': '-price',
+    'status': 'status', '-status': '-status',
+    'views': 'view_count', '-views': '-view_count',
+    'watchers': 'watch_count', '-watchers': '-watch_count',
+    'created': 'created_at', '-created': '-created_at',
+}
+
+
 @login_required
 @user_passes_test(is_staff)
 def listings(request):
     """All eBay listings with filters."""
     status_filter = request.GET.get('status', '')
+    sort = request.GET.get('sort', '-created')
     qs = EbayListing.objects.all()
     if status_filter:
         qs = qs.filter(status=status_filter)
+    order_field = LISTING_SORT_FIELDS.get(sort, '-created_at')
+    qs = qs.order_by(order_field)
 
     return render(request, 'ebay_manager/listings.html', {
         'listings': qs,
         'status_filter': status_filter,
         'status_choices': EbayListing.STATUS_CHOICES,
+        'current_sort': sort,
     })
 
 
@@ -97,19 +112,33 @@ def listing_detail(request, pk):
     })
 
 
+ORDER_SORT_FIELDS = {
+    'buyer': 'buyer_username', '-buyer': '-buyer_username',
+    'total': 'order_total', '-total': '-order_total',
+    'fees': 'ebay_fees', '-fees': '-ebay_fees',
+    'status': 'order_status', '-status': '-order_status',
+    'date': 'creation_date', '-date': '-creation_date',
+    'tracking': 'tracking_number', '-tracking': '-tracking_number',
+}
+
+
 @login_required
 @user_passes_test(is_staff)
 def orders(request):
     """Order history."""
     status_filter = request.GET.get('status', '')
+    sort = request.GET.get('sort', '-date')
     qs = EbayOrder.objects.prefetch_related('items').all()
     if status_filter:
         qs = qs.filter(order_status=status_filter)
+    order_field = ORDER_SORT_FIELDS.get(sort, '-creation_date')
+    qs = qs.order_by(order_field)
 
     return render(request, 'ebay_manager/orders.html', {
         'orders': qs,
         'status_filter': status_filter,
         'status_choices': EbayOrder.ORDER_STATUSES,
+        'current_sort': sort,
     })
 
 

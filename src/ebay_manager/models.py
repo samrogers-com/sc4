@@ -122,6 +122,13 @@ class EbayOrder(models.Model):
         db_table = 'ebay_orders'
         ordering = ['-creation_date']
 
+    @property
+    def net_to_seller(self):
+        """Order total minus eBay fees."""
+        if self.ebay_fees is not None:
+            return self.order_total - self.ebay_fees
+        return None
+
     def __str__(self):
         return f"Order {self.order_id} - {self.buyer_username} (${self.order_total})"
 
