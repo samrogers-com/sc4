@@ -198,7 +198,13 @@ def get_gap_report():
     # Products known to be sold out — checks both folder slug and parent folder
     SOLD_OUT_FOLDERS = {'dune', 'x-files-s1', 'x-files-showcase'}
     # Products with existing multi-variant or active listings (don't show sub-boxes)
-    ALREADY_LISTED_FOLDERS = {'007-moonraker', 'space-1999'}
+    # Also includes R2 folders whose names don't match listing titles well
+    ALREADY_LISTED_FOLDERS = {
+        '007-moonraker', 'space-1999',
+        'vechicles', 'vehicles',          # SW Vehicles set (typo in R2 folder)
+        'wonder-bread',                   # SW Wonder Bread set
+        '007jamesbonder-redbinder',       # 007 Red Binder listing
+    }
 
     # Scan R2 for all product folders
     # Note: get_r2_folders returns list of strings, requires trailing slash on prefix
