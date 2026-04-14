@@ -229,6 +229,7 @@ def get_gap_report():
         'vechicles', 'vehicles',          # SW Vehicles set (typo in R2 folder)
         'wonder-bread',                   # SW Wonder Bread set
         '007jamesbonder-redbinder',       # 007 Red Binder listing
+        'duos-lionel-legendarys-trains-pack',  # Lionel Trains Pack
     }
 
     # Scan R2 for all product folders
@@ -277,22 +278,31 @@ def get_gap_report():
     # Uses BOTH the folder slug AND the PRODUCT_DATA title for matching
     r2_without_listing = []
     matched_r2 = set()
+    # Common words that appear in many listings — don't count for matching
     stop_words = {'the', 'a', 'an', 'of', 'and', 'img', 'in', 'on', 'for', 'with', 'new'}
+    generic_words = {
+        'star', 'wars', 'trek', 'topps', 'set', 'complete', 'base', 'series',
+        'card', 'cards', 'trading', 'sealed', 'factory', 'box', 'edition',
+        'collection', 'premium', 'marvel', 'disney',
+    }
 
     for product in r2_products:
         # Build match words from folder name + display name (PRODUCT_DATA title)
         folder_words = set(re.split(r'[-_/]', product['folder_name'].lower()))
         display_words = set(re.split(r'[\s\-]+', product['display_name'].lower()))
-        match_words = (folder_words | display_words) - stop_words
-        # Remove very short words (1-2 chars) that cause false matches
-        match_words = {w for w in match_words if len(w) > 2}
+        all_match_words = (folder_words | display_words) - stop_words
+        all_match_words = {w for w in all_match_words if len(w) > 2}
+        # Distinctive words = not generic
+        distinctive_words = all_match_words - generic_words
 
         matched = False
         for title_lower, listing in listing_titles.items():
             title_words = set(re.split(r'[\s\-]+', title_lower))
             title_words = {w for w in title_words if len(w) > 2} - stop_words
-            overlap = match_words & title_words
-            if len(overlap) >= 3:
+            overlap = all_match_words & title_words
+            distinctive_overlap = distinctive_words & title_words
+            # Require 3+ total overlap AND at least 1 distinctive word match
+            if len(overlap) >= 3 and len(distinctive_overlap) >= 1:
                 matched = True
                 matched_r2.add(product['r2_prefix'])
                 break
@@ -305,8 +315,8 @@ def get_gap_report():
             if slug in SOLD_OUT_FOLDERS or parent in SOLD_OUT_FOLDERS:
                 continue
 
-            # Skip products whose parent folder already has an active listing
-            if parent in ALREADY_LISTED_FOLDERS:
+            # Skip products already listed (check both slug and parent)
+            if slug in ALREADY_LISTED_FOLDERS or parent in ALREADY_LISTED_FOLDERS:
                 continue
 
             # Flag pre-1990 / multi-variant items
@@ -344,13 +354,16 @@ def get_gap_report():
     for listing in listings:
         title_words = set(re.split(r'[\s\-]+', listing.title.lower()))
         title_words = {w for w in title_words if len(w) > 2} - stop_words
+        title_distinctive = title_words - generic_words
         matched = False
         for product in r2_products:
             folder_words = set(re.split(r'[-_/]', product['folder_name'].lower()))
             display_words = set(re.split(r'[\s\-]+', product['display_name'].lower()))
             product_words = {w for w in (folder_words | display_words) if len(w) > 2} - stop_words
+            product_distinctive = product_words - generic_words
             overlap = title_words & product_words
-            if len(overlap) >= 3:
+            distinctive_overlap = title_distinctive & product_distinctive
+            if len(overlap) >= 3 and len(distinctive_overlap) >= 1:
                 matched = True
                 break
         if not matched:
