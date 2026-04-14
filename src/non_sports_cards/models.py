@@ -84,6 +84,19 @@ class NonSportsCards(models.Model):
         help_text='Market mean minus $1.05'
     )
 
+    # Condition for eBay listing
+    CONDITION_CHOICES = [
+        ('7000', 'New / Factory Sealed'),
+        ('4000', 'Ungraded'),
+        ('3000', 'Used'),
+        ('2750', 'Graded (Professional)'),
+        ('6000', 'Acceptable'),
+    ]
+    condition = models.CharField(
+        max_length=5, choices=CONDITION_CHOICES, default='7000', blank=True,
+        help_text='Item condition for eBay listings'
+    )
+
     # Storage/shipping configuration for card sets
     SET_CONFIGURATIONS = [
         ('sealed_box', 'Cardboard Box'),
