@@ -116,11 +116,11 @@ def sync_active_listings():
         else:
             updated += 1
 
-    # Enrich with item details (views, watchers) via individual lookups
-    enrich_listings_with_details()
-
     # Cross-reference orders to mark sold items and populate SKUs
     mark_sold_from_orders()
+
+    # Note: enrich_listings_with_details() skipped during web request
+    # (too slow for 58+ API calls). Run via management command instead.
 
     return {'created': created, 'updated': updated, 'total': len(browse_listings)}
 
