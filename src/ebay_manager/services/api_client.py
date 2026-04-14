@@ -42,20 +42,50 @@ def get_app_token():
 
 def get_user_token():
     """Get User OAuth token for Fulfillment/Inventory APIs."""
-    import sys
+    import json
     from pathlib import Path
 
-    tools_dir = Path(__file__).parent.parent.parent / 'tools'
-    sys.path.insert(0, str(tools_dir))
+    token_file = Path(__file__).parent.parent.parent / 'tools' / 'ebay_user_token.json'
+    if not token_file.exists():
+        return None
 
     try:
-        from ebay_oauth_setup import get_valid_access_token
-        return get_valid_access_token()
-    except (ImportError, Exception):
+        tokens = json.loads(token_file.read_text())
+    except Exception:
         return None
-    finally:
-        if str(tools_dir) in sys.path:
-            sys.path.remove(str(tools_dir))
+
+    saved_at = tokens.get('saved_at', 0)
+    expires_in = tokens.get('expires_in', 7200)
+
+    # Check if access token is still valid (with 5 min buffer)
+    if time.time() < saved_at + expires_in - 300:
+        return tokens.get('access_token')
+
+    # Refresh the access token
+    refresh_token = tokens.get('refresh_token')
+    if not refresh_token:
+        return None
+
+    try:
+        credentials = base64.b64encode(f"{EBAY_APP_ID}:{EBAY_CERT_ID}".encode()).decode()
+        resp = requests.post(TOKEN_ENDPOINT, headers={
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': f'Basic {credentials}',
+        }, data={
+            'grant_type': 'refresh_token',
+            'refresh_token': refresh_token,
+            'scope': 'https://api.ebay.com/oauth/api_scope https://api.ebay.com/oauth/api_scope/sell.fulfillment https://api.ebay.com/oauth/api_scope/sell.inventory',
+        }, timeout=15)
+        resp.raise_for_status()
+        new_tokens = resp.json()
+        new_tokens['refresh_token'] = refresh_token
+        new_tokens['saved_at'] = time.time()
+        new_tokens['environment'] = 'production'
+        with open(token_file, 'w') as f:
+            json.dump(new_tokens, f, indent=2)
+        return new_tokens.get('access_token')
+    except Exception:
+        return None
 
 
 def has_user_auth():
