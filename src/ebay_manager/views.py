@@ -98,10 +98,11 @@ def listing_create(request):
         content_type_id = request.POST.get('content_type_id') or None
         object_id = request.POST.get('object_id') or None
 
-        # Parse image URLs from hidden JSON field
+        # Parse image URLs from hidden JSON field — normalize to plain strings
         image_urls_json = request.POST.get('image_urls_json', '[]')
         try:
-            image_urls = json.loads(image_urls_json)
+            raw_urls = json.loads(image_urls_json)
+            image_urls = _normalize_image_urls(raw_urls)
         except (json.JSONDecodeError, TypeError):
             image_urls = []
 
@@ -113,6 +114,8 @@ def listing_create(request):
             condition_id=request.POST.get('condition_id', '7000'),
             description_html=request.POST.get('description_html', ''),
             image_urls=image_urls,
+            shipping_service=request.POST.get('shipping_service', 'USPSPriority'),
+            shipping_cost=request.POST.get('shipping_cost', 0),
             status='draft',
             created_by=request.user,
             content_type_id=content_type_id,
@@ -133,10 +136,12 @@ def listing_create(request):
     category_id = ''
 
     if r2_prefix:
-        # Load R2 images for this product
+        # Load R2 images for this product (ensure trailing slash)
         try:
             from non_sports_cards.r2_utils import get_r2_images
-            image_urls = get_r2_images(r2_prefix)
+            prefix = r2_prefix if r2_prefix.endswith('/') else r2_prefix + '/'
+            raw_images = get_r2_images(prefix)
+            image_urls = _normalize_image_urls(raw_images)
         except Exception:
             pass
 
@@ -358,6 +363,74 @@ def load_description_html(request):
     filepath = request.GET.get('file', '')
     content = read_description_file(filepath) if filepath else ''
     return JsonResponse({'html': content or ''})
+
+
+def _normalize_image_urls(raw_urls):
+    """Convert image URLs from various formats to plain URL strings.
+
+    get_r2_images() returns dicts like {'key': '...', 'url': '...', 'filename': '...'}
+    but we store plain URL strings in the database. This handles both formats.
+    """
+    urls = []
+    for item in raw_urls:
+        if isinstance(item, dict):
+            urls.append(item.get('url', ''))
+        elif isinstance(item, str):
+            urls.append(item)
+    return [u for u in urls if u]
+
+
+@login_required
+@user_passes_test(is_staff)
+def listing_edit(request, pk):
+    """Edit an existing eBay listing draft.
+
+    Allows editing all fields: title, price, SKU, category, condition,
+    description HTML, shipping, and images. For draft listings, also
+    provides a button to submit to eBay (future).
+    """
+    import json
+    listing = get_object_or_404(EbayListing, pk=pk)
+
+    if request.method == 'POST':
+        listing.title = request.POST.get('title', listing.title)
+        listing.price = request.POST.get('price', listing.price)
+        listing.sku = request.POST.get('sku', listing.sku)
+        listing.category_id = request.POST.get('category_id', listing.category_id)
+        listing.condition_id = request.POST.get('condition_id', listing.condition_id)
+        listing.description_html = request.POST.get('description_html', listing.description_html)
+        listing.shipping_service = request.POST.get('shipping_service', listing.shipping_service)
+        listing.shipping_cost = request.POST.get('shipping_cost', listing.shipping_cost)
+
+        # Parse image URLs
+        image_urls_json = request.POST.get('image_urls_json', '')
+        if image_urls_json:
+            try:
+                raw_urls = json.loads(image_urls_json)
+                listing.image_urls = _normalize_image_urls(raw_urls)
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+        listing.save()
+        messages.success(request, f'Listing updated: {listing.title}')
+        return redirect('ebay_manager:listing_detail', pk=listing.pk)
+
+    # Normalize image URLs for display
+    image_urls = _normalize_image_urls(listing.image_urls) if listing.image_urls else []
+
+    # Load available description files
+    try:
+        from .services.description_files import list_description_files
+        description_files = list_description_files()
+    except Exception:
+        description_files = []
+
+    return render(request, 'ebay_manager/listing_edit.html', {
+        'listing': listing,
+        'image_urls': image_urls,
+        'image_urls_json': json.dumps(image_urls),
+        'description_files': description_files,
+    })
 
 
 def _get_api_status():

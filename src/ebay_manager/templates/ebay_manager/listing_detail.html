@@ -5,43 +5,92 @@
 <div class="flex justify-between items-start mb-6">
     <div>
         <h1 class="text-2xl font-bold text-gray-100">{{ listing.title }}</h1>
-        <span class="px-2 py-0.5 rounded-full text-xs font-medium {% if listing.status == 'active' %}bg-green-900 text-green-300{% elif listing.status == 'sold' %}bg-blue-900 text-blue-300{% elif listing.status == 'draft' %}bg-yellow-900 text-yellow-300{% else %}bg-gray-600 text-gray-400{% endif %}">{{ listing.get_status_display }}</span>
+        <span class="px-2 py-0.5 rounded-full text-xs font-medium
+            {% if listing.status == 'active' %}bg-green-900 text-green-300
+            {% elif listing.status == 'sold' %}bg-blue-900 text-blue-300
+            {% elif listing.status == 'draft' %}bg-yellow-900 text-yellow-300
+            {% elif listing.status == 'error' %}bg-red-900 text-red-300
+            {% else %}bg-gray-600 text-gray-400{% endif %}">{{ listing.get_status_display }}</span>
     </div>
-    <span class="text-3xl font-bold text-amber-400">${{ listing.price }}</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
-        <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Listing Details</h3>
-        <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-            <span class="text-gray-400">eBay Item ID:</span><span class="text-gray-200 font-mono">{{ listing.ebay_item_id|default:"—" }}</span>
-            <span class="text-gray-400">SKU:</span><span class="text-gray-200 font-mono">{{ listing.sku|default:"—" }}</span>
-            <span class="text-gray-400">Category:</span><span class="text-gray-200">{{ listing.category_id|default:"—" }}</span>
-            <span class="text-gray-400">Condition:</span><span class="text-gray-200">{{ listing.condition_id|default:"—" }}</span>
-            <span class="text-gray-400">Quantity:</span><span class="text-gray-200">{{ listing.quantity }}</span>
-            <span class="text-gray-400">Shipping:</span><span class="text-gray-200">{{ listing.shipping_service }}</span>
-            <span class="text-gray-400">Views:</span><span class="text-gray-200">{{ listing.view_count }}</span>
-            <span class="text-gray-400">Watchers:</span><span class="text-gray-200">{{ listing.watch_count }}</span>
-            <span class="text-gray-400">Created:</span><span class="text-gray-200">{{ listing.created_at|date:"M d, Y" }}</span>
-            <span class="text-gray-400">Listed:</span><span class="text-gray-200">{{ listing.listed_at|date:"M d, Y"|default:"—" }}</span>
-            <span class="text-gray-400">Last Synced:</span><span class="text-gray-200">{{ listing.last_synced|date:"M d, Y H:i"|default:"Never" }}</span>
+    <div class="text-right">
+        <span class="text-3xl font-bold text-amber-400">${{ listing.price }}</span>
+        {% if listing.status == 'draft' %}
+        <div class="mt-2">
+            <a href="{% url 'ebay_manager:listing_edit' listing.pk %}" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition text-sm">Edit Draft</a>
         </div>
-        {% if listing.ebay_listing_url %}
-        <a href="{{ listing.ebay_listing_url }}" target="_blank" class="btn-ebay mt-4 block text-center">View on eBay &#8599;</a>
         {% endif %}
     </div>
-    <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
-        <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Photos</h3>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Photos -->
+    <div class="lg:col-span-2 bg-gray-700 rounded-lg border border-gray-600 p-5">
+        <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Photos ({{ listing.image_urls|length }})</h3>
         {% if listing.image_urls %}
-        <div class="grid grid-cols-3 gap-2">
-            {% for url in listing.image_urls %}
-            <img src="{{ url }}" class="w-full aspect-square object-cover rounded border border-gray-600">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {% for item in listing.image_urls %}
+            {% if item.url %}
+            <img src="{{ item.url }}" class="w-full aspect-square object-cover rounded border border-gray-600">
+            {% else %}
+            <img src="{{ item }}" class="w-full aspect-square object-cover rounded border border-gray-600">
+            {% endif %}
             {% endfor %}
         </div>
         {% else %}
         <p class="text-gray-400 text-sm">No photos attached.</p>
         {% endif %}
     </div>
+
+    <!-- Details -->
+    <div class="space-y-6">
+        <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+            <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Listing Details</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between"><span class="text-gray-400">eBay Item ID:</span><span class="text-gray-200 font-mono">{{ listing.ebay_item_id|default:"—" }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">SKU:</span><span class="text-gray-200 font-mono">{{ listing.sku|default:"—" }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Category:</span><span class="text-gray-200">{{ listing.category_id|default:"—" }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Condition:</span><span class="text-gray-200">{{ listing.condition_id|default:"—" }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Quantity:</span><span class="text-gray-200">{{ listing.quantity }}</span></div>
+            </div>
+        </div>
+
+        <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+            <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Shipping</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between"><span class="text-gray-400">Service:</span><span class="text-gray-200">{{ listing.shipping_service }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Cost:</span><span class="text-gray-200">${{ listing.shipping_cost }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Returns:</span><span class="text-gray-200">{% if listing.returns_accepted %}Yes{% else %}No{% endif %}</span></div>
+            </div>
+        </div>
+
+        <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+            <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Stats</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between"><span class="text-gray-400">Views:</span><span class="text-gray-200">{{ listing.view_count }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Watchers:</span><span class="text-gray-200">{{ listing.watch_count }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Created:</span><span class="text-gray-200">{{ listing.created_at|date:"M d, Y" }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Listed:</span><span class="text-gray-200">{{ listing.listed_at|date:"M d, Y"|default:"—" }}</span></div>
+                <div class="flex justify-between"><span class="text-gray-400">Last Synced:</span><span class="text-gray-200">{{ listing.last_synced|date:"M d H:i"|default:"Never" }}</span></div>
+            </div>
+        </div>
+
+        {% if listing.ebay_listing_url %}
+        <a href="{{ listing.ebay_listing_url }}" target="_blank" class="block text-center px-4 py-3 bg-blue-700 hover:bg-blue-600 text-blue-100 font-bold rounded-lg transition">View on eBay &#8599;</a>
+        {% endif %}
+    </div>
 </div>
+
+<!-- Description Preview -->
+{% if listing.description_html %}
+<div class="mt-6 bg-gray-700 rounded-lg border border-gray-600 p-5">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Description HTML</h3>
+    <div class="bg-gray-900 rounded-lg p-4 border border-gray-600 overflow-auto max-h-96">
+        {{ listing.description_html|safe }}
+    </div>
+</div>
+{% endif %}
+
+<!-- Order History -->
 {% if order_items %}
 <div class="mt-6 bg-gray-700 rounded-lg border border-gray-600 p-5">
     <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Order History</h3>
@@ -49,13 +98,14 @@
         {% for item in order_items %}
         <a href="{% url 'ebay_manager:order_detail' item.order.pk %}" class="block py-2 hover:bg-gray-600 px-2 rounded transition">
             <span class="text-gray-200">{{ item.order.buyer_username }}</span>
-            <span class="text-gray-400 text-sm ml-2">${{ item.price }} × {{ item.quantity }}</span>
+            <span class="text-gray-400 text-sm ml-2">${{ item.price }} x {{ item.quantity }}</span>
             <span class="text-gray-500 text-xs ml-2">{{ item.order.creation_date|date:"M d" }}</span>
         </a>
         {% endfor %}
     </div>
 </div>
 {% endif %}
+
 {% if listing.error_message %}
 <div class="mt-4 bg-red-900 border border-red-700 rounded-lg p-4">
     <p class="text-red-300 text-sm"><strong>Error:</strong> {{ listing.error_message }}</p>

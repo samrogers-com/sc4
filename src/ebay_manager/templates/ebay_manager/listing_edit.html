@@ -1,15 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}Create Listing — eBay Manager{% endblock %}
+{% block title %}Edit: {{ listing.title }} — eBay Manager{% endblock %}
 {% block content %}
-<div class="mb-4"><a href="{% url 'ebay_manager:dashboard' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Dashboard</a></div>
-<h1 class="text-3xl font-bold text-amber-500 mb-2">Create New Listing</h1>
-
-{% if r2_prefix %}
-<div class="bg-gray-700 rounded-lg border border-amber-600/30 p-3 mb-6 flex items-center gap-3">
-    <span class="text-amber-400 text-sm">Pre-populated from R2:</span>
-    <span class="text-gray-300 text-sm font-mono">{{ r2_prefix }}</span>
-</div>
-{% endif %}
+<div class="mb-4"><a href="{% url 'ebay_manager:listing_detail' listing.pk %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to Listing</a></div>
+<h1 class="text-3xl font-bold text-amber-500 mb-2">Edit Listing</h1>
+<p class="text-gray-400 text-sm mb-6">
+    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-900 text-yellow-300">{{ listing.get_status_display }}</span>
+    Created {{ listing.created_at|date:"M d, Y" }}
+</p>
 
 <form method="post" class="space-y-6">
     {% csrf_token %}
@@ -20,48 +17,44 @@
         <h3 class="text-gray-300 font-bold text-sm uppercase mb-3">Photos ({{ image_urls|length }})</h3>
         <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
             {% for url in image_urls %}
-            <img src="{{ url }}" alt="Product photo {{ forloop.counter }}" class="w-full h-24 object-cover rounded border border-gray-600">
+            <img src="{{ url }}" alt="Photo {{ forloop.counter }}" class="w-full h-24 object-cover rounded border border-gray-600">
             {% endfor %}
         </div>
     </div>
     {% endif %}
-    <input type="hidden" name="image_urls_json" value="{{ image_urls_json|default:'[]' }}">
+    <input type="hidden" name="image_urls_json" value="{{ image_urls_json }}">
 
     <!-- Core Fields -->
     <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 space-y-4">
         <div>
             <label class="block text-gray-300 text-sm font-medium mb-1">Title (max 80 chars)</label>
-            <input type="text" name="title" maxlength="80" required
-                   value="{{ title }}"
+            <input type="text" name="title" maxlength="80" required value="{{ listing.title }}"
                    class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
         </div>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Price ($)</label>
-                <input type="number" name="price" step="0.01" required
+                <input type="number" name="price" step="0.01" required value="{{ listing.price }}"
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
             </div>
             <div>
-                <label class="block text-gray-300 text-sm font-medium mb-1">SKU / Custom Label</label>
-                <input type="text" name="sku" maxlength="50"
+                <label class="block text-gray-300 text-sm font-medium mb-1">SKU</label>
+                <input type="text" name="sku" maxlength="50" value="{{ listing.sku|default:'' }}"
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
             </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4">
             <div>
-                <label class="block text-gray-300 text-sm font-medium mb-1">eBay Category ID</label>
-                <input type="text" name="category_id" value="{{ category_id|default:'261035' }}"
+                <label class="block text-gray-300 text-sm font-medium mb-1">Category ID</label>
+                <input type="text" name="category_id" value="{{ listing.category_id|default:'' }}"
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
-                <span class="text-gray-500 text-xs mt-1">261035 = Non-Sport Cards > Sealed Boxes</span>
             </div>
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Condition</label>
                 <select name="condition_id" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
-                    <option value="7000" selected>New / Factory Sealed</option>
-                    <option value="3000">Like New</option>
-                    <option value="4000">Very Good</option>
-                    <option value="5000">Good</option>
-                    <option value="6000">Acceptable</option>
+                    <option value="7000" {% if listing.condition_id == '7000' %}selected{% endif %}>New / Factory Sealed</option>
+                    <option value="3000" {% if listing.condition_id == '3000' %}selected{% endif %}>Like New</option>
+                    <option value="4000" {% if listing.condition_id == '4000' %}selected{% endif %}>Very Good</option>
+                    <option value="5000" {% if listing.condition_id == '5000' %}selected{% endif %}>Good</option>
+                    <option value="6000" {% if listing.condition_id == '6000' %}selected{% endif %}>Acceptable</option>
                 </select>
             </div>
         </div>
@@ -74,16 +67,16 @@
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Service</label>
                 <select name="shipping_service" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
-                    <option value="USPSPriority" selected>USPS Priority Mail</option>
-                    <option value="USPSFirstClass">USPS First Class</option>
-                    <option value="USPSParcel">USPS Parcel Select</option>
-                    <option value="UPSGround">UPS Ground</option>
-                    <option value="FedExGround">FedEx Ground</option>
+                    <option value="USPSPriority" {% if listing.shipping_service == 'USPSPriority' %}selected{% endif %}>USPS Priority Mail</option>
+                    <option value="USPSFirstClass" {% if listing.shipping_service == 'USPSFirstClass' %}selected{% endif %}>USPS First Class</option>
+                    <option value="USPSParcel" {% if listing.shipping_service == 'USPSParcel' %}selected{% endif %}>USPS Parcel Select</option>
+                    <option value="UPSGround" {% if listing.shipping_service == 'UPSGround' %}selected{% endif %}>UPS Ground</option>
+                    <option value="FedExGround" {% if listing.shipping_service == 'FedExGround' %}selected{% endif %}>FedEx Ground</option>
                 </select>
             </div>
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Shipping Cost ($)</label>
-                <input type="number" name="shipping_cost" step="0.01" value="0"
+                <input type="number" name="shipping_cost" step="0.01" value="{{ listing.shipping_cost }}"
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
                 <span class="text-gray-500 text-xs">0 = Free shipping / calculated</span>
             </div>
@@ -107,29 +100,23 @@
         </div>
         {% endif %}
 
-        <textarea name="description_html" rows="12"
-                  id="description-html"
+        <textarea name="description_html" rows="10" id="description-html"
                   class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 font-mono text-xs focus:border-amber-500 focus:outline-none"
-                  placeholder="Paste eBay HTML description here, or select a pre-built one above...">{{ description_html }}</textarea>
+                  placeholder="eBay HTML description...">{{ listing.description_html }}</textarea>
 
-        {% if description_html %}
+        {% if listing.description_html %}
         <details class="mt-3">
             <summary class="text-amber-400 text-sm cursor-pointer hover:text-amber-300">Preview description</summary>
             <div class="mt-2 bg-gray-900 rounded-lg p-4 border border-gray-600 overflow-auto max-h-96">
-                {{ description_html|safe }}
+                {{ listing.description_html|safe }}
             </div>
         </details>
         {% endif %}
     </div>
 
-    <!-- Hidden fields -->
-    <input type="hidden" name="r2_prefix" value="{{ r2_prefix }}">
-    <input type="hidden" name="content_type_id" value="">
-    <input type="hidden" name="object_id" value="">
-
     <div class="flex gap-3">
-        <button type="submit" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">Create Draft Listing</button>
-        <a href="{% url 'ebay_manager:listings' %}" class="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition">Cancel</a>
+        <button type="submit" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">Save Changes</button>
+        <a href="{% url 'ebay_manager:listing_detail' listing.pk %}" class="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition">Cancel</a>
     </div>
 </form>
 
