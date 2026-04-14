@@ -173,9 +173,13 @@ def settings_view(request):
 def sync_listings(request):
     """Import active listings from eBay."""
     if request.method == 'POST':
-        # TODO: Implement after User OAuth setup
-        messages.info(request, 'Listing sync requires User OAuth setup. See Settings page.')
-        return redirect('ebay_manager:settings')
+        try:
+            from .services.listing_sync import sync_active_listings
+            result = sync_active_listings()
+            messages.success(request, f"Listings synced: {result['created']} new, {result['updated']} updated ({result['total']} total from eBay)")
+        except Exception as e:
+            messages.error(request, f'Listing sync failed: {e}')
+        return redirect('ebay_manager:dashboard')
     return redirect('ebay_manager:dashboard')
 
 
@@ -184,9 +188,36 @@ def sync_listings(request):
 def sync_orders(request):
     """Import sold history from eBay."""
     if request.method == 'POST':
-        # TODO: Implement after User OAuth setup
-        messages.info(request, 'Order sync requires User OAuth setup. See Settings page.')
-        return redirect('ebay_manager:settings')
+        try:
+            from .services.fulfillment import sync_orders_to_db
+            result = sync_orders_to_db(days=365)
+            messages.success(request, f"Orders synced: {result['created']} new, {result['updated']} updated ({result['total']} total from eBay)")
+        except Exception as e:
+            messages.error(request, f'Order sync failed: {e}')
+        return redirect('ebay_manager:dashboard')
+    return redirect('ebay_manager:dashboard')
+
+
+@login_required
+@user_passes_test(is_staff)
+def sync_all(request):
+    """Sync both listings and orders from eBay."""
+    if request.method == 'POST':
+        results = []
+        try:
+            from .services.listing_sync import sync_active_listings
+            lr = sync_active_listings()
+            results.append(f"Listings: {lr['created']} new, {lr['updated']} updated")
+        except Exception as e:
+            results.append(f"Listings failed: {e}")
+        try:
+            from .services.fulfillment import sync_orders_to_db
+            orr = sync_orders_to_db(days=365)
+            results.append(f"Orders: {orr['created']} new, {orr['updated']} updated")
+        except Exception as e:
+            results.append(f"Orders failed: {e}")
+        messages.success(request, ' | '.join(results))
+        return redirect('ebay_manager:dashboard')
     return redirect('ebay_manager:dashboard')
 
 

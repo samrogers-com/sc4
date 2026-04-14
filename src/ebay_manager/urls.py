@@ -14,4 +14,5 @@ urlpatterns = [
     path('settings/', views.settings_view, name='settings'),
     path('sync/listings/', views.sync_listings, name='sync_listings'),
     path('sync/orders/', views.sync_orders, name='sync_orders'),
+    path('sync/all/', views.sync_all, name='sync_all'),
 ]

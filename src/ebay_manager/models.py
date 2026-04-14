@@ -7,9 +7,9 @@ from django.contrib.contenttypes.models import ContentType
 class EbayListing(models.Model):
     """Tracks an eBay listing linked to any inventory item."""
 
-    # Link to any inventory item via GenericForeignKey
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    # Link to any inventory item via GenericForeignKey (optional until matched)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.PositiveIntegerField(null=True, blank=True)
     inventory_item = GenericForeignKey('content_type', 'object_id')
 
     # eBay data
