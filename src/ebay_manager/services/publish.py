@@ -116,7 +116,7 @@ def create_inventory_item(listing):
                 'quantity': listing.quantity,
             }
         },
-        'condition': _map_condition(listing.condition_id),
+        'condition': _map_condition(listing.condition_id, listing.category_id),
         'product': product,
         'packageWeightAndSize': package_info,
     }
@@ -274,12 +274,23 @@ def publish_to_ebay(listing):
     }
 
 
-def _map_condition(condition_id):
-    """Map our condition IDs to eBay condition enum values."""
+def _map_condition(condition_id, category_id=''):
+    """Map our condition IDs to eBay condition enum values.
+
+    Some categories (like 183050 Complete Sets) don't allow 'NEW'.
+    Automatically remaps to valid conditions per category.
+    """
+    # Categories that don't allow NEW — use GOOD (Ungraded) instead
+    UNGRADED_CATEGORIES = {'183050', '183052'}  # Complete Sets, Singles
+    if str(category_id) in UNGRADED_CATEGORIES:
+        if str(condition_id) in ('7000', '1000'):
+            return 'GOOD'  # Maps to condition 4000 (Ungraded)
+
     mapping = {
         '7000': 'NEW',
+        '1000': 'NEW',
         '3000': 'LIKE_NEW',
-        '4000': 'VERY_GOOD',
+        '4000': 'GOOD',
         '5000': 'GOOD',
         '6000': 'ACCEPTABLE',
     }
