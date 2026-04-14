@@ -142,6 +142,7 @@ def listing_create(request):
     description_files = []
     category_id = ''
     item_specs = {}
+    price_data = {}
     package_length = 9  # default box dims
     package_width = 6
     package_height = 4
@@ -168,7 +169,9 @@ def listing_create(request):
             if product_info:
                 if not title:
                     title = product_info.get('title', '')
-                item_specs = product_info.get('specs', {})
+                raw_specs = product_info.get('specs', {})
+                # Convert keys to template-friendly format (spaces → underscores)
+                item_specs = {k.replace(' ', '_'): v for k, v in raw_specs.items()}
         except Exception:
             pass
 
@@ -193,10 +196,6 @@ def listing_create(request):
     if not title and r2_prefix:
         slug = r2_prefix.rstrip('/').split('/')[-1]
         title = slug.replace('-', ' ').title()
-
-    # Initialize price_data if not set (manual create without r2_prefix)
-    if 'price_data' not in dir():
-        price_data = {}
 
     return render(request, 'ebay_manager/listing_create.html', {
         'r2_prefix': r2_prefix,
@@ -470,6 +469,7 @@ def _parse_item_specifics(post_data):
         'spec_genre': 'Genre',
         'spec_features': 'Features',
         'spec_movie': 'Movie',
+        'spec_tv_show': 'TV Show',
     }
     specs = {}
     for field, aspect_name in field_map.items():
