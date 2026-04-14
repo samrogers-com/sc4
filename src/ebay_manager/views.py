@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Sum, Count, Q
 from django.utils import timezone
@@ -78,25 +79,96 @@ def listings(request):
 @login_required
 @user_passes_test(is_staff)
 def listing_create(request):
-    """Create a new eBay listing from inventory."""
-    # For now, show a form to manually create
+    """Create a new eBay draft listing.
+
+    Supports two modes:
+    - Manual: fill in the form fields directly
+    - Pre-populated: pass GET params from gap report or R2 gallery:
+        ?r2_prefix=trading-cards/boxes/007-goldeneye
+        &title=007+GoldenEye+Sealed+Box
+        &product_type=boxes
+
+    When r2_prefix is provided, images are loaded from R2 CDN and
+    a matching pre-built HTML description is searched in ebay_uploads/.
+    """
+    import json
+
     if request.method == 'POST':
+        # Parse optional inventory link (GenericFK) — empty means unlinked
+        content_type_id = request.POST.get('content_type_id') or None
+        object_id = request.POST.get('object_id') or None
+
+        # Parse image URLs from hidden JSON field
+        image_urls_json = request.POST.get('image_urls_json', '[]')
+        try:
+            image_urls = json.loads(image_urls_json)
+        except (json.JSONDecodeError, TypeError):
+            image_urls = []
+
         listing = EbayListing(
             title=request.POST.get('title', ''),
             price=request.POST.get('price', 0),
             sku=request.POST.get('sku', ''),
             category_id=request.POST.get('category_id', ''),
             condition_id=request.POST.get('condition_id', '7000'),
+            description_html=request.POST.get('description_html', ''),
+            image_urls=image_urls,
             status='draft',
             created_by=request.user,
-            content_type_id=request.POST.get('content_type_id'),
-            object_id=request.POST.get('object_id'),
+            content_type_id=content_type_id,
+            object_id=object_id,
         )
         listing.save()
         messages.success(request, f'Draft listing created: {listing.title}')
         return redirect('ebay_manager:listing_detail', pk=listing.pk)
 
-    return render(request, 'ebay_manager/listing_create.html')
+    # GET — pre-populate from R2 gallery or gap report params
+    r2_prefix = request.GET.get('r2_prefix', '')
+    title = request.GET.get('title', '')
+    product_type = request.GET.get('product_type', '')
+
+    image_urls = []
+    description_html = ''
+    description_files = []
+    category_id = ''
+
+    if r2_prefix:
+        # Load R2 images for this product
+        try:
+            from non_sports_cards.r2_utils import get_r2_images
+            image_urls = get_r2_images(r2_prefix)
+        except Exception:
+            pass
+
+        # Default category for sealed boxes
+        if product_type == 'boxes' or 'box' in r2_prefix:
+            category_id = '261035'
+
+        # Try to find a matching pre-built HTML description
+        try:
+            from .services.description_files import find_matching_description, list_description_files
+            match = find_matching_description(r2_prefix)
+            if match:
+                description_html = match['content']
+            description_files = list_description_files()
+        except Exception:
+            pass
+
+    # Derive title from r2_prefix if not provided
+    if not title and r2_prefix:
+        slug = r2_prefix.rstrip('/').split('/')[-1]
+        title = slug.replace('-', ' ').title()
+
+    return render(request, 'ebay_manager/listing_create.html', {
+        'r2_prefix': r2_prefix,
+        'title': title,
+        'product_type': product_type,
+        'image_urls': image_urls,
+        'image_urls_json': json.dumps(image_urls),
+        'description_html': description_html,
+        'description_files': description_files,
+        'category_id': category_id,
+    })
 
 
 @login_required
@@ -248,6 +320,44 @@ def sync_all(request):
         messages.success(request, ' | '.join(results))
         return redirect('ebay_manager:dashboard')
     return redirect('ebay_manager:dashboard')
+
+
+@login_required
+@user_passes_test(is_staff)
+def gap_report(request):
+    """Web-based gap report comparing R2 photos with active eBay listings.
+
+    Shows two sections:
+    1. R2 products with photos but no active/draft listing — with "Create Listing" buttons
+    2. Active listings with no R2 photos — may need photos taken
+
+    This is the web equivalent of `manage.py ebay_sync --report`.
+    """
+    from .services.gap_report import get_gap_report
+    report = get_gap_report()
+    return render(request, 'ebay_manager/gap_report.html', {
+        'r2_without_listing': report['r2_without_listing'],
+        'listings_without_photos': report['listings_without_photos'],
+        'stats': report['stats'],
+    })
+
+
+@login_required
+@user_passes_test(is_staff)
+def load_description_html(request):
+    """HTMX endpoint: load a pre-built HTML description file.
+
+    Called via HTMX when user selects a description file from the
+    dropdown on the listing create form. Returns the HTML content
+    for insertion into the description textarea.
+
+    GET params:
+        file: relative path within ebay_uploads/ (e.g. 'ns_cards/box/1995-007-goldeneye.html')
+    """
+    from .services.description_files import read_description_file
+    filepath = request.GET.get('file', '')
+    content = read_description_file(filepath) if filepath else ''
+    return JsonResponse({'html': content or ''})
 
 
 def _get_api_status():

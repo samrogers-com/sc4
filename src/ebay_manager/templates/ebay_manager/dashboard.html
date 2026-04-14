@@ -63,6 +63,7 @@
     <a href="{% url 'ebay_manager:listings' %}" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition text-sm">View Listings</a>
     <a href="{% url 'ebay_manager:orders' %}" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition text-sm">View Orders</a>
     <a href="{% url 'ebay_manager:analytics' %}" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition text-sm">Analytics</a>
+    <a href="{% url 'ebay_manager:gap_report' %}" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition text-sm">Gap Report</a>
     <form method="post" action="{% url 'ebay_manager:sync_all' %}" class="inline">
         {% csrf_token %}
         <button type="submit" class="px-4 py-2 bg-green-700 hover:bg-green-600 text-green-100 font-bold rounded-lg transition text-sm">Sync All from eBay</button>

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Gap Report — eBay Manager{% endblock %}
+{% block content %}
+<div class="mb-4"><a href="{% url 'ebay_manager:dashboard' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Dashboard</a></div>
+<h1 class="text-3xl font-bold text-amber-500 mb-2">Gap Report</h1>
+<p class="text-gray-400 text-sm mb-6">Compares R2 photo inventory with active eBay listings to find opportunities.</p>
+
+<!-- Stats -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">R2 Products</p>
+        <p class="text-2xl font-bold text-gray-100">{{ stats.r2_total }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Active Listings</p>
+        <p class="text-2xl font-bold text-green-400">{{ stats.listings_total }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Ready to List</p>
+        <p class="text-2xl font-bold text-amber-400">{{ stats.r2_unmatched }}</p>
+    </div>
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 text-center">
+        <p class="text-gray-400 text-xs uppercase">Need Photos</p>
+        <p class="text-2xl font-bold text-red-400">{{ stats.listings_unmatched }}</p>
+    </div>
+</div>
+
+<!-- R2 Products Without Listings -->
+<div class="mb-8">
+    <h2 class="text-xl font-bold text-amber-400 mb-4">Ready to List — Have Photos, No eBay Listing</h2>
+    {% if r2_without_listing %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for product in r2_without_listing %}
+        <div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+            {% if product.thumbnail_url %}
+            <img src="{{ product.thumbnail_url }}" alt="{{ product.display_name }}" class="w-full h-40 object-cover">
+            {% else %}
+            <div class="w-full h-40 bg-gray-800 flex items-center justify-center text-gray-500">No thumbnail</div>
+            {% endif %}
+            <div class="p-4">
+                <h3 class="text-gray-100 font-medium text-sm mb-1">{{ product.display_name }}</h3>
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-600 text-gray-300">{{ product.product_type }}</span>
+                    {% if product.image_count %}<span class="text-gray-500 text-xs">{{ product.image_count }} photos</span>{% endif %}
+                </div>
+                <a href="{% url 'ebay_manager:listing_create' %}?r2_prefix={{ product.r2_prefix|urlencode }}&title={{ product.display_name|urlencode }}&product_type={{ product.product_type|urlencode }}"
+                   class="block text-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition text-sm">
+                    + Create Listing
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-8 text-center text-gray-400">
+        All R2 products have matching eBay listings. Nice work!
+    </div>
+    {% endif %}
+</div>
+
+<!-- Listings Without R2 Photos -->
+<div>
+    <h2 class="text-xl font-bold text-red-400 mb-4">Need Photos — Active Listings Without R2 Photos</h2>
+    {% if listings_without_photos %}
+    <div class="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-800">
+                <tr>
+                    <th class="px-4 py-3 text-left text-gray-300">Title</th>
+                    <th class="px-4 py-3 text-right text-gray-300">Price</th>
+                    <th class="px-4 py-3 text-left text-gray-300">Status</th>
+                    <th class="px-4 py-3 text-center text-gray-300">eBay Images</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-600">
+                {% for listing in listings_without_photos %}
+                <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{% url 'ebay_manager:listing_detail' listing.pk %}'">
+                    <td class="px-4 py-3 text-gray-200">{{ listing.title|truncatewords:10 }}</td>
+                    <td class="px-4 py-3 text-right text-gray-200 font-mono">${{ listing.price }}</td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-900 text-green-300">{{ listing.get_status_display }}</span></td>
+                    <td class="px-4 py-3 text-center text-gray-400">{% if listing.image_urls %}{{ listing.image_urls|length }}{% else %}0{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-8 text-center text-gray-400">
+        All active listings have R2 photos.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
