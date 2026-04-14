@@ -46,15 +46,15 @@ def get_gap_report():
     listing_titles = {l.title.lower(): l for l in listings}
 
     # Scan R2 for all product folders
+    # Note: get_r2_folders returns list of strings, requires trailing slash on prefix
     r2_products = []
     for product_type, prefix in PRODUCT_TYPES.items():
         try:
-            folders = get_r2_folders(prefix)
+            folders = get_r2_folders(prefix + '/')
         except Exception:
             continue
 
-        for folder in folders:
-            folder_name = folder.get('name', '')
+        for folder_name in folders:
             if not folder_name:
                 continue
 
@@ -62,14 +62,13 @@ def get_gap_report():
 
             # Check for sub-subfolders (e.g. trading-cards/boxes/star-wars/ has sub-products)
             try:
-                subfolders = get_r2_folders(full_prefix)
+                subfolders = get_r2_folders(full_prefix + '/')
             except Exception:
                 subfolders = []
 
             if subfolders:
                 # This is a category folder (e.g. star-wars/), scan its children
-                for subfolder in subfolders:
-                    sub_name = subfolder.get('name', '')
+                for sub_name in subfolders:
                     sub_prefix = f"{full_prefix}/{sub_name}"
                     r2_products.append({
                         'r2_prefix': sub_prefix,
@@ -106,12 +105,13 @@ def get_gap_report():
                 break
 
         if not matched:
-            # Get thumbnail for display
+            # Get thumbnail by fetching first image in the folder
             try:
-                thumbs = get_r2_folder_thumbnails(product['r2_prefix'])
-                if thumbs:
-                    product['thumbnail_url'] = thumbs[0].get('thumbnail', '')
-                    product['image_count'] = thumbs[0].get('count', 0)
+                from non_sports_cards.r2_utils import get_r2_images
+                images = get_r2_images(product['r2_prefix'] + '/')
+                if images:
+                    product['thumbnail_url'] = images[0].get('url', '')
+                    product['image_count'] = len(images)
                 else:
                     product['thumbnail_url'] = ''
                     product['image_count'] = 0
