@@ -116,7 +116,7 @@ def create_inventory_item(listing):
                 'quantity': listing.quantity,
             }
         },
-        'condition': _map_condition(listing.condition_id, listing.category_id),
+        'condition': _get_condition_enum(listing.condition_id, listing.category_id),
         'product': product,
         'packageWeightAndSize': package_info,
     }
@@ -274,24 +274,37 @@ def publish_to_ebay(listing):
     }
 
 
-def _map_condition(condition_id, category_id=''):
-    """Map our condition IDs to eBay condition enum values.
+def _get_condition_enum(condition_id, category_id=''):
+    """Get eBay condition enum for the Inventory API.
 
-    Some categories (like 183050 Complete Sets) don't allow 'NEW'.
-    Automatically remaps to valid conditions per category.
+    The Inventory API uses string enums like 'NEW', 'USED_EXCELLENT', etc.
+    Some categories don't allow certain conditions.
+
+    Valid enums: NEW, LIKE_NEW, NEW_OTHER, NEW_WITH_DEFECTS,
+    MANUFACTURER_REFURBISHED, CERTIFIED_REFURBISHED, EXCELLENT_REFURBISHED,
+    VERY_GOOD_REFURBISHED, GOOD_REFURBISHED, SELLER_REFURBISHED,
+    USED_EXCELLENT, USED_VERY_GOOD, USED_GOOD, USED_ACCEPTABLE, FOR_PARTS_OR_NOT_WORKING
     """
-    # Categories that don't allow NEW — use GOOD (Ungraded) instead
-    UNGRADED_CATEGORIES = {'183050', '183052'}  # Complete Sets, Singles
+    # Categories that don't allow NEW (Complete Sets, Singles)
+    UNGRADED_CATEGORIES = {'183050', '183052'}
+    cid = str(condition_id)
+
     if str(category_id) in UNGRADED_CATEGORIES:
-        if str(condition_id) in ('7000', '1000'):
-            return 'GOOD'  # Maps to condition 4000 (Ungraded)
+        if cid in ('7000', '1000'):
+            return 'USED_VERY_GOOD'  # Ungraded
+        if cid == '4000':
+            return 'USED_VERY_GOOD'  # Ungraded
+        if cid == '3000':
+            return 'USED_GOOD'       # Used
+        if cid == '2750':
+            return 'USED_EXCELLENT'  # Graded
 
     mapping = {
         '7000': 'NEW',
         '1000': 'NEW',
-        '3000': 'LIKE_NEW',
-        '4000': 'GOOD',
-        '5000': 'GOOD',
-        '6000': 'ACCEPTABLE',
+        '3000': 'USED_GOOD',
+        '4000': 'USED_VERY_GOOD',
+        '5000': 'USED_GOOD',
+        '6000': 'USED_ACCEPTABLE',
     }
-    return mapping.get(str(condition_id), 'NEW')
+    return mapping.get(cid, 'NEW')
