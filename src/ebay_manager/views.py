@@ -197,7 +197,7 @@ def _get_api_status():
 
     app_id = os.environ.get('EBAY_APP_ID', '')
     cert_id = os.environ.get('EBAY_CERT_ID', '')
-    token_file = Path(__file__).parent.parent.parent / 'tools' / 'ebay_user_token.json'
+    token_file = Path(__file__).parent.parent / 'tools' / 'ebay_user_token.json'
 
     return {
         'browse_api': bool(app_id and cert_id),
