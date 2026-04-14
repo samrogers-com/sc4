@@ -56,8 +56,8 @@ OAUTH_ENDPOINTS = {
 
 ENVIRONMENT = 'production'
 REDIRECT_URI = 'http://localhost:8089/callback'
-# This is the RuName (eBay Redirect URL Name) — you'll need to set this up
-# in your eBay Developer account under your application's OAuth settings
+# This is the RuName (eBay Redirect URL Name) — configured in your eBay
+# Developer account under your application's OAuth settings
 RUNAME = os.environ.get('EBAY_RUNAME', '')
 
 # Scopes we need for seller data
