@@ -43,6 +43,11 @@
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
             </div>
             <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Quantity</label>
+                <input type="number" name="quantity" min="1" value="{{ listing.quantity }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Category ID</label>
                 <input type="text" name="category_id" value="{{ listing.category_id|default:'' }}"
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">

@@ -112,6 +112,7 @@ def listing_create(request):
             market_mean_price=request.POST.get('market_mean_price') or None,
             suggested_price=request.POST.get('suggested_price') or None,
             sku=request.POST.get('sku', ''),
+            quantity=int(request.POST.get('quantity', 1) or 1),
             category_id=request.POST.get('category_id', ''),
             condition_id=request.POST.get('condition_id', '7000'),
             description_html=request.POST.get('description_html', ''),
@@ -648,6 +649,7 @@ def listing_edit(request, pk):
         listing.category_id = request.POST.get('category_id', listing.category_id)
         listing.condition_id = request.POST.get('condition_id', listing.condition_id)
         listing.description_html = request.POST.get('description_html', listing.description_html)
+        listing.quantity = int(request.POST.get('quantity', listing.quantity) or 1)
         listing.item_specifics = _parse_item_specifics(request.POST)
         listing.packaging_config = request.POST.get('packaging_config', listing.packaging_config)
         listing.package_length = int(request.POST.get('package_length', listing.package_length) or 0)
