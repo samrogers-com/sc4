@@ -20,5 +20,6 @@ urlpatterns = [
     path('sync/orders/', views.sync_orders, name='sync_orders'),
     path('sync/all/', views.sync_all, name='sync_all'),
     path('gap-report/', views.gap_report, name='gap_report'),
+    path('listings/create-multi/', views.multi_variant_create, name='multi_variant_create'),
     path('listings/load-description/', views.load_description_html, name='load_description_html'),
 ]

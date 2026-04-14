@@ -497,6 +497,117 @@ def _parse_item_specifics(post_data):
     return specs
 
 
+@login_required
+@user_passes_test(is_staff)
+def multi_variant_create(request):
+    """Create a multi-variant eBay listing from R2 subfolders.
+
+    Each subfolder (box-1, box-2, etc.) becomes a variant with its own
+    photos and price. Used for pre-1990 items where condition varies.
+
+    GET: Show variants discovered from R2 with price fields per variant.
+    POST: Create and publish the multi-variant listing on eBay.
+    """
+    import json
+    r2_prefix = request.GET.get('r2_prefix', '') or request.POST.get('r2_prefix', '')
+    title = request.GET.get('title', '') or request.POST.get('title', '')
+    product_type = request.GET.get('product_type', '') or request.POST.get('product_type', '')
+
+    if request.method == 'POST':
+        try:
+            from .services.multi_variant import create_multi_variant_listing, discover_variants
+            from .services.description_generator import generate_description
+
+            variants = discover_variants(r2_prefix)
+
+            # Collect prices per variant from form
+            prices = {}
+            for v in variants:
+                price_key = f"price_{v['name']}"
+                prices[v['name']] = float(request.POST.get(price_key, 0))
+
+            # Get specs
+            specs = {}
+            spec_map = {
+                'spec_manufacturer': 'Manufacturer', 'spec_franchise': 'Franchise',
+                'spec_set': 'Set', 'spec_year': 'Year Manufactured',
+                'spec_genre': 'Genre', 'spec_movie': 'Movie',
+                'spec_configuration': 'Configuration', 'spec_type': 'Type',
+                'spec_features': 'Features',
+            }
+            for field, name in spec_map.items():
+                val = request.POST.get(field, '').strip()
+                if val:
+                    specs[name] = val
+
+            desc = request.POST.get('description_html', '')
+            if not desc:
+                desc = generate_description(title, specs, product_type)
+
+            fulfillment_id = request.POST.get('fulfillment_policy_id', '119108501015')
+            weight = int(request.POST.get('ship_weight_oz', 24) or 24)
+            dims = None
+            pl = int(request.POST.get('package_length', 0) or 0)
+            pw = int(request.POST.get('package_width', 0) or 0)
+            ph = int(request.POST.get('package_height', 0) or 0)
+            if pl and pw and ph:
+                dims = {'length': pl, 'width': pw, 'height': ph}
+
+            result = create_multi_variant_listing(
+                title=title, variants=variants, specs=specs, prices=prices,
+                description_html=desc, fulfillment_policy_id=fulfillment_id,
+                ship_weight_oz=weight, package_dims=dims,
+            )
+            messages.success(request, f"Multi-variant listing published! {len(variants)} variants. Item #{result.get('listing_id', '?')}")
+            return redirect('ebay_manager:dashboard')
+        except Exception as e:
+            messages.error(request, f'Multi-variant failed: {e}')
+            return redirect('ebay_manager:gap_report')
+
+    # GET — discover variants and show form
+    variants = []
+    item_specs = {}
+    price_data = {}
+
+    if r2_prefix:
+        try:
+            from .services.multi_variant import discover_variants
+            variants = discover_variants(r2_prefix)
+        except Exception:
+            pass
+
+        folder_slug = r2_prefix.rstrip('/').split('/')[-1]
+        try:
+            from .services.gap_report import PRODUCT_DATA
+            product_info = PRODUCT_DATA.get(folder_slug, {})
+            if product_info:
+                if not title:
+                    title = product_info.get('title', '')
+                raw_specs = product_info.get('specs', {})
+                item_specs = {k.replace(' ', '_'): v for k, v in raw_specs.items()}
+        except Exception:
+            pass
+
+    if title:
+        try:
+            from .services.price_estimate import estimate_price
+            price_data = estimate_price(title)
+        except Exception:
+            pass
+
+    if not title and r2_prefix:
+        title = r2_prefix.rstrip('/').split('/')[-1].replace('-', ' ').title()
+
+    return render(request, 'ebay_manager/multi_variant_create.html', {
+        'r2_prefix': r2_prefix,
+        'title': title,
+        'product_type': product_type,
+        'variants': variants,
+        'item_specs': item_specs,
+        'price_data': price_data,
+    })
+
+
 def _normalize_image_urls(raw_urls):
     """Convert image URLs from various formats to plain URL strings.
 

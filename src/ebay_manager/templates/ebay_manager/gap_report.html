@@ -44,9 +44,10 @@
                     {% if product.image_count %}<span class="text-gray-500 text-xs">{{ product.image_count }} photos</span>{% endif %}
                 </div>
                 {% if product.needs_multi_variant %}
-                <span class="block text-center px-4 py-2 bg-yellow-900 text-yellow-300 rounded-lg text-sm font-medium">
-                    Multi-Variant (Pre-1990)
-                </span>
+                <a href="{% url 'ebay_manager:multi_variant_create' %}?r2_prefix={{ product.r2_prefix|urlencode }}&title={{ product.display_name|urlencode }}&product_type={{ product.product_type|urlencode }}"
+                   class="block text-center px-4 py-2 bg-yellow-700 hover:bg-yellow-600 text-yellow-100 font-bold rounded-lg transition text-sm">
+                    + Multi-Variant Listing
+                </a>
                 {% else %}
                 <a href="{% url 'ebay_manager:listing_create' %}?r2_prefix={{ product.r2_prefix|urlencode }}&title={{ product.display_name|urlencode }}&product_type={{ product.product_type|urlencode }}"
                    class="block text-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition text-sm">
