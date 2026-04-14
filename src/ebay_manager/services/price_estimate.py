@@ -113,6 +113,16 @@ def estimate_price(search_query, category_id='261035'):
             return _empty_result()
 
         items = resp.json().get('itemSummaries', [])
+
+        # If category filter returned 0 results, retry without category
+        if not items and category_id:
+            params.pop('category_ids', None)
+            resp = requests.get(
+                'https://api.ebay.com/buy/browse/v1/item_summary/search',
+                headers=headers, params=params, timeout=15
+            )
+            if resp.status_code == 200:
+                items = resp.json().get('itemSummaries', [])
     except Exception:
         return _empty_result()
 
