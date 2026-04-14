@@ -55,14 +55,35 @@ def sync_orders_to_db(days=30):
         pricing = raw.get('pricingSummary', {})
         total = float(pricing.get('total', {}).get('value', 0))
 
+        # Extract shipping/tracking from fulfillments
+        tracking_number = ''
+        shipping_carrier = ''
+        for ful in raw.get('fulfillmentHrefs', raw.get('fulfillmentStartInstructions', [])):
+            pass  # These are instructions, not tracking
+        for ful in raw.get('fulfillments', []):
+            for shipment in ful.get('shipmentTrackingNumber', []):
+                tracking_number = shipment
+            tracking_number = ful.get('shipmentTrackingNumber', tracking_number)
+            shipping_carrier = ful.get('shippingCarrierCode', shipping_carrier)
+
+        # Extract buyer name and address
+        buyer = raw.get('buyer', {})
+        ship_to = raw.get('fulfillmentStartInstructions', [{}])
+        ship_addr = {}
+        if ship_to:
+            ship_addr = ship_to[0].get('shippingStep', {}).get('shipTo', {})
+
         order, was_created = EbayOrder.objects.update_or_create(
             order_id=order_id,
             defaults={
-                'buyer_username': raw.get('buyer', {}).get('username', ''),
+                'buyer_username': buyer.get('username', ''),
+                'buyer_name': ship_addr.get('fullName', ''),
                 'order_total': total,
                 'order_status': _map_order_status(raw.get('orderFulfillmentStatus', '')),
                 'payment_status': raw.get('orderPaymentStatus', ''),
                 'creation_date': raw.get('creationDate', ''),
+                'tracking_number': tracking_number,
+                'shipping_carrier': shipping_carrier,
             }
         )
 
