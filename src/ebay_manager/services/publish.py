@@ -89,7 +89,6 @@ def create_inventory_item(listing):
             'height': dims['height'],
             'unit': 'INCH',
         }
-        package_info['packageType'] = 'PACKAGE_THICK_ENVELOPE' if dims['height'] <= 2 else 'PACKAGE'
 
     # Build item specifics as eBay aspects (name/value pairs)
     aspects = {}
