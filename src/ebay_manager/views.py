@@ -116,6 +116,9 @@ def listing_create(request):
             image_urls=image_urls,
             item_specifics=_parse_item_specifics(request.POST),
             packaging_config=request.POST.get('packaging_config', 'sealed_box'),
+            package_length=int(request.POST.get('package_length', 0) or 0),
+            package_width=int(request.POST.get('package_width', 0) or 0),
+            package_height=int(request.POST.get('package_height', 0) or 0),
             weight_lbs=int(request.POST.get('weight_lbs', 0) or 0),
             weight_oz=int(request.POST.get('weight_oz', 0) or 0),
             shipping_service='USPSGroundAdvantage',
@@ -480,6 +483,9 @@ def listing_edit(request, pk):
         listing.description_html = request.POST.get('description_html', listing.description_html)
         listing.item_specifics = _parse_item_specifics(request.POST)
         listing.packaging_config = request.POST.get('packaging_config', listing.packaging_config)
+        listing.package_length = int(request.POST.get('package_length', listing.package_length) or 0)
+        listing.package_width = int(request.POST.get('package_width', listing.package_width) or 0)
+        listing.package_height = int(request.POST.get('package_height', listing.package_height) or 0)
         listing.weight_lbs = int(request.POST.get('weight_lbs', listing.weight_lbs) or 0)
         listing.weight_oz = int(request.POST.get('weight_oz', listing.weight_oz) or 0)
 

@@ -142,7 +142,24 @@
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
             </div>
         </div>
-        <p class="text-gray-500 text-xs">Ship weight: <strong class="text-gray-300">{{ listing.ship_weight_display }}</strong> (product + {{ listing.packaging_overhead_oz }}oz packaging) | {{ listing.packaging_summary }}</p>
+        <div class="grid grid-cols-3 gap-4 mt-3">
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Package Length (in)</label>
+                <input type="number" name="package_length" min="0" value="{{ listing.package_length }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Package Width (in)</label>
+                <input type="number" name="package_width" min="0" value="{{ listing.package_width }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Package Height (in)</label>
+                <input type="number" name="package_height" min="0" value="{{ listing.package_height }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+        </div>
+        <p class="text-gray-500 text-xs mt-2">Ship weight: <strong class="text-gray-300">{{ listing.ship_weight_display }}</strong> (product + {{ listing.packaging_overhead_oz }}oz packaging) {% if listing.box_dimensions %}| {{ listing.box_dimensions.length }}x{{ listing.box_dimensions.width }}x{{ listing.box_dimensions.height }}"{% endif %}</p>
     </div>
 
     <!-- Description HTML -->

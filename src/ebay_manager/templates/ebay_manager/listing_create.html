@@ -151,9 +151,24 @@
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
             </div>
         </div>
-        <div class="text-gray-500 text-xs space-y-1" id="packaging-info">
-            <p>Packaging overhead and eBay shipping policy auto-selected by type.</p>
+        <div class="grid grid-cols-3 gap-4 mt-3">
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Package Length (in)</label>
+                <input type="number" name="package_length" min="0" value="0"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Package Width (in)</label>
+                <input type="number" name="package_width" min="0" value="0"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Package Height (in)</label>
+                <input type="number" name="package_height" min="0" value="0"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
         </div>
+        <p class="text-gray-500 text-xs mt-2">Set dimensions for sealed boxes. Raw stacked and 9-pocket configs use standard sizes automatically.</p>
     </div>
 
     <!-- Description HTML -->

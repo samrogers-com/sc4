@@ -67,6 +67,11 @@ class EbayListing(models.Model):
         'custom':           (None, None, None, 4, 1, '282295444015'),   # Calculated Trading Cards Boxes
     }
 
+    # Custom package dimensions (for sealed_box/custom where size varies)
+    package_length = models.IntegerField(default=0, help_text='Package length in inches')
+    package_width = models.IntegerField(default=0, help_text='Package width in inches')
+    package_height = models.IntegerField(default=0, help_text='Package height in inches')
+
     # Weight (product only, packaging added automatically from config)
     weight_lbs = models.IntegerField(default=0, help_text='Product weight - pounds')
     weight_oz = models.IntegerField(default=0, help_text='Product weight - ounces')
@@ -108,7 +113,9 @@ class EbayListing(models.Model):
 
     @property
     def box_dimensions(self):
-        """Box dimensions as (length, width, height) or None for variable."""
+        """Box dimensions as dict or None. Custom dims override config defaults."""
+        if self.package_length and self.package_width and self.package_height:
+            return {'length': self.package_length, 'width': self.package_width, 'height': self.package_height}
         spec = self.packaging_spec
         if spec[0]:
             return {'length': spec[0], 'width': spec[1], 'height': spec[2]}
