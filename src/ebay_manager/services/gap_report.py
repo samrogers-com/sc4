@@ -109,6 +109,62 @@ PRODUCT_DATA = {
         'title': 'Casper Trading Cards Fleer 1995 Lot of 5 Packs Unopened',
         'specs': {'Manufacturer': 'Fleer', 'Franchise': 'Casper', 'Set': 'Casper', 'Year Manufactured': '1995', 'Genre': 'Fantasy', 'Movie': 'Casper', 'Configuration': 'Pack', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
     },
+    # Star Wars boxes (sub-products under star-wars/)
+    'sw-3d': {
+        'title': 'Star Wars 3D Trading Cards Box Factory Sealed Topps 3Di Widevision',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Star Wars 3Di Widevision', 'Year Manufactured': '1996', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+        'weight_lbs': 2, 'weight_oz': 1,
+    },
+    'sw-first-anthology': {
+        'title': 'Star Wars CCG Card Game First Anthology Sealed Box Decipher Cards',
+        'specs': {'Manufacturer': 'Decipher', 'Franchise': 'Star Wars', 'Set': 'First Anthology', 'Year Manufactured': '1997', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'sw-mastervisions': {
+        'title': 'STAR WARS Topps Master Visions Collector Art Cards Premiere Edition',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Master Visions', 'Year Manufactured': '1995', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'sw-rotj-stickers': {
+        'title': '1983 Star Wars Return of the Jedi Album Sticker Box 60 Packs Sealed',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Return of the Jedi Stickers', 'Year Manufactured': '1983', 'Genre': 'Sci-Fi', 'Movie': 'Return of the Jedi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'sw-shadows-of-the-empire': {
+        'title': 'Sealed NEW Topps Star Wars Shadow of the Empire Premium Trading Card Box',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Shadows of the Empire', 'Year Manufactured': '1996', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'sw-topps-trilogy-regular': {
+        'title': '1997 Topps STAR WARS VEHICLES Factory Sealed Wax Box 36 Packs',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Star Wars Vehicles', 'Year Manufactured': '1997', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'sw-trilogy-merlin': {
+        'title': '1997 Merlin Star Wars Trilogy Cards Box',
+        'specs': {'Manufacturer': 'Merlin', 'Franchise': 'Star Wars', 'Set': 'Star Wars Trilogy', 'Year Manufactured': '1997', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    # Star Trek boxes (sub-products under star-trek/)
+    'deep-space-nine-s1': {
+        'title': '1993 SkyBox Star Trek Deep Space Nine Series 1 Sealed Box',
+        'specs': {'Manufacturer': 'SkyBox', 'Franchise': 'Star Trek', 'Set': 'Deep Space Nine Series 1', 'Year Manufactured': '1993', 'Genre': 'Sci-Fi', 'TV Show': 'Star Trek: Deep Space Nine', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'master-series': {
+        'title': '1993 Skybox Star Trek Edition Master Series Sealed Box',
+        'specs': {'Manufacturer': 'SkyBox', 'Franchise': 'Star Trek', 'Set': 'Master Series', 'Year Manufactured': '1993', 'Genre': 'Sci-Fi', 'TV Show': 'Star Trek', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'next-gerneration': {
+        'title': '1994 SkyBox Star Trek The Next Generation Season 1 Sealed Box',
+        'specs': {'Manufacturer': 'SkyBox', 'Franchise': 'Star Trek', 'Set': 'The Next Generation', 'Year Manufactured': '1994', 'Genre': 'Sci-Fi', 'TV Show': 'Star Trek: The Next Generation', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'tos-25th-anniversary-series-2': {
+        'title': '1991 Impel Star Trek 25th Anniversary Series 2 Trading Cards Sealed Box',
+        'specs': {'Manufacturer': 'Impel', 'Franchise': 'Star Trek', 'Set': '25th Anniversary Series 2', 'Year Manufactured': '1991', 'Genre': 'Sci-Fi', 'TV Show': 'Star Trek', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    # Marvel boxes (sub-products under marvel/)
+    '1993-masterpieces': {
+        'title': '1993 SkyBox Marvel Masterpieces Trading Cards Sealed Box',
+        'specs': {'Manufacturer': 'SkyBox', 'Franchise': 'Marvel', 'Set': 'Marvel Masterpieces', 'Year Manufactured': '1993', 'Genre': 'Sci-Fi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
+    'marveluniverse-91': {
+        'title': '1991 Impel Marvel Universe Series II Trading Cards Sealed Box',
+        'specs': {'Manufacturer': 'Impel', 'Franchise': 'Marvel', 'Set': 'Marvel Universe Series II', 'Year Manufactured': '1991', 'Genre': 'Sci-Fi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+    },
 }
 
 # Default box dimensions for sealed boxes (9x6x4 is standard wax box size)
