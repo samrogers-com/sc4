@@ -182,10 +182,21 @@ def listing_create(request):
         except Exception:
             pass
 
+        # Estimate selling price from eBay market data
+        try:
+            from .services.price_estimate import estimate_price
+            price_data = estimate_price(title or folder_slug.replace('-', ' '), category_id or '261035')
+        except Exception:
+            price_data = {}
+
     # Derive title from r2_prefix if not provided
     if not title and r2_prefix:
         slug = r2_prefix.rstrip('/').split('/')[-1]
         title = slug.replace('-', ' ').title()
+
+    # Initialize price_data if not set (manual create without r2_prefix)
+    if 'price_data' not in dir():
+        price_data = {}
 
     return render(request, 'ebay_manager/listing_create.html', {
         'r2_prefix': r2_prefix,
@@ -200,6 +211,7 @@ def listing_create(request):
         'package_length': package_length,
         'package_width': package_width,
         'package_height': package_height,
+        'price_data': price_data,
     })
 
 

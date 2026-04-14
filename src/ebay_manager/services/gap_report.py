@@ -61,8 +61,8 @@ PRODUCT_DATA = {
         'specs': {'Manufacturer': 'Upper Deck', 'Franchise': 'Valiant Comics', 'Set': 'The Valiant Era', 'Year Manufactured': '1993', 'Genre': 'Sci-Fi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
     },
     'godzilla-green-1998': {
-        'title': '1998 Inkworks Godzilla The Movie Premium Trading Cards Sealed Box',
-        'specs': {'Manufacturer': 'Inkworks', 'Franchise': 'Godzilla', 'Set': 'Godzilla The Movie', 'Year Manufactured': '1998', 'Genre': 'Sci-Fi', 'Movie': 'Godzilla', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+        'title': '1998 JPP/Amada Godzilla Premium Trading Cards Factory Sealed Box',
+        'specs': {'Manufacturer': 'JPP/Amada', 'Franchise': 'Godzilla', 'Set': 'Godzilla', 'Year Manufactured': '1998', 'Genre': 'Sci-Fi', 'Movie': 'Godzilla', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
     },
     'dune': {
         'title': 'Fleer Dune Trading Cards Wax Box 36 Packs',

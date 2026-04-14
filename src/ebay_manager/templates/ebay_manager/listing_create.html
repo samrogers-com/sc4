@@ -39,7 +39,11 @@
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Price ($)</label>
                 <input type="number" name="price" step="0.01" required
+                       value="{% if price_data.suggested_price %}{{ price_data.suggested_price }}{% endif %}"
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                {% if price_data.suggested_price %}
+                <span class="text-green-400 text-xs">Est: ${{ price_data.suggested_price }} (high mean ${{ price_data.high_mean }} - $1.05 | {{ price_data.num_listings }} listings, low ${{ price_data.low_price }})</span>
+                {% endif %}
             </div>
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">SKU / Custom Label</label>
