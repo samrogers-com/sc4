@@ -143,6 +143,8 @@ def listing_create(request):
     category_id = ''
     item_specs = {}
     price_data = {}
+    weight_lbs = 0
+    weight_oz = 0
     package_length = 9  # default box dims
     package_width = 6
     package_height = 4
@@ -172,6 +174,8 @@ def listing_create(request):
                 raw_specs = product_info.get('specs', {})
                 # Convert keys to template-friendly format (spaces → underscores)
                 item_specs = {k.replace(' ', '_'): v for k, v in raw_specs.items()}
+                weight_lbs = product_info.get('weight_lbs', 0)
+                weight_oz = product_info.get('weight_oz', 0)
         except Exception:
             pass
 
@@ -207,6 +211,8 @@ def listing_create(request):
         'description_files': description_files,
         'category_id': category_id,
         'item_specs': item_specs,
+        'weight_lbs': weight_lbs,
+        'weight_oz': weight_oz,
         'package_length': package_length,
         'package_width': package_width,
         'package_height': package_height,

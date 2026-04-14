@@ -63,6 +63,7 @@ PRODUCT_DATA = {
     'godzilla-green-1998': {
         'title': '1998 JPP/Amada Godzilla Premium Trading Cards Factory Sealed Box',
         'specs': {'Manufacturer': 'JPP/Amada', 'Franchise': 'Godzilla', 'Set': 'Godzilla', 'Year Manufactured': '1998', 'Genre': 'Sci-Fi', 'Movie': 'Godzilla', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
+        'weight_lbs': 1, 'weight_oz': 2,
     },
     'dune': {
         'title': 'Fleer Dune Trading Cards Wax Box 36 Packs',
