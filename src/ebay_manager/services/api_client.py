@@ -74,7 +74,17 @@ def get_user_token():
         }, data={
             'grant_type': 'refresh_token',
             'refresh_token': refresh_token,
-            'scope': 'https://api.ebay.com/oauth/api_scope https://api.ebay.com/oauth/api_scope/sell.fulfillment https://api.ebay.com/oauth/api_scope/sell.inventory',
+            'scope': ' '.join([
+                'https://api.ebay.com/oauth/api_scope',
+                'https://api.ebay.com/oauth/api_scope/sell.fulfillment',
+                'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
+                'https://api.ebay.com/oauth/api_scope/sell.analytics.readonly',
+                'https://api.ebay.com/oauth/api_scope/sell.finances',
+                'https://api.ebay.com/oauth/api_scope/sell.inventory',
+                'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly',
+                'https://api.ebay.com/oauth/api_scope/sell.account',
+                'https://api.ebay.com/oauth/api_scope/sell.account.readonly',
+            ]),
         }, timeout=15)
         resp.raise_for_status()
         new_tokens = resp.json()
@@ -84,7 +94,9 @@ def get_user_token():
         with open(token_file, 'w') as f:
             json.dump(new_tokens, f, indent=2)
         return new_tokens.get('access_token')
-    except Exception:
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).error(f'eBay token refresh failed: {e}')
         return None
 
 

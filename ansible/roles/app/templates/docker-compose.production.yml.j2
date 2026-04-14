@@ -8,7 +8,7 @@ services:
              gunicorn --bind 0.0.0.0:{{ gunicorn_port }} --workers {{ gunicorn_workers }} samscollectibles.wsgi:application"
     volumes:
       - static_volume:/usr/src/app/samscollectibles/staticfiles
-      - {{ app_dir }}/src/tools:/usr/src/app/tools:ro
+      - {{ app_dir }}/src/tools:/usr/src/app/tools:rw
       - {{ app_dir }}/ebay_uploads:/usr/src/app/ebay_uploads:ro
     ports:
       - "{{ gunicorn_port }}:{{ gunicorn_port }}"
