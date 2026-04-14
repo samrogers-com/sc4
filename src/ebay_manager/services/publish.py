@@ -1,0 +1,244 @@
+"""
+Publish listings to eBay via the Inventory API.
+
+Flow for creating a listing on eBay:
+1. Create/update inventory item (product info, images, weight)
+2. Create an offer (price, policies, category, listing details)
+3. Either publish the offer (goes live) or leave it as draft
+
+eBay Inventory API docs:
+https://developer.ebay.com/api-docs/sell/inventory/overview.html
+
+Sam's default policies (from sell.account API):
+- Shipping: "NS Boxes Calculated: USPS Ground Adv" (119108501015)
+  or "Calculated – Trading Cards Boxes" (282295444015)
+- Payment: "Combine shipping Payments Policy" (238949740015)
+- Return: "30 days money back" (195880479015)
+"""
+import json
+import requests
+from django.utils import timezone
+from .api_client import get_user_token
+
+INVENTORY_ITEM_URL = 'https://api.ebay.com/sell/inventory/v1/inventory_item'
+OFFER_URL = 'https://api.ebay.com/sell/inventory/v1/offer'
+PUBLISH_URL = 'https://api.ebay.com/sell/inventory/v1/offer/{offerId}/publish'
+
+# Sam's default policy IDs
+DEFAULT_POLICIES = {
+    'fulfillment_policy_id': '282295444015',  # Calculated – Trading Cards Boxes
+    'payment_policy_id': '238949740015',       # Combine shipping
+    'return_policy_id': '195880479015',        # 30 days money back
+}
+
+
+def _get_headers():
+    """Get authenticated headers for eBay API calls."""
+    token = get_user_token()
+    if not token:
+        raise PermissionError("User OAuth not configured or token expired.")
+    return {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json',
+        'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
+        'Content-Language': 'en-US',
+    }
+
+
+def _generate_sku(listing):
+    """Generate a unique SKU for the inventory item."""
+    if listing.sku:
+        return listing.sku
+    # Use the listing PK as a fallback SKU
+    return f"SC-{listing.pk}"
+
+
+def create_inventory_item(listing):
+    """Create or update an inventory item on eBay.
+
+    This sets the product info, images, and package weight.
+    The SKU is the unique key for inventory items.
+
+    Returns: SKU string
+    """
+    headers = _get_headers()
+    sku = _generate_sku(listing)
+
+    # Build image URLs list (eBay needs full URLs)
+    image_urls = []
+    for url in (listing.image_urls or []):
+        if isinstance(url, dict):
+            image_urls.append(url.get('url', ''))
+        elif isinstance(url, str):
+            image_urls.append(url)
+    image_urls = [u for u in image_urls if u]
+
+    # Build the inventory item payload
+    payload = {
+        'availability': {
+            'shipToLocationAvailability': {
+                'quantity': listing.quantity,
+            }
+        },
+        'condition': _map_condition(listing.condition_id),
+        'product': {
+            'title': listing.title,
+            'description': listing.description_html or listing.title,
+            'imageUrls': image_urls[:24],  # eBay max 24 images
+        },
+        'packageWeightAndSize': {
+            'weight': {
+                'value': listing.ship_weight_oz,
+                'unit': 'OUNCE',
+            }
+        },
+    }
+
+    # Create or replace inventory item (PUT with SKU in URL)
+    resp = requests.put(
+        f'{INVENTORY_ITEM_URL}/{sku}',
+        headers=headers,
+        json=payload,
+        timeout=20,
+    )
+
+    if resp.status_code in (200, 201, 204):
+        # Update listing with SKU
+        if not listing.sku:
+            listing.sku = sku
+            listing.save(update_fields=['sku'])
+        return sku
+    else:
+        error_msg = resp.text[:500]
+        raise Exception(f"Failed to create inventory item: {resp.status_code} {error_msg}")
+
+
+def create_offer(listing, sku, as_draft=False):
+    """Create an offer for the inventory item.
+
+    An offer ties the inventory item to listing policies (shipping,
+    payment, returns) and category. It can be published immediately
+    or saved as a draft.
+
+    Returns: offer_id string
+    """
+    headers = _get_headers()
+
+    payload = {
+        'sku': sku,
+        'marketplaceId': 'EBAY_US',
+        'format': 'FIXED_PRICE',
+        'listingDescription': listing.description_html or listing.title,
+        'availableQuantity': listing.quantity,
+        'categoryId': listing.category_id or '261035',
+        'pricingSummary': {
+            'price': {
+                'value': str(listing.price),
+                'currency': 'USD',
+            }
+        },
+        'listingPolicies': {
+            'fulfillmentPolicyId': DEFAULT_POLICIES['fulfillment_policy_id'],
+            'paymentPolicyId': DEFAULT_POLICIES['payment_policy_id'],
+            'returnPolicyId': DEFAULT_POLICIES['return_policy_id'],
+        },
+        'merchantLocationKey': None,  # Use default location
+    }
+
+    # Remove merchantLocationKey if None (let eBay use default)
+    payload.pop('merchantLocationKey', None)
+
+    resp = requests.post(
+        OFFER_URL,
+        headers=headers,
+        json=payload,
+        timeout=20,
+    )
+
+    if resp.status_code in (200, 201):
+        data = resp.json()
+        return data.get('offerId', '')
+    else:
+        error_msg = resp.text[:500]
+        raise Exception(f"Failed to create offer: {resp.status_code} {error_msg}")
+
+
+def publish_offer(offer_id):
+    """Publish an offer to make it a live eBay listing.
+
+    Returns: listing_id (eBay item ID)
+    """
+    headers = _get_headers()
+
+    resp = requests.post(
+        PUBLISH_URL.format(offerId=offer_id),
+        headers=headers,
+        timeout=20,
+    )
+
+    if resp.status_code in (200, 201):
+        data = resp.json()
+        return data.get('listingId', '')
+    else:
+        error_msg = resp.text[:500]
+        raise Exception(f"Failed to publish offer: {resp.status_code} {error_msg}")
+
+
+def send_to_ebay_drafts(listing):
+    """Push a listing to eBay as a draft (not published).
+
+    Creates the inventory item and offer but does NOT publish.
+    The listing appears in Seller Hub > Drafts.
+
+    Returns: dict with sku, offer_id
+    """
+    sku = create_inventory_item(listing)
+    offer_id = create_offer(listing, sku, as_draft=True)
+
+    # Update local listing status
+    listing.status = 'pending'
+    listing.last_synced = timezone.now()
+    listing.save(update_fields=['status', 'last_synced'])
+
+    return {'sku': sku, 'offer_id': offer_id}
+
+
+def publish_to_ebay(listing):
+    """Push a listing to eBay as a live active listing.
+
+    Creates inventory item, offer, and publishes immediately.
+
+    Returns: dict with sku, offer_id, listing_id, ebay_url
+    """
+    sku = create_inventory_item(listing)
+    offer_id = create_offer(listing, sku, as_draft=False)
+    listing_id = publish_offer(offer_id)
+
+    # Update local listing
+    listing.status = 'active'
+    listing.ebay_item_id = listing_id
+    listing.ebay_listing_url = f'https://www.ebay.com/itm/{listing_id}'
+    listing.listed_at = timezone.now()
+    listing.last_synced = timezone.now()
+    listing.save(update_fields=[
+        'status', 'ebay_item_id', 'ebay_listing_url', 'listed_at', 'last_synced'
+    ])
+
+    return {
+        'sku': sku,
+        'offer_id': offer_id,
+        'listing_id': listing_id,
+        'ebay_url': f'https://www.ebay.com/itm/{listing_id}',
+    }
+
+
+def _map_condition(condition_id):
+    """Map our condition IDs to eBay condition enum values."""
+    mapping = {
+        '7000': 'NEW',
+        '3000': 'LIKE_NEW',
+        '4000': 'VERY_GOOD',
+        '5000': 'GOOD',
+        '6000': 'ACCEPTABLE',
+    }
+    return mapping.get(str(condition_id), 'NEW')

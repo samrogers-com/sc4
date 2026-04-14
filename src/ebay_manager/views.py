@@ -331,6 +331,38 @@ def sync_all(request):
 
 @login_required
 @user_passes_test(is_staff)
+def publish_draft(request, pk):
+    """Send a listing to eBay as a draft (appears in Seller Hub Drafts)."""
+    if request.method == 'POST':
+        listing = get_object_or_404(EbayListing, pk=pk)
+        try:
+            from .services.publish import send_to_ebay_drafts
+            result = send_to_ebay_drafts(listing)
+            messages.success(request, f'Sent to eBay Drafts: {listing.title} (SKU: {result["sku"]})')
+        except Exception as e:
+            messages.error(request, f'Failed to send to eBay: {e}')
+        return redirect('ebay_manager:listing_detail', pk=pk)
+    return redirect('ebay_manager:listing_detail', pk=pk)
+
+
+@login_required
+@user_passes_test(is_staff)
+def publish_active(request, pk):
+    """Publish a listing to eBay as a live active listing."""
+    if request.method == 'POST':
+        listing = get_object_or_404(EbayListing, pk=pk)
+        try:
+            from .services.publish import publish_to_ebay
+            result = publish_to_ebay(listing)
+            messages.success(request, f'Published to eBay! Item #{result["listing_id"]} — {listing.title}')
+        except Exception as e:
+            messages.error(request, f'Failed to publish: {e}')
+        return redirect('ebay_manager:listing_detail', pk=pk)
+    return redirect('ebay_manager:listing_detail', pk=pk)
+
+
+@login_required
+@user_passes_test(is_staff)
 def gap_report(request):
     """Web-based gap report comparing R2 photos with active eBay listings.
 

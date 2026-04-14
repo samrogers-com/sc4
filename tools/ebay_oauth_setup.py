@@ -69,6 +69,8 @@ SCOPES = [
     'https://api.ebay.com/oauth/api_scope/sell.finances',
     'https://api.ebay.com/oauth/api_scope/sell.inventory',
     'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly',
+    'https://api.ebay.com/oauth/api_scope/sell.account',
+    'https://api.ebay.com/oauth/api_scope/sell.account.readonly',
 ]
 
 TOKEN_FILE = Path(__file__).parent / 'ebay_user_token.json'

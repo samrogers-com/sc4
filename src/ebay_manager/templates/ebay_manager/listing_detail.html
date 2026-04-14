@@ -14,9 +14,17 @@
     </div>
     <div class="text-right">
         <span class="text-3xl font-bold text-amber-400">${{ listing.price }}</span>
-        {% if listing.status == 'draft' %}
-        <div class="mt-2">
+        {% if listing.status == 'draft' or listing.status == 'pending' %}
+        <div class="mt-2 flex gap-2 flex-wrap">
             <a href="{% url 'ebay_manager:listing_edit' listing.pk %}" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition text-sm">Edit Draft</a>
+            <form method="post" action="{% url 'ebay_manager:publish_draft' listing.pk %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-blue-100 font-bold rounded-lg transition text-sm">Send to eBay Drafts</button>
+            </form>
+            <form method="post" action="{% url 'ebay_manager:publish_active' listing.pk %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="px-4 py-2 bg-green-700 hover:bg-green-600 text-green-100 font-bold rounded-lg transition text-sm">Publish to eBay</button>
+            </form>
         </div>
         {% endif %}
     </div>
