@@ -19,8 +19,11 @@ import os
 import re
 from pathlib import Path
 
-# Project root (one level above src/)
-EBAY_UPLOADS_ROOT = Path(__file__).resolve().parent.parent.parent.parent / 'ebay_uploads'
+# ebay_uploads/ location — works both in Docker (/usr/src/app/ebay_uploads)
+# and local dev (project_root/ebay_uploads)
+_docker_path = Path('/usr/src/app/ebay_uploads')
+_local_path = Path(__file__).resolve().parent.parent.parent.parent / 'ebay_uploads'
+EBAY_UPLOADS_ROOT = _docker_path if _docker_path.exists() else _local_path
 
 
 def list_description_files(subfolder=None):

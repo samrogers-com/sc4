@@ -24,6 +24,31 @@ PRODUCT_TYPES = {
     'binders': 'trading-cards/binders',
 }
 
+# Map R2 folder slugs to proper eBay listing titles
+# Used when creating listings from the gap report
+LISTING_TITLES = {
+    '007-goldeneye': '1995 Graffiti James Bond 007 GoldenEye Trading Cards Factory Sealed Box',
+    '007-tomorrowneverdies': '1997 Inkworks James Bond 007 Tomorrow Never Dies Factory Sealed Box',
+    '007-moonraker': '1979 James Bond 007 Moonraker Cards Box Complete With 36 Unopened Packs',
+    'cosmiccardsinauguralimpel': '1991 Impel DC Comics Cosmic Cards Inaugural Edition Factory Sealed Box',
+    'disneycollectorcardsimpel91': '1991 Impel Disney Collector Cards Factory Sealed Box',
+    'disneycollectorcards2skybox92': '1992 SkyBox Disney Collector Cards Series 2 Factory Sealed Box',
+    'the-outer-limits': '1997 DuoCards The Outer Limits Collector Cards Factory Sealed Box',
+    'valiant': '1993 Upper Deck The Valiant Era Trading Cards Factory Sealed Box',
+    'dune': 'Fleer Dune Trading Cards Wax Box 36 Packs',
+    'godzilla-green-1998': '1998 JPP/Amada Godzilla Trading Cards Factory Sealed Box',
+    'the-creators-universe': 'Creators of the Universe Trading Card Box Sealed',
+    'x-file-s3': '1996 X-Files Season 3 Trading Card Box by Topps New Sealed',
+    'x-files-contact': '1996 Intrepid The X Files Contact Trading Card Box Sealed',
+    'x-files-s1': '1991 Topps The X Files Volume 1 Trading Card Box',
+    'x-files-s2': 'Factory Sealed X-Files Season 2 Premium Trading Card Box TOPPS 1996',
+    'x-files-showcase': '1991 Topps The X Files Showcase Volume 1 Trading Card Box',
+    'space-1999': '1976 SPACE 1999 WAX BOX (24 MINT PACKS) DONRUSS',
+    'wizardofoz-duocards': 'Wizard of Oz Factory Sealed Box Collector 1996 Duo Cards 30 packs',
+    'wizardofoz-pacific': 'Wizard of OZ Trading Card Factory Sealed Box 1990 Pacific',
+    'casper': 'Casper Trading Cards Fleer 1995 Lot of 5 Packs Unopened',
+}
+
 
 def get_gap_report():
     """Compare R2 photo folders with active eBay listings.
@@ -73,7 +98,7 @@ def get_gap_report():
                     r2_products.append({
                         'r2_prefix': sub_prefix,
                         'folder_name': sub_name,
-                        'display_name': sub_name.replace('-', ' ').title(),
+                        'display_name': LISTING_TITLES.get(sub_name, sub_name.replace('-', ' ').title()),
                         'product_type': product_type,
                         'parent': folder_name,
                     })
@@ -82,7 +107,7 @@ def get_gap_report():
                 r2_products.append({
                     'r2_prefix': full_prefix,
                     'folder_name': folder_name,
-                    'display_name': folder_name.replace('-', ' ').title(),
+                    'display_name': LISTING_TITLES.get(folder_name, folder_name.replace('-', ' ').title()),
                     'product_type': product_type,
                     'parent': None,
                 })
