@@ -91,6 +91,20 @@ def create_inventory_item(listing):
         }
         package_info['packageType'] = 'PACKAGE_THICK_ENVELOPE' if dims['height'] <= 2 else 'PACKAGE'
 
+    # Build item specifics as eBay aspects (name/value pairs)
+    aspects = {}
+    for key, value in (listing.item_specifics or {}).items():
+        if value:
+            aspects[key] = [value] if isinstance(value, str) else value
+
+    product = {
+        'title': listing.title,
+        'description': listing.description_html or listing.title,
+        'imageUrls': image_urls[:24],  # eBay max 24 images
+    }
+    if aspects:
+        product['aspects'] = aspects
+
     payload = {
         'availability': {
             'shipToLocationAvailability': {
@@ -98,11 +112,7 @@ def create_inventory_item(listing):
             }
         },
         'condition': _map_condition(listing.condition_id),
-        'product': {
-            'title': listing.title,
-            'description': listing.description_html or listing.title,
-            'imageUrls': image_urls[:24],  # eBay max 24 images
-        },
+        'product': product,
         'packageWeightAndSize': package_info,
     }
 

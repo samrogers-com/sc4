@@ -60,6 +60,63 @@
         </div>
     </div>
 
+    <!-- Item Specifics -->
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4">
+        <h3 class="text-gray-300 font-bold text-sm uppercase mb-3">Item Specifics</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Manufacturer <span class="text-red-400">*</span></label>
+                <input type="text" name="spec_manufacturer" value="{{ listing.item_specifics.Manufacturer|default:'' }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Franchise <span class="text-red-400">*</span></label>
+                <input type="text" name="spec_franchise" value="{{ listing.item_specifics.Franchise|default:'' }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Set <span class="text-red-400">*</span></label>
+                <input type="text" name="spec_set" value="{{ listing.item_specifics.Set|default:'' }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Year Manufactured</label>
+                <input type="text" name="spec_year" value="{{ listing.item_specifics.Year_Manufactured|default:'' }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Configuration</label>
+                <select name="spec_configuration" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <option value="Box" {% if listing.item_specifics.Configuration == 'Box' %}selected{% endif %}>Box</option>
+                    <option value="Set" {% if listing.item_specifics.Configuration == 'Set' %}selected{% endif %}>Set</option>
+                    <option value="Pack" {% if listing.item_specifics.Configuration == 'Pack' %}selected{% endif %}>Pack</option>
+                    <option value="Lot" {% if listing.item_specifics.Configuration == 'Lot' %}selected{% endif %}>Lot</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Type</label>
+                <select name="spec_type" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <option value="Non-Sport Trading Card" selected>Non-Sport Trading Card</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Genre</label>
+                <input type="text" name="spec_genre" value="{{ listing.item_specifics.Genre|default:'' }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Features</label>
+                <input type="text" name="spec_features" value="{{ listing.item_specifics.Features|default:'' }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Movie / TV Show</label>
+                <input type="text" name="spec_movie" value="{{ listing.item_specifics.Movie|default:'' }}"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+        </div>
+    </div>
+
     <!-- Packaging & Weight -->
     <div class="bg-gray-700 rounded-lg border border-gray-600 p-4">
         <h3 class="text-gray-300 font-bold text-sm uppercase mb-3">Packaging &amp; Weight</h3>

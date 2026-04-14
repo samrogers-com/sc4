@@ -67,6 +67,64 @@
         </div>
     </div>
 
+    <!-- Item Specifics (required by eBay for category 261035) -->
+    <div class="bg-gray-700 rounded-lg border border-gray-600 p-4">
+        <h3 class="text-gray-300 font-bold text-sm uppercase mb-3">Item Specifics</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Manufacturer <span class="text-red-400">*</span></label>
+                <input type="text" name="spec_manufacturer" placeholder="e.g. Topps, Fleer, Impel, SkyBox"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Franchise <span class="text-red-400">*</span></label>
+                <input type="text" name="spec_franchise" placeholder="e.g. Star Wars, James Bond, Disney"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Set <span class="text-red-400">*</span></label>
+                <input type="text" name="spec_set" placeholder="e.g. GoldenEye, Series 1"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Year Manufactured</label>
+                <input type="text" name="spec_year" placeholder="e.g. 1995"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Configuration</label>
+                <select name="spec_configuration" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <option value="Box" selected>Box</option>
+                    <option value="Set">Set</option>
+                    <option value="Pack">Pack</option>
+                    <option value="Lot">Lot</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Type</label>
+                <select name="spec_type" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <option value="Non-Sport Trading Card" selected>Non-Sport Trading Card</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Genre</label>
+                <input type="text" name="spec_genre" placeholder="e.g. Sci-Fi, Action, Fantasy"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Features</label>
+                <input type="text" name="spec_features" placeholder="e.g. Factory Sealed, Base Set"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Movie / TV Show</label>
+                <input type="text" name="spec_movie" placeholder="e.g. GoldenEye, Star Wars"
+                       class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+            </div>
+        </div>
+        <p class="text-gray-500 text-xs mt-2"><span class="text-red-400">*</span> Required by eBay to publish</p>
+    </div>
+
     <!-- Packaging & Weight -->
     <div class="bg-gray-700 rounded-lg border border-gray-600 p-4">
         <h3 class="text-gray-300 font-bold text-sm uppercase mb-3">Packaging &amp; Weight</h3>
