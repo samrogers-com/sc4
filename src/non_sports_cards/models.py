@@ -76,7 +76,7 @@ class NonSportsCards(models.Model):
 
     # Storage/shipping configuration for card sets
     SET_CONFIGURATIONS = [
-        ('sealed_box', 'Sealed Wax Box'),
+        ('sealed_box', 'Cardboard Box'),
         ('raw_stacked', 'Raw Stacked Cards'),
         ('9_pocket', '9-Pocket Sheet Pages'),
         ('binder', 'Binder with Pages'),

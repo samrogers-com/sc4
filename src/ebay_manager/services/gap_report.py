@@ -36,7 +36,7 @@ LISTING_TITLES = {
     'the-outer-limits': '1997 DuoCards The Outer Limits Collector Cards Factory Sealed Box',
     'valiant': '1993 Upper Deck The Valiant Era Trading Cards Factory Sealed Box',
     'dune': 'Fleer Dune Trading Cards Wax Box 36 Packs',
-    'godzilla-green-1998': '1998 JPP/Amada Godzilla Trading Cards Factory Sealed Box',
+    'godzilla-green-1998': '1998 Inkworks Godzilla The Movie Premium Trading Cards Sealed Box',
     'the-creators-universe': 'Creators of the Universe Trading Card Box Sealed',
     'x-file-s3': '1996 X-Files Season 3 Trading Card Box by Topps New Sealed',
     'x-files-contact': '1996 Intrepid The X Files Contact Trading Card Box Sealed',

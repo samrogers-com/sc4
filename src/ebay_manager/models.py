@@ -46,7 +46,7 @@ class EbayListing(models.Model):
 
     # Packaging configuration — determines box size, weight overhead, and shipping policy
     PACKAGING_CONFIGS = [
-        ('sealed_box', 'Sealed Wax Box'),
+        ('sealed_box', 'Cardboard Box'),
         ('raw_stacked', 'Raw Stacked Cards (6x4x2)'),
         ('9_pocket_single', '9-Pocket Sheets Single Set (13x10x2)'),
         ('9_pocket_multi', '9-Pocket Sheets Multiple Sets (13x10x3)'),
