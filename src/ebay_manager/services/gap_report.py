@@ -230,6 +230,14 @@ def get_gap_report():
         'wonder-bread',                   # SW Wonder Bread set
         '007jamesbonder-redbinder',       # 007 Red Binder listing
         'duos-lionel-legendarys-trains-pack',  # Lionel Trains Pack
+        'sw-3d',                              # Star Wars 3D box
+        'sw-rotj-stickers',                   # ROTJ Sticker box
+        'sw-shadows-of-the-empire',           # Shadows of Empire box
+        'sw-mastervisions',                   # Master Visions
+        'sw-topps-trilogy-regular',            # Topps Trilogy box
+        'sw-trilogy-merlin',                   # Merlin Trilogy box
+        'sw-wide-anh-esb-rotj-sets',          # Widevision sets
+        'widevision',                         # Widevision set
     }
 
     # Scan R2 for all product folders
@@ -283,7 +291,13 @@ def get_gap_report():
     generic_words = {
         'star', 'wars', 'trek', 'topps', 'set', 'complete', 'base', 'series',
         'card', 'cards', 'trading', 'sealed', 'factory', 'box', 'edition',
-        'collection', 'premium', 'marvel', 'disney',
+        'collection', 'premium', 'marvel', 'disney', 'impel', 'skybox',
+        'fleer', 'upper', 'deck',
+        # Years are not distinctive — many products share the same year
+        '1976', '1977', '1978', '1979', '1980', '1981', '1982', '1983',
+        '1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991',
+        '1992', '1993', '1994', '1995', '1996', '1997', '1998', '1999',
+        '2000', '2001',
     }
 
     for product in r2_products:
