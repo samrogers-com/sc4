@@ -20,3 +20,6 @@ python-decouple>=3.8
 # Storage (R2/S3)
 django-storages>=1.14
 boto3>=1.28
+
+# eBay API
+requests>=2.31
