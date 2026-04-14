@@ -114,7 +114,7 @@ def listing_create(request):
             condition_id=request.POST.get('condition_id', '7000'),
             description_html=request.POST.get('description_html', ''),
             image_urls=image_urls,
-            shipping_service=request.POST.get('shipping_service', 'USPSPriority'),
+            shipping_service=request.POST.get('shipping_service', 'USPSGroundAdvantage'),
             shipping_cost=request.POST.get('shipping_cost', 0),
             status='draft',
             created_by=request.user,

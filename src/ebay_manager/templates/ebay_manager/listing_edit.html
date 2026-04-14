@@ -67,9 +67,9 @@
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Service</label>
                 <select name="shipping_service" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <option value="USPSGroundAdvantage" {% if listing.shipping_service == 'USPSGroundAdvantage' %}selected{% endif %}>USPS Ground Advantage</option>
                     <option value="USPSPriority" {% if listing.shipping_service == 'USPSPriority' %}selected{% endif %}>USPS Priority Mail</option>
                     <option value="USPSFirstClass" {% if listing.shipping_service == 'USPSFirstClass' %}selected{% endif %}>USPS First Class</option>
-                    <option value="USPSParcel" {% if listing.shipping_service == 'USPSParcel' %}selected{% endif %}>USPS Parcel Select</option>
                     <option value="UPSGround" {% if listing.shipping_service == 'UPSGround' %}selected{% endif %}>UPS Ground</option>
                     <option value="FedExGround" {% if listing.shipping_service == 'FedExGround' %}selected{% endif %}>FedEx Ground</option>
                 </select>

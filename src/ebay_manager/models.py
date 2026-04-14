@@ -45,7 +45,7 @@ class EbayListing(models.Model):
     item_specifics = models.JSONField(default=dict, blank=True)
 
     # Shipping & returns
-    shipping_service = models.CharField(max_length=50, default='USPSPriority')
+    shipping_service = models.CharField(max_length=50, default='USPSGroundAdvantage')
     shipping_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     returns_accepted = models.BooleanField(default=True)
 
