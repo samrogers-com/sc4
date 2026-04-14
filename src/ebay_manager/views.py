@@ -190,6 +190,16 @@ def listing_create(request):
         except Exception:
             pass
 
+        # If no pre-built file found, auto-generate from product specs
+        if not description_html and item_specs:
+            try:
+                from .services.description_generator import generate_description
+                # Convert underscored keys back to eBay format for the generator
+                raw_specs = {k.replace('_', ' '): v for k, v in item_specs.items()}
+                description_html = generate_description(title, raw_specs, product_type)
+            except Exception:
+                pass
+
     # Estimate selling price (runs even outside r2_prefix block, uses title)
     if title:
         try:
