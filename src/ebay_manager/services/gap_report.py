@@ -237,18 +237,25 @@ def get_gap_report():
                 })
 
     # Match R2 products against listings using word overlap
+    # Uses BOTH the folder slug AND the PRODUCT_DATA title for matching
     r2_without_listing = []
     matched_r2 = set()
+    stop_words = {'the', 'a', 'an', 'of', 'and', 'img', 'in', 'on', 'for', 'with', 'new'}
 
     for product in r2_products:
+        # Build match words from folder name + display name (PRODUCT_DATA title)
         folder_words = set(re.split(r'[-_/]', product['folder_name'].lower()))
-        folder_words -= {'the', 'a', 'an', 'of', 'and', 'img'}
+        display_words = set(re.split(r'[\s\-]+', product['display_name'].lower()))
+        match_words = (folder_words | display_words) - stop_words
+        # Remove very short words (1-2 chars) that cause false matches
+        match_words = {w for w in match_words if len(w) > 2}
 
         matched = False
         for title_lower, listing in listing_titles.items():
             title_words = set(re.split(r'[\s\-]+', title_lower))
-            overlap = folder_words & title_words
-            if len(overlap) >= 2:
+            title_words = {w for w in title_words if len(w) > 2} - stop_words
+            overlap = match_words & title_words
+            if len(overlap) >= 3:
                 matched = True
                 matched_r2.add(product['r2_prefix'])
                 break
@@ -274,12 +281,14 @@ def get_gap_report():
     listings_without_photos = []
     for listing in listings:
         title_words = set(re.split(r'[\s\-]+', listing.title.lower()))
+        title_words = {w for w in title_words if len(w) > 2} - stop_words
         matched = False
         for product in r2_products:
             folder_words = set(re.split(r'[-_/]', product['folder_name'].lower()))
-            folder_words -= {'the', 'a', 'an', 'of', 'and', 'img'}
-            overlap = title_words & folder_words
-            if len(overlap) >= 2:
+            display_words = set(re.split(r'[\s\-]+', product['display_name'].lower()))
+            product_words = {w for w in (folder_words | display_words) if len(w) > 2} - stop_words
+            overlap = title_words & product_words
+            if len(overlap) >= 3:
                 matched = True
                 break
         if not matched:
