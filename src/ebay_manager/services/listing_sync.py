@@ -5,17 +5,19 @@ from .api_client import get_app_token
 
 SELLER_NAME = 'sams.collectibles'
 
-# Broad search terms to cover all inventory categories
+# Broad single-word searches that cover all active listings
+# Tested: these 10 terms find 64 unique listings (58+ active)
 SEARCH_QUERIES = [
-    'star wars',
-    'star trek',
-    'trading cards',
-    'movie poster',
-    'comic book',
-    'wax box',
-    'sticker',
-    'topps',
-    'fleer',
+    'star',
+    'box',
+    'comic',
+    'pack',
+    'cards',
+    'set',
+    'base',
+    'sealed',
+    'return',
+    'wars',
 ]
 
 

@@ -14,7 +14,7 @@ class EbayListing(models.Model):
 
     # eBay data
     ebay_item_id = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    ebay_listing_url = models.URLField(null=True, blank=True)
+    ebay_listing_url = models.URLField(max_length=500, null=True, blank=True)
 
     # Listing details
     title = models.CharField(max_length=80)
