@@ -56,9 +56,9 @@
                 <label class="block text-gray-300 text-sm font-medium mb-1">Condition</label>
                 <select name="condition_id" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
                     <option value="7000" {% if listing.condition_id == '7000' %}selected{% endif %}>New / Factory Sealed</option>
-                    <option value="3000" {% if listing.condition_id == '3000' %}selected{% endif %}>Like New</option>
-                    <option value="4000" {% if listing.condition_id == '4000' %}selected{% endif %}>Very Good</option>
-                    <option value="5000" {% if listing.condition_id == '5000' %}selected{% endif %}>Good</option>
+                    <option value="4000" {% if listing.condition_id == '4000' %}selected{% endif %}>Ungraded</option>
+                    <option value="3000" {% if listing.condition_id == '3000' %}selected{% endif %}>Used</option>
+                    <option value="2750" {% if listing.condition_id == '2750' %}selected{% endif %}>Graded (Professional)</option>
                     <option value="6000" {% if listing.condition_id == '6000' %}selected{% endif %}>Acceptable</option>
                 </select>
             </div>

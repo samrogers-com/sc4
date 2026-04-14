@@ -66,10 +66,10 @@
             <div>
                 <label class="block text-gray-300 text-sm font-medium mb-1">Condition</label>
                 <select name="condition_id" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
-                    <option value="7000" selected>New / Factory Sealed</option>
-                    <option value="3000">Like New</option>
-                    <option value="4000">Very Good</option>
-                    <option value="5000">Good</option>
+                    <option value="7000" {% if product_type == 'boxes' %}selected{% endif %}>New / Factory Sealed</option>
+                    <option value="4000" {% if product_type == 'sets' or product_type == 'singles' %}selected{% endif %}>Ungraded</option>
+                    <option value="3000">Used</option>
+                    <option value="2750">Graded (Professional)</option>
                     <option value="6000">Acceptable</option>
                 </select>
             </div>
