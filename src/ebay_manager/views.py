@@ -332,6 +332,24 @@ def sync_all(request):
 
 @login_required
 @user_passes_test(is_staff)
+def listing_preview(request, pk):
+    """eBay listing preview — shows the listing as it would appear on eBay.
+
+    Renders title, images, price, description HTML, condition, and
+    shipping info in an eBay-like layout so Sam can visually inspect
+    before publishing.
+    """
+    listing = get_object_or_404(EbayListing, pk=pk)
+    image_urls = _normalize_image_urls(listing.image_urls) if listing.image_urls else []
+
+    return render(request, 'ebay_manager/listing_preview.html', {
+        'listing': listing,
+        'image_urls': image_urls,
+    })
+
+
+@login_required
+@user_passes_test(is_staff)
 def publish_draft(request, pk):
     """Send a listing to eBay as a draft (appears in Seller Hub Drafts)."""
     if request.method == 'POST':
