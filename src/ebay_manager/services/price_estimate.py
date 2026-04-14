@@ -62,7 +62,7 @@ def _simplify_query(title):
     result = key_words[:5]
     if year:
         result.append(year)
-    return ' '.join(result) + ' sealed box'
+    return ' '.join(result)
 
 
 def estimate_price(search_query, category_id='261035'):

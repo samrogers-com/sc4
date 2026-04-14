@@ -161,6 +161,31 @@ PRODUCT_DATA = {
         'title': '1993 SkyBox Marvel Masterpieces Trading Cards Sealed Box',
         'specs': {'Manufacturer': 'SkyBox', 'Franchise': 'Marvel', 'Set': 'Marvel Masterpieces', 'Year Manufactured': '1993', 'Genre': 'Sci-Fi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
     },
+    # Star Wars sets (sub-products under star-wars/ in sets/)
+    'galaxy-s1': {
+        'title': '1993 Topps Star Wars Galaxy Series 1 Complete Base Set',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Galaxy Series 1', 'Year Manufactured': '1993', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
+    },
+    'galaxy-s2': {
+        'title': '1994 Topps Star Wars Galaxy Series 2 Complete Base Set',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Galaxy Series 2', 'Year Manufactured': '1994', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
+    },
+    'anh': {
+        'title': '1977 Topps Star Wars A New Hope Trading Card Sets',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Star Wars Series 1-5', 'Year Manufactured': '1977', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
+    },
+    'esb': {
+        'title': '1980 Topps Star Wars Empire Strikes Back Trading Card Sets',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Empire Strikes Back', 'Year Manufactured': '1980', 'Genre': 'Sci-Fi', 'Movie': 'The Empire Strikes Back', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
+    },
+    'andy-griffith': {
+        'title': '1990 Pacific Andy Griffith Show Complete Trading Card Set',
+        'specs': {'Manufacturer': 'Pacific', 'Franchise': 'Andy Griffith Show', 'Set': 'Andy Griffith Show', 'Year Manufactured': '1990', 'Genre': 'Comedy', 'TV Show': 'The Andy Griffith Show', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
+    },
+    'chrome-archives': {
+        'title': '1999 Topps Star Wars Chrome Archives Complete Trading Card Set',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Chrome Archives', 'Year Manufactured': '1999', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
+    },
     'marveluniverse-91': {
         'title': '1991 Impel Marvel Universe Series II Trading Cards Sealed Box',
         'specs': {'Manufacturer': 'Impel', 'Franchise': 'Marvel', 'Set': 'Marvel Universe Series II', 'Year Manufactured': '1991', 'Genre': 'Sci-Fi', 'Configuration': 'Box', 'Type': 'Non-Sport Trading Card', 'Features': 'Factory Sealed'},
@@ -196,7 +221,7 @@ def get_gap_report():
     listing_titles = {l.title.lower(): l for l in all_listings}
 
     # Products known to be sold out — checks both folder slug and parent folder
-    SOLD_OUT_FOLDERS = {'dune', 'x-files-s1', 'x-files-showcase'}
+    SOLD_OUT_FOLDERS = {'dune', 'x-files-s1', 'x-files-showcase', 'galaxy-s3'}
     # Products with existing multi-variant or active listings (don't show sub-boxes)
     # Also includes R2 folders whose names don't match listing titles well
     ALREADY_LISTED_FOLDERS = {
