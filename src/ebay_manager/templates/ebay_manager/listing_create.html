@@ -177,7 +177,7 @@
                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
             </div>
         </div>
-        <p class="text-gray-500 text-xs mt-2">Set dimensions for sealed boxes. Raw stacked and 9-pocket configs use standard sizes automatically.</p>
+        <p class="text-gray-500 text-xs mt-2">Dimensions auto-fill when you select a packaging type. Adjust as needed for sealed boxes.</p>
     </div>
 
     <!-- Description HTML -->
@@ -239,4 +239,22 @@ document.getElementById('description-file-select')?.addEventListener('change', f
 });
 </script>
 {% endif %}
+<script>
+// Auto-populate dimensions when packaging type changes
+const packagingSpecs = {
+    'sealed_box':      { length: 9, width: 6, height: 4 },
+    'raw_stacked':     { length: 6, width: 4, height: 2 },
+    '9_pocket_single': { length: 13, width: 10, height: 2 },
+    '9_pocket_multi':  { length: 13, width: 10, height: 3 },
+    'custom':          { length: 0, width: 0, height: 0 },
+};
+document.getElementById('packaging-config')?.addEventListener('change', function() {
+    const spec = packagingSpecs[this.value];
+    if (spec) {
+        document.querySelector('[name="package_length"]').value = spec.length;
+        document.querySelector('[name="package_width"]').value = spec.width;
+        document.querySelector('[name="package_height"]').value = spec.height;
+    }
+});
+</script>
 {% endblock %}
