@@ -154,6 +154,7 @@ def create_or_update_offer(listing, sku):
             'paymentPolicyId': DEFAULT_POLICIES['payment_policy_id'],
             'returnPolicyId': DEFAULT_POLICIES['return_policy_id'],
         },
+        'merchantLocationKey': 'SC-DEFAULT',
     }
 
     # Check if offer already exists for this SKU
