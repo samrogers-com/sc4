@@ -74,6 +74,16 @@ class NonSportsCards(models.Model):
     weight_lbs = models.IntegerField(default=0, help_text='Weight - pounds')
     weight_oz = models.IntegerField(default=0, help_text='Weight - ounces')
 
+    # Market pricing (populated by price estimation, refreshed by nightly sync)
+    market_mean_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        help_text='Top quartile mean of active eBay listings'
+    )
+    suggested_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        help_text='Market mean minus $1.05'
+    )
+
     # Storage/shipping configuration for card sets
     SET_CONFIGURATIONS = [
         ('sealed_box', 'Cardboard Box'),

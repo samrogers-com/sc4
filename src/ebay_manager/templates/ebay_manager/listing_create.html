@@ -209,6 +209,8 @@
 
     <!-- Hidden fields -->
     <input type="hidden" name="r2_prefix" value="{{ r2_prefix }}">
+    <input type="hidden" name="market_mean_price" value="{% if price_data.high_mean %}{{ price_data.high_mean }}{% endif %}">
+    <input type="hidden" name="suggested_price" value="{% if price_data.suggested_price %}{{ price_data.suggested_price }}{% endif %}">
     <input type="hidden" name="content_type_id" value="">
     <input type="hidden" name="object_id" value="">
 

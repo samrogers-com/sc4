@@ -109,6 +109,8 @@ def listing_create(request):
         listing = EbayListing(
             title=request.POST.get('title', ''),
             price=request.POST.get('price', 0),
+            market_mean_price=request.POST.get('market_mean_price') or None,
+            suggested_price=request.POST.get('suggested_price') or None,
             sku=request.POST.get('sku', ''),
             category_id=request.POST.get('category_id', ''),
             condition_id=request.POST.get('condition_id', '7000'),

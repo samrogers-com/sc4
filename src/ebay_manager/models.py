@@ -19,6 +19,14 @@ class EbayListing(models.Model):
     # Listing details
     title = models.CharField(max_length=80)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    market_mean_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        help_text='Top quartile mean of active eBay listings for similar items'
+    )
+    suggested_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        help_text='Market mean minus $1.05 (target selling price)'
+    )
     quantity = models.IntegerField(default=1)
     category_id = models.CharField(max_length=10, null=True, blank=True)
     condition_id = models.CharField(max_length=5, null=True, blank=True)

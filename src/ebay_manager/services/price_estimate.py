@@ -20,9 +20,49 @@ Usage:
     result = estimate_price("1998 JPP/Amada Godzilla trading cards sealed box")
     print(result['suggested_price'])  # 79.95
 """
+import re
 import requests
 from decimal import Decimal, ROUND_DOWN
 from .api_client import get_app_token
+
+# Words to strip from search queries (too generic or break eBay search)
+STOP_WORDS = {
+    'factory', 'sealed', 'box', 'trading', 'cards', 'card', 'premium',
+    'new', 'the', 'a', 'an', 'of', 'and', 'in', 'with', 'for',
+    'complete', 'set', 'edition', 'collector', 'base',
+}
+
+
+def _simplify_query(title):
+    """Extract key search terms from a listing title.
+
+    Removes common filler words and special characters to get a
+    focused query that returns relevant eBay results.
+
+    Example:
+        '1998 JPP/Amada Godzilla Premium Trading Cards Factory Sealed Box'
+        → 'Godzilla JPP Amada 1998'
+    """
+    # Replace / with space
+    cleaned = title.replace('/', ' ')
+    # Remove special chars except spaces
+    cleaned = re.sub(r'[^\w\s]', '', cleaned)
+    words = cleaned.split()
+
+    # Keep year, brand, and product name — drop stop words
+    key_words = []
+    year = None
+    for w in words:
+        if re.match(r'^(19|20)\d{2}$', w):
+            year = w
+        elif w.lower() not in STOP_WORDS and len(w) > 1:
+            key_words.append(w)
+
+    # Put product name first, year at end, limit to ~5 key terms
+    result = key_words[:5]
+    if year:
+        result.append(year)
+    return ' '.join(result) + ' sealed box'
 
 
 def estimate_price(search_query, category_id='261035'):
@@ -51,9 +91,12 @@ def estimate_price(search_query, category_id='261035'):
         'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
     }
 
+    # Simplify query for better eBay search results
+    simplified = _simplify_query(search_query)
+
     # Search for similar items — Buy It Now, New condition
     params = {
-        'q': search_query,
+        'q': simplified,
         'filter': 'buyingOptions:{FIXED_PRICE},conditionIds:{1000}',
         'sort': 'price',
         'limit': '30',
