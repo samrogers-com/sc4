@@ -119,6 +119,7 @@ def create_inventory_item(listing):
             }
         },
         'condition': _get_condition_enum(listing.condition_id, listing.category_id),
+        'conditionDescriptors': _get_condition_descriptors(listing.condition_id, listing.category_id),
         'product': product,
         'packageWeightAndSize': package_info,
     }
@@ -274,6 +275,29 @@ def publish_to_ebay(listing):
         'listing_id': listing_id,
         'ebay_url': f'https://www.ebay.com/itm/{listing_id}',
     }
+
+
+def _get_condition_descriptors(condition_id, category_id=''):
+    """Get condition descriptors required for certain categories.
+
+    Category 183050 (Complete Sets) requires:
+    - Condition 4000 (Ungraded): Card Condition descriptor (40001)
+      Values: 400010=Near mint or better, 400011=Excellent, 400012=Very good, 400013=Poor
+    - Condition 2750 (Graded): Professional Grader (27501) + Grade (27502)
+    """
+    cid = str(condition_id)
+    cat = str(category_id)
+
+    # Ungraded card sets — Card Condition required
+    if cat in ('183050', '183052') and cid in ('4000', '7000', '1000'):
+        return [
+            {
+                'name': '40001',
+                'values': ['400010'],  # Near mint or better
+            }
+        ]
+
+    return []
 
 
 def _get_condition_enum(condition_id, category_id=''):
