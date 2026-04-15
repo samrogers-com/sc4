@@ -597,13 +597,29 @@ def multi_variant_create(request):
             if pl and pw and ph:
                 dims = {'length': pl, 'width': pw, 'height': ph}
 
-            result = create_multi_variant_listing(
-                title=title, variants=variants, specs=specs, prices=prices,
-                description_html=desc, fulfillment_policy_id=fulfillment_id,
-                ship_weight_oz=weight, package_dims=dims,
-            )
-            messages.success(request, f"Multi-variant listing published! {len(variants)} variants. Item #{result.get('listing_id', '?')}")
-            return redirect('ebay_manager:dashboard')
+            action = request.POST.get('action', 'publish')
+
+            if action == 'draft':
+                # Save as drafts only — no eBay push
+                from .services.multi_variant import save_variant_drafts
+                result = save_variant_drafts(
+                    title=title, variants=variants, specs=specs, prices=prices,
+                    category_id=request.POST.get('category_id', '261035'),
+                    description_html=desc, r2_prefix=r2_prefix,
+                    ship_weight_oz=weight, package_dims=dims,
+                    fulfillment_policy_id=fulfillment_id, user=request.user,
+                )
+                messages.success(request, f"Multi-variant draft saved! {result['variant_count']} variants. Group: {result['group_key']}")
+                return redirect('ebay_manager:listings')
+            else:
+                # Publish to eBay
+                result = create_multi_variant_listing(
+                    title=title, variants=variants, specs=specs, prices=prices,
+                    description_html=desc, fulfillment_policy_id=fulfillment_id,
+                    ship_weight_oz=weight, package_dims=dims, r2_prefix=r2_prefix,
+                )
+                messages.success(request, f"Multi-variant listing published! {len(variants)} variants. Item #{result.get('listing_id', '?')}")
+                return redirect('ebay_manager:dashboard')
         except Exception as e:
             messages.error(request, f'Multi-variant failed: {e}')
             return redirect('ebay_manager:gap_report')

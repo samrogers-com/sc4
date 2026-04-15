@@ -83,7 +83,8 @@ def create_multi_variant_listing(title, variants, specs, prices,
                                   description_html='',
                                   fulfillment_policy_id='119108501015',
                                   ship_weight_oz=24,
-                                  package_dims=None):
+                                  package_dims=None,
+                                  r2_prefix=''):
     """Create a multi-variant listing on eBay.
 
     Args:
@@ -246,9 +247,219 @@ def create_multi_variant_listing(title, variants, specs, prices,
     else:
         listing_id = publish_resp.json().get('listingId', '')
 
+    # Step 5: Save DB records for each variant
+    _save_variant_records(
+        group_key=group_key,
+        title=title,
+        variants=variants,
+        variant_skus=variant_skus,
+        prices=prices,
+        specs=specs,
+        category_id=category_id,
+        condition_id=condition_id,
+        description_html=description_html,
+        r2_prefix=r2_prefix,
+        listing_id=listing_id,
+        status='active',
+        ship_weight_oz=ship_weight_oz,
+        package_dims=package_dims,
+        fulfillment_policy_id=fulfillment_policy_id,
+    )
+
     return {
         'listing_id': listing_id,
         'group_key': group_key,
         'variant_skus': variant_skus,
         'offer_ids': offer_ids,
     }
+
+
+def save_variant_drafts(title, variants, specs, prices, category_id='261035',
+                        condition_id='7000', description_html='',
+                        r2_prefix='', ship_weight_oz=24, package_dims=None,
+                        fulfillment_policy_id='119108501015', user=None):
+    """Save multi-variant listing as drafts in the database (no eBay push).
+
+    Creates one EbayListing per variant with is_variant=True and a shared
+    group_key. Can be published later from the variant group detail page.
+
+    Returns: dict with group_key, variant_count
+    """
+    slug = re.sub(r'[^a-zA-Z0-9]', '', title[:20]).upper()
+    group_key = f"GRP-{slug}"
+
+    _save_variant_records(
+        group_key=group_key,
+        title=title,
+        variants=variants,
+        variant_skus={v['name']: f"{slug}-{v['name'].upper()}" for v in variants},
+        prices=prices,
+        specs=specs,
+        category_id=category_id,
+        condition_id=condition_id,
+        description_html=description_html,
+        r2_prefix=r2_prefix,
+        listing_id=None,
+        status='draft',
+        ship_weight_oz=ship_weight_oz,
+        package_dims=package_dims,
+        fulfillment_policy_id=fulfillment_policy_id,
+        user=user,
+    )
+
+    return {'group_key': group_key, 'variant_count': len(variants)}
+
+
+def _save_variant_records(group_key, title, variants, variant_skus, prices,
+                          specs, category_id, condition_id, description_html,
+                          r2_prefix, listing_id, status, ship_weight_oz,
+                          package_dims, fulfillment_policy_id, user=None):
+    """Save EbayListing records for each variant in a group.
+
+    Creates or updates one record per variant with shared group_key.
+    """
+    from ebay_manager.models import EbayListing
+
+    for variant in variants:
+        sku = variant_skus.get(variant['name'], '')
+        price = prices.get(variant['name'], prices.get('default', 0))
+        image_urls = variant.get('images', [])
+
+        # Build item specifics
+        item_specs = dict(specs) if specs else {}
+
+        EbayListing.objects.update_or_create(
+            group_key=group_key,
+            variant_name=variant['display'],
+            defaults={
+                'title': title,
+                'price': price,
+                'sku': sku,
+                'status': status,
+                'is_variant': True,
+                'parent_r2_prefix': r2_prefix,
+                'category_id': category_id,
+                'condition_id': condition_id,
+                'description_html': description_html,
+                'image_urls': image_urls,
+                'item_specifics': item_specs,
+                'ebay_item_id': listing_id,
+                'ebay_listing_url': f'https://www.ebay.com/itm/{listing_id}' if listing_id else None,
+                'listed_at': timezone.now() if status == 'active' else None,
+                'last_synced': timezone.now() if status == 'active' else None,
+                'weight_lbs': ship_weight_oz // 16,
+                'weight_oz': ship_weight_oz % 16,
+                'shipping_service': 'USPSGroundAdvantage',
+                'created_by': user,
+            }
+        )
+
+
+def add_variant_to_group(group_key, variant, price, r2_prefix=''):
+    """Add a new variant to an existing multi-variant group.
+
+    Creates the eBay inventory item and offer, updates the item group,
+    and saves a new EbayListing record.
+
+    Args:
+        group_key: Existing group key
+        variant: Dict with 'name', 'display', 'images'
+        price: Price for the new variant
+        r2_prefix: Parent R2 folder
+
+    Returns: dict with sku, offer_id
+    """
+    from ebay_manager.models import EbayListing
+
+    # Get an existing variant to copy settings from
+    existing = EbayListing.objects.filter(group_key=group_key).first()
+    if not existing:
+        raise Exception(f"No existing variants found for group {group_key}")
+
+    headers = _get_headers()
+    slug = group_key.replace('GRP-', '')
+    sku = f"{slug}-{variant['name'].upper()}"
+
+    # Build aspects from existing variant
+    aspects = {}
+    for key, value in (existing.item_specifics or {}).items():
+        if value:
+            aspects[key] = [value] if isinstance(value, str) else value
+    aspects['Box'] = [variant['display']]
+
+    # Create inventory item
+    payload = {
+        'availability': {'shipToLocationAvailability': {'quantity': 1}},
+        'condition': 'NEW',
+        'product': {
+            'title': existing.title,
+            'description': existing.description_html or existing.title,
+            'imageUrls': variant['images'][:24],
+            'aspects': aspects,
+        },
+        'packageWeightAndSize': {
+            'weight': {'value': existing.ship_weight_oz, 'unit': 'OUNCE'},
+        },
+    }
+
+    resp = requests.put(f'{INVENTORY_ITEM_URL}/{sku}', headers=headers, json=payload, timeout=20)
+    if resp.status_code not in (200, 201, 204):
+        raise Exception(f"Failed to create variant {sku}: {resp.status_code} {resp.text[:300]}")
+
+    # Create offer
+    offer_payload = {
+        'sku': sku,
+        'marketplaceId': 'EBAY_US',
+        'format': 'FIXED_PRICE',
+        'listingDescription': existing.description_html or existing.title,
+        'availableQuantity': 1,
+        'categoryId': existing.category_id,
+        'pricingSummary': {'price': {'value': str(price), 'currency': 'USD'}},
+        'listingPolicies': {
+            'fulfillmentPolicyId': existing.fulfillment_policy_id,
+            'paymentPolicyId': DEFAULT_POLICIES['payment_policy_id'],
+            'returnPolicyId': DEFAULT_POLICIES['return_policy_id'],
+        },
+        'merchantLocationKey': 'SC-DEFAULT',
+    }
+
+    resp2 = requests.post(OFFER_URL, headers=headers, json=offer_payload, timeout=20)
+    if resp2.status_code not in (200, 201):
+        raise Exception(f"Failed to create offer: {resp2.status_code} {resp2.text[:300]}")
+    offer_id = resp2.json().get('offerId', '')
+
+    # Update the item group to include new variant
+    # First get existing group data
+    group_resp = requests.get(f'{ITEM_GROUP_URL}/{group_key}', headers=headers, timeout=20)
+    if group_resp.status_code == 200:
+        group_data = group_resp.json()
+        existing_skus = group_data.get('variantSKUs', [])
+        existing_skus.append(sku)
+        existing_values = group_data.get('variesBy', {}).get('specifications', [{}])[0].get('values', [])
+        existing_values.append(variant['display'])
+
+        group_data['variantSKUs'] = existing_skus
+        group_data['variesBy']['specifications'][0]['values'] = existing_values
+
+        requests.put(f'{ITEM_GROUP_URL}/{group_key}', headers=headers, json=group_data, timeout=20)
+
+    # Save DB record
+    EbayListing.objects.create(
+        title=existing.title,
+        price=price,
+        sku=sku,
+        status='active',
+        is_variant=True,
+        group_key=group_key,
+        variant_name=variant['display'],
+        parent_r2_prefix=r2_prefix or existing.parent_r2_prefix,
+        category_id=existing.category_id,
+        condition_id=existing.condition_id,
+        description_html=existing.description_html,
+        image_urls=variant['images'],
+        item_specifics=existing.item_specifics,
+        listed_at=timezone.now(),
+        last_synced=timezone.now(),
+    )
+
+    return {'sku': sku, 'offer_id': offer_id}

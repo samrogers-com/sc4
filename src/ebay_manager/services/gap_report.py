@@ -220,6 +220,12 @@ def get_gap_report():
     listings = EbayListing.objects.filter(status__in=['active', 'draft', 'pending'])
     listing_titles = {l.title.lower(): l for l in listings}
 
+    # Get R2 prefixes that already have variant groups in the DB
+    variant_prefixes = set(
+        EbayListing.objects.filter(is_variant=True, parent_r2_prefix__isnull=False)
+        .values_list('parent_r2_prefix', flat=True).distinct()
+    )
+
     # Products known to be sold out — checks both folder slug and parent folder
     SOLD_OUT_FOLDERS = {'dune', 'x-files-s1', 'x-files-showcase', 'galaxy-s3'}
     # Products with existing multi-variant or active listings (don't show sub-boxes)
@@ -331,6 +337,14 @@ def get_gap_report():
 
             # Skip products already listed (check both slug and parent)
             if slug in ALREADY_LISTED_FOLDERS or parent in ALREADY_LISTED_FOLDERS:
+                continue
+
+            # Skip R2 folders that are already in a multi-variant group
+            if product['r2_prefix'] in variant_prefixes:
+                continue
+            # Also check if parent prefix is in variant groups (sub-boxes)
+            parent_prefix = '/'.join(product['r2_prefix'].split('/')[:-1])
+            if parent_prefix in variant_prefixes:
                 continue
 
             # Flag pre-1990 / multi-variant items

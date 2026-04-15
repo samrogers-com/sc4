@@ -43,6 +43,24 @@ class EbayListing(models.Model):
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
 
+    # Multi-variant support — groups multiple listings (Box 1, Box 2, etc.)
+    group_key = models.CharField(
+        max_length=50, null=True, blank=True, db_index=True,
+        help_text='eBay inventory item group key — ties variants together'
+    )
+    is_variant = models.BooleanField(
+        default=False,
+        help_text='True if this listing is part of a multi-variant group'
+    )
+    variant_name = models.CharField(
+        max_length=50, null=True, blank=True,
+        help_text='Variant display name (e.g. "Box 1", "Box 2")'
+    )
+    parent_r2_prefix = models.CharField(
+        max_length=200, null=True, blank=True,
+        help_text='Parent R2 folder for variant groups (e.g. trading-cards/boxes/space-1999)'
+    )
+
     # Description
     description_html = models.TextField(null=True, blank=True)
 
@@ -166,7 +184,22 @@ class EbayListing(models.Model):
         overhead = spec[3] + spec[4]
         return f"{dims} box, {overhead}oz packaging"
 
+    def get_variant_group(self):
+        """Get all listings in this variant group, ordered by variant name."""
+        if not self.group_key:
+            return EbayListing.objects.none()
+        return EbayListing.objects.filter(group_key=self.group_key).order_by('variant_name')
+
+    @property
+    def variant_count(self):
+        """Number of variants in this group."""
+        if not self.group_key:
+            return 0
+        return EbayListing.objects.filter(group_key=self.group_key).count()
+
     def __str__(self):
+        if self.is_variant and self.variant_name:
+            return f"[{self.status}] {self.title} — {self.variant_name} (${self.price})"
         return f"[{self.status}] {self.title} (${self.price})"
 
 

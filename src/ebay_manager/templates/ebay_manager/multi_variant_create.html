@@ -30,11 +30,22 @@
                         <h4 class="text-gray-100 font-bold">{{ variant.display }}</h4>
                         <span class="text-gray-500 text-xs">{{ variant.image_count }} photos</span>
                     </div>
-                    <div class="w-40">
-                        <label class="block text-gray-400 text-xs mb-1">Price ($)</label>
-                        <input type="number" name="price_{{ variant.name }}" step="0.01" required
-                               value="{% if price_data.suggested_price %}{{ price_data.suggested_price }}{% endif %}"
-                               class="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <div class="space-y-2">
+                        <div>
+                            <label class="block text-gray-400 text-xs mb-1">Price ($)</label>
+                            <input type="number" name="price_{{ variant.name }}" step="0.01" required
+                                   value="{% if price_data.suggested_price %}{{ price_data.suggested_price }}{% endif %}"
+                                   class="w-40 bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-xs mb-1">Card Condition</label>
+                            <select name="condition_{{ variant.name }}" class="w-40 bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-gray-100 text-xs focus:border-amber-500 focus:outline-none">
+                                <option value="400010" selected>Near Mint+</option>
+                                <option value="400011">Excellent</option>
+                                <option value="400012">Very Good</option>
+                                <option value="400013">Poor</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
@@ -118,7 +129,8 @@
     </div>
 
     <div class="flex gap-3">
-        <button type="submit" class="px-6 py-3 bg-green-700 hover:bg-green-600 text-green-100 font-bold rounded-lg transition">Publish Multi-Variant to eBay</button>
+        <button type="submit" name="action" value="draft" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">Save as Drafts</button>
+        <button type="submit" name="action" value="publish" class="px-6 py-3 bg-green-700 hover:bg-green-600 text-green-100 font-bold rounded-lg transition">Publish to eBay</button>
         <a href="{% url 'ebay_manager:gap_report' %}" class="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-gray-200 font-medium rounded-lg transition">Cancel</a>
     </div>
 </form>
