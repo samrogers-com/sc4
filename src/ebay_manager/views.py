@@ -527,6 +527,7 @@ def _parse_item_specifics(post_data):
         'spec_features': 'Features',
         'spec_movie': 'Movie',
         'spec_tv_show': 'TV Show',
+        'card_condition': 'card_condition',
     }
     specs = {}
     for field, aspect_name in field_map.items():

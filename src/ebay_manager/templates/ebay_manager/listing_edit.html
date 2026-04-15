@@ -62,6 +62,15 @@
                     <option value="6000" {% if listing.condition_id == '6000' %}selected{% endif %}>Acceptable</option>
                 </select>
             </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-1">Card Condition</label>
+                <select name="card_condition" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-gray-100 focus:border-amber-500 focus:outline-none">
+                    <option value="400010" {% if listing.item_specifics.card_condition == '400010' %}selected{% endif %}>Near Mint or Better</option>
+                    <option value="400011" {% if listing.item_specifics.card_condition == '400011' %}selected{% endif %}>Excellent</option>
+                    <option value="400012" {% if listing.item_specifics.card_condition == '400012' %}selected{% endif %}>Very Good</option>
+                    <option value="400013" {% if listing.item_specifics.card_condition == '400013' %}selected{% endif %}>Poor</option>
+                </select>
+            </div>
         </div>
     </div>
 

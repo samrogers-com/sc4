@@ -119,7 +119,7 @@ def create_inventory_item(listing):
             }
         },
         'condition': _get_condition_enum(listing.condition_id, listing.category_id),
-        'conditionDescriptors': _get_condition_descriptors(listing.condition_id, listing.category_id),
+        'conditionDescriptors': _get_condition_descriptors(listing.condition_id, listing.category_id, listing.item_specifics),
         'product': product,
         'packageWeightAndSize': package_info,
     }
@@ -277,7 +277,7 @@ def publish_to_ebay(listing):
     }
 
 
-def _get_condition_descriptors(condition_id, category_id=''):
+def _get_condition_descriptors(condition_id, category_id='', item_specifics=None):
     """Get condition descriptors required for certain categories.
 
     Category 183050 (Complete Sets) requires:
@@ -290,10 +290,13 @@ def _get_condition_descriptors(condition_id, category_id=''):
 
     # Ungraded card sets — Card Condition required
     if cat in ('183050', '183052') and cid in ('4000', '7000', '1000'):
+        card_cond = '400010'  # Default: Near mint or better
+        if item_specifics:
+            card_cond = item_specifics.get('card_condition', '400010')
         return [
             {
                 'name': '40001',
-                'values': ['400010'],  # Near mint or better
+                'values': [card_cond],
             }
         ]
 
