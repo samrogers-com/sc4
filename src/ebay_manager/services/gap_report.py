@@ -402,7 +402,11 @@ def get_gap_report():
         for product in r2_products:
             folder_words = set(re.split(r'[-_/]', product['folder_name'].lower()))
             display_words = set(re.split(r'[\s\-]+', product['display_name'].lower()))
-            product_words = {w for w in (folder_words | display_words) if len(w) > 2} - stop_words
+            # Include parent folder words (e.g. 'space-1999' for box-1 under space-1999/)
+            parent_words = set()
+            if product.get('parent'):
+                parent_words = set(re.split(r'[-_/]', product['parent'].lower()))
+            product_words = {w for w in (folder_words | display_words | parent_words) if len(w) > 2} - stop_words
             product_distinctive = product_words - generic_words
             overlap = title_words & product_words
             distinctive_overlap = title_distinctive & product_distinctive
