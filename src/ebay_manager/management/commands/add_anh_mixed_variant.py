@@ -185,7 +185,7 @@ class Command(BaseCommand):
                 'description_html': existing.description_html,
                 'image_urls': image_urls,
                 'item_specifics': existing.item_specifics,
-                'ebay_item_id': existing.ebay_item_id,
+                'ebay_listing_url': f'https://www.ebay.com/itm/{existing.ebay_item_id}',
                 'listed_at': timezone.now(),
                 'last_synced': timezone.now(),
             }
