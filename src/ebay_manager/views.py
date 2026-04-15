@@ -166,11 +166,11 @@ def listing_create(request):
         if product_type == 'boxes' or 'box' in r2_prefix:
             category_id = '261035'   # Sealed Trading Card Boxes
         elif product_type == 'sets' or 'sets' in r2_prefix:
-            category_id = '183050'   # Complete Trading Card Sets
+            category_id = '183052'   # Trading Card Sets
         elif product_type == 'packs' or 'pack' in r2_prefix:
             category_id = '261036'   # Sealed Trading Card Packs
         elif product_type == 'singles' or 'single' in r2_prefix:
-            category_id = '183052'   # Trading Card Singles
+            category_id = '183050'   # Trading Card Singles
 
         # Look up product data (title, item specifics, dims) from gap report
         folder_slug = r2_prefix.rstrip('/').split('/')[-1]

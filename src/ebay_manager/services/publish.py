@@ -280,7 +280,7 @@ def publish_to_ebay(listing):
 def _get_condition_descriptors(condition_id, category_id='', item_specifics=None):
     """Get condition descriptors required for certain categories.
 
-    Category 183050 (Complete Sets) requires:
+    Category 183050 (Singles) and 183052 (Sets) require:
     - Condition 4000 (Ungraded): Card Condition descriptor (40001)
       Values: 400010=Near mint or better, 400011=Excellent, 400012=Very good, 400013=Poor
     - Condition 2750 (Graded): Professional Grader (27501) + Grade (27502)
