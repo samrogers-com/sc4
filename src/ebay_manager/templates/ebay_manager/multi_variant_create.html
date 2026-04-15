@@ -5,10 +5,23 @@
 <h1 class="text-3xl font-bold text-amber-500 mb-2">Create Multi-Variant Listing</h1>
 <p class="text-gray-400 text-sm mb-6">Each subfolder becomes a variant with its own photos and price. Buyer picks which one they want.</p>
 
+{% if series_list %}
+<!-- Series filter tabs -->
+<div class="flex gap-2 mb-6 flex-wrap">
+    <a href="?r2_prefix={{ r2_prefix }}&title={{ title|urlencode }}&product_type={{ product_type }}"
+       class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if not series_filter %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">All Series</a>
+    {% for s in series_list %}
+    <a href="?r2_prefix={{ r2_prefix }}&title={{ title|urlencode }}&product_type={{ product_type }}&series={{ s }}"
+       class="px-3 py-1.5 rounded-full text-sm font-medium transition {% if series_filter == s %}bg-amber-500 text-gray-900{% else %}bg-gray-700 text-gray-300 hover:bg-gray-600{% endif %}">{{ s|title }}</a>
+    {% endfor %}
+</div>
+{% endif %}
+
 <form method="post" class="space-y-6">
     {% csrf_token %}
     <input type="hidden" name="r2_prefix" value="{{ r2_prefix }}">
     <input type="hidden" name="product_type" value="{{ product_type }}">
+    {% if series_filter %}<input type="hidden" name="series" value="{{ series_filter }}">{% endif %}
 
     <!-- Title & Core Fields -->
     <div class="bg-gray-700 rounded-lg border border-gray-600 p-4 space-y-4">
@@ -21,13 +34,14 @@
 
     <!-- Variants with individual prices and photo previews -->
     <div class="bg-gray-700 rounded-lg border border-gray-600 p-4">
-        <h3 class="text-gray-300 font-bold text-sm uppercase mb-4">Variants ({{ variants|length }})</h3>
+        <h3 class="text-gray-300 font-bold text-sm uppercase mb-4">Variants ({{ variants|length }}){% if series_filter %} <span class="text-amber-400 normal-case font-normal">— {{ series_filter|title }}</span>{% endif %}</h3>
         <div class="space-y-4">
             {% for variant in variants %}
             <div class="bg-gray-800 rounded-lg border border-gray-600 p-4">
                 <div class="flex justify-between items-start mb-3">
                     <div>
                         <h4 class="text-gray-100 font-bold">{{ variant.display }}</h4>
+                        {% if variant.folder_path %}<div class="text-green-400 text-xs font-mono mt-0.5">{{ variant.folder_path }}</div>{% endif %}
                         <span class="text-gray-500 text-xs">{{ variant.image_count }} photos</span>
                     </div>
                     <div class="space-y-2">
@@ -55,7 +69,7 @@
                 </div>
             </div>
             {% empty %}
-            <p class="text-gray-400">No variant subfolders found in {{ r2_prefix }}</p>
+            <p class="text-gray-400">No variant subfolders found in {{ r2_prefix }}{% if series_filter %}/{{ series_filter }}{% endif %}</p>
             {% endfor %}
         </div>
     </div>

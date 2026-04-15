@@ -653,11 +653,14 @@ def multi_variant_create(request):
     variants = []
     item_specs = {}
     price_data = {}
+    series_list = []
+    series_filter = request.GET.get('series', '') or request.POST.get('series', '')
 
     if r2_prefix:
         try:
-            from .services.multi_variant import discover_variants
-            variants = discover_variants(r2_prefix)
+            from .services.multi_variant import discover_variants, discover_series
+            series_list = discover_series(r2_prefix)
+            variants = discover_variants(r2_prefix, series_filter=series_filter or None)
         except Exception:
             pass
 
@@ -690,6 +693,8 @@ def multi_variant_create(request):
         'variants': variants,
         'item_specs': item_specs,
         'price_data': price_data,
+        'series_list': series_list,
+        'series_filter': series_filter,
     })
 
 

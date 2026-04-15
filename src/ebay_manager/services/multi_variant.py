@@ -47,34 +47,172 @@ def _get_headers():
     }
 
 
-def discover_variants(r2_prefix):
+def discover_variants(r2_prefix, series_filter=None):
     """Discover variant subfolders and their images from R2.
 
+    Supports three folder depths:
+        Flat:   space-1999/box-1/            (images here)
+        Nested: anh/series-1/1star/102/      (images here)
+                anh/series-5/photos/         (images here)
+
+    The scanner walks down until it finds leaf folders containing images.
+    For the nested case (sets), structure is:
+        {prefix}/{series}/{condition}/{set_number}/{images}
+
     Args:
-        r2_prefix: Parent folder (e.g. 'trading-cards/boxes/space-1999')
+        r2_prefix: Parent folder (e.g. 'trading-cards/boxes/space-1999'
+                   or 'trading-cards/sets/star-wars/anh')
+        series_filter: Optional series subfolder to limit to
+                       (e.g. 'series-1'). Only variants under this
+                       subfolder are returned.
 
     Returns:
-        List of dicts: [{'name': 'box-1', 'display': 'Box 1', 'images': [...urls...]}]
+        List of dicts with keys: name, display, series, condition,
+        set_number, folder_path, images, image_count
     """
     from non_sports_cards.r2_utils import get_r2_folders, get_r2_images
 
     prefix = r2_prefix if r2_prefix.endswith('/') else r2_prefix + '/'
-    subfolders = get_r2_folders(prefix)
+    top_folders = get_r2_folders(prefix)
+
+    if series_filter:
+        top_folders = [f for f in top_folders if f == series_filter]
 
     variants = []
-    for folder in sorted(subfolders):
-        images = get_r2_images(f"{prefix}{folder}/")
-        image_urls = [img.get('url', '') for img in images if img.get('url')]
-        if image_urls:
-            display = folder.replace('-', ' ').title()
-            variants.append({
-                'name': folder,
-                'display': display,
-                'images': image_urls,
-                'image_count': len(image_urls),
-            })
+    for folder in sorted(top_folders):
+        _scan_folder(prefix, folder, None, None, variants, r2_prefix,
+                     get_r2_folders, get_r2_images)
 
     return variants
+
+
+def _scan_folder(prefix, folder, series, condition, variants,
+                 r2_prefix, get_r2_folders, get_r2_images):
+    """Recursively scan R2 folders to find leaf image folders.
+
+    Walks down until a folder has images but no subfolders, then adds
+    it as a variant. Tracks series and condition context from parent folders.
+
+    Folder structure examples:
+        boxes:  prefix/box-1/           -> series=None, condition=None
+        sets:   prefix/series-1/1star/102/  -> series=series-1, condition=1star
+    """
+    folder_prefix = f"{prefix}{folder}/"
+    sub_folders = get_r2_folders(folder_prefix)
+    images = get_r2_images(folder_prefix)
+    image_urls = [img.get('url', '') for img in images if img.get('url')]
+
+    if sub_folders:
+        # Not a leaf — go deeper
+        for sub in sorted(sub_folders):
+            # Determine context: is this a series, condition, or set number folder?
+            new_series = series
+            new_condition = condition
+            if series is None and folder.startswith('series'):
+                new_series = folder
+            elif series and condition is None:
+                new_condition = folder
+            _scan_folder(folder_prefix, sub, new_series, new_condition,
+                         variants, r2_prefix, get_r2_folders, get_r2_images)
+    elif image_urls:
+        # Leaf folder with images — this is a variant
+        if series and condition:
+            # Nested set: series-1/1star/102
+            set_number = folder
+            condition_display = _format_condition(condition)
+            display = f"{condition_display} #{set_number}"
+            name = f"{series}/{condition}/{folder}"
+            folder_path = f"{prefix}{folder}".replace('//', '/')
+        elif series:
+            # Series subfolder with images directly (e.g. series-5/photos)
+            display = folder.replace('-', ' ').title()
+            name = f"{series}/{folder}"
+            set_number = None
+            folder_path = f"{prefix}{folder}".replace('//', '/')
+        else:
+            # Flat: box-1, box-2
+            display = folder.replace('-', ' ').title()
+            name = folder
+            set_number = None
+            condition = None
+            folder_path = f"{prefix}{folder}".replace('//', '/')
+
+        variants.append({
+            'name': name,
+            'display': display,
+            'series': series,
+            'condition': condition,
+            'set_number': set_number if (series and condition) else None,
+            'folder_path': folder_path,
+            'images': image_urls,
+            'image_count': len(image_urls),
+        })
+
+
+def _format_condition(condition):
+    """Format a condition folder name for display.
+
+    '1star' -> '1-Star', '2star' -> '2-Star', 'mixed' -> 'Mixed'
+    """
+    if condition == 'mixed':
+        return 'Mixed'
+    m = re.match(r'^(\d+)star$', condition)
+    if m:
+        return f"{m.group(1)}-Star"
+    return condition.replace('-', ' ').title()
+
+
+def discover_series(r2_prefix):
+    """Discover top-level series subfolders that contain nested variants.
+
+    Returns a list of series names if the R2 prefix has nested structure,
+    or an empty list if variants are flat (no series grouping).
+
+    Args:
+        r2_prefix: Parent folder (e.g. 'trading-cards/sets/star-wars/anh')
+
+    Returns:
+        List of strings: ['series-1', 'series-2', 'series-5'] or []
+    """
+    from non_sports_cards.r2_utils import get_r2_folders
+
+    prefix = r2_prefix if r2_prefix.endswith('/') else r2_prefix + '/'
+    subfolders = get_r2_folders(prefix)
+
+    series = []
+    for folder in sorted(subfolders):
+        # Check if this folder has sub-subfolders (making it a series grouping)
+        sub_subfolders = get_r2_folders(f"{prefix}{folder}/")
+        if sub_subfolders:
+            series.append(folder)
+
+    return series
+
+
+# Folder abbreviation -> full display name
+FOLDER_DISPLAY_NAMES = {
+    'anh': 'A New Hope',
+    'esb': 'The Empire Strikes Back',
+    'rotj': 'Return of the Jedi',
+    'tpm': 'The Phantom Menace',
+    'aotc': 'Attack of the Clones',
+    'rots': 'Revenge of the Sith',
+    'tng': 'The Next Generation',
+    'ds9': 'Deep Space Nine',
+    'tos': 'The Original Series',
+}
+
+
+def expand_folder_name(slug):
+    """Expand a folder abbreviation to its full display name.
+
+    Args:
+        slug: Folder name like 'anh', 'esb', 'rotj'
+
+    Returns:
+        Full name like 'A New Hope' or the title-cased slug if unknown.
+    """
+    return FOLDER_DISPLAY_NAMES.get(slug.lower(), slug.replace('-', ' ').title())
 
 
 def create_multi_variant_listing(title, variants, specs, prices,
