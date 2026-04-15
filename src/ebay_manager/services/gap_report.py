@@ -378,11 +378,23 @@ def get_gap_report():
             r2_without_listing.append(product)
 
     # Find listings without R2 photos
-    # Skip variant listings — they have photos stored in image_urls via their parent R2 prefix
+    # Must check against ALL r2_products (not just r2_without_listing) because
+    # ALREADY_LISTED_FOLDERS and variant_prefixes were excluded from the "ready
+    # to list" section but those folders DO have R2 photos.
     listings_without_photos = []
     for listing in listings:
+        # Skip variant listings — photos stored in image_urls via parent R2 prefix
         if listing.is_variant and listing.parent_r2_prefix:
             continue
+        # Skip listings that already have R2 CDN images
+        if listing.image_urls:
+            has_r2 = any(
+                R2_CDN_BASE in (url.get('url', '') if isinstance(url, dict) else str(url))
+                for url in listing.image_urls
+            )
+            if has_r2:
+                continue
+        # Fuzzy match against ALL r2_products (includes excluded folders)
         title_words = set(re.split(r'[\s\-]+', listing.title.lower()))
         title_words = {w for w in title_words if len(w) > 2} - stop_words
         title_distinctive = title_words - generic_words
