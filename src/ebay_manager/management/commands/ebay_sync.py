@@ -21,16 +21,23 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--report', action='store_true', help='Only run gap report')
         parser.add_argument('--sync-only', action='store_true', help='Only sync, skip report')
+        parser.add_argument('--prices', action='store_true', help='Only refresh market prices')
         parser.add_argument('--days', type=int, default=365, help='Order history days')
 
     def handle(self, *args, **options):
         report_only = options['report']
         sync_only = options['sync_only']
+        prices_only = options['prices']
         days = options['days']
+
+        if prices_only:
+            self._refresh_prices()
+            return
 
         if not report_only:
             self._sync_listings()
             self._sync_orders(days)
+            self._refresh_prices()
 
         if not sync_only:
             self._gap_report()
@@ -58,6 +65,40 @@ class Command(BaseCommand):
             ))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'Order sync failed: {e}'))
+
+    def _refresh_prices(self):
+        """Refresh market prices for all active listings.
+
+        Queries eBay for each active listing's title, calculates the
+        top-quartile mean price, and updates market_mean_price and
+        suggested_price fields in the database.
+        """
+        self.stdout.write(self.style.NOTICE('Refreshing market prices...'))
+        try:
+            from ebay_manager.models import EbayListing
+            from ebay_manager.services.price_estimate import estimate_price
+            import time
+
+            active = EbayListing.objects.filter(status='active')
+            updated = 0
+            for listing in active:
+                try:
+                    result = estimate_price(listing.title, listing.category_id or '')
+                    if result.get('suggested_price'):
+                        listing.market_mean_price = result['high_mean']
+                        listing.suggested_price = result['suggested_price']
+                        listing.save(update_fields=['market_mean_price', 'suggested_price'])
+                        updated += 1
+                    # Rate limit: don't hammer eBay API
+                    time.sleep(0.5)
+                except Exception:
+                    continue
+
+            self.stdout.write(self.style.SUCCESS(
+                f"Prices: {updated} of {active.count()} listings updated"
+            ))
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'Price refresh failed: {e}'))
 
     def _gap_report(self):
         """Compare R2 photos with eBay listings to find gaps."""
