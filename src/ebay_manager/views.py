@@ -59,7 +59,12 @@ LISTING_SORT_FIELDS = {
 @login_required
 @user_passes_test(is_staff)
 def listings(request):
-    """All eBay listings with filters."""
+    """All eBay listings with filters.
+
+    Variant groups are collapsed: one row per group_key showing the group
+    title, variant count, and total value. Clicking links to the group detail.
+    Non-variant listings show as individual rows.
+    """
     status_filter = request.GET.get('status', '')
     sort = request.GET.get('sort', '-created')
     qs = EbayListing.objects.all()
@@ -68,8 +73,28 @@ def listings(request):
     order_field = LISTING_SORT_FIELDS.get(sort, '-created_at')
     qs = qs.order_by(order_field)
 
+    # Collapse variant groups into single rows
+    seen_groups = set()
+    rows = []
+    for listing in qs:
+        if listing.is_variant and listing.group_key:
+            if listing.group_key in seen_groups:
+                continue
+            seen_groups.add(listing.group_key)
+            group_qs = EbayListing.objects.filter(group_key=listing.group_key)
+            rows.append({
+                'listing': listing,
+                'is_group': True,
+                'group_key': listing.group_key,
+                'variant_count': group_qs.count(),
+                'total_price': sum(float(v.price) for v in group_qs),
+            })
+        else:
+            rows.append({'listing': listing, 'is_group': False})
+
     return render(request, 'ebay_manager/listings.html', {
-        'listings': qs,
+        'rows': rows,
+        'listings': qs,  # kept for empty state
         'status_filter': status_filter,
         'status_choices': EbayListing.STATUS_CHOICES,
         'current_sort': sort,
@@ -665,6 +690,167 @@ def multi_variant_create(request):
         'variants': variants,
         'item_specs': item_specs,
         'price_data': price_data,
+    })
+
+
+@login_required
+@user_passes_test(is_staff)
+def variant_group_detail(request, group_key):
+    """Detail page for a multi-variant group.
+
+    Shows all variants in the group with their photos, prices, and statuses.
+    Supports publishing draft groups to eBay and adding new variants.
+    """
+    variants = EbayListing.objects.filter(group_key=group_key).order_by('variant_name')
+    if not variants.exists():
+        messages.error(request, f'Variant group {group_key} not found.')
+        return redirect('ebay_manager:listings')
+
+    first = variants.first()
+
+    if request.method == 'POST':
+        action = request.POST.get('action', '')
+
+        if action == 'update_prices':
+            updated = 0
+            for v in variants:
+                price_key = f"price_{v.pk}"
+                new_price = request.POST.get(price_key)
+                if new_price is not None:
+                    try:
+                        v.price = float(new_price)
+                        v.save(update_fields=['price', 'updated_at'])
+                        updated += 1
+                    except (ValueError, TypeError):
+                        pass
+            messages.success(request, f'Updated prices for {updated} variants.')
+            return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
+        elif action == 'generate_description':
+            try:
+                from .services.description_generator import generate_description
+                desc = generate_description(
+                    first.title,
+                    first.item_specifics or {},
+                    'boxes',
+                )
+                variants.update(description_html=desc)
+                messages.success(request, 'Description generated for all variants.')
+            except Exception as e:
+                messages.error(request, f'Description generation failed: {e}')
+            return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
+        elif action == 'add_variant':
+            try:
+                from .services.multi_variant import discover_variants
+                r2_prefix = first.parent_r2_prefix
+                discovered = discover_variants(r2_prefix)
+                existing_names = set(v.variant_name for v in variants)
+                new_variants = [d for d in discovered if d['display'] not in existing_names]
+                if not new_variants:
+                    messages.info(request, 'No new subfolders found in R2 to add.')
+                else:
+                    from .services.multi_variant import save_variant_drafts
+                    # Save only the new variants as additional drafts
+                    prices = {nv['name']: float(first.price) for nv in new_variants}
+                    for nv in new_variants:
+                        slug = first.group_key.replace('GRP-', '')
+                        sku = f"{slug}-{nv['name'].upper()}"
+                        EbayListing.objects.create(
+                            title=first.title,
+                            price=first.price,
+                            sku=sku,
+                            status='draft',
+                            is_variant=True,
+                            group_key=group_key,
+                            variant_name=nv['display'],
+                            parent_r2_prefix=r2_prefix,
+                            category_id=first.category_id,
+                            condition_id=first.condition_id,
+                            description_html=first.description_html,
+                            image_urls=nv['images'],
+                            item_specifics=first.item_specifics,
+                        )
+                    messages.success(request, f'Added {len(new_variants)} new variant(s): {", ".join(v["display"] for v in new_variants)}')
+            except Exception as e:
+                messages.error(request, f'Add variant failed: {e}')
+            return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
+        elif action == 'publish_group':
+            try:
+                from .services.multi_variant import create_multi_variant_listing, discover_variants
+                r2_prefix = first.parent_r2_prefix
+                discovered = discover_variants(r2_prefix)
+                # Build prices dict keyed by discovered variant names
+                price_map = {}
+                for d in discovered:
+                    for v in variants:
+                        if d['display'] == v.variant_name:
+                            price_map[d['name']] = float(v.price)
+                            break
+                    else:
+                        price_map[d['name']] = float(first.price)
+
+                result = create_multi_variant_listing(
+                    title=first.title,
+                    variants=discovered,
+                    specs=first.item_specifics or {},
+                    prices=price_map,
+                    category_id=first.category_id or '261035',
+                    condition_id=first.condition_id or '7000',
+                    description_html=first.description_html or '',
+                    fulfillment_policy_id='119108501015',
+                    ship_weight_oz=(first.weight_lbs or 0) * 16 + (first.weight_oz or 0) or 24,
+                    r2_prefix=r2_prefix,
+                )
+                # Update existing draft records to active
+                variants.update(
+                    status='active',
+                    ebay_item_id=result.get('listing_id', ''),
+                    listed_at=timezone.now(),
+                    last_synced=timezone.now(),
+                )
+                messages.success(request, f"Published! eBay item #{result.get('listing_id', '?')} with {len(discovered)} variants.")
+            except Exception as e:
+                messages.error(request, f'Publish failed: {e}')
+            return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
+        elif action == 'delete_group':
+            count = variants.count()
+            variants.delete()
+            messages.success(request, f'Deleted {count} variant drafts.')
+            return redirect('ebay_manager:listings')
+
+    # Build per-variant image data
+    variant_data = []
+    total_images = 0
+    for v in variants:
+        images = v.image_urls or []
+        # Handle both list-of-dicts and list-of-strings
+        image_list = []
+        for img in images:
+            if isinstance(img, dict):
+                image_list.append(img.get('url', ''))
+            else:
+                image_list.append(img)
+        total_images += len(image_list)
+        variant_data.append({
+            'listing': v,
+            'images': image_list,
+            'image_count': len(image_list),
+        })
+
+    total_value = sum(float(v.price) for v in variants)
+
+    return render(request, 'ebay_manager/variant_group_detail.html', {
+        'group_key': group_key,
+        'variants': variant_data,
+        'first': first,
+        'total_value': total_value,
+        'total_images': total_images,
+        'variant_count': variants.count(),
+        'all_draft': all(v.status == 'draft' for v in variants),
+        'all_active': all(v.status == 'active' for v in variants),
     })
 
 

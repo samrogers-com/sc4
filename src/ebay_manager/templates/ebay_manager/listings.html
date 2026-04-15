@@ -28,16 +28,31 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-600">
-            {% for listing in listings %}
-            <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{% url 'ebay_manager:listing_detail' listing.pk %}'">
-                <td class="px-4 py-3 text-gray-100 font-medium">{{ listing.title|truncatewords:8 }}</td>
-                <td class="px-4 py-3 text-gray-400 font-mono text-xs">{{ listing.sku|default:"—" }}</td>
-                <td class="px-4 py-3 text-right text-gray-200 font-mono">${{ listing.price }}</td>
-                <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium {% if listing.status == 'active' %}bg-green-900 text-green-300{% elif listing.status == 'sold' %}bg-blue-900 text-blue-300{% elif listing.status == 'draft' %}bg-yellow-900 text-yellow-300{% elif listing.status == 'error' %}bg-red-900 text-red-300{% else %}bg-gray-600 text-gray-400{% endif %}">{{ listing.get_status_display }}</span></td>
-                <td class="px-4 py-3 text-right text-gray-400">{{ listing.view_count }}</td>
-                <td class="px-4 py-3 text-right text-gray-400">{{ listing.watch_count }}</td>
-                <td class="px-4 py-3 text-gray-500 text-xs">{{ listing.created_at|date:"M d" }}</td>
+            {% for row in rows %}
+            {% if row.is_group %}
+            <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{% url 'ebay_manager:variant_group_detail' row.group_key %}'">
+                <td class="px-4 py-3 text-gray-100 font-medium">
+                    {{ row.listing.title|truncatewords:8 }}
+                    <span class="ml-2 px-1.5 py-0.5 rounded bg-purple-900 text-purple-300 text-xs font-medium">{{ row.variant_count }} variants</span>
+                </td>
+                <td class="px-4 py-3 text-gray-400 font-mono text-xs">{{ row.group_key }}</td>
+                <td class="px-4 py-3 text-right text-gray-200 font-mono">${{ row.total_price|floatformat:2 }}</td>
+                <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium {% if row.listing.status == 'active' %}bg-green-900 text-green-300{% elif row.listing.status == 'draft' %}bg-yellow-900 text-yellow-300{% else %}bg-gray-600 text-gray-400{% endif %}">{{ row.listing.get_status_display }}</span></td>
+                <td class="px-4 py-3 text-right text-gray-400">{{ row.listing.view_count }}</td>
+                <td class="px-4 py-3 text-right text-gray-400">{{ row.listing.watch_count }}</td>
+                <td class="px-4 py-3 text-gray-500 text-xs">{{ row.listing.created_at|date:"M d" }}</td>
             </tr>
+            {% else %}
+            <tr class="hover:bg-gray-600 transition cursor-pointer" onclick="window.location='{% url 'ebay_manager:listing_detail' row.listing.pk %}'">
+                <td class="px-4 py-3 text-gray-100 font-medium">{{ row.listing.title|truncatewords:8 }}</td>
+                <td class="px-4 py-3 text-gray-400 font-mono text-xs">{{ row.listing.sku|default:"—" }}</td>
+                <td class="px-4 py-3 text-right text-gray-200 font-mono">${{ row.listing.price }}</td>
+                <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium {% if row.listing.status == 'active' %}bg-green-900 text-green-300{% elif row.listing.status == 'sold' %}bg-blue-900 text-blue-300{% elif row.listing.status == 'draft' %}bg-yellow-900 text-yellow-300{% elif row.listing.status == 'error' %}bg-red-900 text-red-300{% else %}bg-gray-600 text-gray-400{% endif %}">{{ row.listing.get_status_display }}</span></td>
+                <td class="px-4 py-3 text-right text-gray-400">{{ row.listing.view_count }}</td>
+                <td class="px-4 py-3 text-right text-gray-400">{{ row.listing.watch_count }}</td>
+                <td class="px-4 py-3 text-gray-500 text-xs">{{ row.listing.created_at|date:"M d" }}</td>
+            </tr>
+            {% endif %}
             {% empty %}
             <tr><td colspan="7" class="px-4 py-12 text-center">
                 <p class="text-gray-400 mb-2">{% if status_filter %}No {{ status_filter }} listings found.{% else %}No listings yet.{% endif %}</p>

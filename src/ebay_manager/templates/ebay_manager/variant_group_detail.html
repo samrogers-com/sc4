@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}{{ first.title }} — Variant Group{% endblock %}
+{% block content %}
+<div class="mb-4"><a href="{% url 'ebay_manager:listings' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to Listings</a></div>
+
+<!-- Header -->
+<div class="flex justify-between items-start mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-100">{{ first.title }}</h1>
+        <div class="flex items-center gap-3 mt-1">
+            <span class="text-gray-400 text-sm font-mono">{{ group_key }}</span>
+            <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                {% if all_active %}bg-green-900 text-green-300
+                {% elif all_draft %}bg-yellow-900 text-yellow-300
+                {% else %}bg-blue-900 text-blue-300{% endif %}">
+                {% if all_active %}Active{% elif all_draft %}Draft{% else %}Mixed{% endif %}
+            </span>
+            <span class="text-gray-500 text-sm">{{ variant_count }} variants &middot; {{ total_images }} photos</span>
+        </div>
+    </div>
+    <div class="text-right">
+        <span class="text-3xl font-bold text-amber-400">${{ total_value|floatformat:2 }}</span>
+        <div class="text-gray-500 text-xs">total value</div>
+    </div>
+</div>
+
+<!-- Action buttons -->
+<div class="flex gap-3 mb-6 flex-wrap">
+    {% if all_draft %}
+    <form method="post" class="inline">
+        {% csrf_token %}
+        <button type="submit" name="action" value="publish_group" class="px-5 py-2.5 bg-green-700 hover:bg-green-600 text-green-100 font-bold rounded-lg transition">Publish All to eBay</button>
+    </form>
+    {% endif %}
+    <form method="post" class="inline">
+        {% csrf_token %}
+        <button type="submit" name="action" value="generate_description" class="px-5 py-2.5 bg-blue-700 hover:bg-blue-600 text-blue-100 font-bold rounded-lg transition">Generate Description</button>
+    </form>
+    {% if first.parent_r2_prefix %}
+    <form method="post" class="inline">
+        {% csrf_token %}
+        <button type="submit" name="action" value="add_variant" class="px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-purple-100 font-bold rounded-lg transition">+ Add New Variants from R2</button>
+    </form>
+    {% endif %}
+    {% if all_draft %}
+    <form method="post" class="inline" onsubmit="return confirm('Delete all {{ variant_count }} variant drafts?')">
+        {% csrf_token %}
+        <button type="submit" name="action" value="delete_group" class="px-5 py-2.5 bg-red-900 hover:bg-red-800 text-red-300 font-medium rounded-lg transition">Delete Group</button>
+    </form>
+    {% endif %}
+</div>
+
+<!-- Per-variant price editor -->
+<form method="post" id="price-form">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="update_prices">
+
+    <div class="space-y-4">
+        {% for v in variants %}
+        <div class="bg-gray-700 rounded-lg border border-gray-600 p-5">
+            <div class="flex justify-between items-start mb-3">
+                <div class="flex items-center gap-3">
+                    <h3 class="text-lg font-bold text-gray-100">{{ v.listing.variant_name }}</h3>
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                        {% if v.listing.status == 'active' %}bg-green-900 text-green-300
+                        {% elif v.listing.status == 'draft' %}bg-yellow-900 text-yellow-300
+                        {% elif v.listing.status == 'sold' %}bg-blue-900 text-blue-300
+                        {% else %}bg-gray-600 text-gray-400{% endif %}">{{ v.listing.get_status_display }}</span>
+                    <span class="text-gray-500 text-xs font-mono">{{ v.listing.sku }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-500 text-sm">$</span>
+                    <input type="number" name="price_{{ v.listing.pk }}" value="{{ v.listing.price }}" step="0.01" min="0"
+                           class="w-28 bg-gray-800 border border-gray-600 rounded-lg px-3 py-1.5 text-amber-400 font-bold text-right focus:border-amber-500 focus:outline-none"
+                           onchange="document.getElementById('save-prices').classList.remove('hidden')">
+                    <div class="text-gray-500 text-xs w-16 text-right">{{ v.image_count }} photos</div>
+                </div>
+            </div>
+
+            <!-- Photo grid -->
+            {% if v.images %}
+            <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
+                {% for url in v.images %}
+                <img src="{{ url }}" alt="{{ v.listing.variant_name }} photo {{ forloop.counter }}" class="w-full aspect-square object-cover rounded border border-gray-600">
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500 text-sm">No photos</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="save-prices" class="hidden mt-4">
+        <button type="submit" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">Save Prices</button>
+    </div>
+</form>
+
+<!-- Description Preview -->
+{% if first.description_html %}
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mt-6">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Description Preview</h3>
+    <div class="bg-white rounded-lg p-4 max-h-96 overflow-y-auto">
+        {{ first.description_html|safe }}
+    </div>
+</div>
+{% endif %}
+
+<!-- Item Specifics -->
+{% if first.item_specifics %}
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mt-6">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Item Specifics</h3>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {% for key, value in first.item_specifics.items %}
+        <div>
+            <span class="text-gray-500 text-xs">{{ key }}</span>
+            <div class="text-gray-200 text-sm">{{ value }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- R2 Source -->
+{% if first.parent_r2_prefix %}
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mt-6">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Source</h3>
+    <div class="text-gray-400 text-sm font-mono">{{ first.parent_r2_prefix }}</div>
+</div>
+{% endif %}
+{% endblock %}
