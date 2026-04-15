@@ -378,8 +378,11 @@ def get_gap_report():
             r2_without_listing.append(product)
 
     # Find listings without R2 photos
+    # Skip variant listings — they have photos stored in image_urls via their parent R2 prefix
     listings_without_photos = []
     for listing in listings:
+        if listing.is_variant and listing.parent_r2_prefix:
+            continue
         title_words = set(re.split(r'[\s\-]+', listing.title.lower()))
         title_words = {w for w in title_words if len(w) > 2} - stop_words
         title_distinctive = title_words - generic_words
