@@ -11,6 +11,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from ebay_manager.models import EbayListing
+from ebay_manager.services.description_files import EBAY_UPLOADS_ROOT
 from ebay_manager.services.publish import publish_to_ebay
 from non_sports_cards.r2_utils import get_r2_images, _cache
 
@@ -22,8 +23,7 @@ CATEGORY_ID = '261035'   # Sealed Boxes
 CONDITION_ID = '3000'    # Used
 R2_PREFIX = 'trading-cards/boxes/1988-topps-howard-the-duck'
 DESCRIPTION_PATH = (
-    Path(__file__).resolve().parents[4]
-    / 'ebay_descriptions/ns-cards/boxes/movies/1988-topps-howard-the-duck-box.html'
+    EBAY_UPLOADS_ROOT / 'ns_cards' / 'box' / '1988-topps-howard-the-duck-box.html'
 )
 
 # 2 lb 0 oz = 32 oz.  Box dims: 9 x 6 x 4

@@ -11,6 +11,7 @@ from pathlib import Path
 
 from django.core.management.base import BaseCommand
 
+from ebay_manager.services.description_files import EBAY_UPLOADS_ROOT
 from ebay_manager.services.multi_variant import discover_variants, save_variant_drafts
 from non_sports_cards.r2_utils import _cache
 
@@ -20,8 +21,7 @@ R2_PREFIX = 'trading-cards/boxes/2001-rittenhouse-farscape-in-motion'
 CATEGORY_ID = '261035'  # Sealed Boxes
 CONDITION_ID = '1000'   # New / Factory Sealed
 DESCRIPTION_PATH = (
-    Path(__file__).resolve().parents[4]
-    / 'ebay_descriptions/ns-cards/boxes/tv/2001-rittenhouse-farscape-in-motion-box.html'
+    EBAY_UPLOADS_ROOT / 'ns_cards' / 'box' / '2001-rittenhouse-farscape-in-motion-box.html'
 )
 
 # Ship weight: 1 lb 6 oz = 22 oz.  Box dimensions: 9 x 6 x 4
