@@ -81,7 +81,13 @@
             {% if v.images %}
             <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
                 {% for url in v.images %}
-                <img src="{{ url }}" alt="{{ v.listing.variant_name }} photo {{ forloop.counter }}" class="w-full aspect-square object-cover rounded border border-gray-600">
+                <button type="button"
+                        class="variant-thumb p-0 border-0 bg-transparent cursor-zoom-in"
+                        data-full="{{ url }}"
+                        data-alt="{{ v.listing.variant_name }} photo {{ forloop.counter }}"
+                        aria-label="View photo {{ forloop.counter }} full size">
+                    <img src="{{ url }}" alt="{{ v.listing.variant_name }} photo {{ forloop.counter }}" class="w-full aspect-square object-cover rounded border border-gray-600 hover:border-amber-500 transition">
+                </button>
                 {% endfor %}
             </div>
             {% else %}
@@ -128,4 +134,43 @@
     <div class="text-gray-400 text-sm font-mono">{{ first.parent_r2_prefix }}</div>
 </div>
 {% endif %}
+
+<!-- Image lightbox modal (native <dialog>, no deps) -->
+<dialog id="variant-lightbox" class="bg-transparent p-0 backdrop:bg-black/85">
+    <button type="button" id="variant-lightbox-close"
+            class="absolute top-4 right-6 text-white text-4xl leading-none hover:text-amber-400"
+            aria-label="Close">&times;</button>
+    <img id="variant-lightbox-img" src="" alt="" class="max-w-[95vw] max-h-[95vh] object-contain rounded shadow-2xl">
+</dialog>
+<script>
+(function () {
+    var dlg = document.getElementById('variant-lightbox');
+    if (!dlg) return;
+    var img = document.getElementById('variant-lightbox-img');
+    var closeBtn = document.getElementById('variant-lightbox-close');
+
+    document.querySelectorAll('.variant-thumb').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            img.src = btn.dataset.full;
+            img.alt = btn.dataset.alt || '';
+            if (typeof dlg.showModal === 'function') {
+                dlg.showModal();
+            } else {
+                dlg.setAttribute('open', '');
+            }
+        });
+    });
+
+    function close() {
+        img.src = '';
+        if (typeof dlg.close === 'function') dlg.close();
+        else dlg.removeAttribute('open');
+    }
+    closeBtn.addEventListener('click', close);
+    // Click outside the image to close
+    dlg.addEventListener('click', function (e) {
+        if (e.target === dlg) close();
+    });
+})();
+</script>
 {% endblock %}
