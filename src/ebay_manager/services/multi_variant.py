@@ -245,12 +245,15 @@ def create_multi_variant_listing(title, variants, specs, prices,
     """
     headers = _get_headers()
 
-    # eBay inventory-item product.description has a 4000-char limit and is
-    # not shown to buyers (the offer's listingDescription is). When the HTML
-    # exceeds the cap, fall back to the title here.
-    inv_description = description_html or title
-    if len(inv_description) > 4000:
-        inv_description = title
+    # Field-specific description handling:
+    #  - Inventory ITEM product.description has a hard 4000-char cap and is
+    #    NOT what buyers see on a multi-variant listing. Fall back to title
+    #    when the HTML exceeds the cap.
+    #  - Inventory item GROUP description IS what buyers see on the live
+    #    multi-variant listing. Use the full HTML.
+    #  - Offer listingDescription also accepts the full HTML (500K cap).
+    full_description = description_html or title
+    inv_description = full_description if len(full_description) <= 4000 else title
 
     # Apply display-name overrides (keyed by variant name) so existing custom
     # labels like "Box #0728 of 4000" are preserved on eBay and the DB
@@ -325,7 +328,7 @@ def create_multi_variant_listing(title, variants, specs, prices,
 
     group_payload = {
         'title': title,
-        'description': inv_description,
+        'description': full_description,  # buyer-visible on multi-variant page
         'imageUrls': all_images[:24],
         'aspects': group_aspects,
         'variantSKUs': list(variant_skus.values()),
