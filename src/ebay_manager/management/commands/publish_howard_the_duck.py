@@ -16,7 +16,7 @@ from ebay_manager.services.publish import publish_to_ebay
 from non_sports_cards.r2_utils import get_r2_images, _cache
 
 
-TITLE = '1988 Topps Howard the Duck Trading Cards Full Box 36 Wrapped Packs Marvel Lucasfilm'
+TITLE = '1988 Topps Howard the Duck Full Box 36 Wrapped Packs Marvel Lucasfilm'
 SKU = '1988-TOPPS-HOWARD-THE-DUCK-BOX'
 PRICE = 149.95
 CATEGORY_ID = '261035'   # Sealed Boxes
