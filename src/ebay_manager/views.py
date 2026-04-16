@@ -853,6 +853,81 @@ def variant_group_detail(request, group_key):
                 messages.error(request, f'Publish failed: {e}')
             return redirect('ebay_manager:variant_group_detail', group_key=group_key)
 
+        elif action == 'delete_variant':
+            try:
+                variant_pk = int(request.POST.get('variant_pk', 0))
+            except (TypeError, ValueError):
+                variant_pk = 0
+            v = variants.filter(pk=variant_pk).first()
+            if not v:
+                messages.error(request, f'Variant {variant_pk} not found in group.')
+                return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+            label = v.variant_name or f'pk={v.pk}'
+            try:
+                # If the variant is live on eBay, remove it from the
+                # inventory item group, delete its offer, then delete its
+                # inventory item. Leaves the group listing intact for the
+                # remaining variants.
+                if v.status == 'active' and v.sku:
+                    import requests as _requests
+                    from .services.api_client import get_user_token
+                    tok = get_user_token()
+                    if tok:
+                        headers = {
+                            'Authorization': f'Bearer {tok}',
+                            'Content-Type': 'application/json',
+                            'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
+                            'Content-Language': 'en-US',
+                        }
+                        # 1) Delete offer(s) for this SKU
+                        offer_resp = _requests.get(
+                            f'https://api.ebay.com/sell/inventory/v1/offer?sku={v.sku}',
+                            headers=headers, timeout=20,
+                        )
+                        if offer_resp.status_code == 200:
+                            for o in offer_resp.json().get('offers', []):
+                                oid = o.get('offerId')
+                                if o.get('status') == 'PUBLISHED':
+                                    _requests.post(
+                                        f'https://api.ebay.com/sell/inventory/v1/offer/{oid}/withdraw',
+                                        headers=headers, timeout=20,
+                                    )
+                                if oid:
+                                    _requests.delete(
+                                        f'https://api.ebay.com/sell/inventory/v1/offer/{oid}',
+                                        headers=headers, timeout=20,
+                                    )
+                        # 2) Pull the SKU out of the inventory item group
+                        group_url = f'https://api.ebay.com/sell/inventory/v1/inventory_item_group/{group_key}'
+                        gresp = _requests.get(group_url, headers=headers, timeout=20)
+                        if gresp.status_code == 200:
+                            grp = gresp.json()
+                            remaining = [s for s in grp.get('variantSKUs', []) if s != v.sku]
+                            if remaining:
+                                grp['variantSKUs'] = remaining
+                                spec_list = grp.get('variesBy', {}).get('specifications', [])
+                                for spec in spec_list:
+                                    vals = [x for x in spec.get('values', []) if x != v.variant_name]
+                                    spec['values'] = vals
+                                _requests.put(group_url, headers=headers, json=grp, timeout=30)
+                            else:
+                                # Group would be empty — delete the whole group
+                                _requests.delete(group_url, headers=headers, timeout=20)
+                        # 3) Delete the inventory item itself
+                        _requests.delete(
+                            f'https://api.ebay.com/sell/inventory/v1/inventory_item/{v.sku}',
+                            headers=headers, timeout=20,
+                        )
+
+                v.delete()
+                messages.success(request, f'Deleted variant "{label}".')
+                remaining = EbayListing.objects.filter(group_key=group_key).count()
+                if remaining == 0:
+                    return redirect('ebay_manager:listings')
+            except Exception as e:
+                messages.error(request, f'Delete variant failed: {e}')
+            return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
         elif action == 'refresh_variant_images':
             try:
                 variant_pk = int(request.POST.get('variant_pk', 0))

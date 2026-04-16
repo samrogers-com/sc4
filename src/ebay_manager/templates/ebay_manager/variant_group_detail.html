@@ -59,6 +59,12 @@
     <input type="hidden" name="action" value="refresh_variant_images">
     <input type="hidden" name="variant_pk" value="{{ v.listing.pk }}">
 </form>
+<form method="post" id="delete-{{ v.listing.pk }}" class="hidden"
+      onsubmit="return confirm('Delete variant {{ v.listing.variant_name|escapejs }}?{% if v.listing.status == \"active\" %} This will also remove it from the eBay listing.{% endif %} This cannot be undone.');">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="delete_variant">
+    <input type="hidden" name="variant_pk" value="{{ v.listing.pk }}">
+</form>
 {% endfor %}
 
 <!-- Per-variant price editor -->
@@ -89,6 +95,11 @@
                             class="px-2 py-1 text-xs bg-blue-900 hover:bg-blue-800 text-blue-200 rounded transition"
                             title="Re-scan this variant's R2 folder and push updated imageUrls to eBay">
                         ↻ Refresh
+                    </button>
+                    <button type="submit" form="delete-{{ v.listing.pk }}"
+                            class="px-2 py-1 text-xs bg-red-900 hover:bg-red-800 text-red-200 rounded transition"
+                            title="Delete this variant (removes it from the eBay listing if active)">
+                        ✕ Delete
                     </button>
                 </div>
             </div>
