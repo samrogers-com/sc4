@@ -96,14 +96,6 @@
                            class="w-28 bg-gray-800 border border-gray-600 rounded-lg px-3 py-1.5 text-amber-400 font-bold text-right focus:border-amber-500 focus:outline-none"
                            onchange="document.getElementById('save-prices').classList.remove('hidden')">
                     <div class="text-gray-500 text-xs w-16 text-right">{{ v.image_count }} photos</div>
-                    {% if v.listing.description_html %}
-                    <button type="button"
-                            class="variant-view-html px-2 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 rounded transition"
-                            data-target="description-{{ v.listing.pk }}"
-                            title="View this variant's eBay description HTML">
-                        👁 View HTML
-                    </button>
-                    {% endif %}
                     <button type="submit" form="refresh-{{ v.listing.pk }}"
                             class="px-2 py-1 text-xs bg-blue-900 hover:bg-blue-800 text-blue-200 rounded transition"
                             title="Re-scan this variant's R2 folder and push updated imageUrls to eBay">
@@ -145,7 +137,15 @@
 <!-- Description Preview -->
 {% if first.description_html %}
 <div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mt-6">
-    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Description Preview</h3>
+    <div class="flex items-center justify-between mb-3">
+        <h3 class="text-amber-500 font-bold text-sm uppercase">Description Preview</h3>
+        <button type="button"
+                class="variant-view-html px-3 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 rounded transition"
+                data-target="description-group"
+                title="View the full description HTML in a larger modal">
+            👁 View Full HTML
+        </button>
+    </div>
     <div class="bg-white rounded-lg p-4 max-h-96 overflow-y-auto">
         {{ first.description_html|safe }}
     </div>
@@ -183,13 +183,10 @@
     <img id="variant-lightbox-img" src="" alt="" class="max-w-[95vw] max-h-[95vh] object-contain rounded shadow-2xl">
 </dialog>
 
-<!-- Per-variant description HTML modal. Hidden <template> nodes hold the
-     content so we can render each variant's HTML isolated inside the dialog. -->
-{% for v in variants %}
-{% if v.listing.description_html %}
-<template id="description-{{ v.listing.pk }}" data-label="{{ v.listing.variant_name|default:v.listing.sku }}">{{ v.listing.description_html|safe }}</template>
+<!-- Hidden <template> node holding the group description HTML for the modal. -->
+{% if first.description_html %}
+<template id="description-group" data-label="{{ first.title|default:group_key }}">{{ first.description_html|safe }}</template>
 {% endif %}
-{% endfor %}
 <dialog id="variant-html-modal" class="p-0 bg-gray-800 text-gray-100 rounded-lg border border-gray-600 w-[90vw] max-w-4xl backdrop:bg-black/70">
     <div class="flex justify-between items-center px-5 py-3 border-b border-gray-700">
         <h3 class="text-amber-500 font-bold text-sm uppercase" id="variant-html-label">Description</h3>
