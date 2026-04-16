@@ -104,9 +104,15 @@ def create_inventory_item(listing):
     if 'Card Condition' not in aspects:
         aspects['Card Condition'] = ['Near Mint or Better']
 
+    # Inventory item description has a 4000-char cap and is not shown to
+    # buyers — the offer's listingDescription is the visible one. Keep this
+    # field short; fall back to the title if description_html is long.
+    product_description = listing.description_html or listing.title
+    if len(product_description) > 4000:
+        product_description = listing.title
     product = {
         'title': listing.title,
-        'description': listing.description_html or listing.title,
+        'description': product_description,
         'imageUrls': image_urls[:24],  # eBay max 24 images
     }
     if aspects:
