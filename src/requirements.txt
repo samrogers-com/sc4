@@ -23,3 +23,7 @@ boto3>=1.28
 
 # eBay API
 requests>=2.31
+
+# Card scanning (asterisk detection via Claude Vision)
+anthropic>=0.40.0
+Pillow>=10.0

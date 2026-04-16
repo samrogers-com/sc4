@@ -131,6 +131,9 @@ IMAGE_BASE_URL = "https://media.samscollectibles.net/"
 # eBay store URL
 EBAY_STORE_URL = "https://www.ebay.com/usr/sams.collectibles"
 
+# Anthropic Claude API — used for card asterisk scanning via Vision API
+ANTHROPIC_API_KEY = config('ANTHROPIC_API_KEY', default='')
+
 # File storage - configure for your hosting provider (Cloudflare R2, Hostinger, etc.)
 # if config('USE_REMOTE_STORAGE', default=False, cast=bool):
 #     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

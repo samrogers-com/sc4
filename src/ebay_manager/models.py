@@ -281,3 +281,96 @@ class EbayOrderItem(models.Model):
 
     def __str__(self):
         return f"{self.title} x{self.quantity} @ ${self.price}"
+
+
+class SetScanStatus(models.Model):
+    """Tracks which card sets have been scanned for asterisk variants.
+
+    Each record represents one set (e.g. mixed/103) and its scan progress.
+    Used to avoid re-scanning sets and to show scan status in the UI.
+    """
+    SCAN_STATUSES = [
+        ('pending', 'Pending'),
+        ('scanning', 'Scanning'),
+        ('complete', 'Complete'),
+        ('error', 'Error'),
+    ]
+
+    r2_prefix = models.CharField(
+        max_length=300, unique=True,
+        help_text='Full R2 path e.g. trading-cards/sets/star-wars/a-new-hope-77/series-1/mixed/103'
+    )
+    group_key = models.CharField(
+        max_length=50, null=True, blank=True,
+        help_text='EbayListing variant group key if linked'
+    )
+    series = models.CharField(
+        max_length=50, null=True, blank=True,
+        help_text='Series name e.g. series-1'
+    )
+    set_number = models.CharField(
+        max_length=10, null=True, blank=True,
+        help_text='Set number e.g. 103'
+    )
+    status = models.CharField(max_length=20, choices=SCAN_STATUSES, default='pending')
+    total_cards = models.IntegerField(default=66, help_text='Expected card count for this series')
+    scanned_cards = models.IntegerField(default=0)
+    single_star_count = models.IntegerField(default=0, help_text='Cards with ★')
+    double_star_count = models.IntegerField(default=0, help_text='Cards with ★★')
+    unknown_count = models.IntegerField(default=0, help_text='Cards that could not be read')
+    started_at = models.DateTimeField(null=True, blank=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    error_message = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'card_set_scan_status'
+        ordering = ['r2_prefix']
+
+    def __str__(self):
+        return f"[{self.status}] {self.r2_prefix} — ★{self.single_star_count} ★★{self.double_star_count}"
+
+
+class CardAsteriskScan(models.Model):
+    """Per-card asterisk detection result from Claude Vision API.
+
+    Each record is one card in one set, with the detected ★ or ★★ count,
+    card number, title, and confidence score.
+    """
+    scan_set = models.ForeignKey(
+        SetScanStatus, on_delete=models.CASCADE, related_name='cards'
+    )
+    card_number = models.IntegerField(help_text='Card number (1-66 for Series 1)')
+    asterisk_count = models.IntegerField(
+        default=0,
+        help_text='1 for ★, 2 for ★★, 0 for unknown/unreadable'
+    )
+    confidence = models.FloatField(
+        default=0.0,
+        help_text='Confidence score 0.0-1.0 from Claude analysis'
+    )
+    page_number = models.IntegerField(help_text='Photo page number (1-16)')
+    position = models.IntegerField(help_text='Position in 9-pocket page (1-9)')
+    card_title = models.CharField(
+        max_length=200, null=True, blank=True,
+        help_text='Card title text e.g. "Rebels defend their starship!"'
+    )
+    image_crop_url = models.CharField(
+        max_length=500, null=True, blank=True,
+        help_text='R2 URL of the cropped card image'
+    )
+    raw_response = models.TextField(
+        null=True, blank=True,
+        help_text='Raw Claude API response for debugging'
+    )
+    scanned_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'card_asterisk_scans'
+        ordering = ['scan_set', 'card_number']
+        unique_together = [('scan_set', 'card_number')]
+
+    def __str__(self):
+        stars = '★' * self.asterisk_count if self.asterisk_count else '?'
+        return f"#{self.card_number} {stars} — {self.card_title or 'Unknown'}"
