@@ -224,7 +224,8 @@ def create_multi_variant_listing(title, variants, specs, prices,
                                   fulfillment_policy_id='119108501015',
                                   ship_weight_oz=24,
                                   package_dims=None,
-                                  r2_prefix=''):
+                                  r2_prefix='',
+                                  display_overrides=None):
     """Create a multi-variant listing on eBay.
 
     Args:
@@ -250,6 +251,15 @@ def create_multi_variant_listing(title, variants, specs, prices,
     inv_description = description_html or title
     if len(inv_description) > 4000:
         inv_description = title
+
+    # Apply display-name overrides (keyed by variant name) so existing custom
+    # labels like "Box #0728 of 4000" are preserved on eBay and the DB
+    # instead of being replaced by default "Box 1" / "Box 2".
+    if display_overrides:
+        for v in variants:
+            override = display_overrides.get(v['name'])
+            if override:
+                v['display'] = override
 
     # Generate group key and SKUs
     slug = re.sub(r'[^a-zA-Z0-9]', '', title[:20]).upper()
@@ -467,13 +477,19 @@ def _save_variant_records(group_key, title, variants, variant_skus, prices,
     """
     from ebay_manager.models import EbayListing
 
-    for variant in variants:
+    # `ebay_item_id` has a UNIQUE constraint, but a multi-variant group shares
+    # one listing id across all variants. Assign the id only to the first
+    # variant; leave the rest null so update_or_create doesn't collide.
+    for idx, variant in enumerate(variants):
         sku = variant_skus.get(variant['name'], '')
         price = prices.get(variant['name'], prices.get('default', 0))
         image_urls = variant.get('images', [])
 
         # Build item specifics
         item_specs = dict(specs) if specs else {}
+
+        variant_item_id = listing_id if (idx == 0 and listing_id) else None
+        listing_url = f'https://www.ebay.com/itm/{listing_id}' if listing_id else None
 
         EbayListing.objects.update_or_create(
             group_key=group_key,
@@ -490,8 +506,8 @@ def _save_variant_records(group_key, title, variants, variant_skus, prices,
                 'description_html': description_html,
                 'image_urls': image_urls,
                 'item_specifics': item_specs,
-                'ebay_item_id': listing_id,
-                'ebay_listing_url': f'https://www.ebay.com/itm/{listing_id}' if listing_id else None,
+                'ebay_item_id': variant_item_id,
+                'ebay_listing_url': listing_url,
                 'listed_at': timezone.now() if status == 'active' else None,
                 'last_synced': timezone.now() if status == 'active' else None,
                 'weight_lbs': ship_weight_oz // 16,

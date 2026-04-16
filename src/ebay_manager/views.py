@@ -786,13 +786,27 @@ def variant_group_detail(request, group_key):
                 from .services.multi_variant import create_multi_variant_listing, discover_variants
                 r2_prefix = first.parent_r2_prefix
                 discovered = discover_variants(r2_prefix)
-                # Build prices dict keyed by discovered variant names
+
+                # Match R2 subfolder names (box-1, box-2, ...) back to the
+                # DB variants so we can (a) reuse existing prices and
+                # (b) preserve custom variant_name labels like
+                # "Box #0728 of 4000" instead of defaulting to "Box 1".
                 price_map = {}
+                display_overrides = {}
+                variants_by_sku = {v.sku: v for v in variants if v.sku}
                 for d in discovered:
-                    for v in variants:
-                        if d['display'] == v.variant_name:
-                            price_map[d['name']] = float(v.price)
-                            break
+                    sku_guess = f"{group_key.replace('GRP-', '')}-{d['name'].upper()}"
+                    match = variants_by_sku.get(sku_guess)
+                    if not match:
+                        # Fallback: match by current display name
+                        for v in variants:
+                            if d['display'] == v.variant_name:
+                                match = v
+                                break
+                    if match:
+                        price_map[d['name']] = float(match.price)
+                        if match.variant_name and match.variant_name != d['display']:
+                            display_overrides[d['name']] = match.variant_name
                     else:
                         price_map[d['name']] = float(first.price)
 
@@ -807,15 +821,34 @@ def variant_group_detail(request, group_key):
                     fulfillment_policy_id='119108501015',
                     ship_weight_oz=(first.weight_lbs or 0) * 16 + (first.weight_oz or 0) or 24,
                     r2_prefix=r2_prefix,
+                    display_overrides=display_overrides,
                 )
-                # Update existing draft records to active
-                variants.update(
+
+                # Set ebay_item_id on only the first variant — the UNIQUE
+                # constraint on ebay_item_id forbids sharing it across
+                # multiple rows, and a multi-variant group has one listing id.
+                listing_id = result.get('listing_id', '')
+                now = timezone.now()
+                first_variant = variants.order_by('pk').first()
+                if first_variant:
+                    first_variant.status = 'active'
+                    first_variant.ebay_item_id = listing_id or None
+                    first_variant.ebay_listing_url = (
+                        f'https://www.ebay.com/itm/{listing_id}' if listing_id else None
+                    )
+                    first_variant.listed_at = now
+                    first_variant.last_synced = now
+                    first_variant.save()
+                variants.exclude(pk=first_variant.pk if first_variant else None).update(
                     status='active',
-                    ebay_item_id=result.get('listing_id', ''),
-                    listed_at=timezone.now(),
-                    last_synced=timezone.now(),
+                    ebay_item_id=None,
+                    ebay_listing_url=(
+                        f'https://www.ebay.com/itm/{listing_id}' if listing_id else None
+                    ),
+                    listed_at=now,
+                    last_synced=now,
                 )
-                messages.success(request, f"Published! eBay item #{result.get('listing_id', '?')} with {len(discovered)} variants.")
+                messages.success(request, f"Published! eBay item #{listing_id or '?'} with {len(discovered)} variants.")
             except Exception as e:
                 messages.error(request, f'Publish failed: {e}')
             return redirect('ebay_manager:variant_group_detail', group_key=group_key)
