@@ -20,7 +20,7 @@ TITLE = '1988 Topps Howard the Duck Full Box 36 Wrapped Packs Marvel Lucasfilm'
 SKU = '1988-TOPPS-HOWARD-THE-DUCK-BOX'
 PRICE = 149.95
 CATEGORY_ID = '261035'   # Sealed Boxes
-CONDITION_ID = '1500'    # New other (opened box, packs still wrapped inside)
+CONDITION_ID = '1000'    # New (category 261035 only accepts New — box-exterior condition disclosed in HTML)
 R2_PREFIX = 'trading-cards/boxes/1988-topps-howard-the-duck'
 DESCRIPTION_PATH = (
     EBAY_UPLOADS_ROOT / 'ns_cards' / 'box' / '1988-topps-howard-the-duck-box.html'
