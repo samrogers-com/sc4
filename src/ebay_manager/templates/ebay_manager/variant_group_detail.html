@@ -59,8 +59,13 @@
     <input type="hidden" name="action" value="refresh_variant_images">
     <input type="hidden" name="variant_pk" value="{{ v.listing.pk }}">
 </form>
+{% if v.listing.status == 'active' %}
 <form method="post" id="delete-{{ v.listing.pk }}" class="hidden"
-      onsubmit="return confirm('Delete variant {{ v.listing.variant_name|escapejs }}?{% if v.listing.status == \"active\" %} This will also remove it from the eBay listing.{% endif %} This cannot be undone.');">
+      onsubmit="return confirm('Delete variant {{ v.listing.variant_name|escapejs }}? This will also remove it from the eBay listing. This cannot be undone.');">
+{% else %}
+<form method="post" id="delete-{{ v.listing.pk }}" class="hidden"
+      onsubmit="return confirm('Delete variant {{ v.listing.variant_name|escapejs }}? This cannot be undone.');">
+{% endif %}
     {% csrf_token %}
     <input type="hidden" name="action" value="delete_variant">
     <input type="hidden" name="variant_pk" value="{{ v.listing.pk }}">
