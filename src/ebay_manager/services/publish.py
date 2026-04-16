@@ -337,6 +337,8 @@ def _get_condition_enum(condition_id, category_id=''):
     mapping = {
         '7000': 'NEW',
         '1000': 'NEW',
+        '1500': 'NEW_OTHER',
+        '1750': 'NEW',
         '3000': 'USED_GOOD',
         '4000': 'USED_VERY_GOOD',
         '5000': 'USED_GOOD',
