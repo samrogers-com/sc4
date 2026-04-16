@@ -132,7 +132,7 @@ product_id,title,maker,year_made,type,type_number,number_of_packs,cards_per_pack
 78,Easley. Jeff,NULL,1995,base,0,NULL,NULL,NULL,NULL,2,NULL,NULL,enriched,NULL,NULL,NULL,NULL
 79,Escape of the Dinosaurs,NULL,1993,base,0,NULL,NULL,NULL,NULL,1,NULL,NULL,enriched,NULL,NULL,NULL,NULL
 80,Excalibur,NULL,1989,base,0,NULL,NULL,NULL,NULL,1,NULL,NULL,enriched,NULL,NULL,NULL,NULL
-81,Farscape: in Motion,NULL,2001,base,0,NULL,NULL,NULL,NULL,1,500,NULL,enriched,NULL,NULL,NULL,NULL
+81,Farscape: in Motion,Rittenhouse,2001,box,0,24,4,"Rittenhouse 2001 Premiere Edition. 60-card base set. Box contains 24 packs of 4 cards plus 1 Archive packet (3 cards) and 1 Sound in Motion card. Chase sets: Good/Bad/Ugly (18, 1:2), Ships in Motion (9, 1:3), Close Encounters (9, 1:6), Portraits in Motion (9, 1:8), Archive Collection (12 numbered /999, 3 per box), Archive Gold (3 numbered /500, ~1:27 boxes), Sound in Motion (6, 1 per box), Costume (5, 1 per box). Case topper: Claudia Black autograph. Card album (1000 produced).",NULL,2,60,NULL,enriched,Archive Collection,12,insert,3 per box
 82,Farscape: Season 1,Rittenhouse Archives,2000,base,0,NULL,NULL,NULL,NULL,3,NULL,NULL,enriched,NULL,NULL,NULL,NULL
 83,Farscape: Season 2,Rittenhouse Archives,2001,base,0,NULL,NULL,NULL,NULL,2,NULL,NULL,enriched,NULL,NULL,NULL,NULL
 297,Farscape: Season 3,NULL,2002,base,0,NULL,NULL,NULL,NULL,1,NULL,NULL,enriched,NULL,NULL,NULL,NULL
