@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = 'Set up ANH Star Wars set variant groups from existing eBay listings'
 
     def handle(self, *args, **options):
-        r2_prefix = 'trading-cards/sets/star-wars/anh'
+        r2_prefix = 'trading-cards/sets/star-wars/a-new-hope-77'
 
         # Series 2, 1-Star: pk=31, eBay#326464328238 — 4 variants (101-104)
         l2 = EbayListing.objects.get(pk=31)

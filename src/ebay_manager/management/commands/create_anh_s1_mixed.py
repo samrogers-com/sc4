@@ -20,7 +20,7 @@ POLICIES = {
 TITLE = '1977 Topps Star Wars Series 1 Complete Base Set 1-66'
 GROUP_KEY = 'GRP-SW-ANH-S1-MIXED'
 CATEGORY_ID = '183052'
-R2_PREFIX = 'trading-cards/sets/star-wars/anh'
+R2_PREFIX = 'trading-cards/sets/star-wars/a-new-hope-77'
 
 ASPECTS = {
     'Franchise': ['Star Wars'],
@@ -65,7 +65,7 @@ class Command(BaseCommand):
 
         # Step 1: Create inventory items for each variant
         for v in VARIANTS:
-            r2_path = f'trading-cards/sets/star-wars/anh/series-1/mixed/{v["num"]}/'
+            r2_path = f'trading-cards/sets/star-wars/a-new-hope-77/series-1/mixed/{v["num"]}/'
             images = get_r2_images(r2_path)
             image_urls = [img.get('url', '') for img in images if img.get('url')]
             self.stdout.write(f'Mixed #{v["num"]}: {len(image_urls)} images, ${v["price"]}')
@@ -208,7 +208,7 @@ class Command(BaseCommand):
         # Step 5: Save DB records
         r2_images_by_num = {}
         for v in VARIANTS:
-            imgs = get_r2_images(f'trading-cards/sets/star-wars/anh/series-1/mixed/{v["num"]}/')
+            imgs = get_r2_images(f'trading-cards/sets/star-wars/a-new-hope-77/series-1/mixed/{v["num"]}/')
             r2_images_by_num[v['num']] = [i.get('url', '') for i in imgs if i.get('url')]
 
         for v in VARIANTS:

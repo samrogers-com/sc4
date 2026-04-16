@@ -52,8 +52,8 @@ def discover_variants(r2_prefix, series_filter=None):
 
     Supports three folder depths:
         Flat:   space-1999/box-1/            (images here)
-        Nested: anh/series-1/1star/102/      (images here)
-                anh/series-5/photos/         (images here)
+        Nested: a-new-hope-77/series-1/1star/102/      (images here)
+                a-new-hope-77/series-5/photos/         (images here)
 
     The scanner walks down until it finds leaf folders containing images.
     For the nested case (sets), structure is:
@@ -61,7 +61,7 @@ def discover_variants(r2_prefix, series_filter=None):
 
     Args:
         r2_prefix: Parent folder (e.g. 'trading-cards/boxes/space-1999'
-                   or 'trading-cards/sets/star-wars/anh')
+                   or 'trading-cards/sets/star-wars/a-new-hope-77')
         series_filter: Optional series subfolder to limit to
                        (e.g. 'series-1'). Only variants under this
                        subfolder are returned.
@@ -169,7 +169,7 @@ def discover_series(r2_prefix):
     or an empty list if variants are flat (no series grouping).
 
     Args:
-        r2_prefix: Parent folder (e.g. 'trading-cards/sets/star-wars/anh')
+        r2_prefix: Parent folder (e.g. 'trading-cards/sets/star-wars/a-new-hope-77')
 
     Returns:
         List of strings: ['series-1', 'series-2', 'series-5'] or []
@@ -189,11 +189,13 @@ def discover_series(r2_prefix):
     return series
 
 
-# Folder abbreviation -> full display name
+# Folder slug -> full display name
+# Folder names now use descriptive slugs with year suffix:
+#   a-new-hope-77, empire-strikes-back-80, return-of-the-jedi-83
 FOLDER_DISPLAY_NAMES = {
-    'anh': 'A New Hope',
-    'esb': 'The Empire Strikes Back',
-    'rotj': 'Return of the Jedi',
+    'a-new-hope-77': 'A New Hope (1977)',
+    'empire-strikes-back-80': 'The Empire Strikes Back (1980)',
+    'return-of-the-jedi-83': 'Return of the Jedi (1983)',
     'tpm': 'The Phantom Menace',
     'aotc': 'Attack of the Clones',
     'rots': 'Revenge of the Sith',
@@ -204,13 +206,13 @@ FOLDER_DISPLAY_NAMES = {
 
 
 def expand_folder_name(slug):
-    """Expand a folder abbreviation to its full display name.
+    """Expand a folder slug to its full display name.
 
     Args:
-        slug: Folder name like 'anh', 'esb', 'rotj'
+        slug: Folder name like 'a-new-hope-77', 'empire-strikes-back-80'
 
     Returns:
-        Full name like 'A New Hope' or the title-cased slug if unknown.
+        Full name like 'A New Hope (1977)' or the title-cased slug if unknown.
     """
     return FOLDER_DISPLAY_NAMES.get(slug.lower(), slug.replace('-', ' ').title())
 

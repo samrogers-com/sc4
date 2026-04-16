@@ -170,13 +170,17 @@ PRODUCT_DATA = {
         'title': '1994 Topps Star Wars Galaxy Series 2 Complete Base Set',
         'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Galaxy Series 2', 'Year Manufactured': '1994', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
     },
-    'anh': {
+    'a-new-hope-77': {
         'title': '1977 Topps Star Wars A New Hope Trading Card Sets',
         'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Star Wars Series 1-5', 'Year Manufactured': '1977', 'Genre': 'Sci-Fi', 'Movie': 'Star Wars', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
     },
-    'esb': {
+    'empire-strikes-back-80': {
         'title': '1980 Topps Star Wars Empire Strikes Back Trading Card Sets',
         'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Empire Strikes Back', 'Year Manufactured': '1980', 'Genre': 'Sci-Fi', 'Movie': 'The Empire Strikes Back', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
+    },
+    'return-of-the-jedi-83': {
+        'title': '1983 Topps Star Wars Return of the Jedi Trading Card Sets',
+        'specs': {'Manufacturer': 'Topps', 'Franchise': 'Star Wars', 'Set': 'Return of the Jedi', 'Year Manufactured': '1983', 'Genre': 'Sci-Fi', 'Movie': 'Return of the Jedi', 'Configuration': 'Set', 'Type': 'Non-Sport Trading Card'},
     },
     'andy-griffith': {
         'title': '1990 Pacific Andy Griffith Show Complete Trading Card Set',

@@ -41,7 +41,7 @@ class Command(BaseCommand):
         self.stdout.write(f'eBay item: {existing.ebay_item_id}')
 
         # Get images for mixed/103
-        images = get_r2_images('trading-cards/sets/star-wars/anh/series-1/mixed/103/')
+        images = get_r2_images('trading-cards/sets/star-wars/a-new-hope-77/series-1/mixed/103/')
         image_urls = [img.get('url', '') for img in images if img.get('url')]
         self.stdout.write(f'Mixed #103 images: {len(image_urls)}')
 
@@ -179,7 +179,7 @@ class Command(BaseCommand):
                 'sku': new_sku,
                 'status': 'active',
                 'is_variant': True,
-                'parent_r2_prefix': 'trading-cards/sets/star-wars/anh',
+                'parent_r2_prefix': 'trading-cards/sets/star-wars/a-new-hope-77',
                 'category_id': existing.category_id,
                 'condition_id': existing.condition_id,
                 'description_html': existing.description_html,
