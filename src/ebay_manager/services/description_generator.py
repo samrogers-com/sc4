@@ -34,15 +34,27 @@ def generate_description(title, specs=None, product_type='boxes'):
         Complete HTML string ready for eBay description field.
     """
     specs = specs or {}
-    manufacturer = specs.get('Manufacturer', '')
-    franchise = specs.get('Franchise', '')
-    set_name = specs.get('Set', '')
-    year = specs.get('Year Manufactured', '')
-    genre = specs.get('Genre', '')
-    movie = specs.get('Movie', '')
-    tv_show = specs.get('TV Show', '')
-    config = specs.get('Configuration', 'Box')
-    features = specs.get('Features', 'Factory Sealed')
+
+    def _str(value, default=''):
+        """Item specifics are stored as lists (eBay aspect format) — coerce
+        to a single string, joining multiple values with a comma."""
+        if value is None or value == '':
+            return default
+        if isinstance(value, (list, tuple)):
+            if not value:
+                return default
+            return ', '.join(str(v) for v in value if v)
+        return str(value)
+
+    manufacturer = _str(specs.get('Manufacturer'))
+    franchise = _str(specs.get('Franchise'))
+    set_name = _str(specs.get('Set'))
+    year = _str(specs.get('Year Manufactured'))
+    genre = _str(specs.get('Genre'))
+    movie = _str(specs.get('Movie'))
+    tv_show = _str(specs.get('TV Show'))
+    config = _str(specs.get('Configuration'), 'Box')
+    features = _str(specs.get('Features'), 'Factory Sealed')
 
     # Build header lines
     header_title = title.upper()
