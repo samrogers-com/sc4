@@ -91,6 +91,14 @@
                            class="w-28 bg-gray-800 border border-gray-600 rounded-lg px-3 py-1.5 text-amber-400 font-bold text-right focus:border-amber-500 focus:outline-none"
                            onchange="document.getElementById('save-prices').classList.remove('hidden')">
                     <div class="text-gray-500 text-xs w-16 text-right">{{ v.image_count }} photos</div>
+                    {% if v.listing.description_html %}
+                    <button type="button"
+                            class="variant-view-html px-2 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 rounded transition"
+                            data-target="description-{{ v.listing.pk }}"
+                            title="View this variant's eBay description HTML">
+                        👁 View HTML
+                    </button>
+                    {% endif %}
                     <button type="submit" form="refresh-{{ v.listing.pk }}"
                             class="px-2 py-1 text-xs bg-blue-900 hover:bg-blue-800 text-blue-200 rounded transition"
                             title="Re-scan this variant's R2 folder and push updated imageUrls to eBay">
@@ -169,35 +177,76 @@
             aria-label="Close">&times;</button>
     <img id="variant-lightbox-img" src="" alt="" class="max-w-[95vw] max-h-[95vh] object-contain rounded shadow-2xl">
 </dialog>
+
+<!-- Per-variant description HTML modal. Hidden <template> nodes hold the
+     content so we can render each variant's HTML isolated inside the dialog. -->
+{% for v in variants %}
+{% if v.listing.description_html %}
+<template id="description-{{ v.listing.pk }}" data-label="{{ v.listing.variant_name|default:v.listing.sku }}">{{ v.listing.description_html|safe }}</template>
+{% endif %}
+{% endfor %}
+<dialog id="variant-html-modal" class="p-0 bg-gray-800 text-gray-100 rounded-lg border border-gray-600 w-[90vw] max-w-4xl backdrop:bg-black/70">
+    <div class="flex justify-between items-center px-5 py-3 border-b border-gray-700">
+        <h3 class="text-amber-500 font-bold text-sm uppercase" id="variant-html-label">Description</h3>
+        <button type="button" id="variant-html-close"
+                class="text-gray-400 text-2xl leading-none hover:text-amber-400"
+                aria-label="Close">&times;</button>
+    </div>
+    <div id="variant-html-body" class="bg-white text-gray-900 p-4 max-h-[75vh] overflow-y-auto"></div>
+</dialog>
+
 <script>
 (function () {
+    // ---- Image lightbox ----
     var dlg = document.getElementById('variant-lightbox');
-    if (!dlg) return;
     var img = document.getElementById('variant-lightbox-img');
     var closeBtn = document.getElementById('variant-lightbox-close');
-
-    document.querySelectorAll('.variant-thumb').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            img.src = btn.dataset.full;
-            img.alt = btn.dataset.alt || '';
-            if (typeof dlg.showModal === 'function') {
-                dlg.showModal();
-            } else {
-                dlg.setAttribute('open', '');
-            }
+    if (dlg && img && closeBtn) {
+        document.querySelectorAll('.variant-thumb').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                img.src = btn.dataset.full;
+                img.alt = btn.dataset.alt || '';
+                if (typeof dlg.showModal === 'function') dlg.showModal();
+                else dlg.setAttribute('open', '');
+            });
         });
-    });
-
-    function close() {
-        img.src = '';
-        if (typeof dlg.close === 'function') dlg.close();
-        else dlg.removeAttribute('open');
+        function closeLightbox() {
+            img.src = '';
+            if (typeof dlg.close === 'function') dlg.close();
+            else dlg.removeAttribute('open');
+        }
+        closeBtn.addEventListener('click', closeLightbox);
+        dlg.addEventListener('click', function (e) {
+            if (e.target === dlg) closeLightbox();
+        });
     }
-    closeBtn.addEventListener('click', close);
-    // Click outside the image to close
-    dlg.addEventListener('click', function (e) {
-        if (e.target === dlg) close();
-    });
+
+    // ---- Per-variant HTML modal ----
+    var htmlDlg = document.getElementById('variant-html-modal');
+    var htmlBody = document.getElementById('variant-html-body');
+    var htmlLabel = document.getElementById('variant-html-label');
+    var htmlClose = document.getElementById('variant-html-close');
+    if (htmlDlg && htmlBody && htmlClose) {
+        document.querySelectorAll('.variant-view-html').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var tpl = document.getElementById(btn.dataset.target);
+                if (!tpl) return;
+                htmlBody.innerHTML = tpl.innerHTML;
+                htmlLabel.textContent = 'Description — ' + (tpl.dataset.label || '');
+                if (typeof htmlDlg.showModal === 'function') htmlDlg.showModal();
+                else htmlDlg.setAttribute('open', '');
+            });
+        });
+        function closeHtml() {
+            htmlBody.innerHTML = '';
+            if (typeof htmlDlg.close === 'function') htmlDlg.close();
+            else htmlDlg.removeAttribute('open');
+        }
+        htmlClose.addEventListener('click', closeHtml);
+        htmlDlg.addEventListener('click', function (e) {
+            if (e.target === htmlDlg) closeHtml();
+        });
+    }
 })();
 </script>
 {% endblock %}
