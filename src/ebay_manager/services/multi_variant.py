@@ -244,6 +244,13 @@ def create_multi_variant_listing(title, variants, specs, prices,
     """
     headers = _get_headers()
 
+    # eBay inventory-item product.description has a 4000-char limit and is
+    # not shown to buyers (the offer's listingDescription is). When the HTML
+    # exceeds the cap, fall back to the title here.
+    inv_description = description_html or title
+    if len(inv_description) > 4000:
+        inv_description = title
+
     # Generate group key and SKUs
     slug = re.sub(r'[^a-zA-Z0-9]', '', title[:20]).upper()
     group_key = f"GRP-{slug}"
@@ -281,7 +288,7 @@ def create_multi_variant_listing(title, variants, specs, prices,
             'condition': 'NEW',
             'product': {
                 'title': title,
-                'description': description_html or title,
+                'description': inv_description,
                 'imageUrls': variant['images'][:24],
                 'aspects': aspects,
             },
@@ -308,7 +315,7 @@ def create_multi_variant_listing(title, variants, specs, prices,
 
     group_payload = {
         'title': title,
-        'description': description_html or title,
+        'description': inv_description,
         'imageUrls': all_images[:24],
         'aspects': group_aspects,
         'variantSKUs': list(variant_skus.values()),
@@ -527,13 +534,18 @@ def add_variant_to_group(group_key, variant, price, r2_prefix=''):
             aspects[key] = [value] if isinstance(value, str) else value
     aspects['Box'] = [variant['display']]
 
+    # Inventory item description has a 4000-char cap (see create_multi_variant_listing).
+    inv_description = existing.description_html or existing.title
+    if len(inv_description) > 4000:
+        inv_description = existing.title
+
     # Create inventory item
     payload = {
         'availability': {'shipToLocationAvailability': {'quantity': 1}},
         'condition': 'NEW',
         'product': {
             'title': existing.title,
-            'description': existing.description_html or existing.title,
+            'description': inv_description,
             'imageUrls': variant['images'][:24],
             'aspects': aspects,
         },
