@@ -853,6 +853,73 @@ def variant_group_detail(request, group_key):
                 messages.error(request, f'Publish failed: {e}')
             return redirect('ebay_manager:variant_group_detail', group_key=group_key)
 
+        elif action == 'refresh_variant_images':
+            try:
+                variant_pk = int(request.POST.get('variant_pk', 0))
+            except (TypeError, ValueError):
+                variant_pk = 0
+            v = variants.filter(pk=variant_pk).first()
+            if not v:
+                messages.error(request, f'Variant {variant_pk} not found in group.')
+                return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+            try:
+                from non_sports_cards.r2_utils import get_r2_images, _cache
+                _cache.clear()
+                # Re-scan the variant's R2 subfolder. For flat groups the
+                # subfolder name is the last URL segment of the SKU
+                # (e.g. box-1 for SKU GROUP-BOX-1). For nested groups we
+                # already stored image_urls whose common prefix we reuse.
+                if v.parent_r2_prefix and v.image_urls:
+                    # Derive the leaf folder from the first existing image URL
+                    sample = v.image_urls[0]
+                    # Strip CDN base, keep the R2 key, drop the filename
+                    from urllib.parse import urlparse
+                    path = urlparse(sample).path.lstrip('/')
+                    r2_folder = path.rsplit('/', 1)[0] + '/'
+                else:
+                    # Fallback: parent_prefix/<variant-name>
+                    slug = (v.sku or '').split('-')[-1].lower() or 'box-1'
+                    r2_folder = f"{v.parent_r2_prefix.rstrip('/')}/{slug}/"
+
+                images = get_r2_images(r2_folder)
+                image_urls = [i.get('url', '') for i in images if i.get('url')]
+                if not image_urls:
+                    messages.warning(request, f'No images found under {r2_folder}')
+                    return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
+                v.image_urls = image_urls
+                v.last_synced = timezone.now()
+                v.save(update_fields=['image_urls', 'last_synced', 'updated_at'])
+
+                # If this variant is live on eBay, PUT the new imageUrls
+                # to the eBay inventory item too.
+                if v.status == 'active' and v.sku:
+                    import requests as _requests
+                    from .services.api_client import get_user_token
+                    tok = get_user_token()
+                    if tok:
+                        headers = {
+                            'Authorization': f'Bearer {tok}',
+                            'Content-Type': 'application/json',
+                            'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
+                            'Content-Language': 'en-US',
+                        }
+                        url = f'https://api.ebay.com/sell/inventory/v1/inventory_item/{v.sku}'
+                        g = _requests.get(url, headers=headers, timeout=20)
+                        if g.status_code == 200:
+                            item = g.json()
+                            item.setdefault('product', {})['imageUrls'] = image_urls[:24]
+                            p = _requests.put(url, headers=headers, json=item, timeout=30)
+                            if p.status_code not in (200, 201, 204):
+                                messages.warning(request, f'Image update saved locally but eBay PUT failed: {p.status_code} {p.text[:200]}')
+                            else:
+                                messages.success(request, f'{v.variant_name}: refreshed {len(image_urls)} images (DB + eBay).')
+                                return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+                messages.success(request, f'{v.variant_name}: refreshed {len(image_urls)} images in DB.')
+            except Exception as e:
+                messages.error(request, f'Refresh images failed: {e}')
+            return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
         elif action == 'delete_group':
             count = variants.count()
             variants.delete()

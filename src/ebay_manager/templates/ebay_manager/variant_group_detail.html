@@ -50,6 +50,17 @@
     {% endif %}
 </div>
 
+<!-- Per-variant action forms (nested forms aren't allowed in HTML, so
+     each row-level action is a sibling <form> that the row's button
+     references via the form="..." attribute) -->
+{% for v in variants %}
+<form method="post" id="refresh-{{ v.listing.pk }}" class="hidden">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="refresh_variant_images">
+    <input type="hidden" name="variant_pk" value="{{ v.listing.pk }}">
+</form>
+{% endfor %}
+
 <!-- Per-variant price editor -->
 <form method="post" id="price-form">
     {% csrf_token %}
@@ -74,6 +85,11 @@
                            class="w-28 bg-gray-800 border border-gray-600 rounded-lg px-3 py-1.5 text-amber-400 font-bold text-right focus:border-amber-500 focus:outline-none"
                            onchange="document.getElementById('save-prices').classList.remove('hidden')">
                     <div class="text-gray-500 text-xs w-16 text-right">{{ v.image_count }} photos</div>
+                    <button type="submit" form="refresh-{{ v.listing.pk }}"
+                            class="px-2 py-1 text-xs bg-blue-900 hover:bg-blue-800 text-blue-200 rounded transition"
+                            title="Re-scan this variant's R2 folder and push updated imageUrls to eBay">
+                        ↻ Refresh
+                    </button>
                 </div>
             </div>
 
