@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load ebay_html %}
 {% block title %}Preview: {{ listing.title }} — eBay Manager{% endblock %}
 {% block content %}
 
@@ -85,7 +86,7 @@
         <div class="border-t pt-6">
             <h2 class="text-lg font-bold text-gray-800 mb-4">Item Description</h2>
             <div class="overflow-auto">
-                {{ listing.description_html|safe }}
+                {{ listing.description_html|ebay_safe }}
             </div>
         </div>
     </div>
