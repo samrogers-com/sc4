@@ -1,0 +1,51 @@
+name: Django tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"   # matches the Dockerfile
+          cache: pip
+          cache-dependency-path: src/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Write dummy .env.local
+        # settings/base.py reads config via decouple.RepositoryEnv, which
+        # requires the file to exist on disk. Tests don't send email, hit
+        # R2, or call eBay, so dummy values are safe.
+        run: |
+          cat > samscollectibles/.env.local <<'ENVEOF'
+          SECRET_KEY=ci-dummy-not-a-real-secret
+          DEBUG=False
+          USE_POSTGRES=False
+          ALLOWED_HOSTS=*
+          EMAIL_HOST_USER=ci@example.com
+          EMAIL_HOST_PASSWORD=ci-dummy
+          DEFAULT_FROM_EMAIL=ci@example.com
+          ENVEOF
+
+      - name: Django system check
+        run: python manage.py check
+
+      - name: Run tests
+        run: python manage.py test --verbosity 2
