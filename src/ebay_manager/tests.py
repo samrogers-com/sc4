@@ -2,13 +2,16 @@
 
 Bootstraps the test suite for this app. Initial coverage focuses on
 _delete_variant_on_ebay — the helper added in the delete-variant
-error-handling refactor.
+error-handling refactor — and the html_sanitizer module that backs
+the ``|ebay_safe`` template filter.
 """
 from unittest.mock import MagicMock, patch
 
+from django.template import Context, Template
 from django.test import TestCase
 
 from ebay_manager.models import EbayListing
+from ebay_manager.services.html_sanitizer import sanitize_ebay_html
 from ebay_manager.views import _delete_variant_on_ebay
 
 
@@ -310,3 +313,128 @@ class DeleteVariantOnEbayTests(TestCase):
 
         self.assertEqual(errors, [])
         self.assertTrue(any('Withdraw offer O1' in w for w in warnings))
+
+
+class SanitizeEbayHtmlTests(TestCase):
+    """Tests for the html_sanitizer module + |ebay_safe template filter.
+
+    The sanitizer is the mitigation for rendering description_html in
+    admin views. Attackers don't currently touch description_html, but
+    the filter needs to keep legitimate eBay-style markup intact while
+    stripping anything script-bearing.
+    """
+
+    # --- legitimate content is preserved ---
+
+    def test_none_and_empty_return_empty_string(self):
+        self.assertEqual(sanitize_ebay_html(None), '')
+        self.assertEqual(sanitize_ebay_html(''), '')
+        self.assertEqual(sanitize_ebay_html(0), '')
+
+    def test_preserves_table_based_ebay_layout(self):
+        src = (
+            '<table border="2" cellpadding="16" bgcolor="#1c1c1c"'
+            ' background="https://media.samscollectibles.net/assets/demim_sc.jpg">'
+            '<tr><td><font face="verdana" size="5" color="#87ceeb"><b>Title</b></font></td></tr>'
+            '</table>'
+        )
+        out = sanitize_ebay_html(src)
+        # Tag structure preserved
+        self.assertIn('<table', out)
+        self.assertIn('<font', out)
+        self.assertIn('<b>Title</b>', out)
+        # Attributes preserved
+        self.assertIn('border="2"', out)
+        self.assertIn('bgcolor="#1c1c1c"', out)
+        self.assertIn('background="https://media.samscollectibles.net/assets/demim_sc.jpg"', out)
+        self.assertIn('face="verdana"', out)
+        self.assertIn('color="#87ceeb"', out)
+
+    def test_preserves_lists_hr_br_center(self):
+        src = '<center><hr><ul><li>One</li><li>Two</li></ul><br></center>'
+        out = sanitize_ebay_html(src)
+        self.assertIn('<center>', out)
+        self.assertIn('<hr', out)
+        self.assertIn('<ul>', out)
+        self.assertIn('<li>One</li>', out)
+        self.assertIn('<br', out)
+
+    def test_preserves_rwr_attribute_on_font(self):
+        """<font rwr="1"> is an eBay-proprietary marker used in our templates."""
+        out = sanitize_ebay_html('<font rwr="1" size="4">x</font>')
+        self.assertIn('rwr="1"', out)
+
+    def test_allows_safe_inline_style(self):
+        out = sanitize_ebay_html(
+            '<table style="border-spacing:0px; width:100%; max-width:100%;"><tr><td>x</td></tr></table>'
+        )
+        self.assertIn('border-spacing', out)
+        self.assertIn('max-width', out)
+
+    # --- script / handler stripping ---
+
+    def test_strips_script_tags(self):
+        # bleach with strip=True removes the <script> element but leaves
+        # its text content behind as plain text. The security property
+        # we care about is that no executable markup survives — i.e.
+        # no <script> tag remains to be parsed and run.
+        out = sanitize_ebay_html(
+            '<p>before</p><script>alert("xss")</script><p>after</p>'
+        )
+        self.assertNotIn('<script', out)
+        self.assertNotIn('</script', out)
+        self.assertIn('before', out)
+        self.assertIn('after', out)
+
+    def test_strips_event_handler_attributes(self):
+        out = sanitize_ebay_html('<b onclick="alert(1)">click</b>')
+        self.assertNotIn('onclick', out)
+        self.assertIn('<b>click</b>', out)
+
+    def test_strips_javascript_href(self):
+        out = sanitize_ebay_html('<a href="javascript:alert(1)">go</a>')
+        self.assertNotIn('javascript', out)
+        self.assertNotIn('alert', out)
+
+    def test_strips_data_uri_image_src(self):
+        # data: URIs can carry script in SVG payloads; block entirely.
+        out = sanitize_ebay_html('<img src="data:image/svg+xml;base64,PHN2Zz4=">')
+        self.assertNotIn('data:', out)
+
+    def test_strips_iframe_and_object(self):
+        out = sanitize_ebay_html('<iframe src="https://evil.example"></iframe><object></object>')
+        self.assertNotIn('<iframe', out)
+        self.assertNotIn('<object', out)
+
+    def test_strips_style_tag(self):
+        out = sanitize_ebay_html('<style>body{background:url(javascript:alert(1))}</style><p>ok</p>')
+        self.assertNotIn('<style', out)
+        self.assertIn('ok', out)
+
+    def test_strips_expression_in_inline_css(self):
+        out = sanitize_ebay_html(
+            '<div style="width: expression(alert(1)); color: red;">x</div>'
+        )
+        # div isn't in the allowlist — whole element dropped; regardless,
+        # the expression() payload must not survive.
+        self.assertNotIn('expression', out)
+        self.assertNotIn('alert', out)
+
+    def test_strips_html_comments(self):
+        out = sanitize_ebay_html('<p>ok</p><!-- <script>alert(1)</script> -->')
+        self.assertNotIn('<!--', out)
+        self.assertNotIn('alert', out)
+
+    # --- template filter integration ---
+
+    def test_filter_marks_output_safe_and_sanitizes(self):
+        t = Template("{% load ebay_html %}{{ bad|ebay_safe }}")
+        rendered = t.render(Context({'bad': '<b>hi</b><script>alert(1)</script>'}))
+        self.assertIn('<b>hi</b>', rendered)
+        self.assertNotIn('<script', rendered)
+        self.assertNotIn('</script', rendered)
+
+    def test_filter_handles_none(self):
+        t = Template("{% load ebay_html %}{{ missing|ebay_safe }}")
+        rendered = t.render(Context({'missing': None}))
+        self.assertEqual(rendered.strip(), '')

@@ -27,3 +27,6 @@ requests>=2.31
 # Card scanning (asterisk detection via Claude Vision)
 anthropic>=0.40.0
 Pillow>=10.0
+
+# HTML sanitization for description_html rendered in admin views
+bleach[css]>=6.1

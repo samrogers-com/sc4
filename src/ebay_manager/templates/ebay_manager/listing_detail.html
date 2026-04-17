@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load ebay_html %}
 {% block title %}{{ listing.title }} — eBay Manager{% endblock %}
 {% block content %}
 <div class="mb-4"><a href="{% url 'ebay_manager:listings' %}" class="text-amber-500 hover:text-amber-400 text-sm">&larr; Back to Listings</a></div>
@@ -101,7 +102,7 @@
 <div class="mt-6 bg-gray-700 rounded-lg border border-gray-600 p-5">
     <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Description HTML</h3>
     <div class="bg-gray-900 rounded-lg p-4 border border-gray-600 overflow-auto max-h-96">
-        {{ listing.description_html|safe }}
+        {{ listing.description_html|ebay_safe }}
     </div>
 </div>
 {% endif %}

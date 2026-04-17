@@ -1,6 +1,7 @@
 <!-- file: src/ebay_templates/templates/template_detail.html -->
 
 {% extends 'base.html' %}
+{% load ebay_html %}
 
 {% block title %}Template Details{% endblock %}
 
@@ -11,7 +12,7 @@
     <p><strong>Created At:</strong> {{ template.created_at }}</p>
     <p><strong>Content:</strong></p>
     <div class="border p-4 mt-4">
-        {{ template.content|safe }}
+        {{ template.content|ebay_safe }}
     </div>
     <a href="{% url 'ebay_templates:list_templates' %}" class="button mt-4">Back to Templates</a>
 </div>
