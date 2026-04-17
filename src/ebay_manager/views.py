@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -6,6 +8,9 @@ from django.utils import timezone
 from django.contrib import messages
 
 from .models import EbayListing, EbayOrder, EbayOrderItem
+
+
+logger = logging.getLogger(__name__)
 
 
 def is_staff(user):
@@ -698,6 +703,129 @@ def multi_variant_create(request):
     })
 
 
+def _delete_variant_on_ebay(variant, group_key):
+    """Remove a single variant from eBay: offer, item group, inventory item.
+
+    Idempotent — 404 from any DELETE is treated as "already gone" and
+    reported as a warning instead of an error. Non-2xx / non-404 responses
+    are surfaced as hard errors so the caller can leave the DB row intact.
+
+    Returns:
+        (errors, warnings) — two lists of human-readable strings. When
+        errors is empty, the caller should consider eBay state clean.
+
+    Drafts (status != 'active' or no SKU) return ([], []) without calling
+    the API. The caller is responsible for also deleting the DB row.
+    """
+    errors: list[str] = []
+    warnings: list[str] = []
+
+    if variant.status != 'active' or not variant.sku:
+        return errors, warnings
+
+    import requests as _requests
+    from .services.api_client import get_user_token
+
+    tok = get_user_token()
+    if not tok:
+        errors.append('Not authenticated with eBay (no user token).')
+        return errors, warnings
+
+    headers = {
+        'Authorization': f'Bearer {tok}',
+        'Content-Type': 'application/json',
+        'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
+        'Content-Language': 'en-US',
+    }
+    sku = variant.sku
+    inv_base = 'https://api.ebay.com/sell/inventory/v1'
+
+    def _check(resp, action_name, ok_statuses=(200, 201, 204), soft_ok=(404,)):
+        """Categorize a response. Returns True on hard error."""
+        code = resp.status_code
+        if code in ok_statuses:
+            return False
+        body = (resp.text or '')[:300]
+        msg = f'{action_name}: eBay returned {code} — {body}'
+        if code in soft_ok:
+            logger.warning('delete_variant soft-ok: %s', msg)
+            warnings.append(f'{action_name}: already gone on eBay (HTTP {code}).')
+            return False
+        logger.error('delete_variant HARD error: %s', msg)
+        errors.append(msg)
+        return True
+
+    # 1) List offers for this SKU, then withdraw+delete each
+    offer_list = _requests.get(f'{inv_base}/offer?sku={sku}', headers=headers, timeout=20)
+    if offer_list.status_code == 200:
+        for o in offer_list.json().get('offers', []):
+            oid = o.get('offerId')
+            if not oid:
+                continue
+            if o.get('status') == 'PUBLISHED':
+                # Withdraw first — ignore status on this (withdraw is best-effort;
+                # the subsequent DELETE is what matters for correctness).
+                wresp = _requests.post(
+                    f'{inv_base}/offer/{oid}/withdraw', headers=headers, timeout=20,
+                )
+                if wresp.status_code not in (200, 201, 204, 404):
+                    logger.warning(
+                        'delete_variant: withdraw offer %s returned %s — %s',
+                        oid, wresp.status_code, (wresp.text or '')[:200],
+                    )
+                    warnings.append(
+                        f'Withdraw offer {oid}: HTTP {wresp.status_code} (continuing).'
+                    )
+            dresp = _requests.delete(f'{inv_base}/offer/{oid}', headers=headers, timeout=20)
+            if _check(dresp, f'Delete offer {oid}'):
+                return errors, warnings
+    elif offer_list.status_code != 404:
+        logger.error(
+            'delete_variant: list offers for sku=%s returned %s — %s',
+            sku, offer_list.status_code, (offer_list.text or '')[:200],
+        )
+        errors.append(
+            f'List offers for SKU {sku}: eBay returned {offer_list.status_code}.'
+        )
+        return errors, warnings
+
+    # 2) Pull SKU out of the item group (or delete group if it'd be empty)
+    group_url = f'{inv_base}/inventory_item_group/{group_key}'
+    gresp = _requests.get(group_url, headers=headers, timeout=20)
+    if gresp.status_code == 200:
+        grp = gresp.json()
+        remaining_skus = [s for s in grp.get('variantSKUs', []) if s != sku]
+        if remaining_skus:
+            grp['variantSKUs'] = remaining_skus
+            for spec in grp.get('variesBy', {}).get('specifications', []):
+                spec['values'] = [x for x in spec.get('values', []) if x != variant.variant_name]
+            uresp = _requests.put(group_url, headers=headers, json=grp, timeout=30)
+            if _check(uresp, f'Update item group {group_key}'):
+                return errors, warnings
+        else:
+            delresp = _requests.delete(group_url, headers=headers, timeout=20)
+            if _check(delresp, f'Delete empty item group {group_key}'):
+                return errors, warnings
+    elif gresp.status_code == 404:
+        warnings.append(f'Item group {group_key}: already gone on eBay (HTTP 404).')
+    else:
+        logger.error(
+            'delete_variant: GET item group %s returned %s — %s',
+            group_key, gresp.status_code, (gresp.text or '')[:200],
+        )
+        errors.append(
+            f'Read item group {group_key}: eBay returned {gresp.status_code}.'
+        )
+        return errors, warnings
+
+    # 3) Delete the inventory item
+    iresp = _requests.delete(f'{inv_base}/inventory_item/{sku}', headers=headers, timeout=20)
+    if _check(iresp, f'Delete inventory item {sku}'):
+        return errors, warnings
+
+    return errors, warnings
+
+
 @login_required
 @user_passes_test(is_staff)
 def variant_group_detail(request, group_key):
@@ -864,68 +992,27 @@ def variant_group_detail(request, group_key):
                 return redirect('ebay_manager:variant_group_detail', group_key=group_key)
             label = v.variant_name or f'pk={v.pk}'
             try:
-                # If the variant is live on eBay, remove it from the
-                # inventory item group, delete its offer, then delete its
-                # inventory item. Leaves the group listing intact for the
-                # remaining variants.
-                if v.status == 'active' and v.sku:
-                    import requests as _requests
-                    from .services.api_client import get_user_token
-                    tok = get_user_token()
-                    if tok:
-                        headers = {
-                            'Authorization': f'Bearer {tok}',
-                            'Content-Type': 'application/json',
-                            'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
-                            'Content-Language': 'en-US',
-                        }
-                        # 1) Delete offer(s) for this SKU
-                        offer_resp = _requests.get(
-                            f'https://api.ebay.com/sell/inventory/v1/offer?sku={v.sku}',
-                            headers=headers, timeout=20,
-                        )
-                        if offer_resp.status_code == 200:
-                            for o in offer_resp.json().get('offers', []):
-                                oid = o.get('offerId')
-                                if o.get('status') == 'PUBLISHED':
-                                    _requests.post(
-                                        f'https://api.ebay.com/sell/inventory/v1/offer/{oid}/withdraw',
-                                        headers=headers, timeout=20,
-                                    )
-                                if oid:
-                                    _requests.delete(
-                                        f'https://api.ebay.com/sell/inventory/v1/offer/{oid}',
-                                        headers=headers, timeout=20,
-                                    )
-                        # 2) Pull the SKU out of the inventory item group
-                        group_url = f'https://api.ebay.com/sell/inventory/v1/inventory_item_group/{group_key}'
-                        gresp = _requests.get(group_url, headers=headers, timeout=20)
-                        if gresp.status_code == 200:
-                            grp = gresp.json()
-                            remaining = [s for s in grp.get('variantSKUs', []) if s != v.sku]
-                            if remaining:
-                                grp['variantSKUs'] = remaining
-                                spec_list = grp.get('variesBy', {}).get('specifications', [])
-                                for spec in spec_list:
-                                    vals = [x for x in spec.get('values', []) if x != v.variant_name]
-                                    spec['values'] = vals
-                                _requests.put(group_url, headers=headers, json=grp, timeout=30)
-                            else:
-                                # Group would be empty — delete the whole group
-                                _requests.delete(group_url, headers=headers, timeout=20)
-                        # 3) Delete the inventory item itself
-                        _requests.delete(
-                            f'https://api.ebay.com/sell/inventory/v1/inventory_item/{v.sku}',
-                            headers=headers, timeout=20,
-                        )
-
-                v.delete()
-                messages.success(request, f'Deleted variant "{label}".')
-                remaining = EbayListing.objects.filter(group_key=group_key).count()
-                if remaining == 0:
-                    return redirect('ebay_manager:listings')
+                errors, warnings = _delete_variant_on_ebay(v, group_key)
             except Exception as e:
-                messages.error(request, f'Delete variant failed: {e}')
+                logger.exception('delete_variant: unexpected error for pk=%s sku=%s', v.pk, v.sku)
+                messages.error(request, f'Delete variant failed unexpectedly: {e}. DB row preserved.')
+                return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
+            if errors:
+                # Hard failures on eBay — leave the DB row intact so the
+                # page still matches what's live and the user can retry.
+                for err in errors:
+                    messages.error(request, f'eBay delete failed: {err}')
+                messages.warning(request, f'"{label}" NOT deleted locally — fix the eBay errors above and retry.')
+                return redirect('ebay_manager:variant_group_detail', group_key=group_key)
+
+            v.delete()
+            if warnings:
+                for w in warnings:
+                    messages.warning(request, w)
+            messages.success(request, f'Deleted variant "{label}".')
+            if EbayListing.objects.filter(group_key=group_key).count() == 0:
+                return redirect('ebay_manager:listings')
             return redirect('ebay_manager:variant_group_detail', group_key=group_key)
 
         elif action == 'refresh_variant_images':
