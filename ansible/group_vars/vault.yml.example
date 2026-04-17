@@ -12,3 +12,8 @@ vault_r2_secret_access_key: your-r2-secret-access-key
 vault_r2_endpoint_url: https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com
 vault_email_host_user: your-gmail@gmail.com
 vault_email_host_password: your-app-password
+
+# Anthropic Claude API key (console.anthropic.com > API Keys).
+# Used by the asterisk scanner and upcoming marketing automation.
+# If empty, those features degrade gracefully but don't work.
+vault_anthropic_api_key: sk-ant-api03-REPLACE-ME
