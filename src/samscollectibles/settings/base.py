@@ -133,6 +133,7 @@ EBAY_STORE_URL = "https://www.ebay.com/usr/sams.collectibles"
 
 # Anthropic Claude API — used for card asterisk scanning via Vision API
 ANTHROPIC_API_KEY = config('ANTHROPIC_API_KEY', default='')
+CLAUDE_VISION_MODEL = config('CLAUDE_VISION_MODEL', default='claude-sonnet-4-6')
 
 # File storage - configure for your hosting provider (Cloudflare R2, Hostinger, etc.)
 # if config('USE_REMOTE_STORAGE', default=False, cast=bool):

@@ -185,7 +185,7 @@ def analyze_card(image_bytes, api_key=None):
 
     try:
         message = client.messages.create(
-            model='claude-sonnet-4-20250514',
+            model=getattr(settings, 'CLAUDE_VISION_MODEL', 'claude-sonnet-4-6'),
             max_tokens=200,
             messages=[{
                 'role': 'user',
