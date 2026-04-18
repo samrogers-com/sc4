@@ -253,7 +253,7 @@ Short links (bit.ly, etc.) hurt CTR in Facebook groups because buyers mistrust t
 
 ## 6. LLM Provider Decision
 
-This is a net-new spending decision. Although the repo already imports the `anthropic` SDK and PR #6/#7 wired `ANTHROPIC_API_KEY` through Ansible, **the vault entry is currently empty** — no key has been issued or funded. Treat this as a fresh provider selection.
+The `anthropic` SDK is in the repo and PR #6/#7 wired `ANTHROPIC_API_KEY` through the Ansible vault → env → container. **The key is live and funded.** Workspace `sams-collectibles-app`, key name `sc4-production-v2`, $5 credit deposited, workspace cap $10/mo, alerts at $5/$8/$9 (key stored in 1Password). Provider decision is settled. The remaining items below explain *why* Claude was the right pick and what monthly usage to expect — not whether to fund it.
 
 ### Option Analysis
 
@@ -289,20 +289,18 @@ This is a net-new spending decision. Although the repo already imports the `anth
 
 **Total monthly: ~$0.36/month on Haiku 4.5.** Even at 3× scale, it's under $1.10/month. A $5 funding deposit covers ~13 months of current usage.
 
-### Step-by-Step Setup
+### Verification
 
-1. Go to **console.anthropic.com** → sign up with your email (sams.collectibles1@gmail.com works)
-2. Navigate to **Billing → Add Credits** → add $5 (minimum credit purchase)
-3. Navigate to **API Keys** → create key named `sc4-prod`
-4. Add to Ansible vault:
+Setup is complete (see PR #6 / PR #7 / `docs/anthropic-api-key-setup.md`). Before relying on the key for marketing automation, confirm two things end-to-end:
+
+1. **Key is reachable from prod:**
    ```bash
-   cd /Users/samrogers/Claude/sc4/ansible
-   ansible-vault edit group_vars/vault.yml
-   # Add line: vault_anthropic_api_key: "sk-ant-api03-..."
+   ssh sams-collectibles 'docker exec src-web-1 python -c "import os; print(bool(os.environ.get(\"ANTHROPIC_API_KEY\")))"'
+   # Expected: True
    ```
-5. The mapping from `vault_anthropic_api_key` to `ANTHROPIC_API_KEY` in the container env is already wired by PR #6/#7 — see `docs/anthropic-api-key.md` for the rotation runbook.
-6. Redeploy: `ansible-playbook playbooks/deploy.yml`
-7. Verify: `ssh sams-collectibles 'docker exec src-web-1 python -c "import os; print(bool(os.environ.get(\"ANTHROPIC_API_KEY\")))"'` should print `True`.
+2. **Asterisk scanner produces output on a real card:** invoke `python manage.py scan_asterisks` against one card with the new key in env. Confirm a condition string is returned (not the "No ANTHROPIC_API_KEY configured" log line). This is the canary for all downstream LLM use, including caption generation.
+
+If either check fails, fix before extending Claude usage further (rotation runbook in `docs/anthropic-api-key-setup.md`).
 
 ---
 
@@ -519,7 +517,7 @@ If Sam had chosen Groq or Gemini free tier and it disappeared:
 
 Before implementation begins, Sam should decide:
 
-1. **Funding the Anthropic API** — ready to add $5 to the account now, or wait? The asterisk scanner is blocked until this happens regardless of the marketing automation.
+1. **Confirm the asterisk scanner runs end-to-end with the live key** — wiring is complete (PR #6/#7) and credits are funded ($5 in the `sams-collectibles-app` workspace). Run a single condition scan on a real card to verify before relying on the same key path for caption generation.
 2. **Instagram handle** — `@samscollectibles`? `@sams.collectibles`? Needs to match eBay store name for brand consistency.
 3. **YouTube channel name** — same question. Consider `Sam's Collectibles` vs. a more discoverable name like `Sam's Vintage Cards` or `Non-Sport Card Vault`.
 4. **Content studio setup** — does Sam have a dedicated photo surface, lighting, and phone tripod? If not, that's a one-time ~$50 Amazon order that has more impact than any software tier.
@@ -536,8 +534,8 @@ Before implementation begins, Sam should decide:
 - [ ] Set up Instagram Business and YouTube channel
 - [ ] Join and read rules for top 5 Facebook groups
 - [ ] Post manually 4–5x/week to learn what resonates
-- [ ] Fund Anthropic API ($5) and populate `vault_anthropic_api_key` in Ansible vault
-- [ ] Verify asterisk scanner works once key is in prod
+- [ ] Verify `ANTHROPIC_API_KEY` is reachable in prod (already wired via PR #6/#7 + funded; see §6 verification block)
+- [ ] Verify asterisk scanner produces a real condition string with the live key
 
 ### Phase 2 (Month 2): Django `social_manager` App (MVP)
 - [ ] Create app skeleton, models, migrations
@@ -555,7 +553,7 @@ Before implementation begins, Sam should decide:
 
 ### Top 5 Recommendations (TL;DR)
 
-1. **Fund $5 on Anthropic Claude Haiku 4.5** — unblocks both the asterisk scanner and marketing caption generation at a real cost of <$1/month.
+1. **Use the existing Anthropic Claude Haiku 4.5 key** (`sc4-production-v2`, $5 funded, wired through Ansible per PR #6/#7) — verify the asterisk scanner runs end-to-end before extending to caption generation. Real cost of full usage: <$1/month.
 2. **Start with Facebook Groups + Instagram, not TikTok** — eBay's built-in Social Page gets you 80% of publishing for free; skip TikTok until US regulatory picture clears.
 3. **Build `social_manager` as a new app inside the sc4 monorepo** — not a sister repo; direct ORM access to `Listing` is worth more than separation-of-concerns here.
 4. **Staff-only access control** — no public surface on the Django app; OAuth tokens and pricing data should never leak.
