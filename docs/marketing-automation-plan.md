@@ -43,6 +43,8 @@ Ranked by expected **revenue impact per hour of content-creation time**, startin
 
 **Recommendation: Start with Facebook Groups + Instagram.** Both have immediate access to your exact audience. Add YouTube month 3 once you have 8–10 pieces of photo content in hand for repurposing.
 
+**Caveat on the FB Groups #1 ranking.** The "100% of members can see it" claim is overstated — Facebook's intra-group algorithm still ranks posts, and many vintage-card groups ban selling links in their pinned rules. The ranking holds *only if* week-1 reconnaissance (joining and reading rules — see Day 3 of the posting plan) identifies 2–3 specific groups that (a) actively allow eBay links, (b) have engaged daily traffic, and (c) the admin team tolerates commercial activity. If those criteria fail, **swap Instagram to #1** and treat Facebook as a community-presence and brand-building channel rather than a direct sales channel. The platform list above is the *option set*, not a fixed ranking — Sam should re-decide after the 7-day group audit.
+
 **Why not TikTok first?** The US legislative/regulatory situation creates platform-continuity risk for a seller whose links point to eBay. A 90-day TikTok ban could wipe accumulated links and redirects. Instagram Reels provides a comparable short-video discovery surface with more regulatory stability.
 
 ---
