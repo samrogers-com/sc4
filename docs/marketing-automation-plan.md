@@ -352,6 +352,42 @@ If either check fails, fix before extending Claude usage further (rotation runbo
 
 ## 8. Tactical Recommendations
 
+### eBay Promoted Listings Standard — Try Before Building Social
+
+**This is the highest-ROI marketing lever available right now**, and it requires zero code, zero social setup, and produces real conversion data within 7–14 days. Strongly consider running this **before** investing time in social.
+
+**What it is:** eBay charges a percentage of the final sale price *only when an ad-driven sale closes* (no upfront cost, no daily budget at risk) in exchange for boosting your listings in search results and "Sponsored" placements across the site.
+
+**Recommended starting setup:**
+
+1. eBay Seller Hub → Marketing → Promoted Listings → Create campaign → "Promoted Listings Standard"
+2. Select your top 20 listings, prioritized by: highest watch count, "selling but slow" (eBay flags these), or recently relisted
+3. Set ad rate to **7%** (eBay's suggested rate for vintage non-sport hovers 5–10%; 7% is a reasonable middle)
+4. Run for 14 days, no budget cap (you only pay on conversion)
+5. After 14 days, review the campaign report: ad-attributed sales, ad fees as % of revenue, listings with the best vs. worst lift
+
+**Why this beats social as a first move:**
+
+- **Sales conversion data within a week, not months.** Social posts take 30+ days of consistent posting before you can read engagement signal.
+- **Tells you whether your listings convert with more traffic** — the central question social would also try to answer, but at 1/10 the time cost.
+- If 7% ads don't move sales, the issue is listing quality (titles, photos, prices), not traffic. Social won't fix that — fix the listings first.
+- If 7% ads do move sales, you've quantified the value of incremental traffic. Now you know what each social-driven visitor is worth, and whether 5–10 hr/week of content creation pencils out vs. just raising the ad rate to 9%.
+
+**Cost modeling:**
+
+- Ad rate: 7% of sale price, charged only on ad-attributed sales
+- Example: $50 sale × 7% = **$3.50 promoted-listing fee** on top of standard ~13% eBay/payment fees
+- Net margin per ad-attributed sale drops by ~7 percentage points
+- Compare to social: $0 per impression but ~5–10 hr/week of content creation indefinitely; payback only if posts drive enough sales to value that time at >$15–20/hr
+
+**When NOT to use:**
+
+- Items already at 100% sell-through (you'd just pay for sales you'd make anyway)
+- Niche items with no demonstrated demand (no amount of promotion creates buyers)
+- Listings with poor titles, blurry photos, or above-comp prices — fix the listing first; promotion amplifies whatever quality is there
+
+**Recommendation:** Start a 14-day Promoted Listings Standard test on the top 20 listings at 7% **this week**. The social plan in §1–§7 stays valid, but its *priority* depends on what Promoted Listings reveals about traffic-vs-conversion as the actual bottleneck. Re-rank after the campaign data lands.
+
 ### Top 10 Facebook Groups for Vintage Non-Sport Collectors
 
 *Note: Facebook group member counts are only visible to members. The estimates below are based on available search data and community references as of early 2026. Sam should verify by joining before posting.*
