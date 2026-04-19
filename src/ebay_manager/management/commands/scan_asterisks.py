@@ -66,8 +66,9 @@ class Command(BaseCommand):
             return
 
         if options['set']:
-            # Scan a specific set
-            prefix = options['set']
+            # Normalize trailing slash so `.../mixed/103` and `.../mixed/103/`
+            # map to the same SetScanStatus row instead of creating a duplicate.
+            prefix = options['set'].rstrip('/') + '/'
             if options['dry_run']:
                 self.stdout.write(f'Would scan: {prefix}')
                 return
