@@ -310,7 +310,7 @@ def scan_set(r2_prefix, api_key=None, callback=None):
                 # Analyze with Claude Vision
                 result = analyze_card(card['image_bytes'], api_key=api_key)
 
-                if result and result.get('card_number', 0) > 0:
+                if result and (result.get('card_number') or 0) > 0:
                     card_num = result['card_number']
                     asterisks = result.get('asterisk_count', 0)
                     confidence = result.get('confidence', 0.0)
