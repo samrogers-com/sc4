@@ -44,34 +44,47 @@ def _prompt_for_platform(platform: str) -> str:
     """Platform-specific guidance appended to the system prompt."""
     rules = {
         'instagram': (
-            'Instagram Feed post. Caption ≤220 characters. Lean visual, one '
-            'emoji max. Hashtags go in a separate field — do not put them in '
+            'Instagram Feed post. Caption ≤220 characters. Lead with an '
+            'energetic hook — collectors scroll fast. Build excitement about '
+            'the era / franchise / scarcity. End with a clear call to action '
+            '("link in bio", "DM to grab it"). One emoji max, placed '
+            'purposefully. Hashtags go in a separate field, not inside '
             'the caption.'
         ),
         'facebook': (
             'Facebook Group post targeting vintage non-sport collectors. '
-            'Caption ≤400 characters. Include year + brand + set name in the '
-            'first 80 characters. No emojis. Always end with a call to action '
-            '("link in comments" or similar).'
+            'Caption ≤400 characters. Start with the year + brand + set name '
+            'in the first 80 characters. Sound like a fellow collector '
+            'sharing a find, but still upbeat — emphasise condition, pack '
+            'count, sealed status, or whatever\'s special about this lot. '
+            'Always end with a call to action ("link in comments", "DM for '
+            'details"). No emojis.'
         ),
         'tiktok': (
-            'TikTok caption ≤150 characters. Conversational, hook-first. '
-            'Maximum one emoji. Hashtags go in a separate field.'
+            'TikTok caption ≤150 characters. Hook-first, conversational, '
+            'punchy — think "⚡ 1977 Star Wars box just hit the store!". '
+            'Maximum one emoji. Include a soft CTA ("link in bio"). '
+            'Hashtags go in a separate field.'
         ),
         'youtube': (
-            'YouTube video title + short description format. Caption ≤70 '
-            'characters for the title, then blank line, then 1–2 sentence '
-            'description. No emojis.'
+            'YouTube video title + short description. Title ≤70 characters, '
+            'search-friendly (year + brand + set + product type). Then blank '
+            'line, then 1–2 sentences that make the viewer want to click — '
+            'tease what\'s in the box, why this era matters, or the rarity. '
+            'No emojis.'
         ),
         'reddit': (
             'Reddit r/nonsportcards style. Caption ≤300 characters. '
-            'Descriptive, no sales pitch. No emojis, no hashtags. Mention '
-            'condition honestly.'
+            'Enthusiastic-collector voice — share what\'s cool about this '
+            'find (year, sealed status, print run, character lineup). Do NOT '
+            'hard-sell or include a price pitch; most subs ban that. No '
+            'emojis, no hashtags. Mention condition honestly.'
         ),
         'pinterest': (
-            'Pinterest pin description ≤500 characters. SEO-focused — include '
-            'year, brand, set, and product type in the first sentence. '
-            'Hashtags go in a separate field.'
+            'Pinterest pin description ≤500 characters. SEO-focused but '
+            'still engaging — lead sentence has year, brand, set, and '
+            'product type; then a sentence or two that makes the collector '
+            'click through. Hashtags go in a separate field.'
         ),
     }
     return rules.get(platform.lower(), rules['instagram'])
@@ -80,9 +93,15 @@ def _prompt_for_platform(platform: str) -> str:
 _SYSTEM_PROMPT = (
     "You are a marketing copywriter for Sam's Collectibles, an eBay store "
     'selling vintage non-sport trading cards, comic books, and movie posters '
-    '(1970s–1990s). Sam collected since 1983; authenticity and condition '
-    'honesty are key selling points. Never invent grade claims, set '
-    'completeness, or provenance not in the listing data.\n\n'
+    '(1970s–1990s). Sam collected since 1983; his brand is knowledgeable + '
+    'enthusiastic + honest. Captions should SELL — build excitement about the '
+    "era, scarcity, character lineup, franchise moment, or the collector's "
+    'thrill of opening a sealed product from decades ago. Use vivid language. '
+    'Always include a call to action.\n\n'
+    'Guardrails: never invent grade claims (PSA 10, etc.), set completeness, '
+    'or provenance that are not in the listing data. If a listing says '
+    '"Factory Sealed", say "factory sealed"; do not upgrade that to "mint" '
+    'or "gem mint".\n\n'
     'Return ONLY a JSON object with exactly these keys:\n'
     '  {"caption": "...", "hashtags": ["#tag1", "#tag2", ...]}\n'
     'No prose before or after the JSON. 5–8 hashtags max. The caption must '
@@ -90,7 +109,7 @@ _SYSTEM_PROMPT = (
 )
 
 
-def _build_user_message(listing, platform: str) -> str:
+def _build_user_message(listing, platform: str, image_url: str = '') -> str:
     """Compose the user message from listing fields. Listing is EbayListing."""
     lines = [
         f'Platform: {platform}',
@@ -108,6 +127,13 @@ def _build_user_message(listing, platform: str) -> str:
         lines.append(f'  eBay category: {listing.category_id}')
     if getattr(listing, 'ebay_item_id', None):
         lines.append(f'  eBay URL: https://www.ebay.com/itm/{listing.ebay_item_id}')
+    if image_url:
+        lines.append(f'  Hero image attached at post time: {image_url}')
+        lines.append(
+            '  (The caption will appear alongside this image — write as if '
+            'the reader is already looking at the photo; no need to describe '
+            'it in words, but you can reference what they\'re seeing.)'
+        )
     return '\n'.join(lines)
 
 
@@ -127,6 +153,7 @@ def generate_caption(
     platform: str,
     model: str = 'claude-haiku-4-5',
     client=None,
+    image_url: str = '',
 ) -> CaptionResult:
     """Generate a draft caption + hashtags for a listing on a given platform.
 
@@ -154,7 +181,7 @@ def generate_caption(
             )
         client = anthropic.Anthropic(api_key=api_key)
 
-    user_message = _build_user_message(listing, platform)
+    user_message = _build_user_message(listing, platform, image_url=image_url)
 
     response = client.messages.create(
         model=model,

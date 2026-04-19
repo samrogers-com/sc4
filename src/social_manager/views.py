@@ -22,6 +22,28 @@ from .models import PostDraft, SocialAccount
 from .services.caption_generator import CaptionGenerationError, generate_caption
 
 
+def _first_listing_image_url(listing) -> str:
+    """Return the first R2 image URL for a listing, or '' if unavailable.
+
+    Uses parent_r2_prefix on EbayListing when set. Listings without a
+    parent_r2_prefix (and many don't — see docs/gallery-ebay-sync-gap.md)
+    return '' and the draft is saved without an image.
+    """
+    prefix = getattr(listing, 'parent_r2_prefix', None)
+    if not prefix:
+        return ''
+    try:
+        from non_sports_cards.r2_utils import get_r2_images  # deferred import
+    except Exception:
+        return ''
+    lookup = prefix.rstrip('/') + '/'
+    imgs = [i for i in get_r2_images(lookup) if i.get('url')]
+    if not imgs:
+        return ''
+    imgs.sort(key=lambda x: x.get('filename', ''))
+    return imgs[0]['url']
+
+
 PLATFORM_CHOICES = [c[0] for c in SocialAccount.PLATFORM_CHOICES]
 PLATFORM_LABELS = dict(SocialAccount.PLATFORM_CHOICES)
 
@@ -76,8 +98,11 @@ class GenerateDraftView(View):
             return redirect('social_manager:generate')
 
         listing = get_object_or_404(EbayListing, pk=listing_id)
+        image_url = _first_listing_image_url(listing)
         try:
-            result = generate_caption(listing, platform=platform, model=model)
+            result = generate_caption(
+                listing, platform=platform, model=model, image_url=image_url,
+            )
         except CaptionGenerationError as exc:
             messages.error(request, f'Generation failed: {exc}')
             return redirect('social_manager:generate')
@@ -86,14 +111,19 @@ class GenerateDraftView(View):
             listing=listing,
             caption=result['caption'],
             hashtags=' '.join(result['hashtags']),
+            image_r2_key=image_url,
             llm_model_used=model,
             generation_cost_usd=result['cost_usd'],
             status='pending',
         )
+        if image_url:
+            msg_suffix = ''
+        else:
+            msg_suffix = ' (no image — listing has no parent_r2_prefix set)'
         messages.success(
             request,
             f'Draft created for {listing.title[:50]} on {PLATFORM_LABELS[platform]} '
-            f'(${result["cost_usd"]}).',
+            f'(${result["cost_usd"]}){msg_suffix}.',
         )
         return redirect('social_manager:review', pk=draft.pk)
 
