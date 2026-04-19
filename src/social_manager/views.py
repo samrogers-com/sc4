@@ -163,7 +163,19 @@ class DraftReviewView(View):
         elif action == 'reject':
             draft.status = 'rejected'
             draft.save()
-            messages.success(request, 'Rejected.')
+            messages.success(request, 'Rejected — try a fresh draft.')
+            # Bounce back to Generate, pre-filled with the same listing +
+            # platform so Sam can retry instantly. Platform is inferred from
+            # any existing PostSchedule; otherwise fall back to the form blank.
+            params = {}
+            if draft.listing_id:
+                params['listing'] = draft.listing_id
+            sched = draft.postschedule_set.first() if hasattr(draft, 'postschedule_set') else None
+            if sched:
+                params['platform'] = sched.account.platform
+            qs = '&'.join(f'{k}={v}' for k, v in params.items())
+            url = reverse('social_manager:generate')
+            return redirect(f'{url}?{qs}' if qs else url)
         else:
             messages.error(request, f'Unknown action: {action}')
         return redirect('social_manager:review', pk=pk)
