@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-3xl font-bold text-amber-400">Marketing — Draft Queue</h1>
+      <p class="text-sm text-gray-400 mt-1">
+        AI-drafted captions + hashtags awaiting your review. Generated via Claude Haiku 4.5 (~$0.001/draft).
+      </p>
+    </div>
+    <a href="{% url 'social_manager:generate' %}"
+       class="inline-flex items-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold rounded-md shadow">
+      + Generate new draft
+    </a>
+  </div>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 p-3 rounded-md text-sm
+        {% if m.tags == 'error' %}bg-red-900 text-red-200
+        {% elif m.tags == 'warning' %}bg-yellow-900 text-yellow-200
+        {% elif m.tags == 'success' %}bg-green-900 text-green-200
+        {% else %}bg-blue-900 text-blue-200{% endif %}">
+        {{ m }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="flex gap-2 mb-4 text-sm">
+    <span class="text-gray-500">Filter:</span>
+    <a href="{% url 'social_manager:drafts' %}" class="{% if not status_filter %}text-amber-400 font-semibold{% else %}text-gray-400 hover:text-amber-400{% endif %}">All</a>
+    {% for value, label in status_choices %}
+      <a href="?status={{ value }}" class="{% if status_filter == value %}text-amber-400 font-semibold{% else %}text-gray-400 hover:text-amber-400{% endif %}">{{ label }}</a>
+    {% endfor %}
+  </div>
+
+  {% if drafts %}
+    <div class="overflow-x-auto bg-gray-800 rounded-lg shadow">
+      <table class="min-w-full divide-y divide-gray-700">
+        <thead class="bg-gray-900 text-xs uppercase tracking-wider text-gray-400">
+          <tr>
+            <th class="px-4 py-3 text-left">Created</th>
+            <th class="px-4 py-3 text-left">Status</th>
+            <th class="px-4 py-3 text-left">Listing</th>
+            <th class="px-4 py-3 text-left">Caption preview</th>
+            <th class="px-4 py-3 text-left">Model</th>
+            <th class="px-4 py-3 text-right">Cost</th>
+            <th class="px-4 py-3"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-700 text-sm">
+        {% for d in drafts %}
+          <tr class="hover:bg-gray-700">
+            <td class="px-4 py-3 text-gray-400 whitespace-nowrap">{{ d.created_at|date:'M j, H:i' }}</td>
+            <td class="px-4 py-3">
+              <span class="inline-block px-2 py-0.5 rounded-full text-xs font-medium
+                {% if d.status == 'pending' %}bg-yellow-900 text-yellow-200
+                {% elif d.status == 'approved' %}bg-blue-900 text-blue-200
+                {% elif d.status == 'scheduled' %}bg-purple-900 text-purple-200
+                {% elif d.status == 'published' %}bg-green-900 text-green-200
+                {% else %}bg-gray-900 text-gray-200{% endif %}">
+                {{ d.get_status_display }}
+              </span>
+            </td>
+            <td class="px-4 py-3 text-gray-300">
+              {% if d.listing %}{{ d.listing.title|truncatechars:45 }}{% else %}<span class="text-gray-500">(no listing)</span>{% endif %}
+            </td>
+            <td class="px-4 py-3 text-gray-300">{{ d.caption|truncatechars:60 }}</td>
+            <td class="px-4 py-3 text-gray-500 text-xs">{{ d.llm_model_used }}</td>
+            <td class="px-4 py-3 text-right text-gray-400 text-xs">${{ d.generation_cost_usd|default:'—' }}</td>
+            <td class="px-4 py-3 text-right">
+              <a href="{% url 'social_manager:review' pk=d.pk %}"
+                 class="text-amber-400 hover:text-amber-300 font-medium">Review →</a>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="bg-gray-800 rounded-lg p-12 text-center">
+      <p class="text-gray-400 text-lg mb-2">No drafts yet.</p>
+      <p class="text-gray-500 text-sm mb-6">Generate one from any active eBay listing.</p>
+      <a href="{% url 'social_manager:generate' %}"
+         class="inline-flex items-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold rounded-md">
+        + Generate first draft
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

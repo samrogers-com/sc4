@@ -26,6 +26,9 @@ urlpatterns = [
     # eBay Manager (staff only)
     path('ebay/', include('ebay_manager.urls', namespace='ebay_manager')),
 
+    # Marketing / social_manager (staff only, enforced per-view)
+    path('social/', include('social_manager.urls', namespace='social_manager')),
+
     # Private dashboard (staff/restoration group only)
     path('restoration/', restoration_views.restoration_dashboard, name='restoration_dashboard'),
 ]

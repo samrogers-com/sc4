@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load social_manager_extras %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-6">
+    <a href="{% url 'social_manager:drafts' %}" class="text-sm text-gray-400 hover:text-amber-400">← Back to draft queue</a>
+    <h1 class="text-3xl font-bold text-amber-400 mt-2">Generate new draft</h1>
+    <p class="text-sm text-gray-400 mt-1">
+      Pick an active listing and platform — Claude Haiku 4.5 will draft the caption + hashtags in about 3 seconds.
+    </p>
+  </div>
+
+  {% if messages %}
+    {% for m in messages %}
+      <div class="mb-4 p-3 rounded-md text-sm
+        {% if m.tags == 'error' %}bg-red-900 text-red-200
+        {% else %}bg-blue-900 text-blue-200{% endif %}">
+        {{ m }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" class="bg-gray-800 rounded-lg shadow p-6 space-y-5">
+    {% csrf_token %}
+
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Listing</label>
+      <select name="listing_id" required
+              class="w-full bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-gray-200 focus:ring-amber-500 focus:border-amber-500">
+        <option value="">— pick an active eBay listing —</option>
+        {% for l in listings %}
+          <option value="{{ l.pk }}" {% if prefill_listing_id == l.pk|stringformat:'s' %}selected{% endif %}>
+            {{ l.title|truncatechars:70 }} — ${{ l.price }}
+          </option>
+        {% endfor %}
+      </select>
+      <p class="text-xs text-gray-500 mt-1">Showing up to 200 most recent active listings.</p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Platform</label>
+      <select name="platform" required
+              class="w-full bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-gray-200 focus:ring-amber-500 focus:border-amber-500">
+        <option value="">— pick a platform —</option>
+        {% for p in platforms %}
+          <option value="{{ p }}" {% if prefill_platform == p %}selected{% endif %}>
+            {{ platform_labels|get_item:p }}
+          </option>
+        {% endfor %}
+      </select>
+      <p class="text-xs text-gray-500 mt-1">Each platform has its own caption rules (length, tone, emoji policy).</p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Model (optional)</label>
+      <select name="model"
+              class="w-full bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-gray-200 focus:ring-amber-500 focus:border-amber-500">
+        <option value="claude-haiku-4-5">Haiku 4.5 — cheapest ($1/$5 per MTok, ~$0.001/draft)</option>
+        <option value="claude-sonnet-4-6">Sonnet 4.6 — better quality ($3/$15 per MTok, ~$0.003/draft)</option>
+        <option value="claude-opus-4-7">Opus 4.7 — most capable ($5/$25 per MTok, ~$0.005/draft)</option>
+      </select>
+    </div>
+
+    <div class="flex items-center justify-between pt-2">
+      <a href="{% url 'social_manager:drafts' %}" class="text-sm text-gray-400 hover:text-amber-400">Cancel</a>
+      <button type="submit"
+              class="px-6 py-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold rounded-md shadow">
+        Generate draft
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
