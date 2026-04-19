@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'movie_posters',
     'ebay_templates',
     'ebay_manager',
+    'social_manager',
 ]
 
 MIDDLEWARE = [
