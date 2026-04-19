@@ -277,14 +277,23 @@ def scan_set(r2_prefix, api_key=None, callback=None):
     log(f'Scanning {r2_prefix} (expecting {total_cards} cards)')
 
     try:
-        # Get all page images
-        images = get_r2_images(r2_prefix + '/')
+        # Get all page images. Callers may pass the prefix with or without a
+        # trailing slash; normalize here so we don't ever hit R2 with `//`.
+        r2_lookup = r2_prefix.rstrip('/') + '/'
+        images = get_r2_images(r2_lookup)
         image_urls = sorted(
             [img for img in images if img.get('url')],
             key=lambda x: x.get('filename', '')
         )
 
         log(f'Found {len(image_urls)} page images')
+
+        if not image_urls:
+            # Empty prefix — not a scan success. Surface as error so --report
+            # flags it instead of silently marking the set complete.
+            raise ValueError(
+                f'No page images found at {r2_lookup} — check the prefix and R2 contents'
+            )
 
         client = _get_client()
         scanned = 0
