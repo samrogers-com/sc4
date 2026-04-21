@@ -1,25 +1,41 @@
+upstream samscollectibles {
+    server 127.0.0.1:{{ gunicorn_port }};
+}
+
+# HTTP -> HTTPS redirect
 server {
     listen 80;
     server_name {{ domain }} {{ domain_www }};
+    return 301 https://$host$request_uri;
+}
 
-    # Serve Django static files directly (faster than through Gunicorn)
+# HTTPS server (Cloudflare Origin Certificate)
+server {
+    listen 443 ssl;
+    server_name {{ domain }} {{ domain_www }};
+
+    ssl_certificate {{ ssl_cert_path }};
+    ssl_certificate_key {{ ssl_key_path }};
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    client_max_body_size 20M;
+
+    # Serve Django static files directly from the host bind-mount.
+    # The web container's collectstatic writes here via the bind mount
+    # defined in docker-compose.production.yml.
     location /static/ {
-        alias {{ app_dir }}/src/staticfiles/;
-        expires 1d;
-        add_header Cache-Control "public";
+        alias {{ static_host_dir }}/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
     }
 
-    # Proxy all other requests to Gunicorn inside Docker
+    # Proxy all other requests to Gunicorn (in the web container).
     location / {
-        proxy_pass http://127.0.0.1:{{ gunicorn_port }};
+        proxy_pass http://samscollectibles;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_read_timeout 90;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_redirect off;
     }
-
-    # Increase upload limit for product images
-    client_max_body_size 20M;
 }

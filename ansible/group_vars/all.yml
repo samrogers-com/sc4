@@ -15,3 +15,15 @@ gunicorn_port: 8001
 
 # Docker Compose file to use for production
 compose_file: docker-compose.production.yml
+
+# Host bind-mount for Django static files.
+# Intentionally OUTSIDE /home/sam/ because that directory is mode 750
+# and host Nginx (running as www-data) cannot traverse into it.
+# Also intentionally OUTSIDE /var/lib/docker/ because Docker package
+# upgrades periodically re-tighten that path to 710, which would break
+# static file serving. /opt/ is world-traversable (755) and stable.
+static_host_dir: /opt/sams-collectibles/staticfiles
+
+# SSL (Cloudflare Origin Certificate) paths on the VPS.
+ssl_cert_path: /etc/ssl/cloudflare/samscollectibles.net.pem
+ssl_key_path: /etc/ssl/cloudflare/samscollectibles.net.key

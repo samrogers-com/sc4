@@ -11,6 +11,19 @@
     mode: '0755'
   become: yes
 
+- name: Ensure static host bind-mount directory exists
+  # Must be world-traversable (755) so host Nginx (www-data) can read
+  # static files written by the web container's collectstatic step.
+  # Owner is root so the container's collectstatic (running as root inside
+  # the container) can write into it via the bind mount.
+  file:
+    path: "{{ static_host_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
 - name: Clone or update repository
   git:
     repo: "{{ repo_url }}"

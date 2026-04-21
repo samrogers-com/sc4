@@ -18,17 +18,24 @@
 - name: Deploy Nginx site config from template
   template:
     src: samscollectibles.conf.j2
-    dest: /etc/nginx/sites-available/samscollectibles
+    dest: /etc/nginx/sites-available/samscollectibles.conf
     owner: root
     group: root
     mode: '0644'
   become: yes
   notify: reload nginx
 
+- name: Remove old extensionless sites-enabled symlink (if present from earlier deploys)
+  file:
+    path: /etc/nginx/sites-enabled/samscollectibles
+    state: absent
+  become: yes
+  notify: reload nginx
+
 - name: Enable site
   file:
-    src: /etc/nginx/sites-available/samscollectibles
-    dest: /etc/nginx/sites-enabled/samscollectibles
+    src: /etc/nginx/sites-available/samscollectibles.conf
+    dest: /etc/nginx/sites-enabled/samscollectibles.conf
     state: link
   become: yes
   notify: reload nginx
