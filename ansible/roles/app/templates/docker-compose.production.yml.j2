@@ -7,7 +7,10 @@ services:
              python manage.py collectstatic --noinput &&
              gunicorn --bind 0.0.0.0:{{ gunicorn_port }} --workers {{ gunicorn_workers }} samscollectibles.wsgi:application"
     volumes:
-      - static_volume:/usr/src/app/samscollectibles/staticfiles
+      # Host bind mount — static files live here on the host so host Nginx
+      # (running as www-data) can serve them without needing to traverse
+      # /var/lib/docker/. See group_vars/all.yml for the rationale.
+      - {{ static_host_dir }}:/usr/src/app/samscollectibles/staticfiles
       - {{ app_dir }}/src/tools:/usr/src/app/tools:rw
       - {{ app_dir }}/ebay_uploads:/usr/src/app/ebay_uploads:ro
     ports:
@@ -24,12 +27,15 @@ services:
 
   db:
     image: postgres:13
+    # Credentials come from env_file (rendered from env.production.j2 using
+    # ansible-vault). DO NOT hardcode POSTGRES_PASSWORD here — it duplicates
+    # the secret into the on-disk compose file unnecessarily.
     env_file:
       - ./samscollectibles/.env.production
     environment:
       POSTGRES_DB: samscollectibles
       POSTGRES_USER: samscollectibles_user
-      POSTGRES_PASSWORD: {{ vault_db_password }}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     restart: unless-stopped
@@ -42,4 +48,3 @@ networks:
 
 volumes:
   postgres_data:
-  static_volume:
