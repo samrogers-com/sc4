@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.urls import reverse
 from django.utils import timezone
 
 from .models import (
@@ -32,6 +33,36 @@ class PostDraftTests(TestCase):
         s = str(draft)
         self.assertTrue(s.startswith('[Pending Review]'))
         self.assertLessEqual(len(s.split('] ', 1)[1]), 40)
+
+
+class MarkManuallyPostedTests(TestCase):
+    def test_marks_published_and_creates_schedule(self):
+        draft = PostDraft.objects.create(caption='c', status='approved')
+        sched = draft.mark_manually_posted('instagram')
+        draft.refresh_from_db()
+        self.assertEqual(draft.status, 'published')
+        self.assertEqual(sched.platform_post_id, 'manual')
+        self.assertIsNotNone(sched.published_at)
+        self.assertEqual(sched.account.platform, 'instagram')
+
+    def test_creates_placeholder_account_when_missing(self):
+        self.assertFalse(SocialAccount.objects.filter(platform='tiktok').exists())
+        draft = PostDraft.objects.create(caption='c')
+        draft.mark_manually_posted('tiktok')
+        self.assertTrue(SocialAccount.objects.filter(platform='tiktok').exists())
+
+    def test_reuses_existing_account(self):
+        acct = SocialAccount.objects.create(platform='facebook', handle='@sc')
+        draft = PostDraft.objects.create(caption='c')
+        sched = draft.mark_manually_posted('facebook')
+        self.assertEqual(sched.account_id, acct.id)
+        self.assertEqual(SocialAccount.objects.filter(platform='facebook').count(), 1)
+
+    def test_multiple_platforms_create_separate_schedules(self):
+        draft = PostDraft.objects.create(caption='c', status='approved')
+        draft.mark_manually_posted('instagram')
+        draft.mark_manually_posted('facebook')
+        self.assertEqual(PostSchedule.objects.filter(draft=draft).count(), 2)
 
 
 class PostScheduleTests(TestCase):
@@ -186,3 +217,40 @@ class CaptionGeneratorTests(TestCase):
             model='mystery-model-9000',
         )
         self.assertEqual(result['cost_usd'], Decimal('0'))
+
+
+class DraftReviewManualPostViewTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            username='staff', password='x', is_staff=True,
+        )
+        self.client.force_login(self.user)
+        self.draft = PostDraft.objects.create(caption='hi', status='approved')
+
+    def test_mark_posted_creates_schedule_and_publishes(self):
+        url = reverse('social_manager:review', args=[self.draft.pk])
+        resp = self.client.post(url, {'action': 'mark_posted', 'platform': 'instagram'})
+        self.assertEqual(resp.status_code, 302)
+        self.draft.refresh_from_db()
+        self.assertEqual(self.draft.status, 'published')
+        sched = PostSchedule.objects.get(draft=self.draft)
+        self.assertEqual(sched.platform_post_id, 'manual')
+        self.assertEqual(sched.account.platform, 'instagram')
+
+    def test_mark_posted_rejects_unknown_platform(self):
+        url = reverse('social_manager:review', args=[self.draft.pk])
+        self.client.post(url, {'action': 'mark_posted', 'platform': 'myspace'})
+        self.draft.refresh_from_db()
+        self.assertEqual(self.draft.status, 'approved')
+        self.assertFalse(PostSchedule.objects.filter(draft=self.draft).exists())
+
+    def test_mark_posted_blocked_when_rejected(self):
+        self.draft.status = 'rejected'
+        self.draft.save()
+        url = reverse('social_manager:review', args=[self.draft.pk])
+        self.client.post(url, {'action': 'mark_posted', 'platform': 'instagram'})
+        self.draft.refresh_from_db()
+        self.assertEqual(self.draft.status, 'rejected')
+        self.assertFalse(PostSchedule.objects.filter(draft=self.draft).exists())

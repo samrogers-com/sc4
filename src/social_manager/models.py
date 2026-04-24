@@ -57,6 +57,29 @@ class PostDraft(models.Model):
         preview = self.caption[:40].replace('\n', ' ')
         return f'[{self.get_status_display()}] {preview}'
 
+    def mark_manually_posted(self, platform: str) -> 'PostSchedule':
+        """Record a manual (off-API) post on the given platform.
+
+        Sets status to 'published' and writes a PostSchedule row with
+        platform_post_id='manual' so later analytics can distinguish manual
+        vs API-published posts. Safe to call once per platform; creates a
+        SocialAccount placeholder if OAuth isn't connected yet.
+        """
+        from django.utils import timezone
+        now = timezone.now()
+        account, _ = SocialAccount.objects.get_or_create(platform=platform)
+        sched = PostSchedule.objects.create(
+            draft=self,
+            account=account,
+            scheduled_for=now,
+            published_at=now,
+            platform_post_id='manual',
+        )
+        if self.status != 'published':
+            self.status = 'published'
+            self.save(update_fields=['status'])
+        return sched
+
 
 class PostSchedule(models.Model):
     draft = models.ForeignKey(PostDraft, on_delete=models.CASCADE)
