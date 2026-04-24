@@ -94,7 +94,73 @@
   </form>
 
   <div class="bg-gray-800 rounded-lg shadow p-6 mt-6">
-    <h2 class="text-lg font-semibold text-amber-400 mb-1">Publish</h2>
+    <h2 class="text-lg font-semibold text-amber-400 mb-1">Manual post</h2>
+    <p class="text-xs text-gray-500 mb-4">
+      Copy the text, grab the image, post from your phone, then tap the
+      platform you posted to. No OAuth required.
+    </p>
+
+    <div class="flex flex-wrap gap-3 mb-4">
+      <button type="button" id="copy-caption-btn"
+              class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-md">
+        📋 Copy caption + hashtags
+      </button>
+      {% if draft.image_r2_key %}
+        <a href="{{ draft.image_r2_key }}" target="_blank" rel="noopener" download
+           class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-md inline-block">
+          🖼️ Open / download image
+        </a>
+      {% else %}
+        <span class="px-4 py-2 bg-gray-700 text-gray-500 rounded-md text-sm">
+          No image on this draft
+        </span>
+      {% endif %}
+    </div>
+
+    <p class="text-xs text-gray-500 mb-2">Mark as posted on:</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      {% for p in platforms %}
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="mark_posted">
+          <input type="hidden" name="platform" value="{{ p }}">
+          <button type="submit"
+                  {% if draft.status == 'rejected' %}disabled{% endif %}
+                  class="w-full px-3 py-2 rounded-md text-sm font-medium bg-green-700 hover:bg-green-600 text-white
+                  {% if draft.status == 'rejected' %}opacity-40 cursor-not-allowed{% endif %}">
+            ✅ {{ platform_labels|get_item:p }}
+          </button>
+        </form>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('copy-caption-btn');
+      if (!btn) return;
+      var caption = "{{ draft.caption|escapejs }}";
+      var hashtags = "{{ draft.hashtags|escapejs }}";
+      var defaultLabel = btn.textContent;
+      btn.addEventListener('click', function () {
+        var text = caption + (hashtags ? '\n\n' + hashtags : '');
+        var done = function () {
+          btn.textContent = '✅ Copied!';
+          setTimeout(function () { btn.textContent = defaultLabel; }, 2000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () {
+            window.prompt('Copy this text:', text);
+          });
+        } else {
+          window.prompt('Copy this text:', text);
+        }
+      });
+    })();
+  </script>
+
+  <div class="bg-gray-800 rounded-lg shadow p-6 mt-6">
+    <h2 class="text-lg font-semibold text-amber-400 mb-1">Publish via API</h2>
     <p class="text-xs text-gray-500 mb-4">
       Approve the draft first. Each platform requires a connected account (see
       <code class="text-amber-400">docs/social-oauth-setup.md</code>).

@@ -160,6 +160,19 @@ class DraftReviewView(View):
             draft.approved_at = timezone.now()
             draft.save()
             messages.success(request, 'Approved. Publish when ready.')
+        elif action == 'mark_posted':
+            platform = request.POST.get('platform')
+            if platform not in PLATFORM_CHOICES:
+                messages.error(request, f'Unknown platform: {platform}')
+                return redirect('social_manager:review', pk=pk)
+            if draft.status == 'rejected':
+                messages.error(request, 'Cannot mark a rejected draft as posted.')
+                return redirect('social_manager:review', pk=pk)
+            draft.mark_manually_posted(platform)
+            messages.success(
+                request,
+                f'Marked as posted on {PLATFORM_LABELS[platform]}.',
+            )
         elif action == 'reject':
             draft.status = 'rejected'
             draft.save()
