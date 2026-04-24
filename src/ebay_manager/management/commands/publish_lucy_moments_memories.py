@@ -12,7 +12,7 @@ from ebay_manager.services.publish import publish_to_ebay
 from non_sports_cards.r2_utils import get_r2_images, _cache
 
 
-TITLE = '1995 KRC Lucy Moments & Memories Sealed Wax Box 36 Packs Lucille Ball I Love Lucy'
+TITLE = '1995 KRC Lucy Moments & Memories Sealed Box 36 Packs Lucille Ball I Love Lucy'
 SKU = '1995-KRC-LUCY-MOMENTS-MEMORIES-BOX'
 PRICE = 56.95
 QUANTITY = 8
