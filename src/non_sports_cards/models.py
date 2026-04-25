@@ -39,6 +39,7 @@ class NonSportsCards(models.Model):
         ('Impel Marketing', 'Impel Marketing'),
         ('Panini', 'Panini'),
         ('Krome', 'Krome Productions'),
+        ('KRC International', 'KRC International'),
         ('Philadelphia Gum', 'Philadelphia Gum Company'),
         ('Brooke Bond', 'Brooke Bond'),
         ('FPG', 'FPG (Friedlander Publishing Group)'),
