@@ -6,9 +6,26 @@
 <div class="max-w-2xl mx-auto">
     <h1 class="text-3xl font-bold text-amber-500 mb-6">Contact Us</h1>
 
+    {% if messages %}
+        {% for m in messages %}
+            <div class="mb-4 p-3 rounded-md text-sm
+                {% if m.tags == 'error' %}bg-red-900 text-red-200
+                {% elif m.tags == 'success' %}bg-green-900 text-green-200
+                {% else %}bg-blue-900 text-blue-200{% endif %}">
+                {{ m }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="bg-gray-700 rounded-lg border border-gray-600 p-8">
         <form action="{% url 'contact' %}" method="post" class="space-y-5">
             {% csrf_token %}
+
+            {# Honeypot — hidden from real users, bots auto-fill it. Don't change name=. #}
+            <div style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+            </div>
 
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Your Name</label>
@@ -28,6 +45,12 @@
                           class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-100 focus:border-amber-500 focus:outline-none"></textarea>
             </div>
 
+            {% if turnstile_site_key %}
+            <div>
+                <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-theme="dark"></div>
+            </div>
+            {% endif %}
+
             <button type="submit"
                     class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold rounded-lg transition">
                 Send Message
@@ -35,4 +58,8 @@
         </form>
     </div>
 </div>
+
+{% if turnstile_site_key %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{% endif %}
 {% endblock %}

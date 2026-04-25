@@ -148,3 +148,18 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+
+# Cache — used by the contact-form rate limiter. LocMemCache is fine for a
+# single-container deploy; switch to Redis if we scale out.
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'sc4-default',
+    },
+}
+
+# Cloudflare Turnstile — public contact form. If both are blank, the
+# contact view skips token verification (honeypot + rate limit + content
+# filter still active). Set on prod to enable.
+TURNSTILE_SITE_KEY = config('TURNSTILE_SITE_KEY', default='')
+TURNSTILE_SECRET_KEY = config('TURNSTILE_SECRET_KEY', default='')
