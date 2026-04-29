@@ -23,7 +23,31 @@
             {{ image_count }} photo{{ image_count|pluralize }} &middot; {{ product_type_name }}
         </p>
     </div>
+    {% if listing %}
+    <div class="text-right mt-3 sm:mt-0">
+        {% if listing.price %}
+        <div class="text-3xl font-bold text-amber-400">${{ listing.price }}</div>
+        {% endif %}
+        {% if inventory.quantity_owned %}
+        <div class="text-sm text-gray-400 mt-1">{{ inventory.quantity_owned }} in stock</div>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
+
+{% if listing.ebay_listing_url or inventory.ebay_listing_url %}
+<a href="{{ listing.ebay_listing_url|default:inventory.ebay_listing_url }}" target="_blank" rel="noopener"
+   class="btn-ebay text-center block py-3 text-lg mb-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition">
+    Buy on eBay &#8599;
+</a>
+{% endif %}
+
+{% if inventory.description %}
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mb-8">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Description</h3>
+    <div class="text-gray-300 text-sm leading-relaxed">{{ inventory.description|safe }}</div>
+</div>
+{% endif %}
 
 {% if 'posters' in product_type %}
 <div class="bg-gray-700 border border-gray-600 rounded-lg p-3 mb-6 text-sm">

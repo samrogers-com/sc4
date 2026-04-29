@@ -357,6 +357,28 @@ def _render_gallery_detail(request, product_type, path, images):
     last_segment = path.rstrip('/').split('/')[-1] if path else product_type
     display_name = folder_display_name(last_segment)
 
+    # Look up the matching inventory record by R2 prefix.
+    # EbayListing.parent_r2_prefix is stored without trailing slash (e.g.
+    # "trading-cards/boxes/movies/howard-the-duck"), while _r2_prefix()
+    # returns it with a trailing slash. Strip for matching.
+    inventory = None
+    listing = None
+    try:
+        from ebay_manager.models import EbayListing
+        prefix_no_slash = _r2_prefix(product_type, path).rstrip('/')
+        listing = (
+            EbayListing.objects
+            .filter(parent_r2_prefix=prefix_no_slash)
+            .select_related('content_type')
+            .first()
+        )
+        if listing and listing.content_type and listing.object_id:
+            Model = listing.content_type.model_class()
+            inventory = Model.objects.filter(pk=listing.object_id).first()
+    except Exception:
+        # Don't break the gallery if inventory lookup fails
+        pass
+
     context = {
         'product_type': product_type,
         'product_type_name': PRODUCT_TYPE_NAMES.get(product_type, product_type.title()),
@@ -367,6 +389,8 @@ def _render_gallery_detail(request, product_type, path, images):
         'image_count': len(images),
         'has_sw_data': has_sw_data,
         'sw_groups': sw_groups,
+        'inventory': inventory,
+        'listing': listing,
     }
     return render(request, 'non_sports_cards/r2_gallery_detail.html', context)
 
