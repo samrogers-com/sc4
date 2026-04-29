@@ -18,40 +18,43 @@ from botocore.config import Config as BotoConfig
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# R2 Configuration — resolved at runtime from 1Password (or R2_* env vars).
-# Loader lives in tools/_r2_creds.py.
+# R2 Configuration — read directly from environment.
 #
-# Path layout differs between local checkout and the production container:
-#   Local:     <repo>/src/non_sports_cards/r2_utils.py + <repo>/tools/_r2_creds.py
-#              → tools is at parents[2] / "tools"
-#   Container: /usr/src/app/non_sports_cards/r2_utils.py
-#              + /usr/src/app/tools/_r2_creds.py  (bind-mounted)
-#              → tools is at parents[1] / "tools"
-# Walk both candidates and use whichever holds _r2_creds.py.
+# In production, docker-compose's env_file directive injects R2_* into the
+# container's os.environ from .env.production (rendered by Ansible from the
+# vault). For local dev, source the same .env or export the vars before
+# running the Django dev server.
+#
+# We do NOT use the tools/_r2_creds.py 1Password loader here — that's for
+# CLI tools that run from a developer's Mac without env vars pre-set.
+# Inside the container the values are already in os.environ; reaching for
+# 1Password would just add a brittle path dependency for no benefit.
 # ---------------------------------------------------------------------------
-import sys
-from pathlib import Path
+def _require_env(name: str) -> str:
+    val = os.environ.get(name)
+    if not val:
+        raise RuntimeError(
+            f"R2 configuration error: {name} is not set. "
+            "Check that .env.production is mounted via env_file in "
+            "docker-compose and contains the rotated R2 credentials. "
+            "If you just rotated the token, you must recreate the "
+            "container (not just restart): "
+            "`docker compose up -d --force-recreate web`."
+        )
+    return val
 
-_THIS = Path(__file__).resolve()
-for _offset in (1, 2):
-    _candidate = _THIS.parents[_offset] / "tools"
-    if (_candidate / "_r2_creds.py").is_file():
-        if str(_candidate) not in sys.path:
-            sys.path.insert(0, str(_candidate))
-        break
-else:
-    raise ImportError(
-        f"Could not locate tools/_r2_creds.py from {_THIS}. "
-        "Tried parents[1]/tools and parents[2]/tools."
-    )
-from _r2_creds import load as _load_r2_creds  # noqa: E402
 
-_CREDS = _load_r2_creds()
-R2_ACCESS_KEY = _CREDS.access_key
-R2_SECRET_KEY = _CREDS.secret
-R2_ENDPOINT   = _CREDS.endpoint
-BUCKET        = _CREDS.bucket
-CDN_BASE      = _CREDS.cdn_base
+R2_ACCESS_KEY = _require_env("R2_ACCESS_KEY_ID")
+R2_SECRET_KEY = _require_env("R2_SECRET_ACCESS_KEY")
+R2_ENDPOINT   = _require_env("R2_ENDPOINT_URL")
+BUCKET        = os.environ.get("R2_BUCKET_NAME") or os.environ.get("R2_BUCKET", "samscollectibles")
+CDN_BASE      = (
+    os.environ.get("R2_CUSTOM_DOMAIN")
+    or os.environ.get("R2_CDN_BASE", "https://media.samscollectibles.net")
+).rstrip("/")
+# Ensure CDN_BASE has a scheme — the .env may store it as a bare hostname.
+if "://" not in CDN_BASE:
+    CDN_BASE = "https://" + CDN_BASE
 
 IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
 
