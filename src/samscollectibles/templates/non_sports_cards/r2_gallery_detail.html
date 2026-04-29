@@ -42,13 +42,6 @@
 </a>
 {% endif %}
 
-{% if inventory.description %}
-<div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mb-8">
-    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Description</h3>
-    <div class="text-gray-300 text-sm leading-relaxed">{{ inventory.description|safe }}</div>
-</div>
-{% endif %}
-
 {% if 'posters' in product_type %}
 <div class="bg-gray-700 border border-gray-600 rounded-lg p-3 mb-6 text-sm">
     <span class="text-amber-400">&#128247;</span>
@@ -136,6 +129,13 @@
         <p class="text-gray-400 text-lg">No photos found.</p>
     </div>
     {% endfor %}
+</div>
+{% endif %}
+
+{% if inventory.description %}
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mt-8">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Description</h3>
+    <div class="text-gray-300 text-sm leading-relaxed">{{ inventory.description|safe }}</div>
 </div>
 {% endif %}
 

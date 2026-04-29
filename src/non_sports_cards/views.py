@@ -69,24 +69,18 @@ def card_detail(request, pk):
             from ebay_manager.models import EbayListing
             from django.contrib.contenttypes.models import ContentType
             from .r2_utils import get_r2_images
-            ct = ContentType.objects.get_for_model(card.__class__)
-            # Try the exact subclass first, then fall back to NonSportsCards
+            # The EbayListing GFK can point at any NSC subclass
+            # (NonSportsCardsBoxes, NonSportsCardsBaseSets, etc.) or the
+            # parent NonSportsCards itself. Match by object_id across all
+            # non_sports_cards content types instead of guessing the class.
+            nsc_cts = ContentType.objects.filter(app_label='non_sports_cards')
             listing = (
                 EbayListing.objects
-                .filter(content_type=ct, object_id=card.pk)
+                .filter(content_type__in=nsc_cts, object_id=card.pk)
                 .exclude(parent_r2_prefix__isnull=True)
                 .exclude(parent_r2_prefix='')
                 .first()
             )
-            if not listing:
-                ct_parent = ContentType.objects.get_for_model(NonSportsCards)
-                listing = (
-                    EbayListing.objects
-                    .filter(content_type=ct_parent, object_id=card.pk)
-                    .exclude(parent_r2_prefix__isnull=True)
-                    .exclude(parent_r2_prefix='')
-                    .first()
-                )
             if listing and listing.parent_r2_prefix:
                 prefix = listing.parent_r2_prefix.rstrip('/') + '/'
                 r2_images = get_r2_images(prefix)
