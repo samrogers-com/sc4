@@ -19,13 +19,31 @@ logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # R2 Configuration — resolved at runtime from 1Password (or R2_* env vars).
-# Loader lives in tools/_r2_creds.py; we walk up to find it.
+# Loader lives in tools/_r2_creds.py.
+#
+# Path layout differs between local checkout and the production container:
+#   Local:     <repo>/src/non_sports_cards/r2_utils.py + <repo>/tools/_r2_creds.py
+#              → tools is at parents[2] / "tools"
+#   Container: /usr/src/app/non_sports_cards/r2_utils.py
+#              + /usr/src/app/tools/_r2_creds.py  (bind-mounted)
+#              → tools is at parents[1] / "tools"
+# Walk both candidates and use whichever holds _r2_creds.py.
 # ---------------------------------------------------------------------------
 import sys
 from pathlib import Path
 
-_TOOLS_DIR = Path(__file__).resolve().parents[2] / "tools"
-sys.path.insert(0, str(_TOOLS_DIR))
+_THIS = Path(__file__).resolve()
+for _offset in (1, 2):
+    _candidate = _THIS.parents[_offset] / "tools"
+    if (_candidate / "_r2_creds.py").is_file():
+        if str(_candidate) not in sys.path:
+            sys.path.insert(0, str(_candidate))
+        break
+else:
+    raise ImportError(
+        f"Could not locate tools/_r2_creds.py from {_THIS}. "
+        "Tried parents[1]/tools and parents[2]/tools."
+    )
 from _r2_creds import load as _load_r2_creds  # noqa: E402
 
 _CREDS = _load_r2_creds()
