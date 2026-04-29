@@ -59,10 +59,43 @@ def list_cards(request):
 
 def card_detail(request, pk):
     card = get_object_or_404(NonSportsCards, pk=pk)
-    images = card.images.all() if hasattr(card, 'images') else []
+    images = list(card.images.all()) if hasattr(card, 'images') else []
+    r2_images = []
+    # If the NonSportsCardImage relation is empty, auto-discover photos
+    # from R2 via the linked EbayListing's parent_r2_prefix. Avoids
+    # depending on the r2_watcher having populated NonSportsCardImage.
+    if not images:
+        try:
+            from ebay_manager.models import EbayListing
+            from django.contrib.contenttypes.models import ContentType
+            from .r2_utils import get_r2_images
+            ct = ContentType.objects.get_for_model(card.__class__)
+            # Try the exact subclass first, then fall back to NonSportsCards
+            listing = (
+                EbayListing.objects
+                .filter(content_type=ct, object_id=card.pk)
+                .exclude(parent_r2_prefix__isnull=True)
+                .exclude(parent_r2_prefix='')
+                .first()
+            )
+            if not listing:
+                ct_parent = ContentType.objects.get_for_model(NonSportsCards)
+                listing = (
+                    EbayListing.objects
+                    .filter(content_type=ct_parent, object_id=card.pk)
+                    .exclude(parent_r2_prefix__isnull=True)
+                    .exclude(parent_r2_prefix='')
+                    .first()
+                )
+            if listing and listing.parent_r2_prefix:
+                prefix = listing.parent_r2_prefix.rstrip('/') + '/'
+                r2_images = get_r2_images(prefix)
+        except Exception:
+            pass
     return render(request, 'non_sports_cards/card_detail.html', {
         'card': card,
         'images': images,
+        'r2_images': r2_images,
     })
 
 
