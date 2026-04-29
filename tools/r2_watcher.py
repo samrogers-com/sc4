@@ -31,11 +31,25 @@ Usage:
     # Process existing files once and exit
     python tools/r2_watcher.py --once ~/Pictures/SC4-Upload/
 
-    # Dry run (show what would be uploaded without uploading)
+    # Dry run (show what would be uploaded without uploading -- no 1Password access needed)
     python tools/r2_watcher.py --once --dry-run ~/Pictures/SC4-Upload/
 
     # Custom delay between uploads (default 0.5s)
     python tools/r2_watcher.py --watch --delay 1.0 ~/Pictures/SC4-Upload/
+
+Requirements:
+    pip3 install watchdog        (only needed for --watch mode)
+
+    The 1Password CLI (`op`) must be available and the desktop app
+    unlocked. Credentials are pulled from
+        op://sams.collectibles/Cloudflare R2 - samscollectibles
+    on first upload (one Touch ID prompt per process).
+
+    Do NOT run this from launchd / cron / non-TTY contexts unless you
+    also set R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_ENDPOINT_URL
+    via EnvironmentVariables (or use a 1Password service account token
+    via OP_SERVICE_ACCOUNT_TOKEN). Interactive prompts can't be answered
+    from a background process and will hang the whole job.
 """
 
 import argparse
@@ -55,21 +69,35 @@ try:
     from watchdog.events import FileSystemEventHandler
     HAS_WATCHDOG = True
 except ImportError:
+    Observer = None
+    FileSystemEventHandler = object  # placeholder so subclassing doesn't NameError
     HAS_WATCHDOG = False
 
 # ---------------------------------------------------------------------------
-# R2 Configuration
+# R2 Configuration — resolved LAZILY at first use (not at import).
+#
+# Importing this module no longer triggers any 1Password prompt — that
+# only happens when get_s3_client() is actually called. This matters for
+# `--dry-run`, `--help`, and any test that just imports the module.
 # ---------------------------------------------------------------------------
-R2_ACCESS_KEY = os.environ.get(
-    'R2_ACCESS_KEY_ID', '1906b346fcf1a6779ee4cdd19a27fc0b')
-R2_SECRET_KEY = os.environ.get(
-    'R2_SECRET_ACCESS_KEY',
-    'a71f3baccd32346f41d70494bdb9eab9f7ade7873f62794affc88e2f62c8c103')
-R2_ENDPOINT = os.environ.get(
-    'R2_ENDPOINT_URL',
-    'https://c2fa931a6f5d02d3c12552d68c2c379b.r2.cloudflarestorage.com')
-BUCKET = 'samscollectibles'
-CDN_BASE = 'https://media.samscollectibles.net'
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _r2_creds import load as _load_r2_creds  # noqa: E402
+
+_CREDS = None  # populated on first get_s3_client() call
+
+
+def _ensure_creds():
+    """Resolve and memoize R2 credentials. Called lazily."""
+    global _CREDS
+    if _CREDS is None:
+        _CREDS = _load_r2_creds()
+    return _CREDS
+
+
+# These names are read by other modules (and the dry-run path); they fall
+# back to env / sane defaults so a `--dry-run` doesn't need 1Password.
+BUCKET   = os.environ.get("R2_BUCKET", "samscollectibles")
+CDN_BASE = os.environ.get("R2_CDN_BASE", "https://media.samscollectibles.net").rstrip("/")
 
 IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
 
@@ -116,11 +144,41 @@ def setup_logging(verbose=False):
 # R2 helpers
 # ---------------------------------------------------------------------------
 def get_s3_client():
+    """Return a boto3 S3 client for R2. Resolves credentials lazily on first call.
+
+    If we're running in a non-interactive context (no controlling TTY,
+    e.g. a launchd background job) and no R2_* env vars are set, the
+    `op inject` call will hang or fail because it can't show a prompt.
+    Detect that and fail fast with a clear message instead of hanging.
+    """
+    global BUCKET, CDN_BASE
+    no_tty = not sys.stdin.isatty()
+    have_env_creds = (
+        os.environ.get("R2_ACCESS_KEY_ID")
+        and os.environ.get("R2_SECRET_ACCESS_KEY")
+        and os.environ.get("R2_ENDPOINT_URL")
+    )
+    if no_tty and not have_env_creds:
+        raise RuntimeError(
+            "r2_watcher.py is running without a TTY (likely launchd) and "
+            "no R2_* env vars are set. Interactive 1Password prompts will "
+            "not work in this context.\n\n"
+            "Fix: launch the watcher via `op run -- python3 tools/r2_watcher.py …` "
+            "from your shell (one prompt up front, none for the watcher's "
+            "lifetime), OR configure a 1Password Service Account token via "
+            "OP_SERVICE_ACCOUNT_TOKEN, OR export R2_ACCESS_KEY_ID, "
+            "R2_SECRET_ACCESS_KEY, R2_ENDPOINT_URL into the launchd plist's "
+            "EnvironmentVariables. See docs/r2-tools-reference.md."
+        )
+
+    creds = _ensure_creds()
+    BUCKET = creds.bucket
+    CDN_BASE = creds.cdn_base
     return boto3.client(
         's3',
-        endpoint_url=R2_ENDPOINT,
-        aws_access_key_id=R2_ACCESS_KEY,
-        aws_secret_access_key=R2_SECRET_KEY,
+        endpoint_url=creds.endpoint,
+        aws_access_key_id=creds.access_key,
+        aws_secret_access_key=creds.secret,
         config=Config(signature_version='s3v4'),
         region_name='auto',
     )
