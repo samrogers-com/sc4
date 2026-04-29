@@ -43,12 +43,47 @@ def list_cards(request):
         .order_by('category')
     )
 
+    # Build {card_pk: thumbnail_url} map by joining to EbayListing.image_urls.
+    # Materialize the queryset to a list so we can attach a per-card attribute.
+    cards = list(queryset)
+    thumbnails = {}
+    try:
+        from ebay_manager.models import EbayListing
+        from django.contrib.contenttypes.models import ContentType
+        nsc_cts = ContentType.objects.filter(app_label='non_sports_cards')
+        card_pks = [c.pk for c in cards]
+        listings = (
+            EbayListing.objects
+            .filter(content_type__in=nsc_cts, object_id__in=card_pks)
+            .only('object_id', 'image_urls', 'parent_r2_prefix')
+        )
+        for l in listings:
+            if l.object_id in thumbnails:
+                continue
+            urls = l.image_urls or []
+            if urls:
+                thumbnails[l.object_id] = urls[0]
+        # Fall back to R2 list for any linked listing with no image_urls
+        if any(l.object_id not in thumbnails and l.parent_r2_prefix
+               for l in listings):
+            from .r2_utils import get_r2_images
+            for l in listings:
+                if l.object_id in thumbnails or not l.parent_r2_prefix:
+                    continue
+                imgs = get_r2_images(l.parent_r2_prefix.rstrip('/') + '/')
+                if imgs:
+                    thumbnails[l.object_id] = imgs[0]['url']
+    except Exception:
+        pass
+    for c in cards:
+        c.thumbnail_url = thumbnails.get(c.pk)
+
     context = {
-        'cards': queryset,
+        'cards': cards,
         'categories': categories,
         'active_category': category,
         'search_query': search,
-        'result_count': queryset.count(),
+        'result_count': len(cards),
     }
 
     if request.htmx:
