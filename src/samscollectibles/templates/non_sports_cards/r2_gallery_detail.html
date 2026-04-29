@@ -42,6 +42,65 @@
 </a>
 {% endif %}
 
+{% if inventory %}
+<div class="bg-gray-700 rounded-lg border border-gray-600 p-5 mb-6">
+    <h3 class="text-amber-500 font-bold text-sm uppercase mb-3">Set Details</h3>
+    <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+        {% if inventory.manufacturer and inventory.manufacturer != 'Unknown' %}
+        <span class="text-gray-400">Manufacturer:</span>
+        <span class="text-gray-200">{{ inventory.manufacturer }}</span>
+        {% endif %}
+
+        {% if inventory.date_manufactured %}
+        <span class="text-gray-400">Year:</span>
+        <span class="text-gray-200">{{ inventory.date_manufactured }}</span>
+        {% endif %}
+
+        {% if inventory.number_of_cards_in_a_set %}
+        <span class="text-gray-400">Cards in Set:</span>
+        <span class="text-gray-200">{{ inventory.number_of_cards_in_a_set }}</span>
+        {% endif %}
+
+        {% if inventory.number_of_packs_per_box %}
+        <span class="text-gray-400">Packs per Box:</span>
+        <span class="text-gray-200">{{ inventory.number_of_packs_per_box }}</span>
+        {% endif %}
+
+        {% if inventory.number_of_cards_per_pack %}
+        <span class="text-gray-400">Cards per Pack:</span>
+        <span class="text-gray-200">{{ inventory.number_of_cards_per_pack }}</span>
+        {% endif %}
+
+        {% if inventory.number_of_sets_per_box %}
+        <span class="text-gray-400">Sets per Box:</span>
+        <span class="text-gray-200">{{ inventory.number_of_sets_per_box }}</span>
+        {% endif %}
+
+        {% if inventory.sub_category %}
+        <span class="text-gray-400">Sub-type:</span>
+        <span class="text-gray-200">{{ inventory.sub_category|title }}</span>
+        {% endif %}
+
+        {% if inventory.custom_label %}
+        <span class="text-gray-400">SKU:</span>
+        <span class="text-gray-200 font-mono">{{ inventory.custom_label }}</span>
+        {% endif %}
+
+        {% if inventory.quantity_owned %}
+        <span class="text-gray-400">In Stock:</span>
+        <span class="text-amber-400 font-bold">{{ inventory.quantity_owned }}</span>
+        {% endif %}
+
+        {% if inventory.validation_status %}
+        <span class="text-gray-400">Data Status:</span>
+        <span class="{% if inventory.validation_status == 'verified' %}text-green-400{% elif inventory.validation_status == 'enriched' %}text-amber-400{% else %}text-gray-400{% endif %}">
+            {{ inventory.validation_status|title }}
+        </span>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
 {% if 'posters' in product_type %}
 <div class="bg-gray-700 border border-gray-600 rounded-lg p-3 mb-6 text-sm">
     <span class="text-amber-400">&#128247;</span>
