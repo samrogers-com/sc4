@@ -124,7 +124,7 @@ If section is `sets` or `singles` etc., adapt question 1 to be relevant
 (e.g. "Card condition?" with NM/EX/VG/Poor options matching eBay's
 40001 descriptor values from `feedback_preferences` memory).
 
-### Step 3 — Form Round 2: inventory + price confirmation
+### Step 3 — Form Round 2: inventory, price, shipping config
 
 After Round 1 + any research:
 
@@ -137,11 +137,21 @@ After Round 1 + any research:
 2. **Final asking price?** — show your suggestion as the recommended
    option, plus higher and lower variants, plus Other for an exact
    number.
-
-Sam may want a third question about whether to push to production now
-or stage the change first. Default behavior: push immediately. Add a
-"stage only / dry run" option only if Sam has explicitly asked for
-review-before-deploy in the past.
+3. **Raw product weight?** — the box (or set, etc.) on its own,
+   without packaging. The pipeline auto-adds packaging overhead per
+   `feedback_packaging.md` (5oz for sealed wax boxes, 2oz for raw
+   stacked, 7-8oz for 9-pocket).
+   - 1 lb (typical sealed wax box) (Recommended)
+   - 8 oz
+   - 2 lbs (large or multi-set)
+   - Other — type weight in oz or lb (e.g. "12oz" or "1.5lb")
+4. **Box dimensions for shipping?** — pick the closest match; the
+   pipeline uses these for eBay's calculated shipping. Custom dims
+   override the `PACKAGING_SPECS` defaults (see `EbayListing` model).
+   - 9 x 6 x 4 in (default for sealed wax box) (Recommended)
+   - 7 x 5 x 4 in (compact box)
+   - 11 x 8 x 4 in (oversize / display box)
+   - Other — type as `LxWxH` inches
 
 ### Step 4 — Fetch reference data (if URL provided)
 
@@ -184,6 +194,75 @@ If Sam picked "Research sold comps":
 often time out (60s); VCP requires login. Note this in your output and
 fall back to a knowledge-based estimate. Don't burn 3+ tool calls trying
 to break through bot protection.
+
+### Step 6.5 — Build eBay item specifics via the Taxonomy API
+
+This step is what makes a listing show up in faceted search. eBay
+returns ~20-30 "aspects" per category; populating as many as possible
+boosts visibility meaningfully.
+
+Use `ebay_manager.services.taxonomy.get_item_aspects(category_id)` to
+fetch the schema for the category. The function caches to disk for 7
+days (cache lives at `tools/ebay_aspect_cache/category_<id>.json`), so
+the API call only happens on first use per category per week.
+
+```python
+from ebay_manager.services.taxonomy import get_item_aspects, auto_fill_known
+aspects = get_item_aspects("261035")            # Sealed Trading Card Boxes
+required, optional = split_required_optional(aspects)
+```
+
+Auto-fill what's already known from earlier steps:
+
+```python
+known = {
+    # Required (3) — fail to publish without these
+    "Manufacturer":      "SkyBox",                 # from <slug> + memory
+    "Franchise":         "X-Men",                  # the IP, not "Marvel"
+    "Set":               "Series 2",               # JUST the series — Franchise carries "X-Men" already
+    # Strongly recommended for search
+    "Year Manufactured": "1993",                   # from <slug> + NSlist
+    "Number of Cards":   "216",                    # 36 × 6
+    "Number of Boxes":   "1",                      # from Round 2 inventory
+    "Configuration":     "Sealed Wax Box",         # from sealed-status answer
+    "Type":              "Trading Cards",
+    "Card Size":         "Standard",               # 2.5" x 3.5"
+    "Country of Origin": "United States",          # default for Sam's stock
+    "Vintage":           "Yes" if year < 2000 else "No",
+    "Language":          "English",
+    "Material":          "Cardboard",
+    # Negative aspects (explicit "No" helps filter buyers)
+    "Autographed":       "No",
+    "Signed By":         "Not Signed",
+}
+filled, unfilled = auto_fill_known(aspects, known)
+```
+
+For aspects not in `known` that came back as required or that the
+pipeline thinks are high-value (Character, TV Show, Movie, Features,
+Genre, Vintage), prompt Sam in **Round 3** with one form question per
+unknown aspect, max 4 per round, sample values pre-populated from the
+aspect's `sample_values`. Iterate rounds if more than 4 are needed.
+
+Notes on the Franchise vs Marvel distinction: eBay's "Franchise" aspect
+refers to the IP/property (X-Men, Star Wars, Star Trek). "Marvel" is
+the publisher; for X-Men cards the franchise is **X-Men**, not Marvel.
+Use the IP name. If you need to also surface the publisher, use
+"Genre" = "Superhero" + "Manufacturer" = "SkyBox".
+
+Aspect quirks:
+
+- **`mode = "FREE_TEXT"`** — any string accepted (most aspects).
+- **`mode = "SELECTION_ONLY"`** — value must come from `all_values`.
+  Trying to send a custom value will reject the listing.
+- **Multi-value aspects** (`cardinality = "MULTI"`) accept a list, not
+  a comma-string. Pass `["Hologram", "Gold Foil", "Sealed"]`, not
+  `"Hologram, Gold Foil, Sealed"` — the publish layer wraps single
+  strings into a list automatically, but only for known multi aspects.
+
+The final `item_specifics` dict goes onto `EbayListing.item_specifics`
+in Step 9 and propagates through `create_or_update_offer` to the live
+eBay listing.
 
 ### Step 7 — Generate the eBay HTML
 
@@ -298,23 +377,94 @@ EOF
 (Use `json.dumps` to safely escape the HTML for the heredoc; never
 embed raw HTML directly in shell commands.)
 
-### Step 10 — Output the eBay Seller Hub paste-ready table
+### Step 10 — Publish to eBay via the API
 
-Final user-facing output. A markdown table with:
+The pipeline does NOT paste into Seller Hub anymore — it pushes directly
+through eBay's Inventory API via `ebay_manager.services.publish`.
+
+Before publishing, create the `EbayListing` record with the full payload:
+
+```python
+from ebay_manager.models import EbayListing
+from django.contrib.contenttypes.models import ContentType
+from non_sports_cards.models import NonSportsCardsBoxes
+
+box = NonSportsCardsBoxes.objects.get(slug="x-men-93-skybox-s2")  # or by title
+listing, created = EbayListing.objects.update_or_create(
+    title="<≤80-char title>",
+    defaults=dict(
+        price="<price>",
+        quantity=<qty from Round 2>,
+        category_id="261035",                       # or the right code per section
+        condition_id="7000",                        # or 4000/etc per Round 1
+        sku=None,                                   # auto-gen unless pre-1990 or unwrapped
+        description_html=box.description,           # already pushed to box in Step 9
+        image_urls=[<R2 URLs from Step 5>],
+        item_specifics=<dict from Step 6.5>,        # 15-20 keys typically
+        packaging_config="sealed_box",              # or 'raw_stacked' / '9_pocket_*'
+        package_length=<from Round 2>,
+        package_width=<from Round 2>,
+        package_height=<from Round 2>,
+        weight_lbs=<derived from Round 2 raw + overhead from feedback_packaging>,
+        weight_oz=<oz remainder>,
+        shipping_service="USPSGroundAdvantage",
+        returns_accepted=True,
+        status="draft",                             # publish_to_ebay flips to 'active'
+        content_type=ContentType.objects.get_for_model(NonSportsCardsBoxes),
+        object_id=box.id,
+    ),
+)
+```
+
+Then push:
+
+```python
+from ebay_manager.services.publish import publish_to_ebay, send_to_ebay_drafts
+
+# Pick one based on the form's "Publish mode" answer:
+result = publish_to_ebay(listing)        # goes live immediately
+# OR
+result = send_to_ebay_drafts(listing)    # appears in Seller Hub > Drafts
+```
+
+`publish_to_ebay` does three steps under the hood:
+1. `create_inventory_item(listing)` — pushes product info, images, weight (keyed by SKU)
+2. `create_or_update_offer(listing, sku)` — sets price, policies, category, item_specifics
+3. `publish_offer(offer_id)` — flips to active, returns the eBay listing ID
+
+It also updates the `EbayListing` row with `status='active'`, `ebay_item_id`, `ebay_listing_url`, and `listed_at`. The shipping policy is selected automatically from `packaging_config` per `feedback_packaging.md`.
+
+After publish, **backfill the eBay URL onto the inventory record** so the
+website can link out:
+
+```python
+box.ebay_listing_url = result["ebay_url"]
+box.ebay_item_id = result["listing_id"]
+box.inventory_status = "listed"
+box.save(update_fields=["ebay_listing_url", "ebay_item_id", "inventory_status"])
+```
+
+### Step 11 — Final summary table
+
+Output to Sam:
 
 | Field | Value |
 |---|---|
-| **Title** (≤80 chars, count it) | The exact title string |
-| **Category** | Numeric code from the section table above |
-| **Condition** | Code matching the sealed/ungraded answer |
-| **Item Specifics** | Manufacturer · Year · Franchise · Set Name · Number of Cards · Features |
-| **Shipping** | USPS Ground Advantage |
-| **Description HTML** | Path of saved file (Sam pastes contents into Seller Hub) |
-| **Image URLs** | Bullet list of R2 CDN URLs from Step 5 |
-| **Suggested price** | Number with reasoning (research vs estimate) |
+| **eBay listing URL** | `https://www.ebay.com/itm/<listing_id>` |
+| **eBay item ID** | `<listing_id>` |
+| **eBay offer ID** | `<offer_id>` |
+| **SKU** | `SC-<pk>` (auto) or Sam's value |
+| **Title** (count it) | The exact ≤80-char title |
+| **Price** | `$<price>` |
+| **Item specifics** | Count + a few highlights (Franchise, Manufacturer, Year, Features) |
+| **Status** | `active` (live) or `pending` (drafts) |
+| **DB IDs** | `EbayListing(pk=...)` GFK→ `NonSportsCardsBoxes(id=...)` |
 
-Plus a confirmation line for the Django side:
-> Pushed to production: `NonSportsCardsBoxes(id=325, title='X-Men Series 2', qty=1, price=$119.95, desc=4140 chars)`. Refresh the live page to verify.
+Tell Sam to click the URL and verify everything looks right (title,
+photos, description, item specifics, shipping cost). If anything's off,
+he can revise via Seller Hub or by updating the EbayListing row and
+calling `create_or_update_offer(listing, listing.sku)` again — the
+helper handles updates as well as creates.
 
 ---
 
@@ -362,18 +512,20 @@ codes.
 
 ## What this skill does NOT do
 
-- **Submit listings to eBay's API**. Sam pastes the result into Seller
-  Hub manually. (Future enhancement: integrate `ebay_manager.services.listing_sync`
-  to push directly. Holding off until Sam asks.)
 - **Image transformation** (resize, watermark, EXIF strip). Photos go
   up as-is. Add a Pillow step in `code/upload_folder.py` if desired.
 - **Decrement inventory on sale**. The nightly `ebay_sync` command pulls
-  orders into `EbayListing`/orders tables, but I haven't verified
-  whether it also decrements `NonSportsCards.quantity_owned`. Suspect
-  it doesn't — that's a separate fix.
+  orders into `EbayListing`/orders tables, but doesn't currently
+  decrement `NonSportsCards.quantity_owned` — see
+  `reference_deployment.md` for the open investigation.
 - **Pricing research that always works**. pricecharting/eBay/VCP all
   have aggressive bot protection. Try once; if blocked, fall back to
   knowledge-based estimate and let Sam adjust.
+- **Render the description on samscollectibles.net**. The
+  `_render_gallery_detail` view in `non_sports_cards/views.py` doesn't
+  query the matching `NonSportsCards` record, so descriptions sit in
+  the DB but the website doesn't show them. Plan A fix (slug field +
+  view + template) is queued.
 
 ## Open improvements
 
