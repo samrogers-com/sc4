@@ -22,18 +22,19 @@ import boto3
 from botocore.config import Config
 
 # ---------------------------------------------------------------------------
-# R2 Configuration
+# R2 Configuration — resolved at runtime from 1Password (or R2_* env vars).
 # ---------------------------------------------------------------------------
-R2_ACCESS_KEY = os.environ.get(
-    'R2_ACCESS_KEY_ID', '1906b346fcf1a6779ee4cdd19a27fc0b')
-R2_SECRET_KEY = os.environ.get(
-    'R2_SECRET_ACCESS_KEY',
-    'a71f3baccd32346f41d70494bdb9eab9f7ade7873f62794affc88e2f62c8c103')
-R2_ENDPOINT = os.environ.get(
-    'R2_ENDPOINT_URL',
-    'https://c2fa931a6f5d02d3c12552d68c2c379b.r2.cloudflarestorage.com')
-BUCKET = 'samscollectibles'
-CDN_BASE = 'https://media.samscollectibles.net'
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _r2_creds import load as _load_r2_creds  # noqa: E402
+
+_CREDS = _load_r2_creds()
+R2_ACCESS_KEY = _CREDS.access_key
+R2_SECRET_KEY = _CREDS.secret
+R2_ENDPOINT   = _CREDS.endpoint
+BUCKET        = _CREDS.bucket
+CDN_BASE      = _CREDS.cdn_base
 
 
 def get_s3_client():
@@ -168,16 +169,20 @@ def test_watcher_dry_run():
                  '--once', '--dry-run', str(watch_root)],
                 capture_output=True, text=True, timeout=30
             )
-            if result.returncode == 0 and 'DRY RUN' in result.stdout:
+            # The watcher logs to stderr (logging.StreamHandler default), so
+            # check both streams for the dry-run marker.
+            combined = (result.stdout or "") + (result.stderr or "")
+            if result.returncode == 0 and 'DRY RUN' in combined:
                 print(f"  PASS - Watcher dry-run completed")
-                # Show relevant output
-                for line in result.stdout.strip().split('\n'):
+                for line in combined.strip().split('\n'):
                     if 'DRY RUN' in line or 'Uploaded' in line or 'Done' in line:
                         print(f"    {line.strip()}")
             else:
                 print(f"  FAIL - Return code: {result.returncode}")
                 if result.stderr:
-                    print(f"    stderr: {result.stderr[:200]}")
+                    print(f"    stderr: {result.stderr[:300]}")
+                if result.stdout:
+                    print(f"    stdout: {result.stdout[:300]}")
         except Exception as e:
             print(f"  FAIL - {e}")
 

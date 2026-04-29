@@ -105,18 +105,27 @@ Drop photos into folders that match this structure:
 
 ## AWS CLI for R2
 
+Credentials live in 1Password:
+`op://sams.collectibles/Cloudflare R2 - samscollectibles`.
+Pull them when needed; never paste them into shell history.
+
 ```bash
-# First-time setup (run once)
+# Read the credentials from 1Password into a temp env (one-shot, never written to disk)
+export R2_ACCESS_KEY_ID=$(op read "op://sams.collectibles/Cloudflare R2 - samscollectibles/username")
+export R2_SECRET_ACCESS_KEY=$(op read "op://sams.collectibles/Cloudflare R2 - samscollectibles/credential")
+export R2_ENDPOINT_URL=$(op read "op://sams.collectibles/Cloudflare R2 - samscollectibles/endpoint")
+
+# First-time AWS CLI setup (run once)
 aws configure --profile r2
-# Access Key ID: 1906b346fcf1a6779ee4cdd19a27fc0b
-# Secret Access Key: (your key)
+# Access Key ID:     $R2_ACCESS_KEY_ID
+# Secret Access Key: $R2_SECRET_ACCESS_KEY
 # Region: auto
 # Output: json
 
 # Add endpoint to config (run once)
-echo '
+echo "
 [profile r2]
-endpoint_url = https://c2fa931a6f5d02d3c12552d68c2c379b.r2.cloudflarestorage.com' >> ~/.aws/config
+endpoint_url = $R2_ENDPOINT_URL" >> ~/.aws/config
 
 # List top-level folders
 aws s3 ls s3://samscollectibles/ --profile r2
@@ -166,11 +175,19 @@ aws s3 sync ./ebay_uploads/ s3://samscollectibles/ebay-uploads/ --profile r2
 
 | Setting | Value |
 |---------|-------|
-| Bucket name | samscollectibles |
-| CDN domain | media.samscollectibles.net |
-| R2 endpoint | https://c2fa931a6f5d02d3c12552d68c2c379b.r2.cloudflarestorage.com |
-| Access Key | 1906b346fcf1a6779ee4cdd19a27fc0b |
-| Region | auto |
+| Bucket name | `samscollectibles` |
+| CDN domain | `media.samscollectibles.net` |
+| R2 endpoint | _stored in 1Password — `op read "op://sams.collectibles/Cloudflare R2 - samscollectibles/endpoint"`_ |
+| Access Key | _stored in 1Password — `…/username`_ |
+| Secret Key | _stored in 1Password — `…/credential` (concealed)_ |
+| Region | `auto` |
+
+> **Credential rotation note.** The original keys were committed to this
+> repository in plaintext (`tools/upload_to_r2.py` and friends, prior to
+> commit `feature/r2-creds-from-1password`). Treat them as compromised and
+> rotate in the Cloudflare dashboard:
+> R2 → Manage R2 API Tokens → revoke the old token → create a new one →
+> update the 1Password item via `op item edit "Cloudflare R2 - samscollectibles" credential=NEWSECRET username=NEWKEY`.
 
 ## File Naming Conventions
 

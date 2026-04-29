@@ -18,18 +18,22 @@ from botocore.config import Config as BotoConfig
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# R2 Configuration
+# R2 Configuration — resolved at runtime from 1Password (or R2_* env vars).
+# Loader lives in tools/_r2_creds.py; we walk up to find it.
 # ---------------------------------------------------------------------------
-R2_ACCESS_KEY = os.environ.get(
-    'R2_ACCESS_KEY_ID', '1906b346fcf1a6779ee4cdd19a27fc0b')
-R2_SECRET_KEY = os.environ.get(
-    'R2_SECRET_ACCESS_KEY',
-    'a71f3baccd32346f41d70494bdb9eab9f7ade7873f62794affc88e2f62c8c103')
-R2_ENDPOINT = os.environ.get(
-    'R2_ENDPOINT_URL',
-    'https://c2fa931a6f5d02d3c12552d68c2c379b.r2.cloudflarestorage.com')
-BUCKET = 'samscollectibles'
-CDN_BASE = 'https://media.samscollectibles.net'
+import sys
+from pathlib import Path
+
+_TOOLS_DIR = Path(__file__).resolve().parents[2] / "tools"
+sys.path.insert(0, str(_TOOLS_DIR))
+from _r2_creds import load as _load_r2_creds  # noqa: E402
+
+_CREDS = _load_r2_creds()
+R2_ACCESS_KEY = _CREDS.access_key
+R2_SECRET_KEY = _CREDS.secret
+R2_ENDPOINT   = _CREDS.endpoint
+BUCKET        = _CREDS.bucket
+CDN_BASE      = _CREDS.cdn_base
 
 IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.gif'}
 
