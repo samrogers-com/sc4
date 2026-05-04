@@ -13,6 +13,16 @@ jobs:
       run:
         working-directory: src
 
+    # r2_utils.py reads R2 creds directly from os.environ at module import time
+    # (deliberate — avoids the 1Password CLI loader inside the container).
+    # Tests don't actually call R2; dummy values just keep the import happy.
+    env:
+      R2_ACCESS_KEY_ID: ci-dummy
+      R2_SECRET_ACCESS_KEY: ci-dummy
+      R2_ENDPOINT_URL: https://ci-dummy.r2.cloudflarestorage.com
+      R2_BUCKET_NAME: samscollectibles-ci
+      R2_CUSTOM_DOMAIN: media.samscollectibles.net
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
