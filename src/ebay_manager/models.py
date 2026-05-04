@@ -107,6 +107,42 @@ class EbayListing(models.Model):
     shipping_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     returns_accepted = models.BooleanField(default=True)
 
+    # Listing format — fixed-price (Buy It Now) or auction
+    LISTING_FORMATS = [
+        ('FIXED_PRICE', 'Fixed Price'),
+        ('AUCTION', 'Auction'),
+    ]
+    listing_format = models.CharField(
+        max_length=20, choices=LISTING_FORMATS, default='FIXED_PRICE',
+        help_text='Fixed-price (Buy It Now) or auction listing'
+    )
+
+    LISTING_DURATIONS = [
+        ('DAYS_1', '1 Day'),
+        ('DAYS_3', '3 Days'),
+        ('DAYS_5', '5 Days'),
+        ('DAYS_7', '7 Days'),
+        ('DAYS_10', '10 Days'),
+        ('GTC', 'Good Til Cancelled'),  # only valid for FIXED_PRICE
+    ]
+    listing_duration = models.CharField(
+        max_length=10, choices=LISTING_DURATIONS, default='GTC',
+        help_text='Listing duration. GTC for fixed-price; DAYS_N for auctions.'
+    )
+
+    auction_start_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        help_text='Starting bid for auctions. Falls back to price if not set.'
+    )
+    auction_reserve_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True,
+        help_text='Reserve price for auctions. Optional.'
+    )
+    scheduled_start_time = models.DateTimeField(
+        null=True, blank=True,
+        help_text='Scheduled start time (UTC). When set, eBay holds publish until this time. $0.10 fee.'
+    )
+
     # Dates
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

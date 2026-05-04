@@ -434,6 +434,35 @@ result = send_to_ebay_drafts(listing)    # appears in Seller Hub > Drafts
 
 It also updates the `EbayListing` row with `status='active'`, `ebay_item_id`, `ebay_listing_url`, and `listed_at`. The shipping policy is selected automatically from `packaging_config` per `feedback_packaging.md`.
 
+#### Auction listings
+
+For auction-format (instead of Buy It Now), set the format/duration/start
+price on the `EbayListing` row before calling `publish_to_ebay`:
+
+```python
+from datetime import datetime
+from decimal import Decimal
+import pytz
+from django.utils import timezone
+
+listing.listing_format = 'AUCTION'
+listing.listing_duration = 'DAYS_7'                 # DAYS_1 / 3 / 5 / 7 / 10
+listing.auction_start_price = Decimal('14.95')      # falls back to .price if unset
+# Optional: reserve price
+# listing.auction_reserve_price = Decimal('40.00')
+# Optional: scheduled start (eBay charges $0.10 to schedule)
+listing.scheduled_start_time = timezone.make_aware(
+    datetime(2026, 5, 3, 18, 5, 0), pytz.timezone('US/Pacific'),
+)
+listing.save()
+
+publish_to_ebay(listing)
+```
+
+`availableQuantity` is forced to 1 for auctions. `listing_format` defaults
+to `FIXED_PRICE` and `listing_duration` defaults to `GTC`, so existing
+Buy-It-Now flows are unchanged.
+
 After publish, **backfill the eBay URL onto the inventory record** so the
 website can link out:
 

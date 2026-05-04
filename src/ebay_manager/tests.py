@@ -5,13 +5,17 @@ _delete_variant_on_ebay — the helper added in the delete-variant
 error-handling refactor — and the html_sanitizer module that backs
 the ``|ebay_safe`` template filter.
 """
+import datetime
+from decimal import Decimal
 from unittest.mock import MagicMock, patch
 
 from django.template import Context, Template
 from django.test import TestCase
+from django.utils import timezone as dj_timezone
 
 from ebay_manager.models import EbayListing
 from ebay_manager.services.html_sanitizer import sanitize_ebay_html
+from ebay_manager.services.publish import create_or_update_offer
 from ebay_manager.views import _delete_variant_on_ebay
 
 
@@ -438,3 +442,175 @@ class SanitizeEbayHtmlTests(TestCase):
         t = Template("{% load ebay_html %}{{ missing|ebay_safe }}")
         rendered = t.render(Context({'missing': None}))
         self.assertEqual(rendered.strip(), '')
+
+
+class CreateOrUpdateOfferPayloadTests(TestCase):
+    """Tests for create_or_update_offer payload construction.
+
+    These tests cover the format-branching added with auction support.
+    They patch requests.get/post so the offer-create POST is the only
+    network call we observe — the assertions inspect the JSON body that
+    would be sent to eBay.
+    """
+
+    def _make_listing(self, **overrides):
+        defaults = dict(
+            title='Test listing',
+            price=Decimal('19.95'),
+            quantity=1,
+            category_id='261035',
+            sku='TEST-SKU-1',
+            description_html='<p>desc</p>',
+            packaging_config='sealed_box',
+        )
+        defaults.update(overrides)
+        return EbayListing.objects.create(**defaults)
+
+    @patch('ebay_manager.services.publish.get_user_token', return_value='tok')
+    @patch('ebay_manager.services.publish.requests.post')
+    @patch('ebay_manager.services.publish.requests.get')
+    def test_fixed_price_payload_unchanged(self, rget, rpost, _tok):
+        """Regression: existing FIXED_PRICE payload shape is preserved."""
+        listing = self._make_listing()
+        rget.return_value = MagicMock(status_code=200, **{'json.return_value': {'offers': []}})
+        rpost.return_value = MagicMock(
+            status_code=201, **{'json.return_value': {'offerId': 'OFFER-1'}}
+        )
+
+        offer_id = create_or_update_offer(listing, listing.sku)
+
+        self.assertEqual(offer_id, 'OFFER-1')
+        body = rpost.call_args.kwargs['json']
+        self.assertEqual(body['format'], 'FIXED_PRICE')
+        self.assertEqual(body['pricingSummary'], {
+            'price': {'value': '19.95', 'currency': 'USD'},
+        })
+        self.assertEqual(body['availableQuantity'], 1)
+        # FIXED_PRICE + GTC default → no listingDuration in payload
+        self.assertNotIn('listingDuration', body)
+        self.assertNotIn('scheduledStartDate', body)
+        # Existing core fields still present
+        self.assertEqual(body['sku'], 'TEST-SKU-1')
+        self.assertEqual(body['marketplaceId'], 'EBAY_US')
+        self.assertEqual(body['categoryId'], '261035')
+        self.assertEqual(body['merchantLocationKey'], 'SC-DEFAULT')
+        self.assertIn('listingPolicies', body)
+
+    @patch('ebay_manager.services.publish.get_user_token', return_value='tok')
+    @patch('ebay_manager.services.publish.requests.post')
+    @patch('ebay_manager.services.publish.requests.get')
+    def test_auction_payload_basic(self, rget, rpost, _tok):
+        """AUCTION format produces auctionStartPrice + listingDuration."""
+        listing = self._make_listing(
+            listing_format='AUCTION',
+            listing_duration='DAYS_7',
+            auction_start_price=Decimal('14.95'),
+            quantity=5,  # should be coerced to 1 in payload
+        )
+        rget.return_value = MagicMock(status_code=200, **{'json.return_value': {'offers': []}})
+        rpost.return_value = MagicMock(
+            status_code=201, **{'json.return_value': {'offerId': 'OFFER-A'}}
+        )
+
+        create_or_update_offer(listing, listing.sku)
+
+        body = rpost.call_args.kwargs['json']
+        self.assertEqual(body['format'], 'AUCTION')
+        self.assertEqual(body['listingDuration'], 'DAYS_7')
+        self.assertEqual(body['availableQuantity'], 1)
+        self.assertEqual(body['pricingSummary'], {
+            'auctionStartPrice': {'value': '14.95', 'currency': 'USD'},
+        })
+        # No reserve price set → key omitted
+        self.assertNotIn('auctionReservePrice', body['pricingSummary'])
+        # No scheduled start → key omitted
+        self.assertNotIn('scheduledStartDate', body)
+
+    @patch('ebay_manager.services.publish.get_user_token', return_value='tok')
+    @patch('ebay_manager.services.publish.requests.post')
+    @patch('ebay_manager.services.publish.requests.get')
+    def test_auction_falls_back_to_price_when_no_start_price(self, rget, rpost, _tok):
+        listing = self._make_listing(
+            listing_format='AUCTION',
+            listing_duration='DAYS_3',
+            # auction_start_price intentionally None
+        )
+        rget.return_value = MagicMock(status_code=200, **{'json.return_value': {'offers': []}})
+        rpost.return_value = MagicMock(
+            status_code=201, **{'json.return_value': {'offerId': 'OFFER-B'}}
+        )
+
+        create_or_update_offer(listing, listing.sku)
+
+        body = rpost.call_args.kwargs['json']
+        self.assertEqual(
+            body['pricingSummary']['auctionStartPrice'],
+            {'value': '19.95', 'currency': 'USD'},
+        )
+
+    @patch('ebay_manager.services.publish.get_user_token', return_value='tok')
+    @patch('ebay_manager.services.publish.requests.post')
+    @patch('ebay_manager.services.publish.requests.get')
+    def test_auction_with_reserve_price(self, rget, rpost, _tok):
+        listing = self._make_listing(
+            listing_format='AUCTION',
+            listing_duration='DAYS_7',
+            auction_start_price=Decimal('9.99'),
+            auction_reserve_price=Decimal('25.00'),
+        )
+        rget.return_value = MagicMock(status_code=200, **{'json.return_value': {'offers': []}})
+        rpost.return_value = MagicMock(
+            status_code=201, **{'json.return_value': {'offerId': 'OFFER-C'}}
+        )
+
+        create_or_update_offer(listing, listing.sku)
+
+        body = rpost.call_args.kwargs['json']
+        self.assertEqual(
+            body['pricingSummary']['auctionReservePrice'],
+            {'value': '25.00', 'currency': 'USD'},
+        )
+
+    @patch('ebay_manager.services.publish.get_user_token', return_value='tok')
+    @patch('ebay_manager.services.publish.requests.post')
+    @patch('ebay_manager.services.publish.requests.get')
+    def test_auction_with_scheduled_start_time_iso8601(self, rget, rpost, _tok):
+        # 2026-05-03 18:05:00 US/Pacific → 2026-05-04 01:05:00 UTC (PDT, UTC-7)
+        pacific = datetime.timezone(datetime.timedelta(hours=-7))
+        scheduled = datetime.datetime(2026, 5, 3, 18, 5, 0, tzinfo=pacific)
+        listing = self._make_listing(
+            listing_format='AUCTION',
+            listing_duration='DAYS_7',
+            auction_start_price=Decimal('14.95'),
+            scheduled_start_time=scheduled,
+        )
+        rget.return_value = MagicMock(status_code=200, **{'json.return_value': {'offers': []}})
+        rpost.return_value = MagicMock(
+            status_code=201, **{'json.return_value': {'offerId': 'OFFER-D'}}
+        )
+
+        create_or_update_offer(listing, listing.sku)
+
+        body = rpost.call_args.kwargs['json']
+        self.assertEqual(body['scheduledStartDate'], '2026-05-04T01:05:00.000Z')
+
+    @patch('ebay_manager.services.publish.get_user_token', return_value='tok')
+    @patch('ebay_manager.services.publish.requests.post')
+    @patch('ebay_manager.services.publish.requests.get')
+    def test_fixed_price_with_explicit_duration_includes_it(self, rget, rpost, _tok):
+        """A FIXED_PRICE listing with a non-GTC duration should include
+        listingDuration in the payload (rare, but supported by eBay)."""
+        listing = self._make_listing(
+            listing_format='FIXED_PRICE',
+            listing_duration='DAYS_7',
+        )
+        rget.return_value = MagicMock(status_code=200, **{'json.return_value': {'offers': []}})
+        rpost.return_value = MagicMock(
+            status_code=201, **{'json.return_value': {'offerId': 'OFFER-E'}}
+        )
+
+        create_or_update_offer(listing, listing.sku)
+
+        body = rpost.call_args.kwargs['json']
+        self.assertEqual(body['format'], 'FIXED_PRICE')
+        self.assertEqual(body['listingDuration'], 'DAYS_7')

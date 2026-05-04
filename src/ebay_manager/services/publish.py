@@ -163,16 +163,9 @@ def create_or_update_offer(listing, sku):
     payload = {
         'sku': sku,
         'marketplaceId': 'EBAY_US',
-        'format': 'FIXED_PRICE',
         'listingDescription': listing.description_html or listing.title,
         'availableQuantity': listing.quantity,
         'categoryId': listing.category_id or '261035',
-        'pricingSummary': {
-            'price': {
-                'value': str(listing.price),
-                'currency': 'USD',
-            }
-        },
         'listingPolicies': {
             'fulfillmentPolicyId': listing.fulfillment_policy_id,
             'paymentPolicyId': DEFAULT_POLICIES['payment_policy_id'],
@@ -180,6 +173,40 @@ def create_or_update_offer(listing, sku):
         },
         'merchantLocationKey': 'SC-DEFAULT',
     }
+
+    # Branch on listing_format. Default (FIXED_PRICE) preserves the
+    # original payload shape so this change is regression-safe for the
+    # existing Buy-It-Now flow.
+    if getattr(listing, 'listing_format', 'FIXED_PRICE') == 'AUCTION':
+        payload['format'] = 'AUCTION'
+        start_price = listing.auction_start_price or listing.price
+        payload['pricingSummary'] = {
+            'auctionStartPrice': {'value': str(start_price), 'currency': 'USD'},
+        }
+        if listing.auction_reserve_price:
+            payload['pricingSummary']['auctionReservePrice'] = {
+                'value': str(listing.auction_reserve_price), 'currency': 'USD',
+            }
+        payload['listingDuration'] = listing.listing_duration or 'DAYS_7'
+        if listing.scheduled_start_time:
+            # eBay expects ISO-8601 with Z suffix (UTC). Convert aware
+            # datetimes to UTC; assume naive datetimes are already UTC.
+            sst = listing.scheduled_start_time
+            if timezone.is_aware(sst):
+                sst = sst.astimezone(timezone.utc)
+            payload['scheduledStartDate'] = sst.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+        # availableQuantity must be 1 for auctions
+        payload['availableQuantity'] = 1
+    else:
+        payload['format'] = 'FIXED_PRICE'
+        payload['pricingSummary'] = {
+            'price': {
+                'value': str(listing.price),
+                'currency': 'USD',
+            }
+        }
+        if getattr(listing, 'listing_duration', None) and listing.listing_duration != 'GTC':
+            payload['listingDuration'] = listing.listing_duration
 
     # Check if offer already exists for this SKU
     existing_resp = requests.get(
